@@ -59,7 +59,7 @@ public class ClientConsole implements ChatIF
     }
   }
 
-  
+  //hello
   //Instance methods ************************************************
   
   /**
