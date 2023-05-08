@@ -48,12 +48,12 @@ public class EchoServer extends AbstractServer
    * @param client The connection from which the message originated.
    */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client){
-		    if(msg instanceof String) {
-		    	Statement stmt;
-    			ResultSet rs;
-		    	switch((String)msg){
+    	Statement stmt;
+		ResultSet rs;  
+		PreparedStatement pst;
+		if(msg instanceof String) {
+    			switch((String)msg){
 		    		case "getQuery":
-		    			
 		    			try{
 		    				stmt = conn.createStatement();
 		    				rs = stmt.executeQuery("SELECT * FROM cems_db.question");
@@ -61,15 +61,13 @@ public class EchoServer extends AbstractServer
 		    					System.out.format("id: %s , subject: %s , courseName: %s, questionText: %s, questionNumber: %s, lecturer(author): %s \n",rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
 		    				}
 		    			}catch (SQLException e) {e.printStackTrace();}
-		    		
+		    			break;
 		    		default:
-		    			System.out.println("ACID");
+		    			System.out.println("Default print");
+		    			break;
 		    		}	
 		    	}
-		    
 		    if(msg instanceof ArrayList) {
-		    	Statement stmt;
-				PreparedStatement pst;
 				try{
 					stmt = conn.createStatement();
 					pst  = conn.prepareStatement("UPDATE ex5engimethods.student SET stdID = ?,stdName = ?,stdLastName = ?");
@@ -120,7 +118,7 @@ public class EchoServer extends AbstractServer
   {
     System.out.println
       ("Server listening for connections on port " + getPort());
-    connectToDB("cems_db" , "root", "EyalMySql");
+    connectToDB("Cems_DB" , "root", "Aa123456");
 
   }
   
@@ -135,7 +133,18 @@ public class EchoServer extends AbstractServer
   }
   
   //Class methods ***************************************************
-  
+  public void runServer(String port, String dbName, String userID, String password) {
+	    EchoServer sv = new EchoServer(Integer.parseInt(port));
+	    sv.connectToDB(dbName, userID, password);
+	    try 
+	    {
+	      sv.listen(); //Start listening for connections
+	    } 
+	    catch (Exception ex) 
+	    {
+	      System.out.println("ERROR - Could not listen for clients!");
+	    }
+  }
   /**
    * This method is responsible for the creation of 
    * the server instance (there is no UI in this phase).
