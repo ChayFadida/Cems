@@ -16,8 +16,7 @@ public class ServerUI extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub				  		
-		ServerController aFrame = new ServerController(); // create StudentFrame
-		 
+		ServerController aFrame = new ServerController(); // create ServerFrame
 		aFrame.start(primaryStage);
 	}
 	
