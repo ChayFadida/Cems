@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -25,7 +25,7 @@
       </ImageView>
       <HBox prefHeight="339.0" prefWidth="600.0">
          <children>
-            <VBox fx:id="lblStatus" prefHeight="339.0" prefWidth="121.0">
+            <VBox prefHeight="339.0" prefWidth="121.0">
                <children>
                   <Text fx:id="lblHost" strokeType="OUTSIDE" strokeWidth="0.0" text="Host Name:" textAlignment="CENTER" wrappingWidth="100.291015625">
                      <VBox.margin>
@@ -37,7 +37,7 @@
                         <Insets bottom="30.0" left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="lblStatus1" strokeType="OUTSIDE" strokeWidth="0.0" text="Connection Status:">
+                  <Text fx:id="lblStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Connection Status:">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
