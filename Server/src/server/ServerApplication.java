@@ -9,8 +9,11 @@ import javafx.stage.Stage;
 public class ServerApplication extends Application {
 	private String folder = "gui";
 	private String fxml = "ServerConnectionInfoScreen.fxml";
-	private String css = "ServerPort.css";
 	
+	/**
+	 * Start the Cems application from server side
+	 *@param Stage ?? 
+	 * */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/" + folder + "/" + fxml));
@@ -20,6 +23,9 @@ public class ServerApplication extends Application {
 		primaryStage.show();	
 	}
 	
+	/**
+	 * main program of the application server side
+	 * */
 	public static void main(String[] args) {
 		launch(args);
 	}

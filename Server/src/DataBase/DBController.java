@@ -22,7 +22,9 @@ public class DBController {
 	
 	public DBController() {}
 	
-	
+	/**
+	 * implement singleton design pattert 
+	 * */
 	public static synchronized DBController getInstance() {
 		if (instance == null) {
 			instance = new DBController();
@@ -30,7 +32,9 @@ public class DBController {
 		return instance;
 	}
 	
-	
+	/**
+	 * Sets mysql driver
+	 * */
 	public boolean setDbDriver() {
 	    if (driverIsSet) {
 	        System.out.println("Driver is already set");
@@ -47,7 +51,9 @@ public class DBController {
 	    return driverIsSet;
 	}
 	
-	
+	/**
+	 * connect to database with db_info parameters
+	 * */
 	public void connectToDb() {
 		StringBuilder mysql = new StringBuilder();
 		mysql.append(mysql_cmd);
@@ -66,12 +72,19 @@ public class DBController {
 	}
 	
 	
+	/**
+	 * sets new database information to connect with
+	 * @param db_new_info
+	 * */
 	public void setDbInfo(HashMap<String, String> db_new_info) {
 		for (String key : db_info.keySet())
 			db_info.put(key, db_new_info.get(key));
 	}
 	
 	
+	/**
+	 * disconnect from database by sets conn obj to null
+	 * */
 	public void disconnect() {
 		conn = null;
 	}

@@ -68,6 +68,11 @@ public class ServerController  {
 		return txtScheme.getText();			
 	}
 	
+	/**
+	 * activate the server from the start
+	 *@param event this is a mouse event and this method activate
+	 *when the user click on connect 
+	 * */
 	@FXML
 	void clickConnectBtn(MouseEvent event) {
 		HashMap<String, String> db_info = new HashMap<>() {{
@@ -83,17 +88,28 @@ public class ServerController  {
 		}
 		startServer(db_info);
 	}
-
+	
+	/**
+	 * end the application with return code 0
+	 *@param event this is a mouse event and this method activate
+	 *when the user click on exit
+	 * */
 	@FXML
 	void clickExitBtn(MouseEvent event) {
 		System.out.println("Exit from Sems server application");
 		System.exit(0);
 	}
 	
-	void disconnectServer() {
+	
+	void disconnectServer() { //need to implement
 		
 	}
 	
+	/**
+	 * set database drive connect to the database and the activate the server 
+	 *@param db_info this is a hashmap of database info that the
+	 *user is desire to implement
+	 * */
 	void startServer(HashMap db_info) {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
