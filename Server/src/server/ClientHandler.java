@@ -15,7 +15,7 @@ import ocsf.server.*;
  * This class overrides some of the methods in the abstract 
  * superclass in order to give more functionality to the server.
 */
-public class EchoServer extends AbstractServer 
+public class ClientHandler extends AbstractServer 
 {
 	
   //Class variables 
@@ -33,7 +33,7 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
-	public EchoServer(int port) 
+	public ClientHandler(int port) 
 	{
 		super(port);
 	}
@@ -80,32 +80,7 @@ public class EchoServer extends AbstractServer
 				}catch (SQLException e) {e.printStackTrace();}
 			    }    
 	}
-  private void connectToDB(String dbName , String userID, String password) {
-	  StringBuilder connectionPath = new StringBuilder();
-	  connectionPath.append("jdbc:mysql://localhost/");
-	  connectionPath.append(dbName);
-	  connectionPath.append("?serverTimezone=IST"); 
-	  try 
-		{
-		//Class.forName("com.mysql.cj.jdbc.Driver").newInstance();//deprecated since ver 9.
-	    Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-	    System.out.println("Driver definition succeed");
-	    } catch (Exception ex) {
-	    /* handle the error*/
-	    System.out.println("Driver definition failed");
-	    } 
-	    try 
-	    {
-		   conn = DriverManager.getConnection(connectionPath.toString(),userID,password);
-	       //conn = DriverManager.getConnection("jdbc:mysql://localhost/cems_db?serverTimezone=IST","root","EyalMySql");
-	       System.out.println("SQL connection succeed");
-	    } catch (SQLException ex) {/* handle any errors*/
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-           }
-  }
-	
+
 
   
 
@@ -114,37 +89,36 @@ public class EchoServer extends AbstractServer
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.
    */
-  protected void serverStarted()
-  {
-    System.out.println
-      ("Server listening for connections on port " + getPort());
-    connectToDB("Cems_DB" , "root", "Aa123456");
-
-  }
+//  protected void serverStarted()
+//  {
+//    System.out.println
+//      ("Server listening for connections on port " + getPort());
+//    connectToDB("Cems_DB" , "root", "Aa123456");
+//
+//  }
   
   /**
    * This method overrides the one in the superclass.  Called
    * when the server stops listening for connections.
    */
-  protected void serverStopped()
-  {
-    System.out.println
-      ("Server has stopped listening for connections.");
-  }
-  
-  //Class methods ***************************************************
-  public void runServer(String port, String dbName, String userID, String password) {
-	    EchoServer sv = new EchoServer(Integer.parseInt(port));
-	    sv.connectToDB(dbName, userID, password);
-	    try 
-	    {
-	      sv.listen(); //Start listening for connections
-	    } 
-	    catch (Exception ex) 
-	    {
-	      System.out.println("ERROR - Could not listen for clients!");
-	    }
-  }
+//  protected void serverStopped()
+//  {
+//    System.out.println
+//      ("Server has stopped listening for connections.");
+//  }
+//  
+//  //Class methods ***************************************************
+//  public void runServer(String port, String dbName, String userID, String password) {
+//	    connectToDB(dbName, userID, password);
+//	    try 
+//	    {
+//	    	listen(); //Start listening for connections
+//	    } 
+//	    catch (Exception ex) 
+//	    {
+//	      System.out.println("ERROR - Could not listen for clients!");
+//	    }
+//  }
   /**
    * This method is responsible for the creation of 
    * the server instance (there is no UI in this phase).

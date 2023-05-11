@@ -1,4 +1,4 @@
-package gui;
+package server;
 
 
 import javafx.collections.FXCollections;
@@ -20,8 +20,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.EchoServer;
-import server.ServerUI;
+
+import java.util.HashMap;
+
+import DataBase.DBController;
+//import server.ServerUI;
 public class ServerController {
 
     @FXML
@@ -59,6 +62,9 @@ public class ServerController {
 
     @FXML
     private TextArea txtStatus;
+    
+    @FXML
+    private TextArea txtScheme;
 	
 	private String getIP() {
 		return txtIP.getText();			
@@ -75,22 +81,29 @@ public class ServerController {
 	private String getStatus() {
 		return txtStatus.getText();			
 	}	
+	private String getScheme() {
+		return txtScheme.getText();			
+	}
+	
 	@FXML
-	 void clickConnectBtn(MouseEvent event) {
-		String port,host,pass,ip;
-		host=getHost();
-		pass=getPass();
-		ip=getIP();
-		port=getPort();
-		if(port.trim().isEmpty()||host.trim().isEmpty()||pass.trim().isEmpty()||ip.trim().isEmpty()) {
-			System.out.println("You must enter values");		
+	void clickConnectBtn(MouseEvent event) {
+		HashMap<String, String> db_info = new HashMap<>() {{
+			put("ip", getIP());
+			put("password", getPass());
+			put("username", getHost());
+			put("username", getHost());
+		}};
+		if(db_info.containsValue(null)) {
+			System.out.println("You must enter values");
 		}
 		else
 		{
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			//EchoServer.runServer(port); //please add dbname to fxml and pass the parameters
+			
+//			ClientHandler sv = new ClientHandler(Integer.parseInt(port));
+//			sv.runServer(port, host, pass, ip);
+//			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+//			Stage primaryStage = new Stage();
+//			FXMLLoader loader = new FXMLLoader();
 		}
 	}
 
@@ -124,14 +137,5 @@ public class ServerController {
 		System.exit(0);			
 	}
 	*/
-	public void start(Stage primaryStage) throws Exception {	
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectionInfoScreen.fxml"));
-				
-		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Server");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();		
-	}
+
 }
