@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import client.*;
 import common.*;
+import javafx.stage.Stage;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -125,8 +126,11 @@ public class ClientConsole implements ChatIF
    * This method is responsible for the creation of the Client UI.
    *
    * @param args[0] The host to connect to.
+   * 
+   //Eyal edit from here delete exception , delete the call for a stage.
+    * @throws Exception 
    */
-  public static void main(String[] args) 
+  public static void main(String[] args) throws Exception 
   {
     String host = "";
     int port = 0;  //The port number
@@ -139,8 +143,13 @@ public class ClientConsole implements ChatIF
     {
       host = "localhost";
     }
-    ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
-    chat.accept();  //Wait for console data
+    //ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
+   // chat.accept();  //Wait for console data
+    try {
+    	ClientConnectController clientConnectController = new ClientConnectController();
+    	Stage stage = new Stage();
+    	clientConnectController.start(stage);
+    	}catch(Exception e) {e.printStackTrace();}
   }
 }
 //End of ConsoleChat class

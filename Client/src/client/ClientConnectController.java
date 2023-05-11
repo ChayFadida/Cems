@@ -1,4 +1,4 @@
-package clientGui;
+package client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,18 +40,18 @@ public class ClientConnectController {
 	}
     
     @FXML
-	 void clickConnectBtn(MouseEvent event) {
+	 void clickConnectBtn(MouseEvent event) throws Exception {
 		String serverIP;
 		serverIP=getIP();
 		if(serverIP.trim().isEmpty()) {
 			System.out.println("You must enter server ip");		
 		}
-		else
-		{
+		else {
+			DisplayQuestionListController displayQuestionListController = new DisplayQuestionListController ();
+			Stage stage = new Stage();
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			//EchoServer.runServer(port); //please add dbname to fxml and pass the parameters
+			displayQuestionListController.start(stage);
+
 		}
 	}
     @FXML

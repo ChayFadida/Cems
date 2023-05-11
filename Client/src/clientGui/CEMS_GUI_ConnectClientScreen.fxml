@@ -28,7 +28,7 @@
          <children>
             <HBox prefHeight="98.0" prefWidth="501.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Connect To server" textAlignment="CENTER" underline="true" wrappingWidth="319.4700622558594">
+                  <Text fx:id="lblConnectToServer" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect To server" textAlignment="CENTER" underline="true" wrappingWidth="319.4700622558594">
                      <font>
                         <Font name="System Italic" size="36.0" />
                      </font>
@@ -40,7 +40,7 @@
             </HBox>
             <HBox prefHeight="106.0" prefWidth="484.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server IP:" textAlignment="CENTER" wrappingWidth="78.29034042358398">
+                  <Text fx:id="lblServerIP" strokeType="OUTSIDE" strokeWidth="0.0" text="Server IP:" textAlignment="CENTER" wrappingWidth="78.29034042358398">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -48,14 +48,14 @@
                         <Insets left="50.0" top="40.0" />
                      </HBox.margin>
                   </Text>
-                  <TextArea maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="225.0">
+                  <TextArea fx:id="txtServerIP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="225.0">
                      <HBox.margin>
                         <Insets left="5.0" top="40.0" />
                      </HBox.margin>
                   </TextArea>
                </children>
             </HBox>
-            <Button fx:id="btnConnect" mnemonicParsing="false" text="Connect">
+            <Button fx:id="btnConnect" mnemonicParsing="false" onAction="#clickConnectBtn" text="Connect">
                <VBox.margin>
                   <Insets left="215.0" top="10.0" />
                </VBox.margin>
