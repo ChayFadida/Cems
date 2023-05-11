@@ -7,12 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ServerApplication extends Application {
+	private String folder = "gui";
 	private String fxml = "ServerConnectionInfoScreen.fxml";
 	private String css = "ServerPort.css";
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectionInfoScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/" + folder + "/" + fxml));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Server");
 		primaryStage.setScene(scene);
@@ -22,5 +23,4 @@ public class ServerApplication extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }

@@ -19,7 +19,9 @@ public class DBController {
 	private static boolean driverIsSet;
 	private static DBController instance;
 	
+	
 	public DBController() {}
+	
 	
 	public static synchronized DBController getInstance() {
 		if (instance == null) {
@@ -28,23 +30,23 @@ public class DBController {
 		return instance;
 	}
 	
-	public void setDbDriver() {
-		if (!driverIsSet){
-
-			try {
-				Class.forName(driver_cmd).getDeclaredConstructor().newInstance();
-				System.out.println("Driver definition succeed");
-				driverIsSet = true;
-				return;
-			}
-			catch (Exception exception) {
-				System.out.println("Driver definition failed");
-				driverIsSet = false;
-				return;
-			}	
-		}
-		System.out.println("Driver is already set");
+	
+	public boolean setDbDriver() {
+	    if (driverIsSet) {
+	        System.out.println("Driver is already set");
+	        return driverIsSet;
+	    }
+	    try {
+	        Class.forName(driver_cmd).getDeclaredConstructor().newInstance();
+	        System.out.println("Driver definition succeeded");
+	        driverIsSet = true;
+	    } catch (Exception e) {
+	        System.out.println("Driver definition failed");
+	        driverIsSet = false;
+	    }
+	    return driverIsSet;
 	}
+	
 	
 	public void connectToDb() {
 		StringBuilder mysql = new StringBuilder();
@@ -54,20 +56,25 @@ public class DBController {
 		try {
 			conn = DriverManager.getConnection(mysql.toString(),db_info.get("username"), 
 					db_info.get("password"));
+	        System.out.println("");
 		} catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
 		}
+		System.out.println("coonected to db");
 	}
+	
 	
 	public void setDbInfo(HashMap<String, String> db_new_info) {
 		for (String key : db_info.keySet())
 			db_info.put(key, db_new_info.get(key));
 	}
 	
+	
 	public void disconnect() {
 		conn = null;
 	}
+	
 }
 

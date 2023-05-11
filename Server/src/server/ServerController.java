@@ -1,31 +1,16 @@
 package server;
 
-
-import javafx.collections.FXCollections;
-
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
 import java.util.HashMap;
-
 import DataBase.DBController;
-//import server.ServerUI;
-public class ServerController {
+
+ 
+public class ServerController  {
+	DBController dbController = DBController.getInstance();
 
 
     @FXML
@@ -90,47 +75,30 @@ public class ServerController {
 			put("password", getPass());
 			put("username", getHost());
 			put("scheme", getScheme());
+			put("port", getPort());
 		}};
 		if(db_info.containsValue("")) {
 			System.out.println("You must enter values");
 			return;			
 		}
-		DBController dbController = DBController.getInstance();
-		dbController.setDbDriver();
-		dbController.setDbInfo(db_info);
-		dbController.connectToDb();
-		
+		startServer(db_info);
 	}
 
 	@FXML
 	void clickExitBtn(MouseEvent event) {
-		System.out.println("Exit server tool");
-		System.exit(0);		
+		System.out.println("Exit from Sems server application");
+		System.exit(0);
 	}
-	/*
-	@FXML
-	void clickConnectBtn(ActionEvent event){
-		String port,host,pass,ip;
-		host=getHost();
-		pass=getPass();
-		ip=getIP();
-		port=getPort();
-		if(port.trim().isEmpty()||host.trim().isEmpty()||pass.trim().isEmpty()||ip.trim().isEmpty()) {
-			System.out.println("You must enter values");		
-		}
-		else
-		{
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			//EchoServer.runServer(port); //please add dbname to fxml and pass the parameters
-		}
+	
+	void disconnectServer() {
+		
 	}
-	@FXML
-	void clickExitBtn(ActionEvent event){
-		System.out.println("Exit server tool");
-		System.exit(0);			
+	
+	void startServer(HashMap db_info) {
+		dbController.setDbDriver();
+		dbController.setDbInfo(db_info);
+		dbController.connectToDb();
+		ClientHandler clientHandler = new ClientHandler(Integer.parseInt((String) db_info.get("port")));
+		clientHandler.runServer();
 	}
-	*/
-
 }
