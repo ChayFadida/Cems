@@ -33,6 +33,9 @@ public class ServerController {
 
     @FXML
     private Button btnExit;
+    
+    @FXML
+    private Button btnDisconnect;
 
     @FXML
     private Text lblHost;
@@ -86,20 +89,17 @@ public class ServerController {
 			put("ip", getIP());
 			put("password", getPass());
 			put("username", getHost());
-			put("username", getHost());
+			put("scheme", getScheme());
 		}};
-		if(db_info.containsValue(null)) {
+		if(db_info.containsValue("")) {
 			System.out.println("You must enter values");
+			return;			
 		}
-		else
-		{
-			
-//			ClientHandler sv = new ClientHandler(Integer.parseInt(port));
-//			sv.runServer(port, host, pass, ip);
-//			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-//			Stage primaryStage = new Stage();
-//			FXMLLoader loader = new FXMLLoader();
-		}
+		DBController dbController = DBController.getInstance();
+		dbController.setDbDriver();
+		dbController.setDbInfo(db_info);
+		dbController.connectToDb();
+		
 	}
 
 	@FXML

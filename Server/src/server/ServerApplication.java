@@ -14,7 +14,6 @@ public class ServerApplication extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectionInfoScreen.fxml"));
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
 		primaryStage.setTitle("Server");
 		primaryStage.setScene(scene);
 		primaryStage.show();	
