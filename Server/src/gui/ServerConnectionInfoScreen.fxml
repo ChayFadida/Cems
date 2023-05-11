@@ -13,14 +13,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.ServerController">
 	<children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="339.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@CEMS_GUI_BackGround.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="31.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@backArrow.png" />
+            <Image url="@../Images/CEMS_GUI_BackGround.jpg" />
          </image>
       </ImageView>
       <HBox prefHeight="339.0" prefWidth="600.0">
@@ -37,9 +32,9 @@
                         <Insets bottom="30.0" left="10.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="lblStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Connection Status:">
+                  <Text fx:id="lblScheme" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheme:">
                      <VBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="30.0" />
                      </VBox.margin>
                   </Text>
                   <Text fx:id="lblPort" strokeType="OUTSIDE" strokeWidth="0.0" text="Port:">
@@ -66,7 +61,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextArea>
-                  <TextArea fx:id="txtStatus" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="85.0" />
+                  <TextArea fx:id="txtScheme" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="85.0" />
                   <TextArea fx:id="txtPort" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="85.0">
                      <VBox.margin>
                         <Insets top="10.0" />

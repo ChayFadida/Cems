@@ -27,6 +27,7 @@ import DataBase.DBController;
 //import server.ServerUI;
 public class ServerController {
 
+
     @FXML
     private Button btnConnect;
 
@@ -46,7 +47,7 @@ public class ServerController {
     private Text lblPort;
 
     @FXML
-    private Text lblStatus;
+    private Text lblScheme;
 
     @FXML
     private TextArea txtHost;
@@ -61,11 +62,8 @@ public class ServerController {
     private TextArea txtPort;
 
     @FXML
-    private TextArea txtStatus;
-    
-    @FXML
     private TextArea txtScheme;
-	
+
 	private String getIP() {
 		return txtIP.getText();			
 	}
@@ -77,9 +75,6 @@ public class ServerController {
 	}
 	private String getHost() {
 		return txtHost.getText();			
-	}
-	private String getStatus() {
-		return txtStatus.getText();			
 	}	
 	private String getScheme() {
 		return txtScheme.getText();			
