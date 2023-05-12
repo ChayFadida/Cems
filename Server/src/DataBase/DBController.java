@@ -1,8 +1,12 @@
 package DataBase;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
+
+
 
 public class DBController {
 	private static Connection conn;
@@ -87,6 +91,36 @@ public class DBController {
 	 * */
 	public void disconnect() {
 		conn = null;
+	}
+	
+	public ResultSet executeQueries(SqlHandler sqlQueries) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+		} catch(Exception ex) {
+			System.out.println("could not create a statement");
+		}
+		try {
+			rs = stmt.executeQuery(getQueryString(sqlQueries).toString());
+		} catch(Exception ex) {
+			System.out.println("could not execute sql command");
+		}
+		return rs;
+	}
+	
+	private StringBuilder getQueryString(SqlHandler sqlQuery) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ");
+		String selectString = String.join(",", sqlQuery.getSelect());
+		query.append(" ");
+		query.append(selectString);
+		query.append("WHERE ");
+		String whereString = String.join(",", sqlQuery.getWhere());
+		query.append("FROM ");
+		String fromString = String.join(",", sqlQuery.getFrom());
+		query.append(";");
+		return query;
 	}
 	
 }
