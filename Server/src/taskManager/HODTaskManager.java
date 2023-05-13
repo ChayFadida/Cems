@@ -7,7 +7,7 @@ import ocsf.server.ConnectionToClient;
 public class HODTaskManager implements TaskHandler{
 
 	@Override
-	public ResultSet executeUserCommand(Object msg, ConnectionToClient client) {
+	public ResultSet executeUserCommand(Object msg) {
 		// TODO Auto-generated method stub
 		return null;
 	}

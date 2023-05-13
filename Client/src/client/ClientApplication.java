@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ClientApplication extends Application {
-	public static ClientConsole chat;
 	private String folder = "gui";
 	private String fxml = "ConnectClientScreen.fxml";
 

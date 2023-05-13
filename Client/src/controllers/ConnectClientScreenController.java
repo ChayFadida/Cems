@@ -1,4 +1,4 @@
-package client;
+package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+import client.ConnectionServer;
 public class ConnectClientScreenController {
 
     @FXML
@@ -33,29 +33,22 @@ public class ConnectClientScreenController {
 		return txtServerIP.getText();
 	}
 	public void getConnectBtn(ActionEvent event) throws Exception {
-		//String ip;
-		
-		//ip=getIP();
-		//if(ip.trim().isEmpty()){
-
-			//System.out.println("You must enter an ip number");	
-			//}
-		
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
-			lecturerMenuScreenController.start(primaryStage);
-			
+		ConnectionServer.getInstance("localhost", 8000);
+		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
+		lecturerMenuScreenController.start(primaryStage);	
 	}
+	
 	public void getShutdownBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
 		System.exit(0);
 	}
-	public void start(Stage primaryStage) throws Exception {	
+	
+	public void start(Stage primaryStage) throws Exception {
+		
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConnectClientScreen.fxml"));
-				
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/AcademicFrame.css").toExternalForm());
 		primaryStage.setTitle("Academic Managment Tool");
 		primaryStage.setScene(scene);
 		

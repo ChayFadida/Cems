@@ -1,7 +1,9 @@
-package client;
+package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import client.ConnectionServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,11 +35,6 @@ public class LecturerMenuScreenController {
 		Stage primaryStage = new Stage();
 		QuestionListScreenController questionListScreenController = new QuestionListScreenController();	
 		questionListScreenController.start(primaryStage);
-		//we need to pull array list of Questions from DB
-		//ArrayList<String> queryDetails = new ArrayList<>();
-		
-		//ClientApplication.chat.accept("Lecturer ");
-		questionListScreenController.loadQuestions(null);
 	}
     
 	public void getLogoutBtn(ActionEvent event) throws Exception {

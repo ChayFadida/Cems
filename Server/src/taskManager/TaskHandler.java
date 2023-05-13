@@ -6,5 +6,5 @@ import java.sql.ResultSet;
 import ocsf.server.ConnectionToClient;
 
 public interface TaskHandler {
-	public ResultSet executeUserCommand(Object msg, ConnectionToClient client);
+	public ResultSet executeUserCommand(Object msg);
 }

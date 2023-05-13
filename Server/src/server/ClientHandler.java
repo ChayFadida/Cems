@@ -1,10 +1,15 @@
 package server;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import ocsf.server.*;
 import taskManager.TaskHandler;
 import taskManager.TaskHandlerFactory;
 
+import java.io.IOException;
+import java.sql.ResultSet;
 //echo server
 public class ClientHandler extends AbstractServer {
 	
@@ -54,21 +59,33 @@ public class ClientHandler extends AbstractServer {
 
 	/**
 	 * execute command from the client side
-	 *@param msg message from the user to executer server command
+	 *@param msg message from the user to executer server comsand
 	 *@param client client object of who sent the request
 	 * */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getTaskHadler().get(getUserType(client));
-	    handlerMap.executeUserCommand(msg, client);
+		
+		if(! (msg instanceof HashMap)) {
+			System.out.println("client send object that is not hashmap");;
+		}
+		HashMap<String, ArrayList<String>> hm = (HashMap)msg;
+		String str = getUserType(hm);
+		TaskHandlerFactory taskHandlerFactory = new TaskHandlerFactory();
+	    TaskHandler handlerMap = (TaskHandler) taskHandlerFactory.getTaskHadler().get(str);
+	    ResultSet rs = handlerMap.executeUserCommand(msg);
+	    try {
+			client.sendToClient(rs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 *get user type Teacher/Student/HOD
 	 *@param client client object of who sent the request
 	 * */
-	private String getUserType(ConnectionToClient client) {
-		// TODO Auto-generated method stub  // need to implement the method
-		return "hello";
+	private String getUserType(HashMap<String, ArrayList<String>> msg) {
+		System.out.println("the user is " + msg.get("client").get(0));
+		return msg.get("client").get(0);
 	}
 }

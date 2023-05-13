@@ -87,11 +87,18 @@ public class ServerController  {
 			put("scheme", getScheme());
 			put("port", getPort());
 		}};
-		if(db_info.containsValue("")) {
-			System.out.println("You must enter values");
-			return;			
-		}
-		startServer(db_info);
+//		if(db_info.containsValue("")) {
+//			System.out.println("You must enter values");
+//			return;			
+//		}
+		HashMap<String, String> db_info1 = new HashMap<>() {{
+			put("ip", "localhost");
+			put("password", "FF8515150f");
+			put("username", "root");
+			put("scheme", "sys");
+			put("port", "8000");
+		}};
+		startServer(db_info1);
 	}
 	
 	/**

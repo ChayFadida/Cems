@@ -1,9 +1,13 @@
-package client;
+package controllers;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import client.ConnectionServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +22,7 @@ import javafx.stage.Stage;
 import logic.Question;
 
 public class QuestionListScreenController implements Initializable{
-	private ArrayList<Question> qArr;
+	private ArrayList<Question> qArr = new ArrayList<>();
     @FXML
     private ListView<String> ViewListQuestions;
 
@@ -57,17 +61,47 @@ public class QuestionListScreenController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		initListView();
+		HashMap<String,ArrayList<String>> msg = new HashMap();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getAllQuestions");
+		msg.put("task",arr1);
+		AbstractController controller = new AbstractController();
+		controller.sendMsgToServer(msg);
+//		try {
+//			this.loadQuestions(ConnectionServer.rs);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		//initListView();
+		//AbstractController controller = new AbstractController();
+		//controller.sendMsgToServer("hellooo worllddd");
 	}
 	
 	private void initListView() {
-		for(Question q: qArr) {
-			ViewListQuestions.getItems().add(q.getQuestion());
+		if (qArr.isEmpty()) {
+			ViewListQuestions.getItems().add("no questions to display");
+		}
+		else {
+			for(Question q: qArr) {
+				ViewListQuestions.getItems().add(q.getQuestion());
+			}
 		}
 	}
 	
-	public void loadQuestions(ArrayList<Question> qArr) {
-		this.qArr = qArr;
+	public void loadQuestions(ResultSet rs) throws Exception {
+		if(!(rs.next())) {
+			System.out.println("no rs in load");
+		
+		}
+		else {
+			do {
+				qArr.add(new Question(rs.getInt("id"), rs.getString("course"), rs.getString("lecturer"), rs.getString("question")));
+			} while (rs.next());
+		}
 	}
 
 }
