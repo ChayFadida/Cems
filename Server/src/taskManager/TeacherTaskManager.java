@@ -35,10 +35,16 @@ public class TeacherTaskManager implements TaskHandler {
 		return null;
 	}
 	
-	public ResultSet getAllStudents(ArrayList msg, ConnectionToClient client) throws SQLException {
+	public ResultSet getAllStudents(ArrayList<String> msg, ConnectionToClient client) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		SqlHandler sqlHandler = new SqlHandler();
 		ResultSet rs = dbController.executeQueries(sqlHandler.getQuery(SqlQueries.getAllUsers()));
+		return rs;
+	}
+	public ResultSet getAllQuestions(ArrayList<String> msg, ConnectionToClient client) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		SqlHandler sqlHandler = new SqlHandler();
+		ResultSet rs = dbController.executeQueries(sqlHandler.getQuery(SqlQueries.getAllQuestions()));
 		return rs;
 	}
 }

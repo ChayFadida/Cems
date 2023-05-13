@@ -4,14 +4,13 @@ import java.util.HashMap;
 
 
 public class TaskHandlerFactory {
-	@SuppressWarnings("unchecked")
-	private static HashMap taskHandler = new HashMap<>() {{
+	private static HashMap<String,TaskHandler> taskHandler = new HashMap<>() {{
 		taskHandler.put("HOD", new HODTaskManager());
 		taskHandler.put("Teacher", new TeacherTaskManager());
-		
+		taskHandler.put("Student", new StudentTaskManager());
 	}};
 	
-	public static HashMap getTaskHadler() {
+	public static HashMap<String,TaskHandler> getTaskHadler() {
 		return taskHandler;
 	}
 }

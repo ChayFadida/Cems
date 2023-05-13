@@ -1,5 +1,7 @@
 package client;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import logic.Question;
 
 public class LecturerMenuScreenController {
-
+	private ArrayList<Question> qArr;
     @FXML
     private Button btnDisplayQuestion;
 
@@ -30,6 +33,11 @@ public class LecturerMenuScreenController {
 		Stage primaryStage = new Stage();
 		QuestionListScreenController questionListScreenController = new QuestionListScreenController();	
 		questionListScreenController.start(primaryStage);
+		//we need to pull array list of Questions from DB
+		//ArrayList<String> queryDetails = new ArrayList<>();
+		
+		//ClientApplication.chat.accept("Lecturer ");
+		questionListScreenController.loadQuestions(null);
 	}
     
 	public void getLogoutBtn(ActionEvent event) throws Exception {

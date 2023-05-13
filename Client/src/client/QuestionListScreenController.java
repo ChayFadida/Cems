@@ -1,6 +1,7 @@
 package client;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -14,9 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import logic.Question;
 
 public class QuestionListScreenController implements Initializable{
-
+	private ArrayList<Question> qArr;
     @FXML
     private ListView<String> ViewListQuestions;
 
@@ -55,8 +57,17 @@ public class QuestionListScreenController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ViewListQuestions.getItems().add("1 option");
-    	ViewListQuestions.getItems().add("2 option");
+		initListView();
+	}
+	
+	private void initListView() {
+		for(Question q: qArr) {
+			ViewListQuestions.getItems().add(q.getQuestion());
+		}
+	}
+	
+	public void loadQuestions(ArrayList<Question> qArr) {
+		this.qArr = qArr;
 	}
 
 }
