@@ -70,34 +70,33 @@ public class QuestionListScreenController implements Initializable{
 		msg.put("task",arr1);
 		AbstractController controller = new AbstractController();
 		controller.sendMsgToServer(msg);
-//		try {
-//			this.loadQuestions(ConnectionServer.rs);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		initListView();
-//	}
-//	
-//	private void initListView() {
-//		if (qArr.isEmpty()) {
-//			ViewListQuestions.getItems().add("no questions to display");
-//		}
-//		else {
-//			for(Question q: qArr) {
-//				ViewListQuestions.getItems().add(q.getQuestion());
-//			}
-//		}
-//	}
-//
-//	public void loadQuestions(ResultSet rs) throws Exception {
-//		if(rs == null) {
-//			System.out.println("rs is nulllllll");
-//		}
-//		while((rs.next())) {
-//			qArr.add(new Question(rs.getInt("id"), rs.getString("course"), rs.getString("lecturer"), rs.getString("question")));
-//		}
-//	}
+		try {
+			this.loadQuestions(ConnectionServer.records);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		initListView();
+	}
+	
+	private void initListView() {
+		if (qArr.isEmpty()) {
+			ViewListQuestions.getItems().add("no questions to display");
+		}
+		else {
+			for(Question q: qArr) {
+				ViewListQuestions.getItems().add(q.getQuestion());
+			}
+		}
+	}
 
-}
+	public void loadQuestions(ArrayList<ArrayList<Object>> records) throws Exception {
+		if(records == null) {
+			System.out.println("rs is nulllllll");
+		}
+		for(int i=0;i<records.size();i++) {
+			qArr.add(new Question((Integer)records.get(i).get(0), (String)records.get(i).get(1), (String)records.get(i).get(2), (String)records.get(i).get(3)));
+		}
+	}
+
 }

@@ -123,7 +123,6 @@ public class DBController {
 		String fromString = String.join(",", sqlQuery.getFrom());
 		query.append(fromString);
 		query.append(";");
-		System.out.println(query.toString());
 		return query;
 	}
 	

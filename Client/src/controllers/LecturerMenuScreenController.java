@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import logic.Question;
 
 public class LecturerMenuScreenController {
-	private ArrayList<Question> qArr;
     @FXML
     private Button btnDisplayQuestion;
 

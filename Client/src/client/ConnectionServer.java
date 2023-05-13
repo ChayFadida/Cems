@@ -9,12 +9,14 @@ import common.*;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class ConnectionServer extends AbstractClient{
  
 	private static ConnectionServer instance;
-	public static ResultSet rs;
+	public static ArrayList<ArrayList<Object>> records=null;
+	public static ArrayList<ResultSet> rsArr=null;
 	public static boolean awaitResponse = false;
     public ConnectionServer(String host, int port) 
       throws IOException {
@@ -24,30 +26,37 @@ public class ConnectionServer extends AbstractClient{
 
   
     public void handleMessageFromServer(Object msg) {
-    	if (!( msg instanceof ResultSet)) {
+    	if (!( msg instanceof ArrayList)) {
     		System.out.println("not valid return from server");
     		return;
     	}
-    	this.rs = (ResultSet) msg;
-    	while(true) {
-    		System.out.print(rs.toString() + "\n");
-    		try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-
+    	awaitResponse = false;
+    	records = (ArrayList<ArrayList<Object>>)msg;
+    	//rsArr=(ArrayList<ResultSet>)msg;
+    	
     }
 
     public void handleMessageFromClientUI(Object message){
 	  
-        try{	  
-      	  sendToServer(message);
-        } catch(IOException e){
-      	 System.out.println("Could not send message to server.  Terminating client.");
-    	 quit();
+    	try
+        {
+        	openConnection();//in order to send more than one message
+           	awaitResponse = true;
+        	sendToServer(message);
+    		// wait for response
+    		while (awaitResponse) {
+    			try {
+    				Thread.sleep(100);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+        }
+        catch(IOException e)
+        {
+        	e.printStackTrace();
+          System.out.println("Could not send message to server: Terminating client."+ e);
+          quit();
         }
     }
   
