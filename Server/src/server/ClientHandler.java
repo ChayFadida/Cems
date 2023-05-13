@@ -2,14 +2,14 @@ package server;
 
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import ocsf.server.*;
-import taskManager.TaskHandler;
-import taskManager.TaskHandlerFactory;
-
+import taskManager.*;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 //echo server
 public class ClientHandler extends AbstractServer {
 	
@@ -70,8 +70,8 @@ public class ClientHandler extends AbstractServer {
 		}
 		HashMap<String, ArrayList<String>> hm = (HashMap)msg;
 		String str = getUserType(hm);
-		TaskHandlerFactory taskHandlerFactory = new TaskHandlerFactory();
-	    TaskHandler handlerMap = (TaskHandler) taskHandlerFactory.getTaskHadler().get(str);
+		System.out.println("the user is hello");
+	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getInstance().getTaskHadler().get(str);
 	    ResultSet rs = handlerMap.executeUserCommand(msg);
 	    try {
 			client.sendToClient(rs);

@@ -11,7 +11,7 @@ import DataBase.SqlQueries;
 import DataBase.SqlHandler;
 
 public class LecturerTaskManager implements TaskHandler {
-
+	public LecturerTaskManager() {}
 	@Override
 	public ResultSet executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<String>> hm = (HashMap)msg;
@@ -26,7 +26,7 @@ public class LecturerTaskManager implements TaskHandler {
 		    	}
 		    case "getAllQuestions":
 		    	try {
-		    		getAllQuestions(hm.get("task"));
+		    		return getAllQuestions(hm.get("task"));
 		    	} catch (SQLException e) {
 				// TODO Auto-generated catch block
 		    		e.printStackTrace();

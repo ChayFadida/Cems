@@ -8,6 +8,7 @@ import ocsf.client.*;
 import common.*;
 import java.io.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class ConnectionServer extends AbstractClient{
@@ -28,7 +29,16 @@ public class ConnectionServer extends AbstractClient{
     		return;
     	}
     	this.rs = (ResultSet) msg;
-        System.out.println(msg.toString());
+    	while(true) {
+    		System.out.print(rs.toString() + "\n");
+    		try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+
     }
 
     public void handleMessageFromClientUI(Object message){

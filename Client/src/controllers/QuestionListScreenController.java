@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import logic.Question;
 
 public class QuestionListScreenController implements Initializable{
-	private ArrayList<Question> qArr = new ArrayList<>();
+	private ArrayList<Question> qArr = new ArrayList<Question>();
     @FXML
     private ListView<String> ViewListQuestions;
 
@@ -76,32 +76,28 @@ public class QuestionListScreenController implements Initializable{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		//initListView();
-		//AbstractController controller = new AbstractController();
-		//controller.sendMsgToServer("hellooo worllddd");
-	}
-	
-	private void initListView() {
-		if (qArr.isEmpty()) {
-			ViewListQuestions.getItems().add("no questions to display");
-		}
-		else {
-			for(Question q: qArr) {
-				ViewListQuestions.getItems().add(q.getQuestion());
-			}
-		}
-	}
-	
-	public void loadQuestions(ResultSet rs) throws Exception {
-		if(!(rs.next())) {
-			System.out.println("no rs in load");
-		
-		}
-		else {
-			do {
-				qArr.add(new Question(rs.getInt("id"), rs.getString("course"), rs.getString("lecturer"), rs.getString("question")));
-			} while (rs.next());
-		}
-	}
+//		initListView();
+//	}
+//	
+//	private void initListView() {
+//		if (qArr.isEmpty()) {
+//			ViewListQuestions.getItems().add("no questions to display");
+//		}
+//		else {
+//			for(Question q: qArr) {
+//				ViewListQuestions.getItems().add(q.getQuestion());
+//			}
+//		}
+//	}
+//
+//	public void loadQuestions(ResultSet rs) throws Exception {
+//		if(rs == null) {
+//			System.out.println("rs is nulllllll");
+//		}
+//		while((rs.next())) {
+//			qArr.add(new Question(rs.getInt("id"), rs.getString("course"), rs.getString("lecturer"), rs.getString("question")));
+//		}
+//	}
 
+}
 }

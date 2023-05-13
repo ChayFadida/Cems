@@ -11,21 +11,23 @@ public class SqlHandler {
 		put("WHERE", null);		
 	}};		
 	
-	public static ArrayList getSelect() {
+	public static ArrayList<String> getSelect() {
 		return queryMap.get("SELECT");
 	}
 	
-	public static ArrayList getFrom() {
+	public static ArrayList<String> getFrom() {
 		return queryMap.get("FROM");
 	}
 	
-	public static ArrayList getWhere() {
+	public static ArrayList<String> getWhere() {
+		if(queryMap.get("WHERE") == null)
+			return new ArrayList();
 		return queryMap.get("WHERE");
 	}
 	
 	public SqlHandler getQuery(HashMap<String, ArrayList<String>> query_info) {
 		for (String key : query_info.keySet())
-			query_info.put(key, query_info.get(key));
+			queryMap.put(key, query_info.get(key));
 		return this;
 	}
 }

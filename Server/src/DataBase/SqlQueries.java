@@ -11,7 +11,7 @@ public class SqlQueries {
 		queryMap.put("SELECT", arrSelect);
 		ArrayList<String> arrFrom = new ArrayList<>();
 		arrFrom.add("Student");
-		queryMap.put("SELECT", arrSelect);
+		queryMap.put("SELECT", arrFrom);
 		return queryMap;
 	}
 	
@@ -22,7 +22,7 @@ public class SqlQueries {
 		queryMap.put("SELECT", arrSelect);
 		ArrayList<String> arrFrom = new ArrayList<>();
 		arrFrom.add("questions");
-		queryMap.put("FROM", arrSelect);
+		queryMap.put("FROM", arrFrom);
 		return queryMap;
 	}
 }

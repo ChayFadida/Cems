@@ -24,7 +24,7 @@ public class DBController {
 	private static DBController instance;
 	
 	
-	public DBController() {}
+	private DBController() {}
 	
 	/**
 	 * implement singleton design pattert 
@@ -113,13 +113,17 @@ public class DBController {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ");
 		String selectString = String.join(",", sqlQuery.getSelect());
-		query.append(" ");
 		query.append(selectString);
-		query.append("WHERE ");
-		String whereString = String.join(",", sqlQuery.getWhere());
-		query.append("FROM ");
+		if (!(sqlQuery.getWhere().isEmpty())) {
+			query.append(" WHERE ");
+			String whereString = String.join(",", sqlQuery.getWhere());
+			query.append(whereString);
+		}
+		query.append(" FROM ");
 		String fromString = String.join(",", sqlQuery.getFrom());
+		query.append(fromString);
 		query.append(";");
+		System.out.println(query.toString());
 		return query;
 	}
 	
