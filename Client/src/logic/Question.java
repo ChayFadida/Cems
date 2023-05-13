@@ -5,12 +5,22 @@ public class Question {
 	private String course;
 	private String lecturer;
 	private String question;
+	private int number;
 	
-	public Question(int id,String course,String lecturer,String question) {
+	public Question(int id,String course,String lecturer,String question,int number) {
 		this.id=id;
 		this.course=course;
 		this.lecturer=lecturer;
 		this.question=question;
+		this.number=number;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	public int getId() {
@@ -46,6 +56,6 @@ public class Question {
 	}
 	
 	public String toString() {
-		return String.format("%s %s %s %s\n",id,course,lecturer,question);
+		return String.format("%s %s %s %s %s\n",id,course,lecturer,question,number);
 	}
 }
