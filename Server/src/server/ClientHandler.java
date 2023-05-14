@@ -71,26 +71,9 @@ public class ClientHandler extends AbstractServer {
 		HashMap<String, ArrayList<String>> hm = (HashMap)msg;
 		String str = getUserType(hm);
 	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getInstance().getTaskHadler().get(str);
-	    ResultSet rs = handlerMap.executeUserCommand(msg);
-	    ArrayList<ResultSet> rsArr= new ArrayList<>();
-	    rsArr.add(rs);
-	    ArrayList<ArrayList<Object>> records = new ArrayList<ArrayList<Object>>();
+	    ArrayList rs = handlerMap.executeUserCommand(msg);
 	    try {
-			while(rs.next()) {
-				int cols = rs.getMetaData().getColumnCount();
-				ArrayList<Object> arr = new ArrayList<>();
-				for(int i=1;i<cols+1;i++) {
-					arr.add(rs.getObject(i));
-				}
-				records.add(arr);
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    try {
-			client.sendToClient(records);
-	    	//client.sendToClient(rsArr);
+			client.sendToClient(rs);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -101,6 +84,7 @@ public class ClientHandler extends AbstractServer {
 	 *@param client client object of who sent the request
 	 * */
 	private String getUserType(HashMap<String, ArrayList<String>> msg) {
+		System.out.println("the user is " + msg.get("client").get(0));
 		return msg.get("client").get(0);
 	}
 }

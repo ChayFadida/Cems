@@ -93,7 +93,7 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info1 = new HashMap<>() {{
 			put("ip", "localhost");
-			put("password", "Aa123456");
+			put("password", "FF8515150f");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");

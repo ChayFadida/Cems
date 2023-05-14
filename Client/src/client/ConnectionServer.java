@@ -15,13 +15,12 @@ import java.util.ArrayList;
 public class ConnectionServer extends AbstractClient{
  
 	private static ConnectionServer instance;
-	public static ArrayList<ArrayList<Object>> records=null;
-	public static ArrayList<ResultSet> rsArr=null;
+	public static ArrayList rs;
 	public static boolean awaitResponse = false;
     public ConnectionServer(String host, int port) 
       throws IOException {
-      super(host, port); //Call the superclass constructor
-      openConnection();
+    super(host, port); //Call the superclass constructor
+    openConnection();
     }
 
   
@@ -31,9 +30,7 @@ public class ConnectionServer extends AbstractClient{
     		return;
     	}
     	awaitResponse = false;
-    	records = (ArrayList<ArrayList<Object>>)msg;
-    	//rsArr=(ArrayList<ResultSet>)msg;
-    	
+    	rs = (ArrayList) msg;
     }
 
     public void handleMessageFromClientUI(Object message){

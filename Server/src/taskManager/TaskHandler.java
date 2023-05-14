@@ -1,10 +1,10 @@
 package taskManager;
 
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
 
 import ocsf.server.ConnectionToClient;
 
 public interface TaskHandler {
-	public ResultSet executeUserCommand(Object msg);
+	public ArrayList executeUserCommand(Object msg);
 }

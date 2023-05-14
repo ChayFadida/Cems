@@ -1,50 +1,34 @@
 package taskManager;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ocsf.server.ConnectionToClient;
 import DataBase.DBController;
 import DataBase.SqlQueries;
-import DataBase.SqlHandler;
 
 public class LecturerTaskManager implements TaskHandler {
 	public LecturerTaskManager() {}
 	@Override
-	public ResultSet executeUserCommand(Object msg) {
+	public ArrayList executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<String>> hm = (HashMap)msg;
 		
 		String task = (String) hm.get("task").get(0);
-		switch (task) {
-		    case "getStudents":
-		    	try {
-		    		return getAllStudents(hm.get("task"));
-		    	} catch (SQLException e) {
-		    		e.printStackTrace();
-		    	}
-		    case "getAllQuestions":
-		    	try {
+		try {
+			switch (task) {
+				case "getAllQuestions":
 		    		return getAllQuestions(hm.get("task"));
-		    	} catch (SQLException e) {
-				// TODO Auto-generated catch block
-		    		e.printStackTrace();
-		    	}
-		}
+		    	
+		    	default: 
+		    		System.out.println("no such method for lecturer");
+				}
+				
+		} catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
 	
-	public ResultSet getAllStudents(ArrayList<String> msg) throws SQLException {
+	public ArrayList getAllQuestions(ArrayList<String> msg) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		SqlHandler sqlHandler = new SqlHandler();
-		ResultSet rs = dbController.executeQueries(sqlHandler.getQuery(SqlQueries.getAllUsers()));
-		return rs;
-	}
-	public ResultSet getAllQuestions(ArrayList<String> msg) throws SQLException {
-		DBController dbController = DBController.getInstance();
-		SqlHandler sqlHandler = new SqlHandler();
-		ResultSet rs = dbController.executeQueries(sqlHandler.getQuery(SqlQueries.getAllQuestions()));
+		ArrayList rs = dbController.executeQueries(SqlQueries.getAllTable(dbController.getquestionsTable()));
 		return rs;
 	}
 }

@@ -91,9 +91,8 @@ public class QuestionListScreenController implements Initializable{
 		AbstractController controller = new AbstractController();
 		controller.sendMsgToServer(msg);
 		try {
-			this.loadQuestions(ConnectionServer.records);
+			this.loadQuestions(ConnectionServer.rs);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		initTableView(qArr);
@@ -114,12 +113,13 @@ public class QuestionListScreenController implements Initializable{
 		tblQuestions.setItems(list);
 	}
 
-	public void loadQuestions(ArrayList<ArrayList<Object>> records) throws Exception {
-		if(records == null) {
+	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
+		if(rs == null) {
 			System.out.println("rs is nulllllll");
 		}
-		for(int i=0;i<records.size();i++) {
-			qArr.add(new Question((Integer)records.get(i).get(0), (String)records.get(i).get(1), (String)records.get(i).get(2), (String)records.get(i).get(3),(Integer)records.get(i).get(4)));
+		for (int i = 0; i < rs.size(); i++) {
+		    HashMap<String, Object> element = rs.get(i);
+		    qArr.add(new Question((int)element.get("id"), (String)element.get("course"), (String)element.get("lecturer"), (String)element.get("question"), i + 1));
 		}
 	}
 
