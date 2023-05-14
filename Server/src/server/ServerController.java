@@ -93,7 +93,7 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info1 = new HashMap<>() {{
 			put("ip", "localhost");
-			put("password", "FF8515150f");
+			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");
@@ -122,7 +122,7 @@ public class ServerController  {
 	 *@param db_info this is a hashmap of database info that the
 	 *user is desire to implement
 	 * */
-	void startServer(HashMap db_info) {
+	void startServer(HashMap<String, String> db_info) {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb();

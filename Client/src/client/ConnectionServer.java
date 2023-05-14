@@ -10,12 +10,13 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class ConnectionServer extends AbstractClient{
  
 	private static ConnectionServer instance;
-	public static ArrayList rs;
+	public static ArrayList<HashMap<String,Object>> rs;
 	public static boolean awaitResponse = false;
     public ConnectionServer(String host, int port) 
       throws IOException {
@@ -30,7 +31,7 @@ public class ConnectionServer extends AbstractClient{
     		return;
     	}
     	awaitResponse = false;
-    	rs = (ArrayList) msg;
+    	rs = (ArrayList<HashMap<String,Object>>) msg;
     }
 
     public void handleMessageFromClientUI(Object message){
