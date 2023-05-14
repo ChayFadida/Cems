@@ -2,8 +2,10 @@ package DataBase;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -22,9 +24,18 @@ public class DBController {
 	private String driver_cmd = "com.mysql.cj.jdbc.Driver";
 	private static boolean driverIsSet;
 	private static DBController instance;
+	private static String answerTable = "answers";
+	private static String questionsTable = "questions";
 	
+	public String getquestionsTable() {
+		return questionsTable;
+	}
 	
-	public DBController() {}
+	public String answerTable() {
+		return answerTable;
+	}
+	
+	private DBController() {}
 	
 	/**
 	 * implement singleton design pattert 
@@ -93,35 +104,29 @@ public class DBController {
 		conn = null;
 	}
 	
-	public ResultSet executeQueries(SqlHandler sqlQueries) throws SQLException {
+	public ArrayList executeQueries(StringBuilder sqlQueries) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
+	    ArrayList<HashMap<String, Object>> resultList = new ArrayList<>();
 		try {
 			stmt = conn.createStatement();
 		} catch(Exception ex) {
 			System.out.println("could not create a statement");
 		}
 		try {
-			rs = stmt.executeQuery(getQueryString(sqlQueries).toString());
+			rs = stmt.executeQuery(sqlQueries.toString());
+	        ResultSetMetaData metaData = rs.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+	        while (rs.next()) {
+	            HashMap<String, Object> row = new HashMap<>();
+	            for (int i = 1; i <= columnCount; i++)
+	                row.put(metaData.getColumnName(i), rs.getObject(i));
+	            resultList.add(row);
+	        }
 		} catch(Exception ex) {
 			System.out.println("could not execute sql command");
 		}
-		return rs;
+		return resultList;
 	}
-	
-	private StringBuilder getQueryString(SqlHandler sqlQuery) {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT ");
-		String selectString = String.join(",", sqlQuery.getSelect());
-		query.append(" ");
-		query.append(selectString);
-		query.append("WHERE ");
-		String whereString = String.join(",", sqlQuery.getWhere());
-		query.append("FROM ");
-		String fromString = String.join(",", sqlQuery.getFrom());
-		query.append(";");
-		return query;
-	}
-	
 }
 

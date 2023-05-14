@@ -1,14 +1,17 @@
 package server;
 
+import java.util.Vector;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import taskManager.TaskHandlerFactory;
 
 public class ServerApplication extends Application {
-	private String folder = "gui";
-	private String fxml = "ServerConnectionInfoScreen.fxml";
+	ServerController serverController;
+	public static Vector<TaskHandlerFactory>  taskHandlerFactory= new Vector<>();
 	
 	/**
 	 * Start the Cems application from server side
@@ -16,11 +19,8 @@ public class ServerApplication extends Application {
 	 * */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/" + folder + "/" + fxml));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Server");
-		primaryStage.setScene(scene);
-		primaryStage.show();	
+		serverController = new ServerController();
+		serverController.start(primaryStage);
 	}
 	
 	/**

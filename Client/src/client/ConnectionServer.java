@@ -1,0 +1,77 @@
+// This file contains material supporting section 3.7 of the textbook:
+// "Object Oriented Software Engineering" and is issued under the open-source
+// license found at www.lloseng.com 
+
+package client;
+
+import ocsf.client.*;
+import common.*;
+import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+
+public class ConnectionServer extends AbstractClient{
+ 
+	private static ConnectionServer instance;
+	public static ArrayList rs;
+	public static boolean awaitResponse = false;
+    public ConnectionServer(String host, int port) 
+      throws IOException {
+    super(host, port); //Call the superclass constructor
+    openConnection();
+    }
+
+  
+    public void handleMessageFromServer(Object msg) {
+    	if (!( msg instanceof ArrayList)) {
+    		System.out.println("not valid return from server");
+    		return;
+    	}
+    	awaitResponse = false;
+    	rs = (ArrayList) msg;
+    }
+
+    public void handleMessageFromClientUI(Object message){
+	  
+    	try
+        {
+        	openConnection();//in order to send more than one message
+           	awaitResponse = true;
+        	sendToServer(message);
+    		// wait for response
+    		while (awaitResponse) {
+    			try {
+    				Thread.sleep(100);
+    			} catch (InterruptedException e) {
+    				e.printStackTrace();
+    			}
+    		}
+        }
+        catch(IOException e)
+        {
+        	e.printStackTrace();
+          System.out.println("Could not send message to server: Terminating client."+ e);
+          quit();
+        }
+    }
+  
+  
+    public void quit(){
+	  
+        try{
+            closeConnection();
+           } catch(IOException e) {
+      	    System.exit(0);
+           }
+    }
+ 
+    
+	public static ConnectionServer getInstance(String host, int port) throws IOException {
+		if (instance == null)
+			instance = new ConnectionServer(host, port);
+		return instance;
+	}
+
+}

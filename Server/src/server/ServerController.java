@@ -1,10 +1,15 @@
 package server;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
 import java.util.HashMap;
 import DataBase.DBController;
 
@@ -82,11 +87,18 @@ public class ServerController  {
 			put("scheme", getScheme());
 			put("port", getPort());
 		}};
-		if(db_info.containsValue("")) {
-			System.out.println("You must enter values");
-			return;			
-		}
-		startServer(db_info);
+//		if(db_info.containsValue("")) {
+//			System.out.println("You must enter values");
+//			return;			
+//		}
+		HashMap<String, String> db_info1 = new HashMap<>() {{
+			put("ip", "localhost");
+			put("password", "FF8515150f");
+			put("username", "root");
+			put("scheme", "sys");
+			put("port", "8000");
+		}};
+		startServer(db_info1);
 	}
 	
 	/**
@@ -96,7 +108,7 @@ public class ServerController  {
 	 * */
 	@FXML
 	void clickExitBtn(MouseEvent event) {
-		System.out.println("Exit from Sems server application");
+		System.out.println("Exit from Cems server application");
 		System.exit(0);
 	}
 	
@@ -116,5 +128,13 @@ public class ServerController  {
 		dbController.connectToDb();
 		ClientHandler clientHandler = new ClientHandler(Integer.parseInt((String) db_info.get("port")));
 		clientHandler.runServer();
+	}
+	
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectionInfoScreen.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Server");
+		primaryStage.setScene(scene);
+		primaryStage.show();	
 	}
 }

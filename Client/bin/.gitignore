@@ -1,2 +1,5 @@
-/gui/
 /client/
+/common/
+/controllers/
+/gui/
+/logic/

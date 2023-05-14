@@ -1,5 +1,9 @@
-package client;
+package controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import client.ConnectionServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import logic.Question;
 
 public class LecturerMenuScreenController {
-
     @FXML
     private Button btnDisplayQuestion;
 
