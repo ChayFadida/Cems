@@ -88,25 +88,18 @@ public class ServerController  {
 			put("scheme", getScheme());
 			put("port", getPort());
 		}};
-//		if(db_info.containsValue("")) {
-//			System.out.println("You must enter values");
-//			return;			
-//		}
-		HashMap<String, String> db_info1 = new HashMap<>() {{
-			put("ip", "localhost");
-			put("password", "EyalMySql");
-			put("username", "root");
-			put("scheme", "sys");
-			put("port", "8000");
-		}};
-		startServer(db_info1);
+		if(db_info.containsValue("")) {
+			System.out.println("You must enter values");
+			return;			
+		}
+
+		startServer(db_info);
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
 		try {
 			connectedScreenController.start(primaryStage);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -122,11 +115,6 @@ public class ServerController  {
 		System.exit(0);
 	}
 	
-	
-	void disconnectServer() { //need to implement
-		
-	}
-	
 	/**
 	 * set database drive connect to the database and the activate the server 
 	 *@param db_info this is a hashmap of database info that the
@@ -136,8 +124,8 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb();
-		ClientHandler clientHandler = new ClientHandler(Integer.parseInt((String) db_info.get("port")));
-		clientHandler.runServer();
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();;
+		
 	}
 	
 	public void start(Stage primaryStage) throws Exception {

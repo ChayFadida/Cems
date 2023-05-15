@@ -29,7 +29,9 @@ public class ConnectedScreenController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		ClientHandler.getInstance().stopListening();
+
     }
     
 	public void start(Stage primaryStage) throws Exception {

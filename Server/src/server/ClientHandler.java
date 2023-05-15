@@ -13,13 +13,13 @@ import java.sql.SQLException;
 //echo server
 public class ClientHandler extends AbstractServer {
 	
-
+	private static ClientHandler instance;
 	private int port = 8000;
 	
 	/**
 	 *constructor for default port for server
 	 * */
-	public ClientHandler() {
+	private ClientHandler() {
 		super(8000);
 		this.port = 8000;
 	}
@@ -27,7 +27,7 @@ public class ClientHandler extends AbstractServer {
 	/**
 	 *constructor for user to set server port
 	 * */
-	public ClientHandler(int port) {
+	private ClientHandler(int port) {
 		super(port);
 		this.port = port;
 	}
@@ -42,7 +42,25 @@ public class ClientHandler extends AbstractServer {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
 	}
-	
+	public static ClientHandler getInstance() {
+		if (instance == null) {
+			instance = new ClientHandler();
+		}
+		return instance;
+	}
+	public static ClientHandler getInstance(int port) {
+		if (instance == null) {
+			instance = new ClientHandler(port);
+		}
+		return instance;
+	}
+	public void stopserver() {
+		try {
+			close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 *print to which port server is listening for
 	 * */
