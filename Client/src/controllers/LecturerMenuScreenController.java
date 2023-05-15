@@ -44,13 +44,10 @@ public class LecturerMenuScreenController {
 	}
     
 	public void start(Stage primaryStage) throws Exception {	
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/LecturerMenuScreen.fxml"));
-				
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/LecturerMenuScreen.fxml"));		
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/AcademicFrame.css").toExternalForm());
 		primaryStage.setTitle("Question List");
 		primaryStage.setScene(scene);
-		
 		primaryStage.show();	 	   
 	}
 }

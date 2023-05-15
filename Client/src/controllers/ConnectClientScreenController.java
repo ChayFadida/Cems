@@ -28,12 +28,18 @@ public class ConnectClientScreenController {
 
     @FXML
     private TextField txtServerIP;
+    @FXML
+    private TextField txtPort;
+    @FXML
+    private int getPort() {
+		return Integer.parseInt(txtPort.getText());
+    }
 
     private String getIP() {
 		return txtServerIP.getText();
 	}
 	public void getConnectBtn(ActionEvent event) throws Exception {
-		ConnectionServer.getInstance("localhost", 8000);
+		ConnectionServer.getInstance(getIP(), getPort());
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();

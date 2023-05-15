@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ConnectClientScreenController">
    <children>
       <Label fx:id="lblConnectServer" layoutX="205.0" layoutY="42.0" prefHeight="42.0" prefWidth="190.0" text="Connect to server">
@@ -15,8 +14,10 @@
          </font>
       </Label>
       <Label fx:id="lblServerIP" layoutX="102.0" layoutY="164.0" prefHeight="26.0" prefWidth="64.0" text="server ip:" />
-      <TextField fx:id="txtServerIP" layoutX="205.0" layoutY="161.0" prefHeight="26.0" prefWidth="197.0" />
+      <TextField fx:id="txtServerIP" layoutX="205.0" layoutY="161.0" prefHeight="26.0" prefWidth="197.0" promptText="localhost" />
       <Button fx:id="btnShutDown" layoutX="525.0" layoutY="-4.0" mnemonicParsing="false" onAction="#getShutdownBtn" prefHeight="36.0" prefWidth="74.0" text="Shutdown" />
       <Button fx:id="btnConnect" layoutX="278.0" layoutY="258.0" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
+      <Label layoutX="128.0" layoutY="212.0" text="Port:" />
+      <TextField id="txtPort" fx:id="txtPort" layoutX="205.0" layoutY="208.0" onAction="#getPort" prefHeight="26.0" prefWidth="197.0" promptText="8000" />
    </children>
 </AnchorPane>
