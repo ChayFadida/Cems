@@ -97,7 +97,10 @@ public class QuestionListScreenController extends AbstractController implements 
 		primaryStage.show();
 	}
 	
-	
+	/**
+	 *this method initialize the table view
+	 *@param URL location, ResourceBundle resources
+	 * */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -116,6 +119,10 @@ public class QuestionListScreenController extends AbstractController implements 
 		initTableView(qArr);
 	}
 	
+	/**
+	 *this method initialize the table view
+	 *@param ArrayList of Question
+	 * */
 	private void initTableView(ArrayList<Question> arr) {
 		ObservableList<Question> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Question, Integer> pvfId = new PropertyValueFactory<>("id");
@@ -130,10 +137,14 @@ public class QuestionListScreenController extends AbstractController implements 
 		clmNumber.setCellValueFactory(pvfNumber);
 		tblQuestions.setItems(list);
 	}
-
+	
+	/**
+	 *this method load questions
+	 *@param ArrayList<HashMap<String, Object>> rs
+	 * */
 	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
 		if(rs == null) {
-			System.out.println("rs is nulllllll");
+			System.out.println("rs is null");
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);

@@ -53,11 +53,15 @@ public class ConnectClientScreenController {
 	 *@param event
 	 * */
 	public void getConnectBtn(ActionEvent event) throws Exception {
-		ConnectionServer.getInstance(getIP(), getPort());
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
-		lecturerMenuScreenController.start(primaryStage);	
+		try {
+			ConnectionServer.getInstance(getIP(), getPort());
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
+			lecturerMenuScreenController.start(primaryStage);
+		}catch (Exception e) {
+			System.out.println("Wrong input, try again");
+		}	
 	}
 	
 	/**
