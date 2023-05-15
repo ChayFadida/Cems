@@ -93,7 +93,7 @@ public class ClientHandler extends AbstractServer {
 
 	/**
 	 * execute command from the client side
-	 *@param msg message from the user to executer server comsand
+	 *@param msg message from the user to executer server command
 	 *@param client client object of who sent the request
 	 * */
 	@Override

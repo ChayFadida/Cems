@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.Question;
 
-public class UpdateQuestionScreenController {
+public class UpdateQuestionScreenController extends AbstractController {
 	private Question q;
     @FXML
     private Button btnUpdate;
@@ -61,8 +61,7 @@ public class UpdateQuestionScreenController {
 		arr2.add(qNumber);
 		arr2.add(qText);
 		msg.put("param",arr2);
-		AbstractController controller = new AbstractController();
-		controller.sendMsgToServer(msg);
+		sendMsgToServer(msg);
 		try {
 			int affectedRows = (Integer)(ConnectionServer.rs.get(0).get("affectedRows"));
 			if(affectedRows==0) {

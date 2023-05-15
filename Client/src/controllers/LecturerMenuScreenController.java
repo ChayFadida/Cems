@@ -28,7 +28,10 @@ public class LecturerMenuScreenController {
     @FXML
     private Label lblHelloLecturer;
 
-    
+    /**
+	 *this method launch the question list screen
+	 *@param event
+	 * */
 	public void getDisplayQuestionBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -36,6 +39,10 @@ public class LecturerMenuScreenController {
 		questionListScreenController.start(primaryStage);
 	}
     
+	/**
+	 *this method launch the login screen
+	 *@param event
+	 * */
 	public void getLogoutBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -43,6 +50,10 @@ public class LecturerMenuScreenController {
 		connectClientScreenController.start(primaryStage);
 	}
     
+	/**
+	 *this method launch the screen
+	 *@param Stage primaryStage
+	 * */
 	public void start(Stage primaryStage) throws Exception {	
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/LecturerMenuScreen.fxml"));		
 		Scene scene = new Scene(root);

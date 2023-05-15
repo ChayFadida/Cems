@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.Question;
 
-public class QuestionListScreenController implements Initializable{
+public class QuestionListScreenController extends AbstractController implements Initializable{
 	private ArrayList<Question> qArr = new ArrayList<Question>();
 	public Question q;
 	@FXML
@@ -55,14 +55,21 @@ public class QuestionListScreenController implements Initializable{
     @FXML
     private Label lblQuestionList;
     
-    //ObservableList<Question> list;
-    
+    /**
+	 *this method launch the previous screen
+	 *@param event
+	 * */
 	public void getBackBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();	
 		lecturerMenuScreenController.start(primaryStage);
 	}
+	
+	/**
+	 *this method implements the continue button and continue to the next stage with the selected question
+	 *@param event
+	 * */
 	public void getContinueBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -77,16 +84,20 @@ public class QuestionListScreenController implements Initializable{
 		primaryStage.show();
 	}
     
+	/**
+	 *this method launch the screen
+	 *@param Stage primaryStage
+	 * */
 	public void start(Stage primaryStage) throws Exception {	
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/QuestionListScreen.fxml"));
 				
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/AcademicFrame.css").toExternalForm());
 		primaryStage.setTitle("Question List");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -96,8 +107,7 @@ public class QuestionListScreenController implements Initializable{
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getAllQuestions");
 		msg.put("task",arr1);
-		AbstractController controller = new AbstractController();
-		controller.sendMsgToServer(msg);
+		sendMsgToServer(msg);
 		try {
 			this.loadQuestions(ConnectionServer.rs);
 		} catch (Exception e) {

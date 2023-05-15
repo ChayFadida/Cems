@@ -124,7 +124,7 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb();
-		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();;
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();
 		
 	}
 	
