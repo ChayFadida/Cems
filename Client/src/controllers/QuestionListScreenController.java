@@ -23,6 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.Question;
 
@@ -65,8 +66,15 @@ public class QuestionListScreenController implements Initializable{
 	public void getContinueBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		UpdateQuestionScreenController updateQuestionScreenController = new UpdateQuestionScreenController();	
-		updateQuestionScreenController.start(primaryStage);
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/gui/UpdateQuestionScreen.fxml").openStream());
+		UpdateQuestionScreenController updateQuestionScreenController = loader.getController();
+		q= tblQuestions.getSelectionModel().getSelectedItem();
+		updateQuestionScreenController.loadQuestion(q);
+		Scene scene = new Scene(root);	
+		primaryStage.setTitle("Update Question");
+		primaryStage.setScene(scene);		
+		primaryStage.show();
 	}
     
 	public void start(Stage primaryStage) throws Exception {	
@@ -81,7 +89,7 @@ public class QuestionListScreenController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		HashMap<String,ArrayList<String>> msg = new HashMap();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Lecturer");
 		msg.put("client", arr);
@@ -119,7 +127,7 @@ public class QuestionListScreenController implements Initializable{
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    qArr.add(new Question((int)element.get("id"), (String)element.get("course"), (String)element.get("lecturer"), (String)element.get("question"), i + 1));
+		    qArr.add(new Question((int)element.get("id"), (String)element.get("course"), (String)element.get("lecturer"), (String)element.get("question"), (Integer)element.get("question_number")));
 		}
 	}
 

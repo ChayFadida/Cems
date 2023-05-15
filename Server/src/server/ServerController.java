@@ -2,6 +2,7 @@ package server;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -93,12 +94,21 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info1 = new HashMap<>() {{
 			put("ip", "localhost");
-			put("password", "FF8515150f");
+			put("password", "EyalMySql");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");
 		}};
 		startServer(db_info1);
+    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
+		try {
+			connectedScreenController.start(primaryStage);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -122,7 +132,7 @@ public class ServerController  {
 	 *@param db_info this is a hashmap of database info that the
 	 *user is desire to implement
 	 * */
-	void startServer(HashMap db_info) {
+	void startServer(HashMap<String, String> db_info) {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb();

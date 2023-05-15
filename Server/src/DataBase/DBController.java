@@ -104,7 +104,7 @@ public class DBController {
 		conn = null;
 	}
 	
-	public ArrayList executeQueries(StringBuilder sqlQueries) throws SQLException {
+	public ArrayList<HashMap<String, Object>> executeQueries(String sqlQueries) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
 	    ArrayList<HashMap<String, Object>> resultList = new ArrayList<>();
@@ -114,7 +114,7 @@ public class DBController {
 			System.out.println("could not create a statement");
 		}
 		try {
-			rs = stmt.executeQuery(sqlQueries.toString());
+			rs = stmt.executeQuery(sqlQueries);
 	        ResultSetMetaData metaData = rs.getMetaData();
 	        int columnCount = metaData.getColumnCount();
 	        while (rs.next()) {
@@ -127,6 +127,22 @@ public class DBController {
 			System.out.println("could not execute sql command");
 		}
 		return resultList;
+	}
+	
+	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQueries) throws SQLException {
+		Statement stmt = null;
+	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			int affectedRows = stmt.executeUpdate(sqlQueries);
+			HashMap<String, Object> hm = new HashMap<>();
+			hm.put("affectedRows",affectedRows);
+			result.add(hm);
+			
+		} catch(Exception ex) {
+			System.out.println("could not execute sql command");
+		}
+		return result;
 	}
 }
 

@@ -68,10 +68,10 @@ public class ClientHandler extends AbstractServer {
 		if(! (msg instanceof HashMap)) {
 			System.out.println("client send object that is not hashmap");;
 		}
-		HashMap<String, ArrayList<String>> hm = (HashMap)msg;
+		HashMap<String, ArrayList<String>> hm = (HashMap<String, ArrayList<String>>)msg;
 		String str = getUserType(hm);
 	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getInstance().getTaskHadler().get(str);
-	    ArrayList rs = handlerMap.executeUserCommand(msg);
+	    ArrayList<HashMap<String, Object>> rs = handlerMap.executeUserCommand(msg);
 	    try {
 			client.sendToClient(rs);
 		} catch (IOException e) {
@@ -84,7 +84,6 @@ public class ClientHandler extends AbstractServer {
 	 *@param client client object of who sent the request
 	 * */
 	private String getUserType(HashMap<String, ArrayList<String>> msg) {
-		System.out.println("the user is " + msg.get("client").get(0));
 		return msg.get("client").get(0);
 	}
 }
