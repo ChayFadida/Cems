@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import DataBase.DBController;
 import javafx.event.ActionEvent;
 
 
@@ -19,6 +20,11 @@ public class ConnectedScreenController {
     @FXML
     private Label lblServerConnected;
 
+	/**
+	 * this method stop listening to the port 
+	 * and then disconnect from the database
+	 * @return instance of the dbcontroller
+	 * */
     @FXML
     void getDisconnectBtn(ActionEvent event) {
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -31,7 +37,7 @@ public class ConnectedScreenController {
 			e.printStackTrace();
 		}
 		ClientHandler.getInstance().stopListening();
-
+		DBController.getInstance().disconnect();
     }
     
 	public void start(Stage primaryStage) throws Exception {
