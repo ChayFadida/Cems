@@ -24,21 +24,24 @@ public class DBController {
 	private String driver_cmd = "com.mysql.cj.jdbc.Driver";
 	private static boolean driverIsSet;
 	private static DBController instance;
-	private static String answerTable = "answers";
 	private static String questionsTable = "questions";
 	
+	
+	/**
+	 *@return return the question table
+	 * */
 	public String getquestionsTable() {
 		return questionsTable;
 	}
 	
-	public String answerTable() {
-		return answerTable;
-	}
-	
+	/**
+	 * empty constructor controller
+	 * */
 	private DBController() {}
 	
 	/**
 	 * implement singleton design pattert 
+	 * @return instance of the dbcontroller
 	 * */
 	public static synchronized DBController getInstance() {
 		if (instance == null) {
@@ -49,6 +52,7 @@ public class DBController {
 	
 	/**
 	 * Sets mysql driver
+	 * @return return true if driver is set else if any exception happened
 	 * */
 	public boolean setDbDriver() {
 	    if (driverIsSet) {
@@ -104,6 +108,11 @@ public class DBController {
 		conn = null;
 	}
 	
+	
+	/**this method execute queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
 	public ArrayList<HashMap<String, Object>> executeQueries(String sqlQueries) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -129,6 +138,10 @@ public class DBController {
 		return resultList;
 	}
 	
+	/**this method execute update queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
 	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQueries) throws SQLException {
 		Statement stmt = null;
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
@@ -138,7 +151,7 @@ public class DBController {
 			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("affectedRows",affectedRows);
 			result.add(hm);
-			
+		
 		} catch(Exception ex) {
 			System.out.println("could not execute sql command");
 		}

@@ -31,26 +31,52 @@ public class ConnectClientScreenController {
     @FXML
     private TextField txtPort;
     @FXML
+    
+    /**
+	 *port getter
+	 *@return int the number of the port
+	 * */
     private int getPort() {
 		return Integer.parseInt(txtPort.getText());
     }
 
+    /**
+	 *IP getter
+	 *@return String of the IP
+	 * */
     private String getIP() {
 		return txtServerIP.getText();
 	}
+    
+    /**
+	 *this method implements the connection button and connect to the server
+	 *@param event
+	 * */
 	public void getConnectBtn(ActionEvent event) throws Exception {
-		ConnectionServer.getInstance(getIP(), getPort());
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
-		lecturerMenuScreenController.start(primaryStage);	
+		try {
+			ConnectionServer.getInstance(getIP(), getPort());
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
+			lecturerMenuScreenController.start(primaryStage);
+		}catch (Exception e) {
+			System.out.println("Wrong input, try again");
+		}	
 	}
 	
+	/**
+	 *this method implements the exit button and terminate the process
+	 *@param event
+	 * */
 	public void getShutdownBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
 		System.exit(0);
 	}
 	
+	/**
+	 *this method launch the screen
+	 *@param Stage primaryStage
+	 * */
 	public void start(Stage primaryStage) throws Exception {
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConnectClientScreen.fxml"));

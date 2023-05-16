@@ -42,18 +42,33 @@ public class ClientHandler extends AbstractServer {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
 	}
+	
+	/**
+	 *singletone design pattern
+	 *@return instance the instance of the class
+	 * */
 	public static ClientHandler getInstance() {
 		if (instance == null) {
 			instance = new ClientHandler();
 		}
 		return instance;
 	}
+	
+	/**
+	 *singletone design pattern
+	 *@param port the port to listen for
+	 *@return instance the instance of the class
+	 * */
 	public static ClientHandler getInstance(int port) {
 		if (instance == null) {
 			instance = new ClientHandler(port);
 		}
 		return instance;
 	}
+	
+	/**
+	 *stop listening for port
+	 * */
 	public void stopserver() {
 		try {
 			close();
@@ -61,6 +76,7 @@ public class ClientHandler extends AbstractServer {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 *print to which port server is listening for
 	 * */
@@ -77,7 +93,7 @@ public class ClientHandler extends AbstractServer {
 
 	/**
 	 * execute command from the client side
-	 *@param msg message from the user to executer server comsand
+	 *@param msg message from the user to executer server command
 	 *@param client client object of who sent the request
 	 * */
 	@Override
@@ -87,8 +103,8 @@ public class ClientHandler extends AbstractServer {
 			System.out.println("client send object that is not hashmap");;
 		}
 		HashMap<String, ArrayList<String>> hm = (HashMap<String, ArrayList<String>>)msg;
-		String str = getUserType(hm);
-	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getInstance().getTaskHadler().get(str);
+		String clientType = getUserType(hm);
+	    TaskHandler handlerMap = (TaskHandler) TaskHandlerFactory.getInstance().getTaskHandler().get(clientType);
 	    ArrayList<HashMap<String, Object>> rs = handlerMap.executeUserCommand(msg);
 	    try {
 			client.sendToClient(rs);

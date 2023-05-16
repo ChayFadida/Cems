@@ -18,13 +18,18 @@ public class ConnectionServer extends AbstractClient{
 	private static ConnectionServer instance;
 	public static ArrayList<HashMap<String,Object>> rs;
 	public static boolean awaitResponse = false;
-    public ConnectionServer(String host, int port) 
+    
+	public ConnectionServer(String host, int port) 
       throws IOException {
     super(host, port); //Call the superclass constructor
     openConnection();
     }
 
-  
+
+    /**
+	 *this method handle with command from the server
+	 *@param msg from the server
+	 * */
     public void handleMessageFromServer(Object msg) {
     	if (!( msg instanceof ArrayList)) {
     		System.out.println("not valid return from server");
@@ -33,7 +38,11 @@ public class ConnectionServer extends AbstractClient{
     	awaitResponse = false;
     	rs = (ArrayList<HashMap<String,Object>>) msg;
     }
-
+    
+    /**
+	 *this method handle with command from the clientUI, wait for response of the server
+	 *@param Object message
+	 * */
     public void handleMessageFromClientUI(Object message){
 	  
     	try
@@ -58,7 +67,9 @@ public class ConnectionServer extends AbstractClient{
         }
     }
   
-  
+    /**
+	 *this method close the connection and terminate the process
+	 * */
     public void quit(){
 	  
         try{
@@ -68,11 +79,28 @@ public class ConnectionServer extends AbstractClient{
            }
     }
  
-    
+    /**
+	 *this method connects to the server
+	 *@param String host, int port
+	 *@return instance of the connection
+	 * */
 	public static ConnectionServer getInstance(String host, int port) throws IOException {
 		if (instance == null)
 			instance = new ConnectionServer(host, port);
 		return instance;
 	}
+	
+	/**
+	 *this method connects to the server
+	 *@return instance of the connection
+	 * */
+	public static ConnectionServer getInstance() throws IOException {
+		if (instance == null) {
+			System.out.println("you must fill the fields in the first connection");
+			return null;
+		}
+		return instance;
+	}
+	
 
 }

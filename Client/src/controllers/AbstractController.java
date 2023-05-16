@@ -2,15 +2,16 @@ package controllers;
 
 import client.ConnectionServer;
 
-public class AbstractController {
-	public static String myUser = "Teacher";  //need to implement teacher class
-	
+public class AbstractController {	
 	ConnectionServer connectionServer;
 	
+	/**
+	 *this method sends message tot he server
+	 *@param Object msg
+	 * */
 	public void sendMsgToServer(Object msg) {
 		try {
-			ConnectionServer.getInstance("localhost", 8000).handleMessageFromClientUI(msg);
-			//connectionServer.handleMessageFromClientUI(msg);
+			ConnectionServer.getInstance().handleMessageFromClientUI(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

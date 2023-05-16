@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.Question;
 
-public class QuestionListScreenController implements Initializable{
+public class QuestionListScreenController extends AbstractController implements Initializable{
 	private ArrayList<Question> qArr = new ArrayList<Question>();
 	public Question q;
 	@FXML
@@ -55,14 +55,21 @@ public class QuestionListScreenController implements Initializable{
     @FXML
     private Label lblQuestionList;
     
-    //ObservableList<Question> list;
-    
+    /**
+	 *this method launch the previous screen
+	 *@param event
+	 * */
 	public void getBackBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();	
 		lecturerMenuScreenController.start(primaryStage);
 	}
+	
+	/**
+	 *this method implements the continue button and continue to the next stage with the selected question
+	 *@param event
+	 * */
 	public void getContinueBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -77,16 +84,23 @@ public class QuestionListScreenController implements Initializable{
 		primaryStage.show();
 	}
     
+	/**
+	 *this method launch the screen
+	 *@param Stage primaryStage
+	 * */
 	public void start(Stage primaryStage) throws Exception {	
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/QuestionListScreen.fxml"));
 				
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/AcademicFrame.css").toExternalForm());
 		primaryStage.setTitle("Question List");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+	
+	/**
+	 *this method initialize the table view
+	 *@param URL location, ResourceBundle resources
+	 * */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -96,8 +110,7 @@ public class QuestionListScreenController implements Initializable{
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getAllQuestions");
 		msg.put("task",arr1);
-		AbstractController controller = new AbstractController();
-		controller.sendMsgToServer(msg);
+		sendMsgToServer(msg);
 		try {
 			this.loadQuestions(ConnectionServer.rs);
 		} catch (Exception e) {
@@ -106,6 +119,10 @@ public class QuestionListScreenController implements Initializable{
 		initTableView(qArr);
 	}
 	
+	/**
+	 *this method initialize the table view
+	 *@param ArrayList of Question
+	 * */
 	private void initTableView(ArrayList<Question> arr) {
 		ObservableList<Question> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Question, Integer> pvfId = new PropertyValueFactory<>("id");
@@ -120,10 +137,14 @@ public class QuestionListScreenController implements Initializable{
 		clmNumber.setCellValueFactory(pvfNumber);
 		tblQuestions.setItems(list);
 	}
-
+	
+	/**
+	 *this method load questions
+	 *@param ArrayList<HashMap<String, Object>> rs
+	 * */
 	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
 		if(rs == null) {
-			System.out.println("rs is nulllllll");
+			System.out.println("rs is null");
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);

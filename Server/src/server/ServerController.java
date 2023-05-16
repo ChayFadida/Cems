@@ -124,10 +124,14 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb();
-		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();;
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();
 		
 	}
 	
+	/**
+	 * this method upload the first screen to connect to the server 
+	 *@param primaryStage 
+	 * */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectionInfoScreen.fxml"));
 		Scene scene = new Scene(root);

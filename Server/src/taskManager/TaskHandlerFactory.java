@@ -12,17 +12,30 @@ public class TaskHandlerFactory {
 	public static HashMap<String,TaskHandler> taskHandler = new HashMap<>();
 	private static TaskHandlerFactory instance;
 	
+	
+	/**
+	 *constructor for the factory
+	 *implement all the users kind and the instances
+	 * */
 	public TaskHandlerFactory(){
 		taskHandler.put("HOD", ManagerHandler);
 		taskHandler.put("Lecturer", LecturerHandler);
 		taskHandler.put("Student", StudentHandler);
 	}
 	
-	public static HashMap<String,TaskHandler> getTaskHadler() {
+	/**
+	 *return the task handler dict
+	 *@return taskHandler 
+	 * */
+	public static HashMap<String,TaskHandler> getTaskHandler() {
 		return taskHandler;
 	}
 	
 	
+	/**
+	 *singletone design pattern
+	 *@return instance 
+	 * */
 	public static synchronized TaskHandlerFactory getInstance() {
 		if (instance == null) {
 			instance = new TaskHandlerFactory();

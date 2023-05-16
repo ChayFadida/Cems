@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import logic.Question;
 
-public class UpdateQuestionScreenController {
+public class UpdateQuestionScreenController extends AbstractController {
 	private Question q;
     @FXML
     private Button btnUpdate;
@@ -39,14 +39,26 @@ public class UpdateQuestionScreenController {
     @FXML
     private TextField txtQuestionText;
     
+    /**
+	 *question no getter
+	 *@return string of the question number
+	 * */
     private String getQuestionNo() {
 		return txtQuestionNo.getText();
 	}
+    
+    /**
+	 *question text getter
+	 *@return String of the question's content
+	 * */
     private String getQuestionText() {
 		return txtQuestionText.getText();
 	}
     
-    //to be implemented with a server up . 
+    /**
+	 *this method implements the update button
+	 *@param event
+	 * */ 
     public void getUpdateBtn(ActionEvent event) throws Exception {
     	String qNumber = getQuestionNo(),qText=getQuestionText();
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -61,8 +73,7 @@ public class UpdateQuestionScreenController {
 		arr2.add(qNumber);
 		arr2.add(qText);
 		msg.put("param",arr2);
-		AbstractController controller = new AbstractController();
-		controller.sendMsgToServer(msg);
+		sendMsgToServer(msg);
 		try {
 			int affectedRows = (Integer)(ConnectionServer.rs.get(0).get("affectedRows"));
 			if(affectedRows==0) {
@@ -75,6 +86,10 @@ public class UpdateQuestionScreenController {
 		}
 	}
     
+    /**
+	 *this method implements the back button
+	 *@param event
+	 * */
     public void getBackBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
@@ -82,14 +97,10 @@ public class UpdateQuestionScreenController {
 		questionListScreenController.start(primaryStage);
 	}
     
-//	public void start(Stage primaryStage) throws Exception {	
-//		Parent root = FXMLLoader.load(getClass().getResource("/gui/UpdateQuestionScreen.fxml"));
-//		Scene scene = new Scene(root);
-//		//scene.getStylesheets().add(getClass().getResource("/gui/AcademicFrame.css").toExternalForm());
-//		primaryStage.setTitle("Question Update");
-//		primaryStage.setScene(scene);
-//		primaryStage.show();	 	   
-//	}
+    /**
+	 *this method load questions
+	 *@param Question q1
+	 * */
 	public void loadQuestion(Question q1) {
 		this.q=q1;
 		this.txtQuestionNo.setText(q.getNumber()+"");

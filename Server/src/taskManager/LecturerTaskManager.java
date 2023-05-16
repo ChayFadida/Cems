@@ -8,6 +8,12 @@ import DataBase.SqlQueries;
 
 public class LecturerTaskManager implements TaskHandler {
 	public LecturerTaskManager() {}
+
+	/**
+	 *this method handle with command from the user
+	 *@param msg from the client
+	 *@return ArrayList of the command that this class catch
+	 * */
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
@@ -16,9 +22,9 @@ public class LecturerTaskManager implements TaskHandler {
 		try {
 			switch (task) {
 				case "getAllQuestions":
-		    		return getAllQuestions(hm.get("task"));
+		    		return getAllQuestions();
 				case "updateQuestionById":
-					return updateQuestionById(hm.get("task"),hm.get("param"));
+					return updateQuestionById(hm.get("param"));
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
@@ -26,13 +32,23 @@ public class LecturerTaskManager implements TaskHandler {
 		} catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
+
 	
-	public ArrayList<HashMap<String, Object>> getAllQuestions(ArrayList<String> msg) throws SQLException {
+	/**
+	 *execute get all questions query
+	 *@return ArrayList of the result of the query
+	 * */
+	public ArrayList<HashMap<String, Object>> getAllQuestions() throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllTable(dbController.getquestionsTable()));
 		return rs;
 	}
-	public ArrayList<HashMap<String, Object>> updateQuestionById(ArrayList<String> task,ArrayList<String> param) throws SQLException {
+	
+	/**
+	 *execute update query by id
+	 *@return ArrayList of the result of the query
+	 * */
+	public ArrayList<HashMap<String, Object>> updateQuestionById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestionById(param));
 		return rs;
