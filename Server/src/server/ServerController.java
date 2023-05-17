@@ -18,7 +18,6 @@ import DataBase.DBController;
 public class ServerController  {
 	DBController dbController = DBController.getInstance();
 
-
     @FXML
     private Button btnConnect;
 
