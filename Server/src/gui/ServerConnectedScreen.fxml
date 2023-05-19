@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.ConnectedScreenController">
+   <children>
+      <ImageView fitHeight="248.0" fitWidth="519.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/CEMS_GUI_BackGround.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="46.0" prefWidth="187.0" text="Server Is Connected">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+      </Label>
+      <Button id="btnDisconnect" fx:id="btnDisconnect" layoutX="358.0" layoutY="200.0" mnemonicParsing="false" onAction="#getDisconnectBtn" text="Disconnect" />
+      <TableView id="tblClientConnections" fx:id="tblClientConnections" layoutX="26.0" layoutY="72.0" prefHeight="141.0" prefWidth="303.0">
+        <columns>
+          <TableColumn id="clmIp" fx:id="clmIp" prefWidth="75.0" text="ip" />
+          <TableColumn id="clmHost" fx:id="clmHost" prefWidth="75.0" text="host" />
+            <TableColumn id="clmStatus" fx:id="clmStatus" prefWidth="151.99996948242188" text="connection status" />
+        </columns>
+      </TableView>
+      <Button id="btnRefresh" fx:id="btnRefresh" layoutX="358.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#getRefreshBtn" text="Refresh" />
+   </children>
+</AnchorPane>
