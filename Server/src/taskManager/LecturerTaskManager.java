@@ -23,8 +23,8 @@ public class LecturerTaskManager implements TaskHandler {
 			switch (task) {
 				case "getAllQuestions":
 		    		return getAllQuestions();
-				case "updateQuestionById":
-					return updateQuestionById(hm.get("param"));
+//				case "updateQuestionById":
+//					return updateQuestionById(hm.get("param"));
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
