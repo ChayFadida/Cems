@@ -23,11 +23,17 @@ public class SqlQueries {
 	 *								"id"]
 	 *@return query updateQuestionById string of the desired query
 	 * */
-	public static String updateQuestionById(ArrayList<String> param) {
-		String query= "UPDATE questions SET question_number = '"
-				+ param.get(1)+"', question = '"+ param.get(2)+"' WHERE id ="+param.get(0);
-		return query;
-	}
+//	public static String updateQuestionById(ArrayList<String> param) {
+//	    HashMap<String, Object> res = new HashMap<>();
+//	    String sql = "UPDATE questions + SET pdfBytes = ? WHERE examId = ? AND studentId = ?";
+//
+//		
+//		String query= "UPDATE questions SET question_number = '"
+//				+ param.get(1)+"', question = '"+ param.get(2)+"' WHERE id ="+param.get(0);
+//		return query;
+//	}
+	
+	//should re write the update question by id
 	
 	public static HashMap<String, Object> uploadFile(DataInputStream data, String table, int examId, int studentId) {
 	    HashMap<String, Object> res = new HashMap<>();

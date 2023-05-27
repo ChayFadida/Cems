@@ -139,30 +139,6 @@ public class DBController {
 		return resultList;
 	}
 	
-	public ArrayList<HashMap<String, Object>> executeUpdate(String sqlQueries) throws SQLException {
-		Statement stmt = null;
-		ResultSet rs = null;
-	    ArrayList<HashMap<String, Object>> resultList = new ArrayList<>();
-		try {
-			stmt = conn.createStatement();
-		} catch(Exception ex) {
-			System.out.println("could not create a statement");
-		}
-		try {
-			rs = stmt.executeQuery(sqlQueries);
-	        ResultSetMetaData metaData = rs.getMetaData();
-	        int columnCount = metaData.getColumnCount();
-	        while (rs.next()) {
-	            HashMap<String, Object> row = new HashMap<>();
-	            for (int i = 1; i <= columnCount; i++)
-	                row.put(metaData.getColumnName(i), rs.getObject(i));
-	            resultList.add(row);
-	        }
-		} catch(Exception ex) {
-			System.out.println("could not execute sql command");
-		}
-		return resultList;
-	}
 	
 	/**this method execute update queries from our db
 	 *@param  sqlQueries  the sql query the server need to execute
@@ -191,5 +167,29 @@ public class DBController {
 		}
 		return result;
 	}
+	
+	/**this method execute update queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
+	
+	//this is the original method
+	//updated method get params and can handle with (?) statements.
+	
+//	public ArrayList<HashMap<String, Object>> updateQueriesFirst(String sqlQueries) throws SQLException {
+//		Statement stmt = null;
+//	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+//		try {
+//			stmt = conn.createStatement();
+//			int affectedRows = stmt.executeUpdate(sqlQueries);
+//			HashMap<String, Object> hm = new HashMap<>();
+//			hm.put("affectedRows",affectedRows);
+//			result.add(hm);
+//		
+//		} catch(Exception ex) {
+//			System.out.println("could not execute sql command");
+//		}
+//		return result;
+//	}
 }
 
