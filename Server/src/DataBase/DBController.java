@@ -1,6 +1,7 @@
 package DataBase;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -138,16 +139,49 @@ public class DBController {
 		return resultList;
 	}
 	
+	public ArrayList<HashMap<String, Object>> executeUpdate(String sqlQueries) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+	    ArrayList<HashMap<String, Object>> resultList = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+		} catch(Exception ex) {
+			System.out.println("could not create a statement");
+		}
+		try {
+			rs = stmt.executeQuery(sqlQueries);
+	        ResultSetMetaData metaData = rs.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+	        while (rs.next()) {
+	            HashMap<String, Object> row = new HashMap<>();
+	            for (int i = 1; i <= columnCount; i++)
+	                row.put(metaData.getColumnName(i), rs.getObject(i));
+	            resultList.add(row);
+	        }
+		} catch(Exception ex) {
+			System.out.println("could not execute sql command");
+		}
+		return resultList;
+	}
+	
 	/**this method execute update queries from our db
 	 *@param  sqlQueries  the sql query the server need to execute
 	 *@return return array list of the query result
 	 * */
-	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQueries) throws SQLException {
+	public ArrayList<HashMap<String, Object>> updateQueries(HashMap<String, Object> updateQuery) throws SQLException {
 		Statement stmt = null;
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+	    String sql = (String) updateQuery.get("sql");
+	    ArrayList params = (ArrayList) updateQuery.get("params");
+	    
 		try {
-			stmt = conn.createStatement();
-			int affectedRows = stmt.executeUpdate(sqlQueries);
+	        stmt = conn.prepareStatement(sql);
+		
+	        // Set parameter values
+	        for (int i = 0; i < params.size(); i++) {
+	            ((PreparedStatement) stmt).setObject(i + 1, params.get(i));
+	        }
+			int affectedRows = stmt.executeUpdate(sql);
 			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("affectedRows",affectedRows);
 			result.add(hm);

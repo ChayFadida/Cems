@@ -50,7 +50,7 @@ public class LecturerTaskManager implements TaskHandler {
 	 * */
 	public ArrayList<HashMap<String, Object>> updateQuestionById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestionById(param));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeUpdate(SqlQueries.updateQuestionById(param));
 		return rs;
 	}
 }
