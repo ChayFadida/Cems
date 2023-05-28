@@ -1,6 +1,7 @@
 package DataBase;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -138,16 +139,25 @@ public class DBController {
 		return resultList;
 	}
 	
+	
 	/**this method execute update queries from our db
 	 *@param  sqlQueries  the sql query the server need to execute
 	 *@return return array list of the query result
 	 * */
-	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQueries) throws SQLException {
+	public ArrayList<HashMap<String, Object>> updateQueries(HashMap<String, Object> updateQuery) throws SQLException {
 		Statement stmt = null;
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+	    String sql = (String) updateQuery.get("sql");
+	    ArrayList params = (ArrayList) updateQuery.get("params");
+	    
 		try {
-			stmt = conn.createStatement();
-			int affectedRows = stmt.executeUpdate(sqlQueries);
+	        stmt = conn.prepareStatement(sql);
+		
+	        // Set parameter values
+	        for (int i = 0; i < params.size(); i++) {
+	            ((PreparedStatement) stmt).setObject(i + 1, params.get(i));
+	        }
+			int affectedRows = stmt.executeUpdate(sql);
 			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("affectedRows",affectedRows);
 			result.add(hm);
@@ -157,5 +167,29 @@ public class DBController {
 		}
 		return result;
 	}
+	
+	/**this method execute update queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
+	
+	//this is the original method
+	//updated method get params and can handle with (?) statements.
+	
+//	public ArrayList<HashMap<String, Object>> updateQueriesFirst(String sqlQueries) throws SQLException {
+//		Statement stmt = null;
+//	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+//		try {
+//			stmt = conn.createStatement();
+//			int affectedRows = stmt.executeUpdate(sqlQueries);
+//			HashMap<String, Object> hm = new HashMap<>();
+//			hm.put("affectedRows",affectedRows);
+//			result.add(hm);
+//		
+//		} catch(Exception ex) {
+//			System.out.println("could not execute sql command");
+//		}
+//		return result;
+//	}
 }
 
