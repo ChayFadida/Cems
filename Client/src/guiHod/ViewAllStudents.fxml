@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="768.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView layoutX="58.0" layoutY="106.0" prefHeight="302.0" prefWidth="677.0">
+         <columns>
+            <TableColumn prefWidth="71.0" text="ID" />
+            <TableColumn prefWidth="166.0" text="FirstName" />
+            <TableColumn prefWidth="178.0" text="LastName" />
+            <TableColumn prefWidth="261.0" text="Email" />
+         </columns>
+      </TableView>
+      <Text layoutX="62.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Students in the system:" wrappingWidth="334.13671875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

@@ -1,8 +1,8 @@
-/DataBase/
-/Images/
 /gui/
+/Images/
+/server/
+/DataBase/
 /logic/
 /mysql-connector-java-8.0.13.jar
-/server/
 /taskManager/
 /utils/

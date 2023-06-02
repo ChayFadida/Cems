@@ -1,0 +1,46 @@
+.root {
+    -fx-background-color: #e8e1e9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+#lblConnectServer{
+    -fx-text-fill: #490a50;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+#lblPort, #lblServerIP {
+    -fx-fill: #490a50;
+    -fx-font-size: 14px;
+    text-align: center;
+    
+}
+
+#txtPort, #txtServerIP{
+    -fx-background-color: #ffffff;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #e8e1e9;
+    text-align: center;
+}
+
+#btnConnect, #btnShutDown {
+    -fx-background-color: #490a50; /* Purple background color */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Motion effect */
+}
+
+#btnConnect:hover, #btnShutDown:hover {
+    -fx-background-color: #766078; /* Darker color on hover */
+    -fx-cursor: hand; /* Change cursor on hover */
+}
+
+#btnConnect:pressed, #btnShutDown:pressed {
+    -fx-background-color: #766078; /* Darker color on press */
+    -fx-effect: none; /* Remove motion effect on press */
+}
+
+#btnConnect:disabled, #btnShutDown:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: not-allowed; /* Change cursor when disabled */
+}

@@ -1,7 +1,15 @@
 /Images/
 /client/
-/common/
 /controllers/
+/controllersClient/
+/controllersHod/
+/controllersLecturer/
+/controllersStudent/
+/guiHod/
+/guiLecturer/
+/guiStudent/
+/guiClient/
 /gui/
 /logic/
 /timer/
+

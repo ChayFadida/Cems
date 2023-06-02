@@ -1,4 +1,4 @@
-package controllers;
+package controllersClient;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import client.ConnectionServer;
+import controllers.LecturerMenuScreenController;
+
 public class ConnectClientScreenController {
 
     @FXML
