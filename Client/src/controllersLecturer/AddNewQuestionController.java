@@ -1,5 +1,6 @@
 package controllersLecturer;
 
+import abstractControllers.AbstractController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class AddNewQuestionController {
+public class AddNewQuestionController extends AbstractController{
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	
