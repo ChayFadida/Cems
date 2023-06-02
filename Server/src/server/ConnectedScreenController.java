@@ -10,8 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.Client;
 import logic.ClientConnection;
 import ocsf.server.ConnectionToClient;
@@ -23,10 +25,13 @@ import DataBase.DBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 
 public class ConnectedScreenController {
 	ClientHandler clientHandler= ClientHandler.getInstance();
+	private double xOffset = 0; 
+	private double yOffset = 0;
     @FXML
     private Button btnRefresh;
     @FXML
@@ -69,9 +74,26 @@ public class ConnectedScreenController {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectedScreen.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/gui/ServerConnectedScreenCSS.css").toExternalForm());
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
 		primaryStage.setTitle("Server Connected");
 		primaryStage.setScene(scene);
 		primaryStage.show();	
+		root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	primaryStage.setX(event.getScreenX() - xOffset);
+            	primaryStage.setY(event.getScreenY() - yOffset);
+            }
+        });
 	}    
 	
 	@FXML

@@ -1,7 +1,4 @@
 /Images/
-/client/
-/common/
-/controllers/
 /gui/
-/logic/
-/timer/
+/controllers/
+/client/

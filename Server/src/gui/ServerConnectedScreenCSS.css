@@ -1,0 +1,74 @@
+.root {
+    -fx-background-color: #e8e1e9;
+}
+.table-view {
+	-fx-background-color: transparent;
+}
+.table-view .column-header-background .filler {
+    -fx-background-color: #e8e1e9;
+}
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+.table-view .column-header-background{
+    -fx-background-color:  #766078;
+    -fx-text-background-color: #2e0033;
+    -fx-background-radius: 7px 7px 0px 0px;
+}
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+.table-row-cell:hover {
+    -fx-background-color: transparent;
+    -fx-text-background-color: #48314b;
+    font-weight: bold;
+    
+}
+.table-row-cell:pressed {
+    -fx-background-color: transparent;
+    -fx-text-background-color: #48314b;
+    -fx-font-weight: bold;
+}
+.table-row-cell:selected {
+   -fx-background-color: #dccfdd; 
+   -fx-text-background-color: #48314b;
+   -fx-font-weight: bold;
+}
+.table-row-cell{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+#lblConnected{
+    -fx-text-fill: #490a50;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+#btnRefresh, #btnDisconnect {
+    -fx-background-color: #490a50; /* Purple background color */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Motion effect */
+}
+
+#btnRefresh:hover, #btnDisconnect:hover {
+    -fx-background-color: #766078; /* Darker color on hover */
+    -fx-cursor: hand; /* Change cursor on hover */
+}
+
+#btnRefresh:pressed, #btnDisconnect:pressed {
+    -fx-background-color: #766078; /* Darker color on press */
+    -fx-effect: none; /* Remove motion effect on press */
+}
+
+#btnRefresh:disabled, #btnDisconnect:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: not-allowed; /* Change cursor when disabled */
+}
