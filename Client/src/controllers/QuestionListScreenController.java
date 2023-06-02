@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

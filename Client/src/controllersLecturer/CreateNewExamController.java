@@ -1,12 +1,13 @@
 package controllersLecturer;
 
+import abstractControllers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class CreateNewExamController {
+public class CreateNewExamController extends AbstractController{
 
     @FXML
     private ComboBox<?> CourseComboBox;

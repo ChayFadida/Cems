@@ -11,10 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllers.LecturerMenuScreenController;
 
-public class ConnectClientScreenController {
+public class ConnectClientScreenController extends AbstractController{
 
     @FXML
     private Button btnConnect;
