@@ -1,12 +1,15 @@
-/guiFolder/
+/Images/
 /client/
 /controllers/
 /controllersClient/
 /controllersHod/
 /controllersLecturer/
+/controllersStudent/
 /guiHod/
 /guiLecturer/
-/controllersStudent/
 /guiStudent/
 /guiClient/
 /gui/
+/logic/
+/timer/
+
