@@ -10,9 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
 public class ClientApplication extends Application {
-	private String folder = "gui";
-	private String fxml = "ConnectClientScreen.fxml";
 	private double xOffset = 0; 
 	private double yOffset = 0;
 
@@ -22,9 +21,9 @@ public class ClientApplication extends Application {
 	 *@param primaryStage
 	 * */
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/" + folder + "/" + fxml));
+		Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ConnectClientScreen.fxml"));
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/ConnectClientCSS.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/guiClient/ConnectClientCSS.css").toExternalForm());
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
 		primaryStage.setTitle("Client");
