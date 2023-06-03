@@ -89,5 +89,4 @@ public class ConnectClientScreenController extends AbstractController{
 		
 		primaryStage.show();	 	   
 	}
-	
 }

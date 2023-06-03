@@ -152,5 +152,4 @@ public class QuestionListScreenController extends AbstractController implements 
 		    qArr.add(new Question((int)element.get("id"), (String)element.get("course"), (String)element.get("lecturer"), (String)element.get("question"), (Integer)element.get("question_number")));
 		}
 	}
-
 }
