@@ -42,12 +42,5 @@ public class MyQuestionBankController extends AbstractController{
 		//need to implement start method in EditQuestionController and then -->
 		//editQuestionController.start(primaryStage);
     }
-    
-    
-
-
-
-
-
 }
 

@@ -24,3 +24,4 @@ public class AnalyzerExamController extends AbstractController{
     private ImageView backButton;
 
 }
+
