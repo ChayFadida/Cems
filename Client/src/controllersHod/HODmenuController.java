@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
-public class HODmenuController extends Application{
+public class HODmenuController extends Application  {
 	private double xOffset = 0; 
 	private double yOffset = 0;
     @FXML

@@ -1,10 +1,11 @@
 package controllersLecturer;
 
+import abstractControllers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-public class EditExamController {
+public class EditExamController extends AbstractController{
 
     @FXML
     private Button SaveApplyMyChangesButton;

@@ -1,11 +1,12 @@
 package controllersLecturer;
 
+import abstractControllers.AbstractController;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-public class AnalyzerExamController {
+public class AnalyzerExamController extends AbstractController{
 
     @FXML
     private BarChart<?, ?> BarChart;
