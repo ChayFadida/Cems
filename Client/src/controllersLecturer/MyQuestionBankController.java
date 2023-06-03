@@ -2,6 +2,7 @@ package controllersLecturer;
 
 import java.io.IOException;
 
+import abstractControllers.AbstractController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class MyQuestionBankController {
+public class MyQuestionBankController extends AbstractController{
 
 	private LecturerMenuController lecturerMenuController;
 	
