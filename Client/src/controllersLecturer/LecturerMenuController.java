@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
-public class LecturerMenuController extends Application{
+public class LecturerMenuController {
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	private MyQuestionBankController myQuestionBankController=null;
@@ -62,7 +62,6 @@ public class LecturerMenuController extends Application{
     
     /// in order to start without login dependency 
     // after Login, remove @override (start should stay), remove main
-    @Override
     public void start(Stage primaryStage) {
 	    try {
 	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
@@ -90,9 +89,9 @@ public class LecturerMenuController extends Application{
 	        e.printStackTrace();
 	    }
 	}
-    public static void main(String[] args) {
-		launch(args);
-	}
+//    public static void main(String[] args) {
+//		launch(args);
+//	}
     ///END ITAMAR COMMANDS
 
     @FXML

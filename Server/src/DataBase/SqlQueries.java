@@ -55,4 +55,9 @@ public class SqlQueries {
 		getFile.append(" WHERE examId = " + examId + " AND studentId = " + studentId);
 		return getFile.toString();
 	}
+
+	public static String getQuestionsById(String string) {
+		String quert = "SELECT Q.* FROM sys.questionbank AS B, sys.lecturer AS L, sys.questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBank = B.bankID;";
+		return quert;
+	}
 }

@@ -6,16 +6,14 @@ import java.util.HashMap;
  * Represents a question entity.
  */
 public class Question {
-    private int questionID;
+    private Integer questionID;
     private String details;
     private String rightAnswer;
-    private String questionBank;
-    private String questionNum;
-    private String qComposer;
+    private Integer questionBank;
     private String subject;
-    private String[] courses;
-    private String bank;
-    private HashMap<String,String> answers;
+    private String courses;
+    private String answers;
+    private HashMap<String,String> answersHM;
 
     /**
      * Constructs a Question object with the given parameters.
@@ -31,44 +29,43 @@ public class Question {
      * @param answers        the possible answers for the question
      * @param bank           the bank associated with the question
      */
-    public Question(int questionID, String details, String rightAnswer, String questionBank, String questionNum,
-                    String qComposer, String subject, String[] courses, HashMap<String, String> answers, String bank) {
-        this.questionID = questionID;
-        this.details = details;
-        this.rightAnswer = rightAnswer;
-        this.questionBank = questionBank;
-        this.questionNum = questionNum;
-        this.qComposer = qComposer;
-        this.subject = subject;
-        this.courses = courses;
-        this.answers = answers;
-        this.bank = bank;
-    }
 
-    /**
-     * Returns the bank associated with the question.
-     *
-     * @return the question bank
-     */
-    public String getBank() {
-        return bank;
-    }
+    public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
+			String courses, String answers) {
+		super();
+		this.questionID = questionID;
+		this.details = details;
+		this.rightAnswer = rightAnswer;
+		this.questionBank = questionBank;
+		this.subject = subject;
+		this.courses = courses;
+		this.answers = answers;
+		answersHM = new HashMap<>();
+		//input answers data into hashmap needs to be implemented!
+	}
 
-    /**
-     * Sets the bank associated with the question.
-     *
-     * @param bank the question bank to set
-     */
-    public void setBank(String bank) {
-        this.bank = bank;
-    }
 
-    /**
+    public HashMap<String, String> getAnswersHM() {
+		return answersHM;
+	}
+
+
+	public void setAnswersHM(HashMap<String, String> answersHM) {
+		this.answersHM = answersHM;
+	}
+
+
+	public void setAnswers(String answers) {
+		this.answers = answers;
+	}
+
+
+	/**
      * Returns the ID of the question.
      *
      * @return the question ID
      */
-    public int getQuestionID() {
+    public Integer getQuestionID() {
         return questionID;
     }
 
@@ -77,7 +74,7 @@ public class Question {
      *
      * @param questionID the question ID to set
      */
-    public void setQuestionID(int questionID) {
+    public void setQuestionID(Integer questionID) {
         this.questionID = questionID;
     }
 
@@ -122,7 +119,7 @@ public class Question {
      *
      * @return the question bank
      */
-    public String getQuestionBank() {
+    public Integer getQuestionBank() {
         return questionBank;
     }
 
@@ -131,44 +128,8 @@ public class Question {
      *
      * @param questionBank the question bank to set
      */
-    public void setQuestionBank(String questionBank) {
+    public void setQuestionBank(Integer questionBank) {
         this.questionBank = questionBank;
-    }
-
-    /**
-     * Returns the question number.
-     *
-     * @return the question number
-     */
-    public String getQuestionNum() {
-        return questionNum;
-    }
-
-    /**
-     * Sets the question number.
-     *
-     * @param questionNum the question number to set
-     */
-    public void setQuestionNum(String questionNum) {
-        this.questionNum = questionNum;
-    }
-
-    /**
-     * Returns the composer of the question.
-     *
-     * @return the question composer
-     */
-    public String getqComposer() {
-        return qComposer;
-    }
-
-    /**
-     * Sets the composer of the question.
-     *
-     * @param qComposer the question composer to set
-     */
-    public void setqComposer(String qComposer) {
-        this.qComposer = qComposer;
     }
 
     /**
@@ -194,7 +155,7 @@ public class Question {
      *
      * @return the question courses
      */
-    public String[] getCourses() {
+    public String getCourses() {
         return courses;
     }
 
@@ -203,7 +164,7 @@ public class Question {
      *
      * @param courses the question courses to set
      */
-    public void setCourses(String[] courses) {
+    public void setCourses(String courses) {
         this.courses = courses;
     }
 
@@ -213,17 +174,9 @@ public class Question {
      * @return the question answers
      */
     public HashMap<String, String> getAnswers() {
-        return answers;
+        return answersHM;
     }
 
-    /**
-     * Sets the possible answers for the question.
-     *
-     * @param answers the question answers to set
-     */
-    public void setAnswers(HashMap<String, String> answers) {
-        this.answers = answers;
-    }
 
     /**
      * Returns a string representation of the Question object.
@@ -233,7 +186,7 @@ public class Question {
     @Override
     public String toString() {
         return "Question [questionID=" + questionID + ", course=" + courses + ", subject=" + subject +
-                ", ecomposer=" + qComposer + ", questionNum=" + questionNum + ", bank=" + bank + "]";
+                  ", bank=" + questionBank + "]";
     }
 }
 

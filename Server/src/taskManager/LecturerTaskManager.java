@@ -21,8 +21,8 @@ public class LecturerTaskManager implements TaskHandler {
 		String task = (String) hm.get("task").get(0);
 		try {
 			switch (task) {
-				case "getAllQuestions":
-		    		return getAllQuestions();
+				case "getQustionBankById":
+		    		return getQuestionsById(hm.get("param"));
 //				case "updateQuestionById":
 //					return updateQuestionById(hm.get("param"));
 		    	default: 
@@ -41,6 +41,12 @@ public class LecturerTaskManager implements TaskHandler {
 	public ArrayList<HashMap<String, Object>> getAllQuestions() throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllTable(dbController.getquestionsTable()));
+		return rs;
+	}
+	
+	public ArrayList<HashMap<String, Object>> getQuestionsById(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsById(param.get(0)));
 		return rs;
 	}
 	

@@ -1,4 +1,5 @@
 package controllersHod;
+import abstractControllers.AbstractController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class HODviewStatisticsByStudentController {
+public class HODviewStatisticsByStudentController extends AbstractController {
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	
@@ -34,7 +35,7 @@ public class HODviewStatisticsByStudentController {
 
 	public void start(Stage primaryStage) {
 		try {
-	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml"));
+	        Parent root =  FXMLLoader.load(getClass().getResource("/guiHod/ViewStatisticsByStudent.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
