@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="731.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AnalyzerExamController">
    <children>
-      <Text layoutX="14.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Analyze:" wrappingWidth="192.0810546875">
+      <Text layoutX="11.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lecturer Analyze :" wrappingWidth="241.6810302734375">
          <font>
             <Font name="Arial Rounded MT Bold" size="26.0" />
          </font>
@@ -31,31 +31,31 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <BarChart fx:id="BarChart" layoutX="59.0" layoutY="303.0" prefHeight="488.0" prefWidth="613.0" style="-fx-background-color: #E1E4E9;">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
+      <BarChart fx:id="LecturerBarChart" layoutX="59.0" layoutY="303.0" prefHeight="488.0" prefWidth="613.0" style="-fx-background-color: #E1E4E9;">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
       </BarChart>
-      <Text layoutX="82.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Number:" wrappingWidth="192.0810546875">
+      <Text layoutX="82.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lecturer Number:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="82.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Avarege:" wrappingWidth="192.0810546875">
+      <Text layoutX="82.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lecturer Avarege:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text fx:id="ExamMedianTxt" layoutX="82.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Median:" wrappingWidth="192.0810546875">
+      <Text fx:id="LecturerMedianTxt" layoutX="82.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lecturer Median:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="ExamNumberTxt" alignment="CENTER" layoutX="257.0" layoutY="160.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="ExamAvaregeTxt" alignment="CENTER" layoutX="257.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="ExamMedianTxt" alignment="CENTER" layoutX="257.0" layoutY="240.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="LecturerNumberTxt" alignment="CENTER" layoutX="257.0" layoutY="160.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Lecturer Number" />
+      <TextField fx:id="LecturerAvaregeTxt" alignment="CENTER" layoutX="257.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="LecturerMedianTxt" alignment="CENTER" layoutX="257.0" layoutY="240.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
