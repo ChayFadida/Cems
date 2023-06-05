@@ -1,4 +1,8 @@
 package controllersLecturer;
+import javafx.event.ActionEvent;
+import javafx.event.ActionEvent.*;
+
+import java.io.IOException;
 
 import abstractControllers.AbstractController;
 import javafx.event.EventHandler;
@@ -17,11 +21,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
 public class AddNewQuestionController extends AbstractController{
 	private double xOffset = 0; 
 	private double yOffset = 0;
-	
-    @FXML
+    
+	@FXML
     private Button AddQuestionToBankButton;
 
     @FXML
@@ -43,14 +48,53 @@ public class AddNewQuestionController extends AbstractController{
     private TextField answer4Field;
 
     @FXML
-    private ImageView backButton;
-
-    @FXML
-    private ComboBox<Integer> cmbRightAnswer;
+    private ComboBox<?> cmbRightAnswer;
 
     @FXML
     private Text lblRightAnswer;
 
+    @FXML
+    private Button BackBtn;
+    
+    @FXML
+    private Button CloseBtn;
+
+    @FXML
+    private Button MinimizeBtn;
+    
+    @FXML
+    void Close(ActionEvent event) {
+        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
+
+    @FXML
+    void Minimize(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
+
+    
+    //************Tomer: In my opinion its better without the back button ******************//// 
+    @FXML
+    void back(ActionEvent event) {
+    	   try {
+    	        Parent root = FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+    	        Scene scene = new Scene(root);
+
+    	        // Get the current stage
+    	        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+    	        // Set the scene to the current stage
+    	        currentStage.setScene(scene);
+    	        currentStage.show();
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    	    }
+    }
+    
+ 
     public void start(Stage primaryStage) {
 	    try {
 	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/AddNewQuestion.fxml"));

@@ -32,5 +32,23 @@
             <Font name="Arial Rounded MT Bold" size="26.0" />
          </font>
       </Text>
+      <Button fx:id="CloseBtn" layoutX="656.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="98.0" fitWidth="45.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/cancel.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="MinimizeBtn" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="115.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/minimize.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

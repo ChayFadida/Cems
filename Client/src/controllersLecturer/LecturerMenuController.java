@@ -46,12 +46,20 @@ public class LecturerMenuController extends Application{
 
     @FXML
     private Button MyQuestionbankButton;
+    
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    private Button minimizeButton;
 
     @FXML
     private AnchorPane ap;
 
     @FXML
     private BorderPane bp;
+    
+    
     /// in order to start without login dependency 
     // after Login, remove @override (start should stay), remove main
     @Override

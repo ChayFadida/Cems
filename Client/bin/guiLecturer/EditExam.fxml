@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="731.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.EditExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="731.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.EditExamController">
    <children>
       <Text layoutX="14.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Exam" wrappingWidth="250.0810546875">
          <font>
@@ -37,5 +37,23 @@
             <Font name="Arial Rounded MT Bold" size="26.0" />
          </font>
       </Text>
+      <Button fx:id="CloseBtn" layoutX="656.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="98.0" fitWidth="45.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/cancel.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="MinimizeBtn" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="115.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/minimize.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
