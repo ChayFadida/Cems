@@ -1,16 +1,3 @@
-/Images/
-/abstractControllers/
-/client/
-/common/
-/controllers/
-/controllersClient/
-/controllersHod/
 /controllersLecturer/
-/controllersStudent/
-/gui/
-/guiClient/
-/guiHod/
 /guiLecturer/
-/guiStudent/
-/logic/
-/timer/
+/Images/

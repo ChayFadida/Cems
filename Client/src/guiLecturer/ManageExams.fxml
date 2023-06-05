@@ -4,11 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ManageExamsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ManageExamsController">
    <children>
       <Text layoutX="91.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage your exams" wrappingWidth="364.0">
          <font>
@@ -25,7 +27,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </TableView>
-      <Button fx:id="LockExamButton" layoutX="206.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Lock Exam" textAlignment="CENTER">
+      <Button id="LockExamButton" fx:id="LockExamButton" layoutX="206.0" layoutY="330.0" mnemonicParsing="false" onAction="#LockExam" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Lock Exam" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
@@ -40,20 +42,47 @@
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
       </Text>
-      <Button fx:id="AnalyizeExamButton" layoutX="206.0" layoutY="370.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Analyze Exam" textAlignment="CENTER">
+      <Button id="AnalyizeExamButton" fx:id="AnalyizeExamButton" layoutX="206.0" layoutY="370.0" mnemonicParsing="false" onAction="#AnalyzeExam" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Analyze Exam" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="ViewExamButton" layoutX="206.0" layoutY="410.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="View Exam" textAlignment="CENTER">
+      <Button fx:id="ViewExamButton" layoutX="206.0" layoutY="410.0" mnemonicParsing="false" onAction="#ViewExam" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="View Exam" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="ChangeDurationButton" layoutX="206.0" layoutY="450.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Change Duration" textAlignment="CENTER">
+      <Button fx:id="ChangeDurationButton" layoutX="206.0" layoutY="450.0" mnemonicParsing="false" onAction="#ChangeDuration" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Change Duration" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
+      </Button>
+      <Button fx:id="closeButton" layoutX="685.0" layoutY="10.0" mnemonicParsing="false" onAction="#Close" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/cancel.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="minimizeButton" layoutX="629.0" layoutY="10.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+         <graphic>
+            <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/minimize.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>
