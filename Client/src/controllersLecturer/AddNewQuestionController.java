@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
@@ -24,6 +26,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -137,7 +140,13 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    		else
 //    			System.out.println("Zubi");
 //    	}
-  
+    	CoursesMenu.getItems().stream().forEach((MenuItem menuItem) -> menuItem.setOnAction(ev -> {
+    	    final List<String> selectedItems = CoursesMenu.getItems().stream()
+    	            .filter(item -> CheckMenuItem.class.isInstance(item) && CheckMenuItem.class.cast(item).isSelected())
+    	            .map(MenuItem::getText)
+    	            .collect(Collectors.toList());
+    	    System.out.println(selectedItems);
+    	}));
     }
     
  
