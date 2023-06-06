@@ -11,8 +11,9 @@ public class Question {
     private String rightAnswer;
     private Integer questionBank;
     private String subject;
-    private String courses;
+    private String composer;
     private String answers;
+    private String notes;
     private HashMap<String,String> answersHM;
 
     /**
@@ -31,21 +32,32 @@ public class Question {
      */
 
     public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
-			String courses, String answers) {
+			String composer, String answers, String notes) {
 		super();
 		this.questionID = questionID;
 		this.details = details;
 		this.rightAnswer = rightAnswer;
 		this.questionBank = questionBank;
 		this.subject = subject;
-		this.courses = courses;
+		this.composer = composer;
+		this.notes=notes;
 		this.answers = answers;
 		answersHM = new HashMap<>();
 		//input answers data into hashmap needs to be implemented!
 	}
 
 
-    public HashMap<String, String> getAnswersHM() {
+    public String getNotes() {
+		return notes;
+	}
+
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+
+	public HashMap<String, String> getAnswersHM() {
 		return answersHM;
 	}
 
@@ -58,7 +70,9 @@ public class Question {
 	public void setAnswers(String answers) {
 		this.answers = answers;
 	}
-
+	public String getAnswers() {
+		return answers;
+	}
 
 	/**
      * Returns the ID of the question.
@@ -155,8 +169,8 @@ public class Question {
      *
      * @return the question courses
      */
-    public String getCourses() {
-        return courses;
+    public String getComposer() {
+        return composer;
     }
 
     /**
@@ -164,8 +178,8 @@ public class Question {
      *
      * @param courses the question courses to set
      */
-    public void setCourses(String courses) {
-        this.courses = courses;
+    public void setCourses(String composer) {
+        this.composer = composer;
     }
 
     /**
@@ -173,9 +187,6 @@ public class Question {
      *
      * @return the question answers
      */
-    public HashMap<String, String> getAnswers() {
-        return answersHM;
-    }
 
 
     /**
@@ -185,7 +196,7 @@ public class Question {
      */
     @Override
     public String toString() {
-        return "Question [questionID=" + questionID + ", course=" + courses + ", subject=" + subject +
+        return "Question [questionID=" + questionID + ", composer=" + composer + ", subject=" + subject +
                   ", bank=" + questionBank + "]";
     }
 }

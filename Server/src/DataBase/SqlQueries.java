@@ -57,7 +57,7 @@ public class SqlQueries {
 	}
 
 	public static String getQuestionsById(String string) {
-		String quert = "SELECT Q.* FROM sys.questionbank AS B, sys.lecturer AS L, sys.questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBank = B.bankID;";
+		String quert = "SELECT Q.* FROM sys.questionbank AS B, sys.lecturer AS L, sys.questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return quert;
 	}
 }
