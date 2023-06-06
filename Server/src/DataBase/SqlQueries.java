@@ -17,6 +17,20 @@ public class SqlQueries {
 		getAllTable.append(table + ';');
 		return getAllTable.toString();
 	}
+	public static String getUserByUserNameAndPass(String pass,String userName) {
+		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
+		return query;
+	}
+	public static String updateUserByUserNameAndPassIsLogged(String pass,String userName) {
+		String query = "UPDATE users SET isLogged = 1 WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
+//		ArrayList<String> params = new ArrayList<String>();
+//		HashMap<String, Object> updateQuery = new HashMap<String, Object>();
+//		params.add(userName);
+//		params.add(pass);
+//		updateQuery.put("query", query);
+//		updateQuery.put("params", params);
+		return query;
+	}
 	
 	/** this method update the question table by id
 	 *@param param is arraylist = ["question_number", "question",

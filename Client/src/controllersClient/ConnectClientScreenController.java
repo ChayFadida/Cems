@@ -61,8 +61,10 @@ public class ConnectClientScreenController extends AbstractController{
 			ConnectionServer.getInstance(getIP(), getPort());
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
-			LecturerMenuController lecturerMenuController = new LecturerMenuController();
-			lecturerMenuController.start(primaryStage);
+			//LecturerMenuController lecturerMenuController = new LecturerMenuController();
+			//lecturerMenuController.start(primaryStage);
+			LogInController logInController = new LogInController();
+			logInController.start(primaryStage);
 		}catch (Exception e) {
 			System.out.println("Wrong input, try again");
 		}	
@@ -83,8 +85,10 @@ public class ConnectClientScreenController extends AbstractController{
 	 * */
 	public void start(Stage primaryStage) throws Exception {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConnectClientScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ConnectClientScreen.fxml"));
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("/guiClient/ConnectClientCSS.css").toExternalForm());
+
 		primaryStage.setTitle("Academic Managment Tool");
 		primaryStage.setScene(scene);
 		

@@ -1,4 +1,5 @@
+/controllers/
+/guiClient/
+/controllersClient/
 /controllersLecturer/
-/controllersStudent/
-/logic/
-/timer/
+/guiLecturer/

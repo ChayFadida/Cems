@@ -1,12 +1,20 @@
 package controllersLecturer;
 
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import abstractControllers.AbstractController;
+import client.ConnectionServer;
+import controllersClient.ConnectClientScreenController;
+import controllersClient.LogInController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
-public class LecturerMenuController {
+public class LecturerMenuController extends AbstractController{
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	private MyQuestionBankController myQuestionBankController=null;
@@ -107,6 +115,14 @@ public class LecturerMenuController {
     	if(createNewExamController==null)
     		createNewExamController= new CreateNewExamController();
     }
+    @FXML
+    void getLogoutBtn(ActionEvent event) {
+    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		Stage primaryStage = new Stage();
+		LogInController logInController = new LogInController();
+		logInController.start(primaryStage);
+		//add functionality to turn IsLogged flag off.
+    }
     
     // to be implemented later (need to change loggedIn flag to 0 and exit the system)
     @FXML
@@ -183,6 +199,29 @@ public class LecturerMenuController {
         }
         bp.setCenter(root);
     }
-
+    //want to add ENTITY lecturer here to we can initiate it with the class so we 
+    //have details to identify the current user of the system cuz now we cannot logg out
+    
+  //validation func of details and premmisions.- to be implemented here.
+//  	public String isLoggedFlagOff(String userName , String password) throws Exception {
+//  		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+//  		ArrayList<String> arr = new ArrayList<>();
+//  		arr.add("User");
+//  		msg.put("client", arr);
+//  		ArrayList<String> arr1 = new ArrayList<>();
+//  		arr1.add("logOutAttempt");
+//  		msg.put("task",arr1);
+//  		ArrayList<String> arr2 = new ArrayList<>();
+//  		arr2.add((String)this.);
+//  		arr2.add(userName);
+//  		msg.put("details",arr2);
+//  		sendMsgToServer(msg);
+//  		//ConnectionServer.getInstance().handleMessageFromClientUI(msg);
+//  		if(!ConnectionServer.rs.isEmpty()) {
+//  			//need to flag his connected in DB
+//  			return (String)ConnectionServer.rs.get(0).get("position");
+//  		}
+//  		return "No Such User";
+//  	}
  
 }
