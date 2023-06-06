@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -36,8 +37,10 @@ import javafx.stage.StageStyle;
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
+	HashMap<String,Boolean> coursesSelected;
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
+    
     @FXML
     private MenuButton CoursesMenu;
     @FXML
@@ -128,7 +131,13 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || getCourses()==null) {
 //    		lblError.setText("One of the fields is empty, try again.");
 //    	}
-    	System.out.println(CoursesMenu.getItems().toString());
+//    	for(String name: coursesSelected.keySet()) {
+//    		if(coursesSelected.get(name)==true)
+//    			System.out.println(name);
+//    		else
+//    			System.out.println("Zubi");
+//    	}
+  
     }
     
  
@@ -182,6 +191,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 	private void loadCourses(ArrayList<HashMap<String, Object>> rs) {
 		courses= new ArrayList<>();
 		coursesMenuItems= new ArrayList<>();
+		coursesSelected= new HashMap<>();
 		if(rs==null) {
 			System.out.println("RS is null");
 			return;
@@ -189,11 +199,23 @@ public class AddNewQuestionController extends AbstractController implements Init
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
 		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
+		    coursesSelected.put(courses.get(i).getCourseName(),false);
+		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
+		    
+		    checkMenuItem.setOnMenuValidation(event-> replaceValue(checkMenuItem));
 		    coursesMenuItems.add(new CheckMenuItem(courses.get(i).getCourseName()));
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
 		
 		
+	}
+	private void replaceValue(CheckMenuItem checkMenuItem) {
+		String courseName = checkMenuItem.getText();
+    	if(coursesSelected.get(courseName)==false) {
+    		coursesSelected.replace(courseName, true);
+    	}
+    	else
+    		coursesSelected.replace(courseName, false);
 	}
 
 }
