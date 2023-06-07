@@ -3,12 +3,15 @@ import javafx.event.ActionEvent;
 import javafx.event.ActionEvent.*;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+=======
+>>>>>>> develop
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
@@ -37,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+<<<<<<< HEAD
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
@@ -47,6 +51,13 @@ public class AddNewQuestionController extends AbstractController implements Init
     @FXML
     private MenuButton CoursesMenu;
     @FXML
+=======
+public class AddNewQuestionController extends AbstractController{
+	private double xOffset = 0; 
+	private double yOffset = 0;
+    
+	@FXML
+>>>>>>> develop
     private Button AddQuestionToBankButton;
 
     @FXML
@@ -74,7 +85,11 @@ public class AddNewQuestionController extends AbstractController implements Init
     private TextField answer4Field;
 
     @FXML
+<<<<<<< HEAD
     private ComboBox<Integer> cmbRightAnswer;
+=======
+    private ComboBox<?> cmbRightAnswer;
+>>>>>>> develop
 
     @FXML
     private Label lblError;
@@ -91,6 +106,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     	return txtSubject.getText();
     }
 
+<<<<<<< HEAD
     private String getAnswer1() {
     	return answer1Field.getText();
     }
@@ -109,6 +125,16 @@ public class AddNewQuestionController extends AbstractController implements Init
     private String getNotesField() {
     	return NotesField.getText();
     }
+=======
+    @FXML
+    private Button BackBtn;
+    
+    @FXML
+    private Button CloseBtn;
+
+    @FXML
+    private Button MinimizeBtn;
+>>>>>>> develop
     
     @FXML
     void Close(ActionEvent event) {
@@ -122,6 +148,7 @@ public class AddNewQuestionController extends AbstractController implements Init
         stage.setIconified(true);
     }
     
+<<<<<<< HEAD
     @FXML
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
@@ -141,6 +168,26 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    	lblError.setText(sb.toString());
 
 
+=======
+
+    
+    //************Tomer: In my opinion its better without the back button ******************//// 
+    @FXML
+    void back(ActionEvent event) {
+    	   try {
+    	        Parent root = FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+    	        Scene scene = new Scene(root);
+
+    	        // Get the current stage
+    	        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+    	        // Set the scene to the current stage
+    	        currentStage.setScene(scene);
+    	        currentStage.show();
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    	    }
+>>>>>>> develop
     }
     
  

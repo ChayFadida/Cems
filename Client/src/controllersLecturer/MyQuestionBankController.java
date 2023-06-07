@@ -16,10 +16,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+<<<<<<< HEAD
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+=======
+>>>>>>> develop
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -30,7 +33,11 @@ import entities.Question;
 import entities.User;
 public class MyQuestionBankController extends AbstractController{
 	
+<<<<<<< HEAD
 	private ArrayList<Question> qArr ;
+=======
+
+>>>>>>> develop
 
 	private LecturerMenuController lecturerMenuController;
 	
@@ -49,6 +56,7 @@ public class MyQuestionBankController extends AbstractController{
     @FXML
     private Button minimizeButton;
     
+<<<<<<< HEAD
     @FXML
     private TextField TempIDbox;
     
@@ -123,6 +131,8 @@ public class MyQuestionBankController extends AbstractController{
 	private String getid() {
     	return TempIDbox.getText();
     }
+=======
+>>>>>>> develop
     
     
     @FXML
@@ -145,6 +155,23 @@ public class MyQuestionBankController extends AbstractController{
 		addNewQuestionController.start(primaryStage);
     }
     
+<<<<<<< HEAD
+=======
+   /* @FXML
+    void AddNewQuestion(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close(); // Close the current window
+
+        try {
+            Stage primaryStage = new Stage();
+            AddNewQuestionController addNewQuestionController = new AddNewQuestionController();
+            addNewQuestionController.start(primaryStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+>>>>>>> develop
     @FXML
     void EditQuestion(MouseEvent event) {
     	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -153,10 +180,13 @@ public class MyQuestionBankController extends AbstractController{
 		//need to implement start method in EditQuestionController and then -->
 		editQuestionController.start(primaryStage);
     }
+<<<<<<< HEAD
     
     
     
     
+=======
+>>>>>>> develop
 
 }
 

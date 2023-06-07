@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /controllersHod/
 /controllersLecturer/
 /controllersStudent/
@@ -9,3 +10,8 @@
 /gui/
 /Images/
 /guiHod/
+=======
+/controllersLecturer/
+/guiLecturer/
+/Images/
+>>>>>>> develop
