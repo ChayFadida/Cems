@@ -11,14 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyQuestionBankController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" styleClass="root" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyQuestionBankController">
    <children>
-      <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Question Bank" wrappingWidth="205.0810546875">
+      <Text layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="My Question Bank" wrappingWidth="238.0810546875">
          <font>
-            <Font name="Arial Rounded MT Bold" size="22.0" />
+            <Font name="Century" size="22.0" />
          </font>
       </Text>
-      <TableView fx:id="QuestionBankLecTable" layoutX="91.0" layoutY="117.0" prefHeight="274.0" prefWidth="573.0">
+      <TableView fx:id="QuestionBankLecTable" layoutX="91.0" layoutY="120.0" prefHeight="269.0" prefWidth="573.0">
         <columns>
           <TableColumn fx:id="clmID" prefWidth="123.0" text="Question ID" />
           <TableColumn fx:id="clmDetails" prefWidth="125.0" text="Question" />
@@ -26,27 +26,27 @@
             <TableColumn fx:id="clmSubject" prefWidth="163.0" text="Subject" />
         </columns>
       </TableView>
-      <Button fx:id="AddNewQuestionButton" layoutX="196.0" layoutY="405.0" mnemonicParsing="false" onAction="#AddNewQuestion" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Add new Question " textAlignment="CENTER">
+      <Button fx:id="AddNewQuestionButton" layoutX="196.0" layoutY="397.0" mnemonicParsing="false" onAction="#AddNewQuestion" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Add new Question " textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="EditQuestionButton" layoutX="196.0" layoutY="438.0" mnemonicParsing="false" onMouseClicked="#EditQuestion" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Edit Question" textAlignment="CENTER">
+      <Button fx:id="EditQuestionButton" layoutX="196.0" layoutY="437.0" mnemonicParsing="false" onMouseClicked="#EditQuestion" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Edit Question" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="DeleteQuestionButton" layoutX="196.0" layoutY="472.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Delete Question" textAlignment="CENTER">
+      <Button fx:id="DeleteQuestionButton" layoutX="196.0" layoutY="477.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Delete Question" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Text layoutX="91.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="temp id:" wrappingWidth="148.0810546875">
+      <Text layoutX="91.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="temp id:" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Button fx:id="closeButton" layoutX="685.0" layoutY="13.0" mnemonicParsing="false" onAction="#Close" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+      <Button fx:id="closeButton" layoutX="685.0" layoutY="13.0" mnemonicParsing="false" onAction="#Close" prefHeight="35.0" prefWidth="33.0" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
                <image>
@@ -58,7 +58,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="minimizeButton" layoutX="629.0" layoutY="13.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
+      <Button fx:id="minimizeButton" layoutX="629.0" layoutY="13.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="35.0" prefWidth="33.0" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
                <image>
@@ -74,6 +74,6 @@
          </cursor>
       </Button>
       <TextField fx:id="TempIDbox" layoutX="176.0" layoutY="86.0" />
-      <Button fx:id="BtnTemp" layoutX="337.0" layoutY="86.0" mnemonicParsing="false" onAction="#showTable" prefHeight="25.0" prefWidth="73.0" text="TempBtn" />
+      <Button fx:id="BtnTemp" layoutX="337.0" layoutY="86.0" mnemonicParsing="false" onAction="#showTable" prefHeight="31.0" prefWidth="87.0" text="TempBtn" />
    </children>
 </AnchorPane>

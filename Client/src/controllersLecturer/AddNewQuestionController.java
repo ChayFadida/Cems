@@ -40,7 +40,7 @@ import javafx.stage.StageStyle;
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
-	HashMap<String,Boolean> coursesSelected;
+	List<String> coursesSelected;
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
     
@@ -78,13 +78,9 @@ public class AddNewQuestionController extends AbstractController implements Init
 
     @FXML
     private Label lblError;
-
+    
     @FXML
-    private Text lblRightAnswer;
-
-    @FXML
-    private TextField txtCourses;
-
+    private Label lblCourses;
     @FXML
     private TextField txtSubject;
     
@@ -94,9 +90,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     private String getSubject() {
     	return txtSubject.getText();
     }
-    private String getCourses() {
-    	return txtCourses.getText();
-    }
+
     private String getAnswer1() {
     	return answer1Field.getText();
     }
@@ -130,23 +124,23 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     void getAddQuestion(ActionEvent event) {
-//    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
-//    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || getCourses()==null) {
-//    		lblError.setText("One of the fields is empty, try again.");
+    	lblCourses.setText(" ");
+    	lblError.setText(" ");
+    	coursesSelected= new ArrayList<>();
+    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
+    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null  ||coursesSelected.isEmpty()) {
+    		lblError.setText("One of the fields is empty, try again.");
+    	}
+//    	System.out.println(getRightAnswer().toString());
+//    	StringBuilder sb = new StringBuilder();
+//    	sb.append("Selected Courses:");
+//    	for(String s: coursesSelected) {
+//    		sb.append(s);
 //    	}
-//    	for(String name: coursesSelected.keySet()) {
-//    		if(coursesSelected.get(name)==true)
-//    			System.out.println(name);
-//    		else
-//    			System.out.println("Zubi");
-//    	}
-    	CoursesMenu.getItems().stream().forEach((MenuItem menuItem) -> menuItem.setOnAction(ev -> {
-    	    final List<String> selectedItems = CoursesMenu.getItems().stream()
-    	            .filter(item -> CheckMenuItem.class.isInstance(item) && CheckMenuItem.class.cast(item).isSelected())
-    	            .map(MenuItem::getText)
-    	            .collect(Collectors.toList());
-    	    System.out.println(selectedItems);
-    	}));
+//    	sb.append(".");
+//    	lblError.setText(sb.toString());
+
+
     }
     
  
@@ -200,7 +194,6 @@ public class AddNewQuestionController extends AbstractController implements Init
 	private void loadCourses(ArrayList<HashMap<String, Object>> rs) {
 		courses= new ArrayList<>();
 		coursesMenuItems= new ArrayList<>();
-		coursesSelected= new HashMap<>();
 		if(rs==null) {
 			System.out.println("RS is null");
 			return;
@@ -208,23 +201,23 @@ public class AddNewQuestionController extends AbstractController implements Init
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
 		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
-		    coursesSelected.put(courses.get(i).getCourseName(),false);
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
-		    
-		    checkMenuItem.setOnMenuValidation(event-> replaceValue(checkMenuItem));
-		    coursesMenuItems.add(new CheckMenuItem(courses.get(i).getCourseName()));
+		    coursesMenuItems.add(checkMenuItem);
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
-		
+		CoursesMenu.getItems().stream().forEach((MenuItem menuItem) -> menuItem.setOnAction(ev -> {
+    		final List<String> selected = CoursesMenu.getItems().stream()
+    	            .filter(item -> CheckMenuItem.class.isInstance(item) && CheckMenuItem.class.cast(item).isSelected())
+    	            .map(MenuItem::getText)
+    	            .collect(Collectors.toList());
+    		if(selected.toString()=="[]")
+    			lblCourses.setText(" ");
+    		else
+    			lblCourses.setText(selected.toString());
+    		coursesSelected=selected;
+    	}));
 		
 	}
-	private void replaceValue(CheckMenuItem checkMenuItem) {
-		String courseName = checkMenuItem.getText();
-    	if(coursesSelected.get(courseName)==false) {
-    		coursesSelected.replace(courseName, true);
-    	}
-    	else
-    		coursesSelected.replace(courseName, false);
-	}
+
 
 }
