@@ -1,9 +1,9 @@
 package controllersLecturer;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,7 +96,19 @@ public class LecturerMenuController {
 //		launch(args);
 //	}
     ///END ITAMAR COMMANDS
+    @FXML
+    void getExitBtn(ActionEvent event) {
+    	//temporary! need to implement log out + server connection shut down
+    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
 
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
     @FXML
     void CheckResult(MouseEvent event) {
     	loadPage("CheckResult");
@@ -186,6 +198,7 @@ public class LecturerMenuController {
         }
         bp.setCenter(root);
     }
+    
 
  
 }

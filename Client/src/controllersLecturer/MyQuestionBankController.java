@@ -99,8 +99,6 @@ public class MyQuestionBankController extends AbstractController{
 		PropertyValueFactory<Question, Integer> pvfId = new PropertyValueFactory<>("questionID");
 		PropertyValueFactory<Question, String> pvfDetails = new PropertyValueFactory<>("details");
 		PropertyValueFactory<Question, String> pvfSubject = new PropertyValueFactory<>("subject");
-		PropertyValueFactory<Question, String> pvfCourses = new PropertyValueFactory<>("courses");
-		clmCourse.setCellValueFactory(pvfCourses);
 		clmID.setCellValueFactory(pvfId);
 		clmDetails.setCellValueFactory(pvfDetails);
 		clmSubject.setCellValueFactory(pvfSubject);

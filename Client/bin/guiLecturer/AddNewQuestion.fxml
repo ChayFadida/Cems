@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AddNewQuestionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" styleClass="root" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AddNewQuestionController">
    <children>
       <VBox prefHeight="850.0" prefWidth="750.0">
          <children>
@@ -37,17 +37,17 @@
                            <children>
                               <Button fx:id="CloseBtn" layoutX="432.0" layoutY="7.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
                                  <graphic>
-                                    <ImageView fitHeight="98.0" fitWidth="45.0" preserveRatio="true">
+                                    <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/cancel.png" />
+                                          <Image url="@/Images/exit.png" />
                                        </image>
                                     </ImageView>
                                  </graphic></Button>
                               <Button fx:id="MinimizeBtn" layoutX="364.0" layoutY="5.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
                                  <graphic>
-                                    <ImageView fitHeight="115.0" fitWidth="48.0" preserveRatio="true">
+                                    <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/minimize.png" />
+                                          <Image url="@/Images/minimize.png" />
                                        </image>
                                     </ImageView>
                                  </graphic></Button>
