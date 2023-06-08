@@ -1,0 +1,195 @@
+package DataBase;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
+
+public class DBController {
+	private static Connection conn;
+	private static HashMap<String, String> db_info = new HashMap<>() {{
+		put("ip", "localhost");
+		put("password", null);
+		put("username", null);
+		put("scheme", null);
+		
+	}};
+	private String mysql_cmd = "jdbc:mysql://" + db_info.get("ip")+ "/";
+	private String mysql_timezone_flag = "?serverTimezone=IST";
+	private String driver_cmd = "com.mysql.cj.jdbc.Driver";
+	private static boolean driverIsSet;
+	private static DBController instance;
+	private static String questionsTable = "questions";
+	
+	
+	/**
+	 *@return return the question table
+	 * */
+	public String getquestionsTable() {
+		return questionsTable;
+	}
+	
+	/**
+	 * empty constructor controller
+	 * */
+	private DBController() {}
+	
+	/**
+	 * implement singleton design pattert 
+	 * @return instance of the dbcontroller
+	 * */
+	public static synchronized DBController getInstance() {
+		if (instance == null) {
+			instance = new DBController();
+		}
+		return instance;
+	}
+	
+	/**
+	 * Sets mysql driver
+	 * @return return true if driver is set else if any exception happened
+	 * */
+	public boolean setDbDriver() {
+	    if (driverIsSet) {
+	        System.out.println("Driver is already set");
+	        return driverIsSet;
+	    }
+	    try {
+	        Class.forName(driver_cmd).getDeclaredConstructor().newInstance();
+	        System.out.println("Driver definition succeeded");
+	        driverIsSet = true;
+	    } catch (Exception e) {
+	        System.out.println("Driver definition failed");
+	        driverIsSet = false;
+	    }
+	    return driverIsSet;
+	}
+	
+	/**
+	 * connect to database with db_info parameters
+	 * */
+	public void connectToDb() {
+		StringBuilder mysql = new StringBuilder();
+		mysql.append(mysql_cmd);
+		mysql.append(db_info.get("scheme"));
+		mysql.append(mysql_timezone_flag);
+		try {
+			conn = DriverManager.getConnection(mysql.toString(),db_info.get("username"), 
+					db_info.get("password"));
+	        System.out.println("");
+		} catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+		}
+		System.out.println("coonected to db");
+	}
+	
+	
+	/**
+	 * sets new database information to connect with
+	 * @param db_new_info
+	 * */
+	public void setDbInfo(HashMap<String, String> db_new_info) {
+		for (String key : db_info.keySet())
+			db_info.put(key, db_new_info.get(key));
+	}
+	
+	
+	/**
+	 * disconnect from database by sets conn obj to null
+	 * */
+	public void disconnect() {
+		conn = null;
+	}
+	
+	
+	/**this method execute queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
+	public ArrayList<HashMap<String, Object>> executeQueries(String sqlQueries) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+	    ArrayList<HashMap<String, Object>> resultList = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+		} catch(Exception ex) {
+			System.out.println("could not create a statement");
+		}
+		try {
+			rs = stmt.executeQuery(sqlQueries);
+	        ResultSetMetaData metaData = rs.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+	        while (rs.next()) {
+	            HashMap<String, Object> row = new HashMap<>();
+	            for (int i = 1; i <= columnCount; i++)
+	                row.put(metaData.getColumnName(i), rs.getObject(i));
+	            resultList.add(row);
+	        }
+		} catch(Exception ex) {
+			System.out.println("could not execute sql command");
+		}
+		return resultList;
+	}
+	
+	
+	/**this method execute update queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
+//	public ArrayList<HashMap<String, Object>> updateQueries(HashMap<String, Object> updateQuery) throws SQLException {
+//		Statement stmt = null;
+//	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+//	    String sql = (String) updateQuery.get("query");
+//	    ArrayList<String> params = (ArrayList<String>) updateQuery.get("params");
+//	    
+//		try {
+//	        stmt = conn.prepareStatement(sql);
+//		
+//	        // Set parameter values
+//	        for (int i = 0; i < params.size(); i++) {
+//	            ((PreparedStatement) stmt).setObject(i + 1, params.get(i));
+//	        }
+//			int affectedRows = stmt.executeUpdate(sql);
+//			HashMap<String, Object> hm = new HashMap<>();
+//			hm.put("affectedRows",affectedRows);
+//			result.add(hm);
+//		
+//		} catch(Exception ex) {
+//			System.out.println("could not execute sql command");
+//		}
+//		return result;
+//	}
+	
+	/**this method execute update queries from our db
+	 *@param  sqlQueries  the sql query the server need to execute
+	 *@return return array list of the query result
+	 * */
+	
+	//this is the original method
+	//updated method get params and can handle with (?) statements.
+	
+	public ArrayList<HashMap<String, Object>> updateQueriesFirst(String sqlQueries) throws SQLException {
+		Statement stmt = null;
+	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			int affectedRows = stmt.executeUpdate(sqlQueries);
+			HashMap<String, Object> hm = new HashMap<>();
+			hm.put("affectedRows",affectedRows);
+			result.add(hm);
+		
+		} catch(Exception ex) {
+			System.out.println("could not execute sql command");
+		}
+		return result;
+	}
+}
+

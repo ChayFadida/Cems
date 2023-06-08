@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.ConnectedScreenController">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="476.0">
+               <children>
+                  <HBox prefHeight="68.0" prefWidth="337.0">
+                     <children>
+                        <VBox prefHeight="68.0" prefWidth="24.0" />
+                        <Label fx:id="lblConnected" prefHeight="67.0" prefWidth="424.0" text="Server Is Connected">
+                           <font>
+                              <Font name="System Italic" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="285.0" prefWidth="484.0">
+                     <children>
+                        <TableView id="tblClientConnections" fx:id="tblClientConnections" prefHeight="285.0" prefWidth="449.0">
+                          <columns>
+                            <TableColumn id="clmIp" fx:id="clmIp" prefWidth="139.0" text="ip" />
+                            <TableColumn id="clmHost" fx:id="clmHost" prefWidth="160.0" text="host" />
+                              <TableColumn id="clmStatus" fx:id="clmStatus" prefWidth="148.0" text="connection status" />
+                          </columns>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="337.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="400.0" prefWidth="123.0">
+               <children>
+                  <HBox prefHeight="69.0" prefWidth="104.0" />
+                  <HBox prefHeight="298.0" prefWidth="123.0">
+                     <children>
+                        <Button id="btnRefresh" fx:id="btnRefresh" mnemonicParsing="false" onMouseClicked="#getRefreshBtn" text="Refresh" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="104.0">
+                     <children>
+                        <HBox prefHeight="27.0" prefWidth="5.0" />
+                        <HBox prefHeight="27.0" prefWidth="127.0">
+                           <children>
+                              <Button id="btnDisconnect" fx:id="btnDisconnect" mnemonicParsing="false" onAction="#getDisconnectBtn" prefHeight="25.0" prefWidth="118.0" text="Disconnect" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="8.0" prefWidth="123.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
