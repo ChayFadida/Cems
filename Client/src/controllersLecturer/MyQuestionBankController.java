@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,10 +18,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import entities.Question;
-public class MyQuestionBankController extends AbstractController{
-	
-	private ArrayList<Question> qArr ;
-=======
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import entities.Question;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -32,11 +35,10 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 public class MyQuestionBankController extends AbstractController{
 	
+	private ArrayList<Question> qArr ;
 
->>>>>>> develop
 
 	private LecturerMenuController lecturerMenuController;
 	
@@ -55,7 +57,7 @@ public class MyQuestionBankController extends AbstractController{
     @FXML
     private Button minimizeButton;
     
-<<<<<<< HEAD
+
     @FXML
     private TextField TempIDbox;
     
@@ -130,10 +132,8 @@ public class MyQuestionBankController extends AbstractController{
 	private String getid() {
     	return TempIDbox.getText();
     }
-=======
->>>>>>> develop
-    
-    
+
+        
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -153,9 +153,7 @@ public class MyQuestionBankController extends AbstractController{
 		//need to implement start method in AddNewQuestionController and then -->
 		addNewQuestionController.start(primaryStage);
     }
-    
-<<<<<<< HEAD
-=======
+
    /* @FXML
     void AddNewQuestion(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -170,7 +168,6 @@ public class MyQuestionBankController extends AbstractController{
         }
     }*/
 
->>>>>>> develop
     @FXML
     void EditQuestion(MouseEvent event) {
     	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -179,13 +176,6 @@ public class MyQuestionBankController extends AbstractController{
 		//need to implement start method in EditQuestionController and then -->
 		editQuestionController.start(primaryStage);
     }
-<<<<<<< HEAD
-    
-    
-    
-    
-=======
->>>>>>> develop
 
 }
 

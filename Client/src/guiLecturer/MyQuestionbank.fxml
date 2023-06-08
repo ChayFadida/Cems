@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<<<<<<< HEAD
 <?import javafx.scene.control.TextField?>
-=======
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
->>>>>>> develop
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<<<<<<< HEAD
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyQuestionBankController">
-=======
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyQuestionBankController">
->>>>>>> develop
    <children>
       <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="My Question Bank" wrappingWidth="268.0810546875">
          <font>
@@ -53,38 +43,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-<<<<<<< HEAD
       <TextField fx:id="TempIDbox" layoutX="201.0" layoutY="86.0" />
       <Button fx:id="BtnTemp" layoutX="362.0" layoutY="86.0" mnemonicParsing="false" onAction="#showTable" prefHeight="31.0" prefWidth="87.0" text="TempBtn" />
-=======
-      <ComboBox layoutX="240.0" layoutY="86.0" prefHeight="8.0" prefWidth="148.0" />
-      <Button fx:id="closeButton" layoutX="685.0" layoutY="13.0" mnemonicParsing="false" onAction="#Close" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
-         <graphic>
-            <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/cancel.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="minimizeButton" layoutX="629.0" layoutY="13.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="35.0" prefWidth="33.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
-         <graphic>
-            <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
-               <image>
-                  <Image url="@../Images/minimize.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
->>>>>>> develop
    </children>
 </AnchorPane>

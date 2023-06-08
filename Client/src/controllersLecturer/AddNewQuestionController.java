@@ -1,18 +1,13 @@
 package controllersLecturer;
 import javafx.event.ActionEvent;
-<<<<<<< HEAD
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-=======
 import javafx.event.ActionEvent.*;
-
 import java.io.IOException;
->>>>>>> develop
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Course;
@@ -35,7 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-<<<<<<< HEAD
+
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
@@ -45,14 +40,8 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     private MenuButton CoursesMenu;
-    @FXML
-=======
-public class AddNewQuestionController extends AbstractController{
-	private double xOffset = 0; 
-	private double yOffset = 0;
     
 	@FXML
->>>>>>> develop
     private Button AddQuestionToBankButton;
 
     @FXML
@@ -80,17 +69,14 @@ public class AddNewQuestionController extends AbstractController{
     private TextField answer4Field;
 
     @FXML
-<<<<<<< HEAD
     private ComboBox<Integer> cmbRightAnswer;
-=======
-    private ComboBox<?> cmbRightAnswer;
->>>>>>> develop
 
     @FXML
     private Label lblError;
     
     @FXML
     private Label lblCourses;
+
     @FXML
     private TextField txtSubject;
     
@@ -101,7 +87,6 @@ public class AddNewQuestionController extends AbstractController{
     	return txtSubject.getText();
     }
 
-<<<<<<< HEAD
     private String getAnswer1() {
     	return answer1Field.getText();
     }
@@ -120,16 +105,6 @@ public class AddNewQuestionController extends AbstractController{
     private String getNotesField() {
     	return NotesField.getText();
     }
-=======
-    @FXML
-    private Button BackBtn;
-    
-    @FXML
-    private Button CloseBtn;
-
-    @FXML
-    private Button MinimizeBtn;
->>>>>>> develop
     
     @FXML
     void Close(ActionEvent event) {
@@ -143,7 +118,7 @@ public class AddNewQuestionController extends AbstractController{
         stage.setIconified(true);
     }
     
-<<<<<<< HEAD
+
     @FXML
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
@@ -161,10 +136,6 @@ public class AddNewQuestionController extends AbstractController{
 //    	}
 //    	sb.append(".");
 //    	lblError.setText(sb.toString());
-
-
-=======
-
     
     //************Tomer: In my opinion its better without the back button ******************//// 
     @FXML
@@ -182,7 +153,6 @@ public class AddNewQuestionController extends AbstractController{
     	    } catch (IOException e) {
     	        e.printStackTrace();
     	    }
->>>>>>> develop
     }
     
  
