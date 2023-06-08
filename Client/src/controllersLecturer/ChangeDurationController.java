@@ -21,22 +21,24 @@ public class ChangeDurationController extends AbstractController{
 	private double yOffset = 0;
 
     @FXML
+    private Button CloseBtn;
+
+    @FXML
     private TextField HODidTXT;
+
+    @FXML
+    private Button MinimizeBtn;
 
     @FXML
     private Button SendRequestButton;
 
     @FXML
-    private ImageView backButton;
-
-    @FXML
     private TextField changeDurationTxt;
-    
-    @FXML
-    private Button CloseBtn;
 
     @FXML
-    private Button MinimizeBtn;
+    private TextField txtOldTime;
+    @FXML
+    private TextField txtNewTime;
     
     @FXML
     void Close(ActionEvent event) {

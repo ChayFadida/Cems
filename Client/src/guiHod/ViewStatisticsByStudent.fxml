@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -12,26 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="731.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByStudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByStudentController">
    <children>
-      <Text layoutX="11.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Analyze :" wrappingWidth="241.6810302734375">
+      <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Student Analyze :" wrappingWidth="257.6810302734375">
          <font>
-            <Font name="Arial Rounded MT Bold" size="26.0" />
+            <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="35.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
-         <graphic>
-            <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="101.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/left-arrow.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <BarChart fx:id="StudentBarChart" layoutX="59.0" layoutY="303.0" prefHeight="488.0" prefWidth="613.0" style="-fx-background-color: #E1E4E9;">
+      <BarChart fx:id="StudentBarChart" layoutX="94.0" layoutY="250.0" prefHeight="488.0" prefWidth="613.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -39,23 +26,41 @@
             <NumberAxis side="LEFT" />
          </yAxis>
       </BarChart>
-      <Text layoutX="82.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student ID:" wrappingWidth="192.0810546875">
+      <Text layoutX="143.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student ID:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="82.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Avarege:" wrappingWidth="192.0810546875">
+      <Text layoutX="143.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Avarege:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text fx:id="ExamMedianTxt" layoutX="82.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Median:" wrappingWidth="192.0810546875">
+      <Text fx:id="ExamMedianTxt" layoutX="143.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Median:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="StudentIDTxt" alignment="CENTER" layoutX="257.0" layoutY="160.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Student ID" />
-      <TextField fx:id="StudentAvaregeTxt" alignment="CENTER" layoutX="257.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="StudentMedianTxt" alignment="CENTER" layoutX="257.0" layoutY="240.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="StudentIDTxt" alignment="CENTER" layoutX="310.0" layoutY="146.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Student ID" />
+      <TextField fx:id="StudentAvaregeTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="186.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="StudentMedianTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="226.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="minimizeBtn" layoutX="647.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/minimize.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="exitBtn" layoutX="715.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

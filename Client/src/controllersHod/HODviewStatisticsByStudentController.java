@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +33,11 @@ public class HODviewStatisticsByStudentController extends AbstractController {
 
     @FXML
     private ImageView backButton;
+    @FXML
+    private Button exitBtn;
+
+    @FXML
+    private Button minimizeBtn;
 
 	public void start(Stage primaryStage) {
 		try {

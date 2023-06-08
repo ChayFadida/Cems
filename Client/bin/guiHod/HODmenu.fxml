@@ -16,7 +16,7 @@
    <left>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="300.0" styleClass="menu-toolbar" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="163.0" prefWidth="300.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="165.0" prefWidth="300.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="75.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>

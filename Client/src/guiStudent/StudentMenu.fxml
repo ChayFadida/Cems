@@ -1,109 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="1132.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.StudentMenuController">
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" styleClass="root" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.StudentMenuController">
    <left>
-      <VBox prefHeight="699.0" prefWidth="289.0" style="-fx-background-color: #e8e1e9;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="300.0" styleClass="menu-toolbar" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello, Student!" wrappingWidth="224.80345916748047">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="30.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="-80.0" left="30.0" top="40.0" />
-               </VBox.margin>
-            </Text>
-            <Button fx:id="TTakeExamButton" mnemonicParsing="false" onMouseClicked="#TakeExam" prefHeight="50.0" prefWidth="289.0" style="-fx-background-color: #e8e1e9;" text="Take Exam">
-               <VBox.margin>
-                  <Insets top="140.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="93.0" fitWidth="62.0" preserveRatio="true">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="300.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="75.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/Images/test.png" />
+                        <Image url="@/Images/Cems-light.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="MyExamsButton" mnemonicParsing="false" onMouseClicked="#MyExam" prefHeight="50.0" prefWidth="289.0" style="-fx-background-color: #e8e1e9;" text="My Exams">
-               <VBox.margin>
-                  <Insets top="70.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="93.0" fitWidth="62.0" preserveRatio="true">
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="40.0" prefWidth="300.0">
+               <children>
+                  <Text layoutX="38.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="menu-headline" text="Hello, Student!" textAlignment="CENTER" wrappingWidth="224.80345916748047">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="30.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="50.0" prefWidth="300.0" />
+            <GridPane prefHeight="251.0" prefWidth="300.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="90.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="210.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="TTakeExamButton" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#TakeExam" prefHeight="80.0" prefWidth="200.0" styleClass="menuBtn" text="Take Exam" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="MyExamsButton" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#MyExam" prefHeight="80.0" prefWidth="200.0" styleClass="menuBtn" text="My Exams" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="LogOutButton" alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#LogOut" prefHeight="80.0" prefWidth="200.0" styleClass="menuBtn" text="Log Out" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@/Images/test.png" />
+                        <Image url="@/Images/write-exam.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="LogOutButton" mnemonicParsing="false" onMouseClicked="#LogOut" prefHeight="50.0" prefWidth="289.0" style="-fx-background-color: #e8e1e9;" text="Log Out">
-               <VBox.margin>
-                  <Insets top="70.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="93.0" fitWidth="62.0" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@/Images/info-exam.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <image>
                         <Image url="@/Images/logout.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <ImageView fitHeight="96.0" fitWidth="100.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/Cems.png" />
-               </image>
-               <VBox.margin>
-                  <Insets left="90.0" top="40.0" />
-               </VBox.margin>
-            </ImageView>
+               </children>
+            </GridPane>
          </children>
       </VBox>
    </left>
    <center>
       <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Line endX="-89.0" endY="701.0" layoutX="89.0" startX="-89.0" startY="1.0" stroke="#490a50" />
-            <ImageView fitHeight="205.0" fitWidth="199.0" layoutX="222.0" layoutY="156.0" preserveRatio="true">
+            <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="250.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/Images/mortarboard.png" />
+                  <Image url="@/Images/student-menu.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="293.0" fitWidth="310.0" layoutX="255.0" layoutY="238.0" preserveRatio="true" rotate="45.0">
-               <image>
-                  <Image url="@/Images/edit.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="194.0" fitWidth="185.0" layoutX="420.0" layoutY="138.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/idea.png" />
-               </image>
-            </ImageView>
-            <Text layoutX="299.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CEMS" textAlignment="CENTER" wrappingWidth="227.714111328125">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="60.0" />
-               </font>
-            </Text>
+         </children></AnchorPane>
+   </center>
+   <right>
+      <AnchorPane prefHeight="750.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="minimizeBtn" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
+               <graphic>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" styleClass="toggle-btns">
+                     <image>
+                        <Image url="@/Images/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="exitBtn" layoutX="68.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
+               <graphic>
+                  <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/Images/exit.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
-   </center>
+   </right>
 </BorderPane>
