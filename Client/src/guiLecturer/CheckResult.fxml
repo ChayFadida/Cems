@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.CheckResultController">
+   <children>
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Check result" wrappingWidth="364.0">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="30.0" />
+         </font>
+      </Text>
+      <TableView layoutX="96.0" layoutY="96.0" prefHeight="216.0" prefWidth="590.0">
+        <columns>
+          <TableColumn prefWidth="123.0" text="Student ID" />
+          <TableColumn prefWidth="92.0" text="Exam ID" />
+            <TableColumn prefWidth="117.0" text="Course" />
+            <TableColumn prefWidth="112.0" text="Subject" />
+            <TableColumn prefWidth="145.0" text="Grade" />
+        </columns>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </TableView>
+      <Button fx:id="ApproveGradeButton" layoutX="211.0" layoutY="325.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Approve grade" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="EditGradeButton" layoutX="207.0" layoutY="509.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Edit grade" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField alignment="TOP_LEFT" layoutX="92.0" layoutY="416.0" prefHeight="82.0" prefWidth="294.0" promptText="add notes here" style="-fx-background-radius: 0;">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextField>
+      <Text layoutX="96.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select an Exam:" wrappingWidth="332.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="222.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="If you want to change grade:" textAlignment="CENTER" wrappingWidth="332.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Text>
+      <TextField alignment="TOP_LEFT" layoutX="391.0" layoutY="416.0" prefHeight="82.0" prefWidth="294.0" promptText="add new grade" style="-fx-background-radius: 0;">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></TextField>
+   </children>
+</AnchorPane>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AnalyzerExamController">
+
+   <children>
+      <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Exam Analyze:" wrappingWidth="242.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="30.0" />
+         </font>
+      </Text>
+      <BarChart fx:id="BarChart" layoutX="94.0" layoutY="265.0" prefHeight="488.0" prefWidth="613.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Text layoutX="146.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam Number:" wrappingWidth="192.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="146.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam Avarege:" wrappingWidth="192.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="146.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam Median:" wrappingWidth="192.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="ExamNumberTxt" alignment="CENTER" layoutX="310.0" layoutY="161.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="ExamAvaregeTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="199.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="ExamMedianTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="239.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="CloseBtn" layoutX="703.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="MinimizeBtn" layoutX="639.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/minimize.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>
