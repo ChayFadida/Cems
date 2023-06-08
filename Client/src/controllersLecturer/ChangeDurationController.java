@@ -19,9 +19,12 @@ public class ChangeDurationController extends AbstractController{
 	
 	private double xOffset = 0; 
 	private double yOffset = 0;
+<<<<<<< HEAD
 
     @FXML
     private Button CloseBtn;
+=======
+>>>>>>> develop
 
     @FXML
     private TextField HODidTXT;
@@ -34,6 +37,53 @@ public class ChangeDurationController extends AbstractController{
 
     @FXML
     private TextField changeDurationTxt;
+    
+    @FXML
+    private Button CloseBtn;
+
+    @FXML
+    private Button MinimizeBtn;
+    
+    @FXML
+    void Close(ActionEvent event) {
+        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
+
+    @FXML
+    void Minimize(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
+	public void start(Stage primaryStage) {
+		try {
+	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml"));
+	        Scene scene = new Scene(root);
+	        primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+	        // Set the scene to the primary stage
+	        primaryStage.setScene(scene);
+	        primaryStage.show();
+	        
+	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent event) {
+	                xOffset = event.getSceneX();
+	                yOffset = event.getSceneY();
+	            }
+	        });
+	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent event) {
+	            	primaryStage.setX(event.getScreenX() - xOffset);
+	            	primaryStage.setY(event.getScreenY() - yOffset);
+	            }
+	        });
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 
     @FXML
     private TextField txtOldTime;
