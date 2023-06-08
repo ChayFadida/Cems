@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
+import javafx.event.ActionEvent.*;
+import java.io.IOException;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Course;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
@@ -38,7 +40,8 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     private MenuButton CoursesMenu;
-    @FXML
+    
+	@FXML
     private Button AddQuestionToBankButton;
 
     @FXML
@@ -73,6 +76,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     private Label lblCourses;
+
     @FXML
     private TextField txtSubject;
     
@@ -114,6 +118,7 @@ public class AddNewQuestionController extends AbstractController implements Init
         stage.setIconified(true);
     }
     
+
     @FXML
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
@@ -131,8 +136,23 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    	}
 //    	sb.append(".");
 //    	lblError.setText(sb.toString());
+    
+    //************Tomer: In my opinion its better without the back button ******************//// 
+    @FXML
+    void back(ActionEvent event) {
+    	   try {
+    	        Parent root = FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+    	        Scene scene = new Scene(root);
 
+    	        // Get the current stage
+    	        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
+    	        // Set the scene to the current stage
+    	        currentStage.setScene(scene);
+    	        currentStage.show();
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    	    }
     }
     
  

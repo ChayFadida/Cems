@@ -22,3 +22,4 @@ public class Course {
 		this.courseName = courseName;
 	}
 }
+

@@ -29,17 +29,22 @@ public class ChangeDurationController extends AbstractController{
     @FXML
     private Button MinimizeBtn;
 
+
+    @FXML
+    private Button SendRequestButton;
+
+
     @FXML
     private Button SendRequestButton;
 
     @FXML
     private TextField changeDurationTxt;
-
+    
     @FXML
     private TextField txtOldTime;
     @FXML
     private TextField txtNewTime;
-    
+
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -80,5 +85,4 @@ public class ChangeDurationController extends AbstractController{
 	        e.printStackTrace();
 	    }
 	}
-
 }
