@@ -7,3 +7,5 @@
 **/.settings
 **/.settings/org.eclipse.jdt.core.prefs
 Common/.classpath
+Client/.project
+**/.project
