@@ -3,6 +3,7 @@ package controllersStudent;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -22,6 +24,8 @@ import javafx.stage.StageStyle;
 public class StudentMenuController extends Application{
 	private double xOffset = 0; 
 	private double yOffset = 0;
+	private MyExamController myExamController;
+	private TakeExamController takeExamController;
     @FXML
     private Button LogOutButton;
 
@@ -37,6 +41,24 @@ public class StudentMenuController extends Application{
     @FXML
     private BorderPane bp;
 
+    @FXML
+    private Button exitBtn;
+
+    @FXML
+    private Button minimizeBtn;
+    
+    @FXML
+    void getExitBtn(ActionEvent event) {
+    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
+
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
     private final Glow buttonPressEffect = new Glow(0.5);
     /// in order to start without login dependency 
     // after Login, remove @override (start should stay), remove main
@@ -82,11 +104,15 @@ public class StudentMenuController extends Application{
     @FXML
     void MyExam(MouseEvent event) {
         loadPage("MyExam");
+        if(myExamController==null)
+        	myExamController = new MyExamController();
     }
 
     @FXML
     void TakeExam(MouseEvent event) {
         loadPage("TakeExam");
+        if(takeExamController==null)
+        	takeExamController = new TakeExamController();
     }
 
     @FXML
@@ -123,7 +149,6 @@ public class StudentMenuController extends Application{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         bp.setCenter(root);
     }
 

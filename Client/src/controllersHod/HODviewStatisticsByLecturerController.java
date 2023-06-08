@@ -1,10 +1,12 @@
 package controllersHod;
+import abstractControllers.AbstractController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,28 +15,32 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class HODviewStatisticsByLecturerController {
+public class HODviewStatisticsByLecturerController extends AbstractController {
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	
-	@FXML
+    @FXML
     private TextField LecturerAvaregeTxt;
 
     @FXML
     private BarChart<?, ?> LecturerBarChart;
 
     @FXML
-    private TextField LecturerMedianTxt;
+    private TextField LecturerMedianTxtbox;
 
     @FXML
     private TextField LecturerNumberTxt;
 
     @FXML
-    private ImageView backButton;
+    private Button exitBtn;
+
+    @FXML
+    private Button minimizeBtn;
+
 
 	public void start(Stage primaryStage) {
 		try {
-	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml"));
+	        Parent root =  FXMLLoader.load(getClass().getResource("/guiHod/ViewStatisticsByLecturer.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));

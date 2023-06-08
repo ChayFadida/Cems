@@ -1,25 +1,28 @@
 package controllersLecturer;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
-public class LecturerMenuController extends Application{
+public class LecturerMenuController {
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	private MyQuestionBankController myQuestionBankController=null;
@@ -62,7 +65,6 @@ public class LecturerMenuController extends Application{
     
     /// in order to start without login dependency 
     // after Login, remove @override (start should stay), remove main
-    @Override
     public void start(Stage primaryStage) {
 	    try {
 	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
@@ -90,11 +92,23 @@ public class LecturerMenuController extends Application{
 	        e.printStackTrace();
 	    }
 	}
-    public static void main(String[] args) {
-		launch(args);
-	}
+//    public static void main(String[] args) {
+//		launch(args);
+//	}
     ///END ITAMAR COMMANDS
+    @FXML
+    void getExitBtn(ActionEvent event) {
+    	//temporary! need to implement log out + server connection shut down
+    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
 
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
     @FXML
     void CheckResult(MouseEvent event) {
     	loadPage("CheckResult");
@@ -184,6 +198,7 @@ public class LecturerMenuController extends Application{
         }
         bp.setCenter(root);
     }
+    
 
  
 }

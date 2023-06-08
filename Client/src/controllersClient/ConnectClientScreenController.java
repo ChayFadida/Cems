@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllers.LecturerMenuScreenController;
+import controllersLecturer.LecturerMenuController;
 
 public class ConnectClientScreenController extends AbstractController{
 
@@ -60,8 +61,8 @@ public class ConnectClientScreenController extends AbstractController{
 			ConnectionServer.getInstance(getIP(), getPort());
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
-			LecturerMenuScreenController lecturerMenuScreenController = new LecturerMenuScreenController();
-			lecturerMenuScreenController.start(primaryStage);
+			LecturerMenuController lecturerMenuController = new LecturerMenuController();
+			lecturerMenuController.start(primaryStage);
 		}catch (Exception e) {
 			System.out.println("Wrong input, try again");
 		}	

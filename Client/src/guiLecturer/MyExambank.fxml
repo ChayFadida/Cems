@@ -11,14 +11,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyExamBankController">
+=======
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="755.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.MyExamBankController">
+>>>>>>> develop
    <children>
-      <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Exam Bank" wrappingWidth="205.0810546875">
+      <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="My Exam Bank" wrappingWidth="240.0810546875">
          <font>
-            <Font name="Arial Rounded MT Bold" size="22.0" />
+            <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="examTable" layoutX="91.0" layoutY="117.0" prefHeight="274.0" prefWidth="573.0">
+      <TableView fx:id="examTable" layoutX="114.0" layoutY="140.0" prefHeight="320.0" prefWidth="573.0">
         <columns>
           <TableColumn prefWidth="150.0" text="Exam ID" />
           <TableColumn prefWidth="138.0" text="Course" />
@@ -26,23 +30,36 @@
             <TableColumn prefWidth="127.0" text="Duration" />
         </columns>
       </TableView>
+<<<<<<< HEAD
+      <Button id="EditExamButton" fx:id="EditExamButton" layoutX="219.0" layoutY="481.0" mnemonicParsing="false" onAction="#EditExam" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Edit Exam" textAlignment="CENTER">
+=======
       <Button id="EditExamButton" fx:id="EditExamButton" layoutX="207.0" layoutY="412.0" mnemonicParsing="false" onAction="#EditExam" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Edit Exam" textAlignment="CENTER">
+>>>>>>> develop
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
+<<<<<<< HEAD
+      <Button fx:id="DeleteExamButton" layoutX="219.0" layoutY="519.0" mnemonicParsing="false" onAction="#DeleteExam" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Delete Exam" textAlignment="CENTER">
+=======
       <Button fx:id="DeleteExamButton" layoutX="207.0" layoutY="445.0" mnemonicParsing="false" onAction="#DeleteExam" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Delete Exam" textAlignment="CENTER">
+>>>>>>> develop
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Text layoutX="91.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Course" wrappingWidth="148.0810546875">
+      <Text layoutX="114.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Choose Course" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
+<<<<<<< HEAD
+      <ComboBox id="CourseComboBox" fx:id="CourseComboBox" layoutX="263.0" layoutY="78.0" prefHeight="8.0" prefWidth="148.0" styleClass="ddl-view" />
+      <Text layoutX="114.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select an Exam:" wrappingWidth="148.0810546875">
+=======
       <ComboBox id="CourseComboBox" fx:id="CourseComboBox" layoutX="240.0" layoutY="60.0" prefHeight="8.0" prefWidth="148.0" />
       <Text layoutX="91.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Exam:" wrappingWidth="148.0810546875">
+>>>>>>> develop
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font>

@@ -18,8 +18,8 @@ public class ConnectionServer extends AbstractClient{
     
 	public ConnectionServer(String host, int port) 
       throws IOException {
-    super(host, port); //Call the superclass constructor
-    openConnection();
+		super(host, port); //Call the superclass constructor
+		openConnection();
     }
 
 

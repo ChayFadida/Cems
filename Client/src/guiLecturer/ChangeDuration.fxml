@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -9,59 +8,82 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ChangeDurationController">
+=======
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="824.0" prefWidth="731.0" style="-fx-background-color: #E1E4E9;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ChangeDurationController">
+>>>>>>> develop
    <children>
-      <Text layoutX="14.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Send a request for changing duration" wrappingWidth="511.0810546875">
+      <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Request exam duration change" wrappingWidth="511.0810546875">
          <font>
-            <Font name="Arial Rounded MT Bold" size="26.0" />
+            <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="35.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
-         <graphic>
-            <ImageView fx:id="backButton" fitHeight="52.0" fitWidth="101.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/left-arrow.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <TextField fx:id="changeDurationTxt" alignment="TOP_LEFT" layoutX="66.0" layoutY="255.0" prefHeight="217.0" prefWidth="600.0" promptText="add request..." />
-      <Text layoutX="14.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert HOD id:" wrappingWidth="141.0810546875">
+      <TextField fx:id="changeDurationTxt" alignment="TOP_LEFT" layoutX="73.0" layoutY="367.0" prefHeight="217.0" prefWidth="600.0" promptText="add request..." />
+      <Text layoutX="73.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Insert HOD id:" wrappingWidth="141.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="HODidTXT" layoutX="155.0" layoutY="151.0" prefHeight="31.0" prefWidth="196.0" />
-      <Text layoutX="14.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please specify your request:" wrappingWidth="265.0810546875">
+      <TextField fx:id="HODidTXT" layoutX="206.0" layoutY="159.0" prefHeight="31.0" prefWidth="196.0" />
+      <Text layoutX="73.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Please specify your request:" wrappingWidth="265.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Button fx:id="SendRequestButton" layoutX="237.0" layoutY="518.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="229.0" style="-fx-background-radius: 90;" text="Send request">
+      <Button fx:id="SendRequestButton" layoutX="259.0" layoutY="657.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="229.0" style="-fx-background-radius: 90;" text="Send request">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
+<<<<<<< HEAD
+      <Button fx:id="CloseBtn" layoutX="709.0" layoutY="16.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+=======
       <Button fx:id="CloseBtn" layoutX="656.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
          <graphic>
             <ImageView fitHeight="98.0" fitWidth="45.0" preserveRatio="true">
                <image>
                   <Image url="@../Images/cancel.png" />
+>>>>>>> develop
                </image>
             </ImageView>
          </graphic>
       </Button>
+<<<<<<< HEAD
+      <Button fx:id="MinimizeBtn" layoutX="641.0" layoutY="16.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/minimize.png" />
+=======
       <Button fx:id="MinimizeBtn" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90; -fx-background-color: #E1E4E9;">
          <graphic>
             <ImageView fitHeight="115.0" fitWidth="48.0" preserveRatio="true">
                <image>
                   <Image url="@../Images/minimize.png" />
+>>>>>>> develop
                </image>
             </ImageView>
          </graphic>
       </Button>
+<<<<<<< HEAD
+      <Text layoutX="73.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Old time:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtOldTime" editable="false" layoutX="206.0" layoutY="203.0" prefHeight="31.0" prefWidth="196.0" promptText="minutes" />
+      <TextField fx:id="txtNewTime" layoutX="206.0" layoutY="249.0" prefHeight="31.0" prefWidth="196.0" promptText="minutes" />
+      <Text layoutX="73.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="New time:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+=======
+>>>>>>> develop
    </children>
 </AnchorPane>
