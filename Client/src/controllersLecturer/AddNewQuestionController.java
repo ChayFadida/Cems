@@ -64,7 +64,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     private TextField answer4Field;
 
     @FXML
-    private ComboBox<Integer> cmbRightAnswer;
+    private ComboBox<String> cmbRightAnswer;
 
     @FXML
     private Label lblError;
@@ -75,7 +75,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     @FXML
     private TextField txtSubject;
     
-    private Integer getRightAnswer() {
+    private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
     }
     private String getSubject() {
@@ -119,18 +119,37 @@ public class AddNewQuestionController extends AbstractController implements Init
     	lblError.setText(" ");
     	coursesSelected= new ArrayList<>();
     	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
-    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null  ||coursesSelected.isEmpty()) {
+    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
-//    	System.out.println(getRightAnswer().toString());
-//    	StringBuilder sb = new StringBuilder();
-//    	sb.append("Selected Courses:");
-//    	for(String s: coursesSelected) {
-//    		sb.append(s);
-//    	}
-//    	sb.append(".");
-//    	lblError.setText(sb.toString());
-
+    	
+    	else{
+    		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+    		ArrayList<String> arr = new ArrayList<>();
+    		arr.add("Lecturer");
+    		msg.put("client", arr);
+    		ArrayList<String> arr1 = new ArrayList<>();
+    		arr1.add("addNewQuestion");
+    		msg.put("task",arr1);
+    		
+    		ArrayList<String> arr2 = new ArrayList<>();
+    		HashMap<String,String> HmQuestions = new HashMap<>(); //create json of questions
+    		HmQuestions.put("answer1", getAnswer1());
+    		HmQuestions.put("answer2", getAnswer2());
+    		HmQuestions.put("answer3", getAnswer3());
+    		HmQuestions.put("answer4", getAnswer4());
+    		
+    		arr2.add(getQuestionField());
+    		arr2.add(HmQuestions.toString());
+    		arr2.add(getRightAnswer());
+    		arr2.add(getSubject());
+    		arr2.add(getNotesField());
+    		arr2.add(coursesSelected.toString());
+    	
+    		msg.put("param", arr2);
+    		super.sendMsgToServer(msg);
+         	
+    	}
     }
     
  
@@ -155,7 +174,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		cmbRightAnswer.getItems().addAll(1,2,3,4);
+		cmbRightAnswer.getItems().addAll("1","2","3","4");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Lecturer");

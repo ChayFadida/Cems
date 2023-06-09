@@ -18,23 +18,6 @@ public class SqlQueries {
 		return getAllTable.toString();
 	}
 	
-	/** this method update the question table by id
-	 *@param param is arraylist = ["question_number", "question",
-	 *								"id"]
-	 *@return query updateQuestionById string of the desired query
-	 * */
-//	public static String updateQuestionById(ArrayList<String> param) {
-//	    HashMap<String, Object> res = new HashMap<>();
-//	    String sql = "UPDATE questions + SET pdfBytes = ? WHERE examId = ? AND studentId = ?";
-//
-//		
-//		String query= "UPDATE questions SET question_number = '"
-//				+ param.get(1)+"', question = '"+ param.get(2)+"' WHERE id ="+param.get(0);
-//		return query;
-//	}
-	
-	//should re write the update question by id
-	
 	public static HashMap<String, Object> uploadFile(DataInputStream data, String table, int examId, int studentId) {
 	    HashMap<String, Object> res = new HashMap<>();
 	    String sql = "UPDATE " + table + " SET pdfBytes = ? WHERE examId = ? AND studentId = ?";
@@ -68,5 +51,8 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = 1 WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-
+	public static String InsertQuestionToDB(ArrayList<String> hm) {
+		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '4', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni');";
+		return query;
+	}
 }

@@ -54,7 +54,7 @@ public class UserTaskManager implements TaskHandler{
 	}
 	public ArrayList<HashMap<String, Object>> updateUserByUserNameAndPassLoggedIn(String pass , String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.updateQueriesFirst(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username));
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username));
 		return rs;
 	}
 }
