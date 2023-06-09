@@ -4,8 +4,13 @@ import java.util.HashMap;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import controllersHod.HODmenuController;
 import controllersLecturer.LecturerMenuController;
 import controllersStudent.StudentMenuController;
+import entities.Hod;
+import entities.Lecturer;
+import entities.Student;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,20 +80,31 @@ public class LogInController extends AbstractController{
 					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					StudentMenuController studentMenuController = new StudentMenuController();	
 					studentMenuController.start(primaryStage);
+					break;
 					
 				case("HOD"):
 					//also add entity class HOD and send it to HOD menu controller. so we have info of entity there.
 					System.out.println("HOD Login Successfuly.");
 					//to be implemented.
-//					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-//					HodMenuScreenController hodMenuScreenController = new HodMenuScreenController();	
-//					hodMenuScreenController.start(primaryStage);
-					
+					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+					HODmenuController hodMenuController = new HODmenuController();	
+					hodMenuController.start(primaryStage);
+					break;
+				case "logged in":
+					System.out.println("User is already logged in");
+					//add text to error label
+					break;
+				case "not exist":
+					System.out.println("User does not exist");
+					//add text to error label
+					break;
 				default: 
 		    		System.out.println("no such user");
+		    		break;
 			}
 			
 		}catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Wrong input, try again");
 		}	
 	}
@@ -118,11 +134,27 @@ public class LogInController extends AbstractController{
 		arr2.add(password);
 		arr2.add(userName);
 		msg.put("details",arr2);
-		sendMsgToServer(msg);
+		super.sendMsgToServer(msg);
 		//ConnectionServer.getInstance().handleMessageFromClientUI(msg);
 		if(!ConnectionServer.rs.isEmpty()) {
-			//need to flag his connected in DB
-			return (String)ConnectionServer.rs.get(0).get("position");
+			HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
+			switch ((String)rsHM.get("access")){
+				case "approve":
+					User user = (User)rsHM.get("response");
+					if(user instanceof Lecturer)
+						return "Lecturer";
+					else if (user instanceof Hod)
+						return "HOD";
+					else if (user instanceof Student)
+						return "Student";
+					return "Super";
+				case "deny":
+					return (String) rsHM.get("response");
+			}
+//			ConnectionServer.setUser((User) ConnectionServer.rs.get(0).get("response"));
+//			if(ConnectionServer.getUser()==null)
+//				return "Already Logged in";
+//			return (String)ConnectionServer.rs.get(0).get("position");
 		}
 		return "No Such User";
 	}
