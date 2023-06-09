@@ -8,7 +8,6 @@
 Client/bin/
 Client/.gitignore
 Client/.project
-Client/.classpath
 Server/bin/
 Server/.gitignore
 Server/.project
