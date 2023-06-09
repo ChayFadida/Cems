@@ -12,6 +12,7 @@ import entities.Course;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -149,7 +150,9 @@ public class AddNewQuestionController extends AbstractController implements Init
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
          	
+    		
     	}
+    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     }
     
  

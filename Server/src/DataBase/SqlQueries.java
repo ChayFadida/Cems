@@ -52,7 +52,7 @@ public class SqlQueries {
 		return query;
 	}
 	public static String InsertQuestionToDB(ArrayList<String> hm) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '4', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni');";
+		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni');";
 		return query;
 	}
 }
