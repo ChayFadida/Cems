@@ -1,11 +1,19 @@
 package controllersLecturer;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import abstractControllers.AbstractController;
+import client.ConnectionServer;
+import controllersClient.AreYouSureController;
+import entities.Lecturer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,15 +24,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class LecturerMenuController extends AbstractController{
+public class LecturerMenuController extends AbstractController implements Initializable{
 	private MyQuestionBankController myQuestionBankController=null;
 	private MyExamBankController myExamBankController=null;
 	private CreateNewExamController createNewExamController=null;
 	private ManageExamsController manageExamsController=null;
 	private CheckResultController checkResultController=null;
+	private Lecturer lecturer=null ;
 	
 	private final Glow buttonPressEffect = new Glow(0.5);
     @FXML
@@ -56,13 +66,23 @@ public class LecturerMenuController extends AbstractController{
 
     @FXML
     private BorderPane bp;
-    
-    
-    /// in order to start without login dependency 
-    // after Login, remove @override (start should stay), remove main
+
+    @FXML
+    private Text lblHello;
+    public LecturerMenuController() {
+    	try {
+			lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
     public void start(Stage primaryStage) {
 	    try {
-	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+	    	ConnectionServer.getInstance();
+	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -79,15 +99,11 @@ public class LecturerMenuController extends AbstractController{
 	        e.printStackTrace();
 	    }
 	}
-//    public static void main(String[] args) {
-//		launch(args);
-//	}
-    ///END ITAMAR COMMANDS
+
     @FXML
     void getExitBtn(ActionEvent event) {
-    	//temporary! need to implement log out + server connection shut down
-    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        currentStage.close();
+    	AreYouSureController areYouSureController = new AreYouSureController();
+    	areYouSureController.start(new Stage());
     }
 
     @FXML
@@ -185,6 +201,11 @@ public class LecturerMenuController extends AbstractController{
         }
         bp.setCenter(root);
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		lblHello.setText("Hello, "+lecturer.getFirstName()+ "!");
+	}
     
 
  

@@ -64,18 +64,24 @@ public class UserTaskManager implements TaskHandler{
 				case "Lecturer":
 					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
 					user = new Lecturer(userHM,coursesId);
+					user.setIsLogged(true);
 					break;
 				case "Student":
 					department = getDepartmentByStudentId((int)userHM.get("id"));
 					user = new Student(userHM,department);
+					user.setIsLogged(true);
 					break;
 				case "HOD":
 					department = getDepartmentByHodId((int)userHM.get("id"));
 					user = new Hod(userHM,department);
+					user.setIsLogged(true);
+					break;
 				case "Super":
 					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
 					department = getDepartmentByHodId((int)userHM.get("id"));
 					user = new Super(userHM,coursesId,department);
+					user.setIsLogged(true);
+					break;
 				default:
 					System.out.println("Problam at switch in login attempt");
 					user=null;

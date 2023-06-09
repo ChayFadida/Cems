@@ -1,14 +1,21 @@
 package controllersStudent;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
+import client.ConnectionServer;
+import controllersClient.AreYouSureController;
+import entities.Student;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,15 +26,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
-public class StudentMenuController extends Application{
+public class StudentMenuController extends AbstractController implements Initializable{
 	private double xOffset = 0; 
 	private double yOffset = 0;
 	private MyExamController myExamController;
 	private TakeExamController takeExamController;
+	private Student student=null;
     @FXML
     private Button LogOutButton;
 
@@ -50,9 +59,19 @@ public class StudentMenuController extends Application{
     private Button minimizeBtn;
     
     @FXML
+    private Text lblHello;
+    
+    public StudentMenuController() {
+    	try {
+			student = (Student) ConnectionServer.getInstance().getUser();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    @FXML
     void getExitBtn(ActionEvent event) {
-    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        currentStage.close();
+    	AreYouSureController areYouSureController = new AreYouSureController();
+    	areYouSureController.start(new Stage());
     }
 
     @FXML
@@ -62,9 +81,8 @@ public class StudentMenuController extends Application{
     }
     
     private final Glow buttonPressEffect = new Glow(0.5);
-    /// in order to start without login dependency 
-    // after Login, remove @override (start should stay), remove main
-    @Override	
+
+   
 	public void start(Stage primaryStage) {
 	    try {
 	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiStudent/StudentMenu.fxml"));
@@ -102,10 +120,6 @@ public class StudentMenuController extends Application{
 	        e.printStackTrace();
 	    }
 	}
-    public static void main(String[] args) {
-		launch(args);
-	}
-    ///END ITAMAR COMMANDS
 
     @FXML
     void LogOut(MouseEvent event) {
@@ -162,5 +176,10 @@ public class StudentMenuController extends Application{
         }
         bp.setCenter(root);
     }
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		lblHello.setText("Hello, "+student.getFirstName()+ "!");
+		
+	}
 
 }

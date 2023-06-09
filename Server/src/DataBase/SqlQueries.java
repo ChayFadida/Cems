@@ -80,7 +80,7 @@ public class SqlQueries {
 	}
 
 	public static String getCoursesByLecturerId(int id) {
-		String query = "Select L.courseId FROM lecturer AS L WHERE H.userId = '" +id+ "';";
+		String query = "Select L.courseId FROM lecturer AS L WHERE L.userId = '" +id+ "';";
 		return query;
 	}
 	

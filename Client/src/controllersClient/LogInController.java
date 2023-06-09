@@ -1,4 +1,5 @@
 package controllersClient;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ import controllersStudent.StudentMenuController;
 import entities.Hod;
 import entities.Lecturer;
 import entities.Student;
+import entities.Super;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,6 +45,12 @@ public class LogInController extends AbstractController{
     
     @FXML
     private Text lblError;
+    
+    @FXML
+    private Button btnExit;
+
+    @FXML
+    private Button btnMinimize;
 
     /**
 	 *password getter
@@ -67,36 +75,31 @@ public class LogInController extends AbstractController{
 		try {
 			switch(isValidPermission(getUserName(),getPassword())) {
 				case("Lecturer"):
-					//also add entity class lecturer and send it to lecturer menu controller. so we have info of entity there.
 					System.out.println("Lecturer Login Successfuly.");
 					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					LecturerMenuController lecturerMenuController = new LecturerMenuController();	
 					lecturerMenuController.start(primaryStage);
 					break;
 				case("Student"):
-					//also add entity class student and send it to student menu controller. so we have info of entity there.
 					System.out.println("Student Login Successfuly.");
-					//to be implemented.
 					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					StudentMenuController studentMenuController = new StudentMenuController();	
 					studentMenuController.start(primaryStage);
 					break;
 					
 				case("HOD"):
-					//also add entity class HOD and send it to HOD menu controller. so we have info of entity there.
 					System.out.println("HOD Login Successfuly.");
-					//to be implemented.
 					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					HODmenuController hodMenuController = new HODmenuController();	
 					hodMenuController.start(primaryStage);
 					break;
 				case "logged in":
 					System.out.println("User is already logged in");
-					//add text to error label
+					lblError.setText("This user is already logged in to the system.");
 					break;
 				case "not exist":
 					System.out.println("User does not exist");
-					//add text to error label
+					lblError.setText("User does not exist in the system, try again.");
 					break;
 				default: 
 		    		System.out.println("no such user");
@@ -135,19 +138,27 @@ public class LogInController extends AbstractController{
 		arr2.add(userName);
 		msg.put("details",arr2);
 		super.sendMsgToServer(msg);
-		//ConnectionServer.getInstance().handleMessageFromClientUI(msg);
 		if(!ConnectionServer.rs.isEmpty()) {
 			HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
 			switch ((String)rsHM.get("access")){
 				case "approve":
 					User user = (User)rsHM.get("response");
-					if(user instanceof Lecturer)
+					if(user instanceof Lecturer) {
+						ConnectionServer.getInstance().setUser((Lecturer)user);
 						return "Lecturer";
-					else if (user instanceof Hod)
+					}
+					else if (user instanceof Hod) {
+						ConnectionServer.getInstance().setUser((Hod)user);
 						return "HOD";
-					else if (user instanceof Student)
+					}
+					else if (user instanceof Student) {
+						ConnectionServer.getInstance().setUser((Student)user);
 						return "Student";
-					return "Super";
+					}
+					else {
+						ConnectionServer.getInstance().setUser((Super)user);
+						return "Super";
+					}
 				case "deny":
 					return (String) rsHM.get("response");
 			}
@@ -180,4 +191,22 @@ public class LogInController extends AbstractController{
 			e.printStackTrace();
 		}
 	}
+    
+    @FXML
+    void getExitBtn(ActionEvent event) {
+    	try {
+			ConnectionServer.getInstance().quit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("exit Academic Tool");
+		System.exit(0);
+    }
+    
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+
 }

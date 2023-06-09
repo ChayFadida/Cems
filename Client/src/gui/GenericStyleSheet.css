@@ -141,4 +141,10 @@
 	-fx-font-family : Wingdings 3;
 }
 
-
+.rootAYS{
+	-fx-background-color: #766078;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+.textAYS{
+	-fx-fill: #e8e1e9;
+}

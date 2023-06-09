@@ -102,12 +102,12 @@ public class ConnectionServer extends AbstractClient{
 		return instance;
 	}
 	
-	public static User getUser() {
+	public User getUser() {
 		return user;
 	}
 
 
-	public static void setUser(User user) {
+	public void setUser(User user) {
 		ConnectionServer.user = user;
 	}
 
