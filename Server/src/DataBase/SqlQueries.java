@@ -60,4 +60,13 @@ public class SqlQueries {
 		String quert = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return quert;
 	}
+	public static String getUserByUserNameAndPass(String pass,String userName) {
+		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
+		return query;
+	}
+	public static String updateUserByUserNameAndPassIsLogged(String pass,String userName) {
+		String query = "UPDATE users SET isLogged = 1 WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
+		return query;
+	}
+
 }

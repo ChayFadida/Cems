@@ -1,5 +1,6 @@
 package client;
 
+import controllersClient.ConnectClientScreenController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +13,6 @@ import javafx.stage.StageStyle;
 
 
 public class ClientApplication extends Application {
-	private double xOffset = 0; 
-	private double yOffset = 0;
 
 
 	/**
@@ -21,28 +20,8 @@ public class ClientApplication extends Application {
 	 *@param primaryStage
 	 * */
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ConnectClientScreen.fxml"));
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/guiClient/ConnectClientCSS.css").toExternalForm());
-		primaryStage.initStyle(StageStyle.UNDECORATED);
-		primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-		primaryStage.setTitle("Client");
-		primaryStage.setScene(scene);
-		primaryStage.show();	
-		root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-        });
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-            	primaryStage.setX(event.getScreenX() - xOffset);
-            	primaryStage.setY(event.getScreenY() - yOffset);
-            }
-        });
+		ConnectClientScreenController connectClientScreenController = new ConnectClientScreenController();
+		connectClientScreenController.start(primaryStage);
 	}
 	
 	

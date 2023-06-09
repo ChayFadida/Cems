@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersClient.ConnectClientScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersClient.ConnectClientScreenController">
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -27,11 +28,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="72.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="lblConnectServer" alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="190.0" text="Connect to server">
+                        <Text fx:id="lblConnectServer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Connect to server">
                            <font>
-                              <Font name="System Italic" size="24.0" />
+                              <Font size="30.0" />
                            </font>
-                        </Label>
+                        </Text>
                      </children>
                   </HBox>
                   <VBox prefHeight="128.0" prefWidth="300.0">
