@@ -14,16 +14,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ChangeDurationController extends AbstractController{
-	
-	private double xOffset = 0; 
-	private double yOffset = 0;
 
     @FXML
     private Button CloseBtn;
-
-    @FXML
-    private Button CloseBtn;
-
     @FXML
     private TextField HODidTXT;
 
@@ -41,10 +34,6 @@ public class ChangeDurationController extends AbstractController{
     @FXML
     private TextField txtNewTime;
 
-    @FXML
-    private TextField txtOldTime;
-    @FXML
-    private TextField txtNewTime;
     
     @FXML
     void Close(ActionEvent event) {
