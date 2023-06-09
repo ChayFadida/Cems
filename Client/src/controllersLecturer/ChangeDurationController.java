@@ -17,6 +17,7 @@ public class ChangeDurationController extends AbstractController{
 
     @FXML
     private Button CloseBtn;
+
     @FXML
     private TextField HODidTXT;
 
