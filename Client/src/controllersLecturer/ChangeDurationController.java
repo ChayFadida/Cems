@@ -14,6 +14,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ChangeDurationController extends AbstractController{
+	
+	private double xOffset = 0; 
+	private double yOffset = 0;
+
+    @FXML
+    private Button CloseBtn;
 
     @FXML
     private Button CloseBtn;
@@ -29,6 +35,11 @@ public class ChangeDurationController extends AbstractController{
 
     @FXML
     private TextField changeDurationTxt;
+    
+    @FXML
+    private TextField txtOldTime;
+    @FXML
+    private TextField txtNewTime;
 
     @FXML
     private TextField txtOldTime;
@@ -61,9 +72,9 @@ public class ChangeDurationController extends AbstractController{
 	        DragHandler<MouseEvent> drag = new DragHandler<>();
 	        root.setOnMousePressed(press);
 	        root.setOnMouseDragged(drag);
+
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
 	}
-
 }

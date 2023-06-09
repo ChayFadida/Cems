@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Course;
@@ -29,14 +28,15 @@ import javafx.stage.StageStyle;
 
 
 public class AddNewQuestionController extends AbstractController implements Initializable{
-
 	List<String> coursesSelected;
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
     
+
     @FXML
     private MenuButton CoursesMenu;
-    @FXML
+    
+	@FXML
     private Button AddQuestionToBankButton;
 
     @FXML
@@ -71,6 +71,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     private Label lblCourses;
+  
     @FXML
     private TextField txtSubject;
     
@@ -111,7 +112,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
+
     @FXML
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
@@ -129,7 +130,6 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    	}
 //    	sb.append(".");
 //    	lblError.setText(sb.toString());
-
 
     }
     

@@ -1,25 +1,25 @@
 package controllersLecturer;
 
 import java.io.IOException;
-
 import abstractControllers.AbstractController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-//remove Application after Login implementation
 public class LecturerMenuController extends AbstractController{
-
 	private MyQuestionBankController myQuestionBankController=null;
 	private MyExamBankController myExamBankController=null;
 	private CreateNewExamController createNewExamController=null;

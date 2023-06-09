@@ -48,7 +48,7 @@ public class ViewExamController extends AbstractController{
 	        PressHandler<MouseEvent> press = new PressHandler<>();
 	        DragHandler<MouseEvent> drag = new DragHandler<>();
 	        root.setOnMousePressed(press);
-	        root.setOnMouseDragged(drag);
+	        root.setOnMouseDragged(drag)
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

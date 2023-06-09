@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class EditExamController extends AbstractController{
-
-
     @FXML
     private Button SaveApplyMyChangesButton;
 
@@ -54,6 +52,7 @@ public class EditExamController extends AbstractController{
 	        DragHandler<MouseEvent> drag = new DragHandler<>();
 	        root.setOnMousePressed(press);
 	        root.setOnMouseDragged(drag);
+
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

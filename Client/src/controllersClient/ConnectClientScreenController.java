@@ -19,6 +19,7 @@ import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 
+
 public class ConnectClientScreenController extends AbstractController{
 
     @FXML
@@ -66,8 +67,7 @@ public class ConnectClientScreenController extends AbstractController{
 			Stage primaryStage = new Stage();
 			LogInController logInController = new LogInController();
 			logInController.start(primaryStage);
-//			LecturerMenuController lecturerMenuController = new LecturerMenuController();
-//			lecturerMenuController.start(primaryStage);
+
 		}catch (Exception e) {
 			System.out.println("Wrong input, try again");
 		}	
