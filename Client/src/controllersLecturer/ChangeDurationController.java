@@ -2,7 +2,6 @@ package controllersLecturer;
 
 import abstractControllers.AbstractController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,15 +22,13 @@ public class ChangeDurationController extends AbstractController{
     private Button CloseBtn;
 
     @FXML
+    private Button CloseBtn;
+
+    @FXML
     private TextField HODidTXT;
 
     @FXML
     private Button MinimizeBtn;
-
-
-    @FXML
-    private Button SendRequestButton;
-
 
     @FXML
     private Button SendRequestButton;
@@ -45,6 +41,11 @@ public class ChangeDurationController extends AbstractController{
     @FXML
     private TextField txtNewTime;
 
+    @FXML
+    private TextField txtOldTime;
+    @FXML
+    private TextField txtNewTime;
+    
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -66,21 +67,12 @@ public class ChangeDurationController extends AbstractController{
 	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	        
-	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
+
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

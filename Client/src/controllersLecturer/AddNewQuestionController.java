@@ -6,12 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.event.ActionEvent.*;
-import java.io.IOException;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Course;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,14 +27,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-
 public class AddNewQuestionController extends AbstractController implements Initializable{
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	List<String> coursesSelected;
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
     
+
     @FXML
     private MenuButton CoursesMenu;
     
@@ -76,7 +71,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     
     @FXML
     private Label lblCourses;
-
+  
     @FXML
     private TextField txtSubject;
     
@@ -117,7 +112,6 @@ public class AddNewQuestionController extends AbstractController implements Init
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
 
     @FXML
     void getAddQuestion(ActionEvent event) {
@@ -136,23 +130,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 //    	}
 //    	sb.append(".");
 //    	lblError.setText(sb.toString());
-    
-    //************Tomer: In my opinion its better without the back button ******************//// 
-    @FXML
-    void back(ActionEvent event) {
-    	   try {
-    	        Parent root = FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
-    	        Scene scene = new Scene(root);
 
-    	        // Get the current stage
-    	        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-
-    	        // Set the scene to the current stage
-    	        currentStage.setScene(scene);
-    	        currentStage.show();
-    	    } catch (IOException e) {
-    	        e.printStackTrace();
-    	    }
     }
     
  
@@ -165,21 +143,11 @@ public class AddNewQuestionController extends AbstractController implements Init
 	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	        
-	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

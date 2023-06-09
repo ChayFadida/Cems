@@ -137,16 +137,16 @@
       </AnchorPane>
    </center>
    <right>
-      <AnchorPane prefHeight="750.0" prefWidth="126.0" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="125.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="minimizeButton" mnemonicParsing="false" onAction="#getMinimizeBtn" prefHeight="35.0" prefWidth="33.0" styleClass="toggle-btns">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
                <graphic>
-                  <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/minimize.png" />
+                        <Image url="@/Images/minimize.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -156,9 +156,9 @@
             </Button>
             <Button fx:id="closeButton" layoutX="52.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="35.0" prefWidth="33.0" styleClass="toggle-btns">
                <graphic>
-                  <ImageView fitHeight="63.0" fitWidth="40.0" preserveRatio="true">
+                  <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/exit.png" />
+                        <Image url="@/Images/exit.png" />
                      </image>
                   </ImageView>
                </graphic>

@@ -18,28 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import entities.Question;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import entities.Question;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 public class MyQuestionBankController extends AbstractController{
 	
 	private ArrayList<Question> qArr ;
-
-
 	private LecturerMenuController lecturerMenuController;
 	
     @FXML
@@ -57,7 +38,6 @@ public class MyQuestionBankController extends AbstractController{
     @FXML
     private Button minimizeButton;
     
-
     @FXML
     private TextField TempIDbox;
     
@@ -132,8 +112,6 @@ public class MyQuestionBankController extends AbstractController{
 	private String getid() {
     	return TempIDbox.getText();
     }
-
-        
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -153,21 +131,6 @@ public class MyQuestionBankController extends AbstractController{
 		//need to implement start method in AddNewQuestionController and then -->
 		addNewQuestionController.start(primaryStage);
     }
-
-   /* @FXML
-    void AddNewQuestion(ActionEvent event) {
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.close(); // Close the current window
-
-        try {
-            Stage primaryStage = new Stage();
-            AddNewQuestionController addNewQuestionController = new AddNewQuestionController();
-            addNewQuestionController.start(primaryStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @FXML
     void EditQuestion(MouseEvent event) {
     	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -178,5 +141,4 @@ public class MyQuestionBankController extends AbstractController{
     }
 
 }
-
 

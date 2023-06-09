@@ -2,6 +2,8 @@ package controllersStudent;
 
 import java.io.IOException;
 
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -73,6 +75,8 @@ public class StudentMenuController extends Application{
 	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
+	        //after login implementation:
+	        //remove ->
 	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {
@@ -80,6 +84,7 @@ public class StudentMenuController extends Application{
 	                yOffset = event.getSceneY();
 	            }
 	        });
+	        
 	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {
@@ -87,6 +92,12 @@ public class StudentMenuController extends Application{
 	            	primaryStage.setY(event.getScreenY() - yOffset);
 	            }
 	        });
+	        //add instead:
+//	        super.setPrimaryStage(primaryStage);
+//	        PressHandler<MouseEvent> press = new PressHandler<>();
+//	        DragHandler<MouseEvent> drag = new DragHandler<>();
+//	        root.setOnMousePressed(press);
+//	        root.setOnMouseDragged(drag);
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

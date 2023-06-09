@@ -9,12 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
-import controllers.LecturerMenuScreenController;
-import controllersLecturer.LecturerMenuController;
+
 
 public class ConnectClientScreenController extends AbstractController{
 
@@ -25,7 +29,7 @@ public class ConnectClientScreenController extends AbstractController{
     private Button btnShutDown;
 
     @FXML
-    private Label lblConnectServer;
+    private Text lblConnectServer;
 
     @FXML
     private Label lblServerIP;
@@ -61,8 +65,9 @@ public class ConnectClientScreenController extends AbstractController{
 			ConnectionServer.getInstance(getIP(), getPort());
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
-			LecturerMenuController lecturerMenuController = new LecturerMenuController();
-			lecturerMenuController.start(primaryStage);
+			LogInController logInController = new LogInController();
+			logInController.start(primaryStage);
+
 		}catch (Exception e) {
 			System.out.println("Wrong input, try again");
 		}	
@@ -83,11 +88,16 @@ public class ConnectClientScreenController extends AbstractController{
 	 * */
 	public void start(Stage primaryStage) throws Exception {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ConnectClientScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ConnectClientScreen.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Academic Managment Tool");
+		primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
 		primaryStage.setScene(scene);
-		
-		primaryStage.show();	 	   
+		primaryStage.show();	
+		super.setPrimaryStage(primaryStage);
+        PressHandler<MouseEvent> press = new PressHandler<>();
+        DragHandler<MouseEvent> drag = new DragHandler<>();
+        root.setOnMousePressed(press);
+        root.setOnMouseDragged(drag);
 	}
 }

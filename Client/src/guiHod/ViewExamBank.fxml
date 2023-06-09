@@ -9,6 +9,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View exam bank" wrappingWidth="334.13671875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Text>
       <TableView fx:id="ExamsTable" layoutX="132.0" layoutY="148.0" prefHeight="261.0" prefWidth="505.0">
          <columns>
             <TableColumn prefWidth="123.0" text="Exam ID" />
@@ -17,11 +22,6 @@
             <TableColumn prefWidth="140.0" text="Subject" />
          </columns>
       </TableView>
-      <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View exam bank" wrappingWidth="334.13671875">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="27.0" />
-         </font>
-      </Text>
       <Text layoutX="132.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Insert Lecurer id:" wrappingWidth="156.13671875">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />

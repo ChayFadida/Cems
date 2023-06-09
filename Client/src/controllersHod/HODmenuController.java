@@ -25,6 +25,12 @@ import javafx.stage.StageStyle;
 public class HODmenuController extends Application  {
 	private double xOffset = 0; 
 	private double yOffset = 0;
+	private HODviewAllStudentsController hODviewAllStudentsController;
+	private HODviewAllLecturersTableController hODviewAllLecturersTableController;
+	private HODviewExamBankController hODviewExamBankController;
+	private HODviewRequestController hODviewRequestController;
+	private HODviewStatisticsController hODviewStatisticsController;
+	private HODviewQuestionBankController hODviewQuestionBankController;
     @FXML
     private Button LogOutButton;
 
@@ -115,31 +121,44 @@ public class HODmenuController extends Application  {
     @FXML
     void ViewExamBank(MouseEvent event) {
     	loadPage("ViewExamBank");
+    	if(hODviewExamBankController==null)
+    		hODviewExamBankController = new HODviewExamBankController();
     }
 
     @FXML
     void ViewQuestionBank(MouseEvent event) {
     	loadPage("ViewQuestionBank");
+    	if(hODviewQuestionBankController==null)
+    		hODviewQuestionBankController = new HODviewQuestionBankController();
     }
 
     @FXML
     void ViewRequest(MouseEvent event) {
     	loadPage("ViewRequest");
+    	if(hODviewRequestController==null)
+    		hODviewRequestController = new HODviewRequestController();
     }
 
     @FXML
     void ViewStatistics(MouseEvent event) {
     	loadPage("ViewStatistics");
+    	if(hODviewStatisticsController==null)
+    		hODviewStatisticsController = new HODviewStatisticsController();
     }
     
     @FXML
     void ViewAllStudents(MouseEvent event) {
     	loadPage("ViewAllStudents");
+    	if(hODviewAllStudentsController==null)
+    		hODviewAllStudentsController= new HODviewAllStudentsController();
     }
     
     @FXML
     void ViewAllLecturers(MouseEvent event) {
     	loadPage("ViewAllLecturers");
+    	if(hODviewAllLecturersTableController== null)
+    		hODviewAllLecturersTableController = new HODviewAllLecturersTableController();
+    	
     }
     
     @FXML
@@ -193,7 +212,6 @@ public class HODmenuController extends Application  {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         bp.setCenter(root);
     }
 }

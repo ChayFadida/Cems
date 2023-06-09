@@ -1,5 +1,7 @@
 package controllersHod;
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,21 +49,11 @@ public class HODviewStatisticsByLecturerController extends AbstractController {
 	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	        
-	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

@@ -1,10 +1,8 @@
 package controllersLecturer;
 
 import java.io.IOException;
-
-import javafx.application.Application;
+import abstractControllers.AbstractController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -21,10 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-//remove Application after Login implementation
-public class LecturerMenuController {
-	private double xOffset = 0; 
-	private double yOffset = 0;
+public class LecturerMenuController extends AbstractController{
 	private MyQuestionBankController myQuestionBankController=null;
 	private MyExamBankController myExamBankController=null;
 	private CreateNewExamController createNewExamController=null;
@@ -74,20 +69,12 @@ public class LecturerMenuController {
 	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
+	        //handle dragging the window
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }

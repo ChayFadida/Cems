@@ -19,7 +19,7 @@
 }
 .table-view .column-header-background{
     -fx-background-color:  #766078;
-    -fx-text-background-color: #2e0033;
+    -fx-text-background-color: #e8e1e9;
     -fx-background-radius: 7px 7px 0px 0px;
 }
 .table-view .column-header {

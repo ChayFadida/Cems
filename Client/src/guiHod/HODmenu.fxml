@@ -135,7 +135,7 @@
          </children></AnchorPane>
    </center>
    <right>
-      <AnchorPane prefHeight="750.0" prefWidth="142.0" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="125.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnMinimize" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
                <graphic>

@@ -26,7 +26,15 @@ public class DBController {
 	private static boolean driverIsSet;
 	private static DBController instance;
 	private static String questionsTable = "questions";
+	private static String usersTable = "users";
 	
+	/**
+	 *@return return the Users table
+	 * */
+
+	public String getUsersTable() {
+		return usersTable;
+	}
 	
 	/**
 	 *@return return the question table

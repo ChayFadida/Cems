@@ -9,6 +9,7 @@ public class TaskHandlerFactory {
 	private static TaskHandler ManagerHandler = new HODTaskManager();
 	private static TaskHandler LecturerHandler = new LecturerTaskManager();
 	private static TaskHandler StudentHandler = new StudentTaskManager();
+	private static TaskHandler UserHandler = new UserTaskManager();
 	public static HashMap<String,TaskHandler> taskHandler = new HashMap<>();
 	private static TaskHandlerFactory instance;
 	
@@ -21,6 +22,8 @@ public class TaskHandlerFactory {
 		taskHandler.put("HOD", ManagerHandler);
 		taskHandler.put("Lecturer", LecturerHandler);
 		taskHandler.put("Student", StudentHandler);
+		taskHandler.put("User", UserHandler);
+
 	}
 	
 	/**
