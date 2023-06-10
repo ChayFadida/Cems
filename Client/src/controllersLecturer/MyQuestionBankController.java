@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -143,7 +144,19 @@ public class MyQuestionBankController extends AbstractController{
     
     @FXML
     void DeleteQuestion(MouseEvent event) {
-    	
+    	SelectionModel<Question> selectionModel = QuestionBankLecTable.getSelectionModel();
+    	Question selectedItem = selectionModel.getSelectedItem();
+    	HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("deleteQuestion");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(selectedItem.getQuestionID() + "");
+		msg.put("param",arr2);
+		super.sendMsgToServer(msg);
     }
 
 }

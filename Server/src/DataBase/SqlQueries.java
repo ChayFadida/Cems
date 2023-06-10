@@ -51,8 +51,15 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = 1 WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-	public static String InsertQuestionToDB(ArrayList<String> hm) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni', '" + hm.get(5) + "');";
+	public static String InsertQuestionToDB(ArrayList<String> param) {
+		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "', 'Yoni', '" + param.get(5) + "');";
 		return query;
 	}
+
+	public static String deleteQuestion(ArrayList<String> param) {
+		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
+		return query;
+	}
+	
+	
 }

@@ -146,10 +146,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		arr2.add(getNotesField());
     		
     		HashMap<String,String> HmCourses = new HashMap<>(); //create json of courses
-    		for(int i=1; i<=coursesSelected.size() ;i++) {
-    			String str = "Course" + i; 
-    			HmCourses.put(str, coursesSelected.get(i-1));
-    		}
+    		HmCourses.put("courses", coursesSelected.toString());
     		
     		arr2.add(HmCourses.toString());
     	
@@ -209,6 +206,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		    HashMap<String, Object> element = rs.get(i);
 		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
+		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
 		    coursesMenuItems.add(checkMenuItem);
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
@@ -222,15 +220,20 @@ public class AddNewQuestionController extends AbstractController implements Init
                 .filter(CheckMenuItem::isSelected)
                 .map(MenuItem::getText)
                 .collect(Collectors.toList());
-
+        List<String> selectedId = coursesMenuItems.stream()
+                .filter(CheckMenuItem::isSelected)
+                .map(MenuItem::getId)
+                .collect(Collectors.toList());
         if (selected.isEmpty()) {
             lblCourses.setText(" ");
         } else {
             lblCourses.setText(selected.toString());
         }
 
-        coursesSelected = selected;
+        coursesSelected = selectedId;
     }
+	
+	
 
 
 

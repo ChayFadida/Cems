@@ -27,6 +27,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getCourses();
 				case "addNewQuestion":
 					return addNewQuestion(hm.get("param"));
+				case "deleteQuestion":
+					return deleteQuestion(hm.get("param"));
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
@@ -36,6 +38,8 @@ public class LecturerTaskManager implements TaskHandler {
 	}
 
 	
+	
+
 	/**
 	 *execute get all questions query
 	 *@return ArrayList of the result of the query
@@ -62,6 +66,13 @@ public class LecturerTaskManager implements TaskHandler {
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertQuestionToDB(param));
 		return rs;
 	}
+	
+	private ArrayList<HashMap<String, Object>> deleteQuestion(ArrayList<String> param) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.deleteQuestion(param));
+		return rs;
+	}
+	
 }
 	
 
