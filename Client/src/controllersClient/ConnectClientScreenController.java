@@ -15,8 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 
 
@@ -78,6 +76,7 @@ public class ConnectClientScreenController extends AbstractController{
 	 *@param event
 	 * */
 	public void getShutdownBtn(ActionEvent event) throws Exception {
+		ConnectionServer.getInstance().quit();
 		System.out.println("exit Academic Tool");
 		System.exit(0);
 	}
@@ -86,8 +85,7 @@ public class ConnectClientScreenController extends AbstractController{
 	 *this method launch the screen
 	 *@param Stage primaryStage
 	 * */
-	public void start(Stage primaryStage) throws Exception {
-		
+	public void start(Stage primaryStage) throws Exception {	
 		Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ConnectClientScreen.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.initStyle(StageStyle.UNDECORATED);

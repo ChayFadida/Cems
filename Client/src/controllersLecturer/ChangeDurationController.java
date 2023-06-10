@@ -14,9 +14,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ChangeDurationController extends AbstractController{
-	
-	private double xOffset = 0; 
-	private double yOffset = 0;
 
     @FXML
     private Button CloseBtn;

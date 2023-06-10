@@ -31,7 +31,12 @@
          </font>
       </Text>
       <TextField fx:id="UserNameTxt" alignment="CENTER" layoutX="17.0" layoutY="413.0" prefHeight="36.0" prefWidth="386.0" promptText="UserName" />
-      <TextField fx:id="PasswordTxt" alignment="CENTER" layoutX="17.0" layoutY="461.0" prefHeight="36.0" prefWidth="386.0" promptText="Password" />
+      <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="21.0" layoutY="413.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/Images/username.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="PasswordTxt" alignment="CENTER" layoutX="17.0" layoutY="461.0" prefHeight="36.0" prefWidth="386.0" promptText="Password" style="-fx-background-image: url('@/Images/password.png');" />
       <Button fx:id="LoginButton" layoutX="17.0" layoutY="506.0" mnemonicParsing="false" onAction="#getLoginBtn" prefHeight="44.0" prefWidth="386.0" text="Login">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
@@ -39,12 +44,35 @@
       </Button>
       <Button fx:id="backButton" layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#getBackBtn" prefHeight="55.0" prefWidth="51.0" styleClass="toggle-btns">
          <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/Images/backBtn.png" />
                </image>
             </ImageView>
          </graphic></Button>
       <Text fx:id="lblError" layoutX="17.0" layoutY="572.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="386.0" />
+      <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="21.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/Images/password.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnExit" layoutX="344.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnMinimize" layoutX="290.0" layoutY="14.0" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/minimize.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
