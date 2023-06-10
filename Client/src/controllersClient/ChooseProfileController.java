@@ -40,7 +40,7 @@ public class ChooseProfileController extends AbstractController{
     @FXML
     private Button btnMinimize;
 
-    
+
    
     public ChooseProfileController() {
 		super();
@@ -86,8 +86,6 @@ public class ChooseProfileController extends AbstractController{
 		}
 		
 	}
-	
-
     @FXML
     void getLogoutBtn(ActionEvent event) {
     	//need to implement log out

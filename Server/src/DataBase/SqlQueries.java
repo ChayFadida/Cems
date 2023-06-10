@@ -18,23 +18,6 @@ public class SqlQueries {
 		return getAllTable.toString();
 	}
 	
-	/** this method update the question table by id
-	 *@param param is arraylist = ["question_number", "question",
-	 *								"id"]
-	 *@return query updateQuestionById string of the desired query
-	 * */
-//	public static String updateQuestionById(ArrayList<String> param) {
-//	    HashMap<String, Object> res = new HashMap<>();
-//	    String sql = "UPDATE questions + SET pdfBytes = ? WHERE examId = ? AND studentId = ?";
-//
-//		
-//		String query= "UPDATE questions SET question_number = '"
-//				+ param.get(1)+"', question = '"+ param.get(2)+"' WHERE id ="+param.get(0);
-//		return query;
-//	}
-	
-	//should re write the update question by id
-	
 	public static HashMap<String, Object> uploadFile(DataInputStream data, String table, int examId, int studentId) {
 	    HashMap<String, Object> res = new HashMap<>();
 	    String sql = "UPDATE " + table + " SET pdfBytes = ? WHERE examId = ? AND studentId = ?";
@@ -68,7 +51,10 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-
+	
+	public static String getLoggedFlag(String username, int flag) {
+		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
+	}
 	public static String getDepartmentByStudentId(int id) {
 		String query = "Select S.department FROM student AS S WHERE S.userId = '" +id+ "';";
 		return query;
@@ -87,12 +73,8 @@ public class SqlQueries {
 	public static String getLoggedFlag(String username, int flag) {
 		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
-
 	public static String getUserByUserName(String username) {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
-
-
-
 }

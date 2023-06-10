@@ -125,11 +125,10 @@ public class MyQuestionBankController extends AbstractController{
 
     @FXML
     void AddNewQuestion(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		AddNewQuestionController addNewQuestionController = new AddNewQuestionController();
-		//need to implement start method in AddNewQuestionController and then -->
 		addNewQuestionController.start(primaryStage);
+		
     }
     @FXML
     void EditQuestion(MouseEvent event) {
