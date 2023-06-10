@@ -117,7 +117,7 @@ public class UserTaskManager implements TaskHandler{
 		if(isLogged(username))
 			return false;
 		DBController dbController = DBController.getInstance();
-		dbController.updateQueriesFirst(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username, loginFlag));
+		dbController.updateQueries(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username, loginFlag));
 		return true;
 	}
 	
