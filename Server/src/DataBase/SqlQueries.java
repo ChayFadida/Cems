@@ -92,6 +92,9 @@ public class SqlQueries {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
+	public static String getUserByPosition(String position) {
+		return "SELECT * FROM users WHERE position = '" + position + "';" ;
+	}
 
 
 

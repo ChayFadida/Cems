@@ -175,6 +175,7 @@ public class HODmenuController extends AbstractController implements Initializab
     	loadPage("ViewAllStudents");
     	if(hODviewAllStudentsController==null)
     		hODviewAllStudentsController= new HODviewAllStudentsController();
+    		hODviewAllStudentsController.showTable();
     }
     
     @FXML
