@@ -41,7 +41,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	private HODviewRequestController hODviewRequestController;
 	private HODviewStatisticsController hODviewStatisticsController;
 	private HODviewQuestionBankController hODviewQuestionBankController;
-	private Hod hod=null;
+	private Hod hod=(Hod) ConnectionServer.user;
 	private Super s=null;
     @FXML
     private Button LogOutButton;
@@ -175,7 +175,6 @@ public class HODmenuController extends AbstractController implements Initializab
     	loadPage("ViewAllStudents");
     	if(hODviewAllStudentsController==null)
     		hODviewAllStudentsController= new HODviewAllStudentsController();
-//    		hODviewAllStudentsController.showTable();
     }
     
     @FXML

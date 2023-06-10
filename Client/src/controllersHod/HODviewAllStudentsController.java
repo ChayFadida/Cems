@@ -2,14 +2,12 @@ package controllersHod;
 
 import java.net.URL;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import entities.Hod;
 import entities.Student;
-import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,17 +36,6 @@ public class HODviewAllStudentsController extends AbstractController implements 
 			System.out.println("rs is null");
 		}
 		for (int i = 0; i < rs.size(); i++) {
-//		    HashMap<String, Object> element = rs.get(i);
-//		    HashMap <String,Object> usrInfo = new HashMap<String,Object>();
-//		    String department = null;
-//		    usrInfo.put("id",(int)element.get("id"));
-//		    usrInfo.put("firstName",(String)element.get("firstName"));
-//		    usrInfo.put("lastName",(String)element.get("lastName"));
-//		    usrInfo.put("email",(String)element.get("email"));
-//		    usrInfo.put("position",(String)element.get("position"));
-//		    usrInfo.put("pass",(String)element.get("pass"));
-//		    usrInfo.put("username",(String)element.get("username"));
-//		    usrInfo.put("isLogged",(boolean)element.get("isLogged"));
 		    stdArr.add(new Student(rs.get(i),null));
 		}
 	}
@@ -64,6 +51,9 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getAllbyPosition");
 		msg.put("task",arr1);
+		ArrayList<String> arr3 = new ArrayList<>();
+		arr3.add(((Hod) ConnectionServer.user).getDepartment());
+		msg.put("department",arr3);
 		sendMsgToServer(msg);
 		try {
 			this.loadStudents(ConnectionServer.rs);

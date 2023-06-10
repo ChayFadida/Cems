@@ -21,7 +21,7 @@ public class HODTaskManager implements TaskHandler{
 				case "getAllbyPosition":
 					switch((String)hm.get("position").get(0)) {
 						case("Student"):
-							return getAllStudents();
+							return getAllStudents(hm.get("department").get(0));
 						case("Lecturer"):
 							return getAllLecturers();
 						}
@@ -33,9 +33,9 @@ public class HODTaskManager implements TaskHandler{
 		return null;
 	}
 	
-	private ArrayList<HashMap<String, Object>> getAllStudents() throws SQLException{
+	private ArrayList<HashMap<String, Object>> getAllStudents(String id) throws SQLException{
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Student"));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentByPositionAndDepartment("Student",id));
 		return rs;
 	}
 	private ArrayList<HashMap<String, Object>> getAllLecturers() throws SQLException{
