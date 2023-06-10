@@ -1,41 +1,46 @@
 package controllersHod;
 
+import java.net.URL;
 import java.util.ArrayList;
+
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Student;
+import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class HODviewAllStudentsController extends AbstractController {
-	private ArrayList<Student> stdArr ;
+public class HODviewAllStudentsController extends AbstractController implements Initializable{
+	private ArrayList<User> stdArr ;
 
 	@FXML
-    private TableView<Student> AllStudentsTable;
+    private TableView<User> AllStudentsTable;
     @FXML
-    public TableColumn<Student, Integer> id;
+    public TableColumn<User, Integer> id;
     @FXML
-    public TableColumn<Student, String> firstName;
+    public TableColumn<User, String> firstName;
     @FXML
-    public TableColumn<Student, String> lastName;
+    public TableColumn<User, String> lastName;
     @FXML
-    public TableColumn<Student, String> email;
+    public TableColumn<User, String> email;
 
     public void loadStudents(ArrayList<HashMap<String, Object>> rs) throws Exception {
-    	stdArr = new ArrayList<Student>();
+    	stdArr = new ArrayList<User>();
     	if(rs == null) {
 			System.out.println("rs is null");
 		}
 		for (int i = 0; i < rs.size(); i++) {
 //		    HashMap<String, Object> element = rs.get(i);
 //		    HashMap <String,Object> usrInfo = new HashMap<String,Object>();
-		    String department = null;
+//		    String department = null;
 //		    usrInfo.put("id",(int)element.get("id"));
 //		    usrInfo.put("firstName",(String)element.get("firstName"));
 //		    usrInfo.put("lastName",(String)element.get("lastName"));
@@ -44,7 +49,7 @@ public class HODviewAllStudentsController extends AbstractController {
 //		    usrInfo.put("pass",(String)element.get("pass"));
 //		    usrInfo.put("username",(String)element.get("username"));
 //		    usrInfo.put("isLogged",(boolean)element.get("isLogged"));
-		    stdArr.add(new Student(rs.get(i),department));
+		    stdArr.add(new User(rs.get(i)));
 		}
 	}
     @FXML
@@ -67,16 +72,20 @@ public class HODviewAllStudentsController extends AbstractController {
 		}
 		initTableView(stdArr);
 	}
-	private void initTableView(ArrayList<Student> arr) {
-		ObservableList<Student> list = FXCollections.observableArrayList(arr);
-		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
-		PropertyValueFactory<Student, String> pvfFirstName = new PropertyValueFactory<Student, String>("firstName");
-		PropertyValueFactory<Student, String> pvfLastName = new PropertyValueFactory<Student, String>("lastName");
-		PropertyValueFactory<Student, String> pvfEmail = new PropertyValueFactory<Student, String>("email");
-		firstName.setCellValueFactory(pvfFirstName);
+	private void initTableView(ArrayList<User> arr) {
+		ObservableList<User> list = FXCollections.observableArrayList(arr);
+		PropertyValueFactory<User, Integer> pvfId = new PropertyValueFactory<User, Integer>("id");
+		PropertyValueFactory<User, String> pvfFirstName = new PropertyValueFactory<User, String>("firstName");
+		PropertyValueFactory<User, String> pvfLastName = new PropertyValueFactory<User, String>("lastName");
+		PropertyValueFactory<User, String> pvfEmail = new PropertyValueFactory<User, String>("email");
 		id.setCellValueFactory(pvfId);
+		firstName.setCellValueFactory(pvfFirstName);
 		lastName.setCellValueFactory(pvfLastName);
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		showTable();		
 	}
 }
