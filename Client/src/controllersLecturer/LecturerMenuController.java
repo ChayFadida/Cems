@@ -8,6 +8,8 @@ import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import entities.Lecturer;
+import entities.Super;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +37,7 @@ public class LecturerMenuController extends AbstractController implements Initia
 	private ManageExamsController manageExamsController=null;
 	private CheckResultController checkResultController=null;
 	private Lecturer lecturer=null ;
+	private Super s=null;
 	
 	private final Glow buttonPressEffect = new Glow(0.5);
     @FXML
@@ -72,14 +75,18 @@ public class LecturerMenuController extends AbstractController implements Initia
     public LecturerMenuController() {
     	try {
 			lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
 
-    public void start(Stage primaryStage) {
+	public LecturerMenuController(Super s) {
+		this.s=s;
+		this.lecturer=s.getLecturer();
+	}
+
+	public void start(Stage primaryStage) {
 	    try {
 	    	ConnectionServer.getInstance();
 	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));

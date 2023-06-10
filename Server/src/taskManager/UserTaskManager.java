@@ -46,7 +46,7 @@ public class UserTaskManager implements TaskHandler{
 		HashMap<String,Object> res = new HashMap<>();
 		String password = hm.get("details").get(0);
 		String username = hm.get("details").get(1);
-		ArrayList <HashMap<String,Object>> userArr = getUserByUserNameAndPass(password, username);
+		ArrayList <HashMap<String,Object>> userArr = getUserByUserName(username);
 		ArrayList <HashMap<String,Object>> userQ= getUserByUserNameAndPass(password, username);
 		if(userArr.isEmpty()) {
 			res.put("access","deny");

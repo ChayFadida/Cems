@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class AreYouSureController extends AbstractController{
-	public boolean response = false;
     @FXML
     private Button btnNo;
 
@@ -27,7 +26,6 @@ public class AreYouSureController extends AbstractController{
     @FXML
     void getNoBtn(ActionEvent event) {
     	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
-    	response = true;
     }
 
     @FXML

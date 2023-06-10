@@ -93,6 +93,12 @@ public class LogInController extends AbstractController{
 					HODmenuController hodMenuController = new HODmenuController();	
 					hodMenuController.start(primaryStage);
 					break;
+				case "Super":
+					System.out.println("Super Login Successfuly.");
+					((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+					ChooseProfileController chooseProfileController = new ChooseProfileController();	
+					chooseProfileController.start(primaryStage);
+					break;
 				case "logged in":
 					System.out.println("User is already logged in");
 					lblError.setText("This user is already logged in to the system.");

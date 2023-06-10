@@ -8,6 +8,7 @@ import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import entities.Hod;
+import entities.Super;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,6 +42,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	private HODviewStatisticsController hODviewStatisticsController;
 	private HODviewQuestionBankController hODviewQuestionBankController;
 	private Hod hod=null;
+	private Super s=null;
     @FXML
     private Button LogOutButton;
 
@@ -85,8 +87,13 @@ public class HODmenuController extends AbstractController implements Initializab
 			e.printStackTrace();
 		}
     }
-    
-    @FXML
+
+	public HODmenuController(Super s) {
+		this.s=s;
+		this.hod=s.getHod();
+	}
+
+	@FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
     	areYouSureController.start(new Stage());
