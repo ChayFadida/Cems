@@ -47,11 +47,17 @@ public class UserTaskManager implements TaskHandler{
 		String password = hm.get("details").get(0);
 		String username = hm.get("details").get(1);
 		ArrayList <HashMap<String,Object>> userArr = getUserByUserNameAndPass(password, username);
-		//check if logged in
-		//if(logged in
+		ArrayList <HashMap<String,Object>> userQ= getUserByUserNameAndPass(password, username);
 		if(userArr.isEmpty()) {
 			res.put("access","deny");
 			res.put("response", "not exist");
+			return res; //need to handle no permission this later
+		}
+		//check if logged in
+		//if(logged in
+		if(userQ.isEmpty()) {
+			res.put("access","deny");
+			res.put("response", "wrong credentials");
 			return res; //need to handle no permission this later
 		}
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
@@ -96,7 +102,11 @@ public class UserTaskManager implements TaskHandler{
 		res.put("response", "logged in");
 		return res;
 	}
-	
+	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserName(username));
+		return rs;
+	}
 	
 	private ArrayList<HashMap<String, Object>> getUserByUserNameAndPass(String pass, String username) throws SQLException {
 		DBController dbController = DBController.getInstance();

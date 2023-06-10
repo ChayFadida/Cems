@@ -88,6 +88,11 @@ public class SqlQueries {
 		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
 
+	public static String getUserByUserName(String username) {
+		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
+		return query;
+	}
+
 
 
 }

@@ -101,6 +101,9 @@ public class LogInController extends AbstractController{
 					System.out.println("User does not exist");
 					lblError.setText("User does not exist in the system, try again.");
 					break;
+				case "wrong credentials":
+					System.out.println("User does not exist");
+					lblError.setText("Wrong password, try again.");
 				default: 
 		    		System.out.println("no such user");
 		    		break;
