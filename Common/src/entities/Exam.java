@@ -9,39 +9,37 @@ public class Exam {
 	private String course;
 	private String subject;
 	private int duration;
-	private ExamType type;
+	private String type;
 	private String lecturerNote;
 	private String studentNote;
 	private String ecomposer;
 	private String code;
 	private String examNum;
 	private String bank;
-	private HashMap<String,Integer> studentInfo;
-	private ExamStatus status;
+	private String studentInfo;
+	private String status;
 	
 	/**
 	 *Exam constructor
 	 *@param examID,course,subject,duration,type,lecturerNote,studentNote,ecomposer,code,exanNum,bank,studentInfo,status.
 	 *
 	 * */
-	public Exam(String course, String subject, int duration, ExamType type, String lecturerNote, String studentNote,
-			String ecomposer, String code, String examNum, String bank, HashMap<String,Integer> studentInfo, ExamStatus status,
-			int examID) {
-		this.course = course;
-		this.subject = subject;
-		this.duration = duration;
-		this.type = type;
-		this.lecturerNote = lecturerNote;
-		this.studentNote = studentNote;
-		this.ecomposer = ecomposer;
-		this.code = code;
-		this.examNum = examNum;
-		this.bank = bank;
-		this.studentInfo = studentInfo;
-		this.status = status;
-		this.examID = examID;
-	}
-	
+	public Exam(HashMap<String, Object> examHm) {
+		  this.course = (String) examHm.get("course");
+		  this.subject = (String) examHm.get("subject");
+		  this.duration = (int) examHm.get("duration");
+		  this.type = (String) examHm.get("type");
+		  this.lecturerNote = (String) examHm.get("lecturerNote");
+		  this.studentNote = (String) examHm.get("studentNote");
+		  this.ecomposer = (String) examHm.get("ecomposer");
+		  this.code = (String) examHm.get("code");
+		  this.examNum = (String) examHm.get("examNum");
+		  this.bank = (String) examHm.get("bank");
+		  this.studentInfo = (String) examHm.get("studentInfo");
+		  this.status = (String) examHm.get("status");
+		  this.examID = (int) examHm.get("examId");
+		 }
+
 	/**
 	 *examID getter
 	 *@return return the examID of exam
@@ -102,14 +100,14 @@ public class Exam {
 	 *type getter
 	 *@return return the type of exam
 	 * */
-	public ExamType getType() {
+	public String getType() {
 		return type;
 	}
 	/**
 	 *type setter
 	 *@param type
 	 * */
-	public void setType(ExamType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	/**
@@ -200,28 +198,28 @@ public class Exam {
 	 *studentInfo getter
 	 *@return return the student information
 	 * */
-	public HashMap<String,Integer> getStudentInfo() {
+	public String getStudentInfo() {
 		return studentInfo;
 	}
 	/**
 	 *studentInfo setter
 	 *@param studentInfo
 	 * */
-	public void setStudentInfo(HashMap<String,Integer> studentInfo) {
+	public void setStudentInfo(String studentInfo) {
 		this.studentInfo = studentInfo;
 	}
 	/**
 	 *status getter
 	 *@return return the status of an exam
 	 * */
-	public ExamStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 	/**
 	 *status setter
 	 *@param status
 	 * */
-	public void setStatus(ExamStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	/**
