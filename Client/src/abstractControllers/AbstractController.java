@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class AbstractController {	
+public abstract class AbstractController {	
 	ConnectionServer connectionServer;
 	Stage primaryStage;
 	double xOffset = 0; 
@@ -14,7 +14,7 @@ public class AbstractController {
 	/**
 	 *this method sends message tot he server
 	 *@param Object msg
-	 * */
+	 * */	
 	public void sendMsgToServer(Object msg) {
 		try {
 			ConnectionServer.getInstance().handleMessageFromClientUI(msg);
