@@ -51,13 +51,10 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-
-	public static String InsertQuestionToDB(ArrayList<String> hm) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni');";
-		return query;
+	
+	public static String getLoggedFlag(String username, int flag) {
+		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
-
-
 	public static String getDepartmentByStudentId(int id) {
 		String query = "Select S.department FROM student AS S WHERE S.userId = '" +id+ "';";
 		return query;
@@ -76,7 +73,6 @@ public class SqlQueries {
 	public static String getLoggedFlag(String username, int flag) {
 		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
-
 	public static String getUserByUserName(String username) {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
