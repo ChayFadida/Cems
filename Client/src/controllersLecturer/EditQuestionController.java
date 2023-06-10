@@ -1,5 +1,8 @@
 package controllersLecturer;
 
+import java.awt.Label;
+import java.awt.TextField;
+
 import abstractControllers.AbstractController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,17 +19,48 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class EditQuestionController extends AbstractController{
-    @FXML
-    private Button SaveApplyMyChangesButton;
+	@FXML
+	private Button CloseBtn;
 
-    @FXML
-    private ImageView backButton;
-    
-    @FXML
-    private Button CloseBtn;
+	@FXML
+	private MenuButton CoursesMenu;
 
-    @FXML
-    private Button MinimizeBtn;
+	@FXML
+	private Button MinimizeBtn;
+
+	@FXML
+	private TextField NotesField;
+
+	@FXML
+	private TextField QuestionField;
+
+	@FXML
+	private Button SaveChangesButton;
+
+	@FXML
+	private TextField answer1Field;
+
+	@FXML
+	private TextField answer2Field;
+
+	@FXML
+	private TextField answer3Field;
+
+	@FXML
+	private TextField answer4Field;
+
+	@FXML
+	private ComboBox<?> cmbRightAnswer;
+
+	@FXML
+	private Label lblCourses;
+
+	@FXML
+	private Label lblError;
+
+	@FXML
+	private TextField txtSubject;
+
     
     @FXML
     void Close(ActionEvent event) {

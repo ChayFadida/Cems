@@ -87,9 +87,11 @@ public class MyQuestionBankController extends AbstractController{
     	ObservableList<Question> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Question, Integer> pvfId = new PropertyValueFactory<>("questionID");
 		PropertyValueFactory<Question, String> pvfDetails = new PropertyValueFactory<>("details");
+		PropertyValueFactory<Question, String> pvfCourses = new PropertyValueFactory<>("courses");
 		PropertyValueFactory<Question, String> pvfSubject = new PropertyValueFactory<>("subject");
 		clmID.setCellValueFactory(pvfId);
 		clmDetails.setCellValueFactory(pvfDetails);
+		clmCourse.setCellValueFactory(pvfCourses);
 		clmSubject.setCellValueFactory(pvfSubject);
 		QuestionBankLecTable.setItems(list);
 		
@@ -106,7 +108,7 @@ public class MyQuestionBankController extends AbstractController{
 		    HashMap<String, Object> element = rs.get(i);
 		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"),
 		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
-		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes")));
+		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes"), (String)element.get("courses")));
 		}
 	}
 	private String getid() {
@@ -137,6 +139,11 @@ public class MyQuestionBankController extends AbstractController{
 		EditQuestionController editQuestionController = new EditQuestionController();
 		//need to implement start method in EditQuestionController and then -->
 		editQuestionController.start(primaryStage);
+    }
+    
+    @FXML
+    void DeleteQuestion(MouseEvent event) {
+    	
     }
 
 }

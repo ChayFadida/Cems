@@ -118,9 +118,8 @@ public class AddNewQuestionController extends AbstractController implements Init
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
     	lblError.setText(" ");
-    	coursesSelected= new ArrayList<>();
     	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
-    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null) {
+    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || coursesSelected.isEmpty()) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
     	
@@ -145,14 +144,20 @@ public class AddNewQuestionController extends AbstractController implements Init
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
-    		arr2.add(coursesSelected.toString());
+    		
+    		HashMap<String,String> HmCourses = new HashMap<>(); //create json of courses
+    		for(int i=1; i<=coursesSelected.size() ;i++) {
+    			String str = "Course" + i; 
+    			HmCourses.put(str, coursesSelected.get(i-1));
+    		}
+    		
+    		arr2.add(HmCourses.toString());
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
          	
-    		
+    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	}
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     }
     
  
@@ -175,7 +180,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 	    }
 	}
 
-	@Override
+    @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cmbRightAnswer.getItems().addAll("1","2","3","4");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -207,19 +212,28 @@ public class AddNewQuestionController extends AbstractController implements Init
 		    coursesMenuItems.add(checkMenuItem);
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
-		CoursesMenu.getItems().stream().forEach((MenuItem menuItem) -> menuItem.setOnAction(ev -> {
-    		final List<String> selected = CoursesMenu.getItems().stream()
-    	            .filter(item -> CheckMenuItem.class.isInstance(item) && CheckMenuItem.class.cast(item).isSelected())
-    	            .map(MenuItem::getText)
-    	            .collect(Collectors.toList());
-    		if(selected.toString()=="[]")
-    			lblCourses.setText(" ");
-    		else
-    			lblCourses.setText(selected.toString());
-    		coursesSelected=selected;
-    	}));
+		coursesMenuItems.forEach(menuItem -> menuItem.setOnAction(event -> updateSelectedCourses()));
+
+        updateSelectedCourses();
 		
 	}
+	private void updateSelectedCourses() {
+        List<String> selected = coursesMenuItems.stream()
+                .filter(CheckMenuItem::isSelected)
+                .map(MenuItem::getText)
+                .collect(Collectors.toList());
+
+        if (selected.isEmpty()) {
+            lblCourses.setText(" ");
+        } else {
+            lblCourses.setText(selected.toString());
+        }
+
+        coursesSelected = selected;
+    }
+
 
 
 }
+	
+	

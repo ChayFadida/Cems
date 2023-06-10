@@ -14,6 +14,7 @@ public class Question {
     private String composer;
     private String answers;
     private String notes;
+    private String courses;
     private HashMap<String,String> answersHM;
 
     /**
@@ -32,7 +33,7 @@ public class Question {
      */
 
     public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
-			String composer, String answers, String notes) {
+			String composer, String answers, String notes, String courses) {
 		super();
 		this.questionID = questionID;
 		this.details = details;
@@ -42,12 +43,24 @@ public class Question {
 		this.composer = composer;
 		this.notes=notes;
 		this.answers = answers;
+		this.courses = courses;
 		answersHM = new HashMap<>();
 		//input answers data into hashmap needs to be implemented!
 	}
 
 
-    public String getNotes() {
+
+	public String getComposer() {
+		return composer;
+	}
+
+
+	public void setComposer(String composer) {
+		this.composer = composer;
+	}
+
+
+	public String getNotes() {
 		return notes;
 	}
 
@@ -169,8 +182,8 @@ public class Question {
      *
      * @return the question courses
      */
-    public String getComposer() {
-        return composer;
+    public String getCourses() {
+        return courses;
     }
 
     /**
@@ -182,13 +195,7 @@ public class Question {
         this.composer = composer;
     }
 
-    /**
-     * Returns the possible answers for the question.
-     *
-     * @return the question answers
-     */
-
-
+    
     /**
      * Returns a string representation of the Question object.
      *
