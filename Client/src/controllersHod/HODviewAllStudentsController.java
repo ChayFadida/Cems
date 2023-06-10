@@ -19,21 +19,21 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class HODviewAllStudentsController extends AbstractController implements Initializable{
-	private ArrayList<User> stdArr ;
+	private ArrayList<Student> stdArr ;
 
 	@FXML
-    private TableView<User> AllStudentsTable;
+    private TableView<Student> AllStudentsTable;
     @FXML
-    public TableColumn<User, Integer> id;
+    public TableColumn<Student, Integer> id;
     @FXML
-    public TableColumn<User, String> firstName;
+    public TableColumn<Student, String> firstName;
     @FXML
-    public TableColumn<User, String> lastName;
+    public TableColumn<Student, String> lastName;
     @FXML
-    public TableColumn<User, String> email;
+    public TableColumn<Student, String> email;
 
     public void loadStudents(ArrayList<HashMap<String, Object>> rs) throws Exception {
-    	stdArr = new ArrayList<User>();
+    	stdArr = new ArrayList<Student>();
     	if(rs == null) {
 			System.out.println("rs is null");
 		}
@@ -49,7 +49,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 //		    usrInfo.put("pass",(String)element.get("pass"));
 //		    usrInfo.put("username",(String)element.get("username"));
 //		    usrInfo.put("isLogged",(boolean)element.get("isLogged"));
-		    stdArr.add(new User(rs.get(i)));
+		    stdArr.add(new Student(rs.get(i),null));
 		}
 	}
     @FXML
@@ -72,12 +72,12 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		}
 		initTableView(stdArr);
 	}
-	private void initTableView(ArrayList<User> arr) {
-		ObservableList<User> list = FXCollections.observableArrayList(arr);
-		PropertyValueFactory<User, Integer> pvfId = new PropertyValueFactory<User, Integer>("id");
-		PropertyValueFactory<User, String> pvfFirstName = new PropertyValueFactory<User, String>("firstName");
-		PropertyValueFactory<User, String> pvfLastName = new PropertyValueFactory<User, String>("lastName");
-		PropertyValueFactory<User, String> pvfEmail = new PropertyValueFactory<User, String>("email");
+	private void initTableView(ArrayList<Student> arr) {
+		ObservableList<Student> list = FXCollections.observableArrayList(arr);
+		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
+		PropertyValueFactory<Student, String> pvfFirstName = new PropertyValueFactory<Student, String>("firstName");
+		PropertyValueFactory<Student, String> pvfLastName = new PropertyValueFactory<Student, String>("lastName");
+		PropertyValueFactory<Student, String> pvfEmail = new PropertyValueFactory<Student, String>("email");
 		id.setCellValueFactory(pvfId);
 		firstName.setCellValueFactory(pvfFirstName);
 		lastName.setCellValueFactory(pvfLastName);
