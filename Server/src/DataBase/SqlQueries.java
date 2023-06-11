@@ -77,4 +77,12 @@ public class SqlQueries {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
+
+	public static String getStudentByPositionAndDepartment(String position, String department) {
+		return "SELECT DISTINCT id,firstName,lastName,position,hod.department,email,pass,username,isLogged FROM users,hod JOIN student ON hod.department =student.department WHERE users.position ='"+ position + "' AND student.department ='" + department + "';" ;
+	}
+  
+	public static String getUserByPosition(String position) {
+		return "SELECT * FROM users WHERE position = '" + position +";" ;
+	}
 }
