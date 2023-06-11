@@ -119,7 +119,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage(),lecturer);
+    	areYouSureController.start(new Stage());
     }
 
     @FXML

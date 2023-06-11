@@ -101,7 +101,7 @@ public class ChooseProfileController extends AbstractController{
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage(),s);
+    	areYouSureController.start(new Stage());
     }
 
 }

@@ -71,7 +71,7 @@ public class StudentMenuController extends AbstractController implements Initial
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage(),student);
+    	areYouSureController.start(new Stage());
     }
 
     @FXML

@@ -103,7 +103,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	@FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage(),hod);
+    	areYouSureController.start(new Stage());
     }
 
 	@FXML

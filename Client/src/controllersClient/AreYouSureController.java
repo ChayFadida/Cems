@@ -34,6 +34,7 @@ public class AreYouSureController extends AbstractController{
     void getYesBtn(ActionEvent event) {
     	//need to implement log out
     	try {
+    		user = ConnectionServer.getInstance().getUser();
     		boolean res = super.logoutRequest(user);
     		int id = user.getId();
     		if(res) {
@@ -56,9 +57,8 @@ public class AreYouSureController extends AbstractController{
 		
     }
     
-    public void start(Stage primaryStage,User user) {
+    public void start(Stage primaryStage) {
 	    try {
-	    	this.user=user;
 	        Parent root = FXMLLoader.load(getClass().getResource("/guiClient/AreYouSureScreen.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -75,7 +75,5 @@ public class AreYouSureController extends AbstractController{
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
-	}
-    
-
+    }
 }
