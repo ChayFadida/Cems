@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class AreYouSureController extends AbstractController{
+	private User user;
     @FXML
     private Button btnNo;
 
@@ -32,12 +34,27 @@ public class AreYouSureController extends AbstractController{
     void getYesBtn(ActionEvent event) {
     	//need to implement log out
     	try {
-			ConnectionServer.getInstance().quit();
+    		user = ConnectionServer.getInstance().getUser();
+    		boolean res = super.logoutRequest(user);
+    		int id = user.getId();
+    		if(res) {
+    			user = null;
+				System.out.println("User id: "+id + " Logout successfully");
+    			ConnectionServer.getInstance().quit();
+    			System.out.println("exit Academic Tool");
+    			System.exit(0);
+    		}
+    		else {
+    			System.out.println("Problem at checkout, requester id is different in rs");
+    		}
 		} catch (IOException e) {
+			System.out.println("Problem at quit connection server");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Exception at invoking logout");
 			e.printStackTrace();
 		}
-		System.out.println("exit Academic Tool");
-		System.exit(0);
+		
     }
     
     public void start(Stage primaryStage) {
@@ -58,7 +75,5 @@ public class AreYouSureController extends AbstractController{
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
-	}
-    
-
+    }
 }
