@@ -7,8 +7,10 @@ import java.util.ResourceBundle;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
+import controllersClient.ChooseProfileController;
 import entities.Hod;
 import entities.Super;
+import entities.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,8 +44,9 @@ public class HODmenuController extends AbstractController implements Initializab
 	private HODviewRequestController hODviewRequestController;
 	private HODviewStatisticsController hODviewStatisticsController;
 	private HODviewQuestionBankController hODviewQuestionBankController;
-	private Hod hod=(Hod) ConnectionServer.user;
-	private Super s=null;
+	private Hod hod;
+	private Super s;
+
     @FXML
     private Button LogOutButton;
 
@@ -81,7 +85,15 @@ public class HODmenuController extends AbstractController implements Initializab
     
     public HODmenuController() {
     	try {
-			hod = (Hod) ConnectionServer.getInstance().getUser();
+    		User user = ConnectionServer.getInstance().getUser();
+			if(user instanceof Super) {
+				this.s = (Super)user;
+				this.hod=s.getHod();
+			}
+			else {
+				this.hod=(Hod) ConnectionServer.getInstance().getUser();
+				this.s=null;
+			}
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -139,7 +151,15 @@ public class HODmenuController extends AbstractController implements Initializab
 
     @FXML
     void LogOut(MouseEvent event) {
-        System.exit(0);
+    	if(s!=null) {
+    		System.out.println("Super Login Successfuly.");
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			ChooseProfileController chooseProfileController = new ChooseProfileController();	
+			chooseProfileController.start(new Stage());
+    	}
+    	else {
+    		System.exit(0);
+    	}
     }
 
     @FXML
