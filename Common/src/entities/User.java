@@ -5,8 +5,9 @@ import java.util.HashMap;
 
 public class User implements Serializable{
 	private int id;
-	private String firstName, lastName, email, position, pass, username;
+	public String firstName, lastName, email, position, username;
 	private boolean isLogged;
+	private String pass;
 	
 	public int getId() {
 		return id;
