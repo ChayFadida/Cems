@@ -182,7 +182,6 @@ public class DBController {
 	        HashMap<String, Object> hm = new HashMap<>();
 	        hm.put("affectedRows", affectedRows);
 	        result.add(hm);
-
 	        statement.close();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();

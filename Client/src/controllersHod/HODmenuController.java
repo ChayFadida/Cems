@@ -5,9 +5,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import controllersClient.ChooseProfileController;
+import controllersClient.LogInController;
 import entities.Hod;
 import entities.Super;
 import entities.User;
@@ -36,8 +39,6 @@ import ocsf.server.AbstractServer;
 
 //remove Application after Login implementation
 public class HODmenuController extends AbstractController implements Initializable {
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	private HODviewAllStudentsController hODviewAllStudentsController;
 	private HODviewAllLecturersTableController hODviewAllLecturersTableController;
 	private HODviewExamBankController hODviewExamBankController;
@@ -99,18 +100,13 @@ public class HODmenuController extends AbstractController implements Initializab
 		}
     }
 
-	public HODmenuController(Super s) {
-		this.s=s;
-		this.hod=s.getHod();
-	}
-
 	@FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage());
+    	areYouSureController.start(new Stage(),hod);
     }
 
-    @FXML
+	@FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
@@ -128,21 +124,12 @@ public class HODmenuController extends AbstractController implements Initializab
 			scene.getStylesheets().add(getClass().getResource("/guiHod/HODmenuCSS.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
-			root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
+			 //handle dragging the window
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -151,13 +138,33 @@ public class HODmenuController extends AbstractController implements Initializab
     @FXML
     void LogOut(MouseEvent event) {
     	if(s!=null) {
-    		System.out.println("Super Login Successfuly.");
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
     	}
     	else {
-    		System.exit(0);
+    		try {
+				boolean res = super.logoutRequest(hod);
+				int id = hod.getId();
+				if (res) {
+					hod=null;
+					s=null;
+					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+					LogInController logInController = new LogInController();	
+					logInController.start(new Stage());
+					System.out.println("User id: "+id + " Logout successfully");
+				}
+				else {
+					System.out.println("Problem at logout, requester id is different in rs->aborting");
+					ConnectionServer.getInstance().quit();
+					System.out.println("exit Academic Tool");
+					
+				}
+    		} catch (IOException e) {
+				System.out.println("Problem at quit connection server");
+			}catch (Exception e) {
+				System.out.println("Exception at invoking logout");
+			}
     	}
     }
 
@@ -263,5 +270,7 @@ public class HODmenuController extends AbstractController implements Initializab
 		lblHello.setText("Hello, "+hod.getFirstName()+ "!");
 		
 	}
+	
+	
 }
 

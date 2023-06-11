@@ -8,6 +8,7 @@ import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import controllersClient.ChooseProfileController;
+import controllersClient.LogInController;
 import entities.Lecturer;
 import entities.Super;
 import entities.User;
@@ -118,7 +119,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage());
+    	areYouSureController.start(new Stage(),lecturer);
     }
 
     @FXML
@@ -145,15 +146,34 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void LogOut(MouseEvent event) {
     	if(s!=null) {
-    		System.out.println("Super Login Successfuly.");
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
     	}
     	else {
-    		System.exit(0);
+    		try {
+				boolean res = super.logoutRequest(lecturer);
+				int id = lecturer.getId();
+				if (res) {
+					lecturer=null;
+					s=null;
+					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+					LogInController logInController = new LogInController();	
+					logInController.start(new Stage());
+					System.out.println("User id: "+id + " Logout successfully");
+				}
+				else {
+					System.out.println("Problem at logout, requester id is different in rs->aborting");
+					ConnectionServer.getInstance().quit();
+					System.out.println("exit Academic Tool");
+					
+				}
+    		} catch (IOException e) {
+				System.out.println("Problem at quit connection server");
+			}catch (Exception e) {
+				System.out.println("Exception at invoking logout");
+			}
     	}
-    	
     }
 
     @FXML

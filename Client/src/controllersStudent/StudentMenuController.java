@@ -9,6 +9,7 @@ import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
+import controllersClient.LogInController;
 import entities.Student;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,8 +34,6 @@ import javafx.stage.StageStyle;
 
 //remove Application after Login implementation
 public class StudentMenuController extends AbstractController implements Initializable{
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	private MyExamController myExamController;
 	private TakeExamController takeExamController;
 	private Student student=null;
@@ -71,7 +71,7 @@ public class StudentMenuController extends AbstractController implements Initial
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
-    	areYouSureController.start(new Stage());
+    	areYouSureController.start(new Stage(),student);
     }
 
     @FXML
@@ -89,33 +89,13 @@ public class StudentMenuController extends AbstractController implements Initial
 	        Scene scene = new Scene(root);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-
-	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	        //after login implementation:
-	        //remove ->
-	        root.setOnMousePressed((EventHandler<? super MouseEvent>) new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = event.getSceneX();
-	                yOffset = event.getSceneY();
-	            }
-	        });
-	        
-	        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	primaryStage.setX(event.getScreenX() - xOffset);
-	            	primaryStage.setY(event.getScreenY() - yOffset);
-	            }
-	        });
-	        //add instead:
-//	        super.setPrimaryStage(primaryStage);
-//	        PressHandler<MouseEvent> press = new PressHandler<>();
-//	        DragHandler<MouseEvent> drag = new DragHandler<>();
-//	        root.setOnMousePressed(press);
-//	        root.setOnMouseDragged(drag);
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
@@ -123,7 +103,27 @@ public class StudentMenuController extends AbstractController implements Initial
 
     @FXML
     void LogOut(MouseEvent event) {
-        System.exit(0);
+    	try {
+			boolean res = super.logoutRequest(student);
+			int id = student.getId();
+			if (res) {
+				student=null;
+				((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+				LogInController logInController = new LogInController();	
+				logInController.start(new Stage());
+				System.out.println("User id: "+id + " Logout successfully");
+			}
+			else {
+				System.out.println("Problem at logout, requester id is different in rs->aborting");
+				ConnectionServer.getInstance().quit();
+				System.out.println("exit Academic Tool");
+				
+			}
+		} catch (IOException e) {
+			System.out.println("Problem at quit connection server");
+		}catch (Exception e) {
+			System.out.println("Exception at invoking logout");
+		}
     }
 
     @FXML
