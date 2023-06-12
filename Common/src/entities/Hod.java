@@ -3,19 +3,19 @@ package entities;
 import java.util.HashMap;
 
 public class Hod extends User{
-	private Integer department;
+	private Integer departmentId;
 	
 	public Hod(HashMap<String,Object> userHM, Integer department) {
 		super(userHM);
-		this.department=department;
+		this.departmentId=department;
 	}
 
 	public Integer getDepartment() {
-		return department;
+		return departmentId;
 	}
 
 	public void setDepartment(Integer department) {
-		this.department = department;
+		this.departmentId = department;
 	}
 	
 	

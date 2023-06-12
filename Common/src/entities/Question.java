@@ -7,13 +7,12 @@ import interfaces.QuestionIF;
 /**
  * Represents a question entity.
  */
-public class Question implements QuestionIF{
+public class Question{
     private Integer questionID;
     private String details;
     private String rightAnswer;
     private Integer questionBank;
     private String subject;
-    private String composer;
     private String answers;
     private String notes;
     private HashMap<String,String> answersHM;
@@ -34,14 +33,13 @@ public class Question implements QuestionIF{
      */
 
     public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
-			String composer, String answers, String notes) {
+			String answers, String notes) {
 		super();
 		this.questionID = questionID;
 		this.details = details;
 		this.rightAnswer = rightAnswer;
 		this.questionBank = questionBank;
 		this.subject = subject;
-		this.composer = composer;
 		this.notes=notes;
 		this.answers = answers;
 		answersHM = new HashMap<>();
@@ -165,32 +163,7 @@ public class Question implements QuestionIF{
     public void setSubject(String subject) {
         this.subject = subject;
     }
-
-    /**
-     * Returns the courses related to the question.
-     *
-     * @return the question courses
-     */
-    public String getComposer() {
-        return composer;
-    }
-
-    /**
-     * Sets the courses related to the question.
-     *
-     * @param courses the question courses to set
-     */
-    public void setCourses(String composer) {
-        this.composer = composer;
-    }
-
-    /**
-     * Returns the possible answers for the question.
-     *
-     * @return the question answers
-     */
-
-
+    
     /**
      * Returns a string representation of the Question object.
      *
@@ -198,7 +171,7 @@ public class Question implements QuestionIF{
      */
     @Override
     public String toString() {
-        return "Question [questionID=" + questionID + ", composer=" + composer + ", subject=" + subject +
+        return "Question [questionID=" + questionID + ", composer=" +", subject=" + subject +
                   ", bank=" + questionBank + "]";
     }
 }

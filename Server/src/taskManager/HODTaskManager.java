@@ -11,7 +11,6 @@ import DataBase.DBController;
 import DataBase.SqlQueries;
 import ocsf.server.ConnectionToClient;
 
-
 public class HODTaskManager implements TaskHandler{
 
 	@Override

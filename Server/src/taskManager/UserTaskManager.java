@@ -87,7 +87,6 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		if(loginFlag) {
 			HashMap<String,Object> userHM = userQ.get(0);
 			HashMap<String,Object> coursesIdHM;
-
 			User user=null;
 			String coursesId;
 			Integer department;
@@ -95,7 +94,8 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 				case "Lecturer":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
 					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
-					user = new Lecturer(userHM,coursesIdHM);
+					department = (Integer)getDepartmentByLecturerId((int)userHM.get("id"));
+					user = new Lecturer(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
 					break;
 				case "Student":
@@ -129,6 +129,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		res.put("response", "logged in");
 		return res;
 	}
+	
 	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserName(username));
@@ -174,6 +175,12 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 
 	}
 	
+	private Integer getDepartmentByLecturerId(int id) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByLecturerId(id));
+		return (Integer) rs.get(0).get("departmentId");
+	}
+
 	private boolean updateUserByIdLogout(String id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));

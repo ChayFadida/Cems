@@ -105,8 +105,8 @@ public class MyQuestionBankController extends AbstractController{
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
 		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"),
-		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
-		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes")));
+		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"),
+		    (String)element.get("subject"),(String)element.get("answers"),(String)element.get("notes")));
 		}
 	}
 	private String getid() {
