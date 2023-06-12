@@ -90,5 +90,4 @@ public class SqlQueries {
 		return query;
 	}
 
-	
 }

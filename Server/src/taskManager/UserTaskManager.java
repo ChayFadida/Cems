@@ -180,6 +180,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByLecturerId(id));
 		return (Integer) rs.get(0).get("departmentId");
 	}
+
 	private boolean updateUserByIdLogout(String id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));

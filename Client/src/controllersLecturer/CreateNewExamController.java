@@ -249,4 +249,85 @@ public class CreateNewExamController extends AbstractController implements Initi
     	}
     }
 
+	}
+	private void loadQuestions(Course selectedItem) {
+		// query to get questions from course
+		qArr=new ArrayList<>();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getAllQuestions");
+		msg.put("task",arr1);
+		super.sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null) {
+			System.out.println("rs is null");
+		}
+		for (int i = 0; i < rs.size(); i++) {
+		    HashMap<String, Object> element = rs.get(i);
+		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"), (String)element.get("rightAnswer"),
+		    			(Integer)element.get("questionBank"), (String)element.get("subject"),(String)element.get("composer"),
+		    			(String)element.get("answers"),(String)element.get("notes"));
+		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
+		    qArr.add(questionForExam);
+		}
+		ObservableList<QuestionForExam> list = FXCollections.observableArrayList(qArr);
+		PropertyValueFactory<QuestionForExam, Integer> pvfId = new PropertyValueFactory<>("questionID");
+		PropertyValueFactory<QuestionForExam, String> pvfQuestion = new PropertyValueFactory<>("details");
+		PropertyValueFactory<QuestionForExam, String> pvfSubject = new PropertyValueFactory<>("subject");
+		PropertyValueFactory<QuestionForExam, TextField> pvfScore = new PropertyValueFactory<>("score");
+//		PropertyValueFactory<QuestionForExam, CheckBox> pvfSelection = new PropertyValueFactory<>("selection");
+		
+		clmID.setCellValueFactory(pvfId);
+		clmSubject.setCellValueFactory(pvfSubject);
+		clmQuestion.setCellValueFactory(pvfQuestion);
+//		clmSelection.setCellValueFactory(pvfSelection);
+		clmScore.setCellValueFactory(pvfScore);
+		QuestionTable.setItems(list);
+		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+	}
+
+    @FXML
+    void getSelected(ActionEvent event) {
+    	qSelected = new ArrayList<>();
+    	sum=0;
+    	lblScore.setText("0/100");
+    	qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
+    	for(QuestionForExam q: qSelected) {
+    		String scoreStr = q.getScore().getText();
+    		if(!scoreStr.matches("\\d+")) {
+    			lblError.setText("One of the selected questions score is not number, try again");
+    			qSelected = new ArrayList<>();
+    			return;
+    		}
+    		int score = Integer.parseInt(q.getScore().getText());
+    		if(score==0) {
+    			lblError.setText("One of the selected questions score is set to '0', try again");
+    			qSelected = new ArrayList<>();
+    			return;
+    		}
+    		sum = sum + score;
+    	}
+    	lblScore.setText(sum+"/100");
+    }
+//	questionForExam.getSelection().cacheProperty().addListener( (observable, oldValue, newValue)->{
+//    	if(oldValue==false && newValue==true) {
+//    		qSelected.add(questionForExam);
+//    	}
+//    	else if(oldValue==true && newValue==false) {
+//    		qSelected.remove(questionForExam);
+//    	}
+//    	System.out.println(oldValue +" "+ newValue);
+//    });
+//	questionForExam.getScore().textProperty().addListener((observable, oldValue, newValue) -> {
+//    	if(qSelected.contains(questionForExam)) {
+//	        sum = sum + (Integer.parseInt(newValue) - Integer.parseInt(newValue));
+//	        lblScore.setText(sum+"/100");
+//	        System.out.println(sum);
+//    	}
+//    	System.out.println(oldValue +" "+ newValue);
+//    	
+//    });
 }

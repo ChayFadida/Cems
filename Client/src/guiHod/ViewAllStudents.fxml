@@ -6,14 +6,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewAllStudentsController">
    <children>
       <TableView fx:id="AllStudentsTable" layoutX="58.0" layoutY="106.0" prefHeight="302.0" prefWidth="677.0">
          <columns>
-            <TableColumn prefWidth="71.0" text="ID" />
-            <TableColumn prefWidth="166.0" text="FirstName" />
-            <TableColumn prefWidth="178.0" text="LastName" />
-            <TableColumn prefWidth="261.0" text="Email" />
+            <TableColumn id="id" fx:id="id" prefWidth="71.0" text="id" />
+            <TableColumn id="firstName" fx:id="firstName" prefWidth="166.0" text="firstName" />
+            <TableColumn id="lastName" fx:id="lastName" prefWidth="178.0" text="lastName" />
+            <TableColumn id="email" fx:id="email" prefWidth="261.0" text="email" />
          </columns>
       </TableView>
       <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View all students" wrappingWidth="334.13671875">
