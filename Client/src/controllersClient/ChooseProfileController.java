@@ -24,12 +24,23 @@ import javafx.stage.StageStyle;
 
 public class ChooseProfileController extends AbstractController{
 	public Super s;
+
+    @FXML
+    private Button btnExit;
+
     @FXML
     private Button btnHOD;
 
     @FXML
     private Button btnLecturer;
-    
+
+    @FXML
+    private Button btnLogout;
+
+    @FXML
+    private Button btnMinimize;
+
+
    
     public ChooseProfileController() {
 		super();
@@ -45,7 +56,7 @@ public class ChooseProfileController extends AbstractController{
     void getHodBtn(ActionEvent event) {
     	System.out.println("HOD Login Successfuly.");
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		HODmenuController hodMenuController = new HODmenuController(s);	
+		HODmenuController hodMenuController = new HODmenuController();	
 		hodMenuController.start(new Stage());
     }
 
@@ -53,13 +64,13 @@ public class ChooseProfileController extends AbstractController{
     void getLecBtn(ActionEvent event) {
     	System.out.println("Lecturer Login Successfuly.");
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		LecturerMenuController lecturerMenuController = new LecturerMenuController(s);	
+		LecturerMenuController lecturerMenuController = new LecturerMenuController();	
 		lecturerMenuController.start(new Stage());
     }
 
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/guiClient/ChooseProfileController.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/guiClient/SuperChooseScreen.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -75,5 +86,22 @@ public class ChooseProfileController extends AbstractController{
 		}
 		
 	}
+    @FXML
+    void getLogoutBtn(ActionEvent event) {
+    	//need to implement log out
+    	System.exit(0);
+    }
+
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+    
+    @FXML
+    void getExitBtn(ActionEvent event) {
+    	AreYouSureController areYouSureController = new AreYouSureController();
+    	areYouSureController.start(new Stage());
+    }
 
 }

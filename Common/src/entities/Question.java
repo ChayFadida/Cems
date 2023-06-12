@@ -2,10 +2,12 @@ package entities;
 
 import java.util.HashMap;
 
+import interfaces.QuestionIF;
+
 /**
  * Represents a question entity.
  */
-public class Question {
+public class Question implements QuestionIF{
     private Integer questionID;
     private String details;
     private String rightAnswer;

@@ -52,19 +52,13 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String InsertQuestionToDB(ArrayList<String> hm) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni');";
-		return query;
-	}
-
-
 	public static String getDepartmentByStudentId(int id) {
-		String query = "Select S.department FROM student AS S WHERE S.userId = '" +id+ "';";
+		String query = "Select S.departmentId FROM student AS S WHERE S.userId = '" +id+ "';";
 		return query;
 	}
 	
 	public static String getDepartmentByHodId(int id) {
-		String query = "Select H.department FROM hod AS H WHERE H.userId = '" +id+ "';";
+		String query = "Select H.departmentId FROM hod AS H WHERE H.userId = '" +id+ "';";
 		return query;
 	}
 
@@ -76,11 +70,11 @@ public class SqlQueries {
 	public static String getLoggedFlag(String username, int flag) {
 		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
-
 	public static String getUserByUserName(String username) {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
+
 	public static String getViewQuestionsById(String string) {
 		//returns question id's from questionBank
 		String quert = "SELECT * FROM questionbank WHERE lecturerId = '" + string + "'" + ";" ; 
@@ -104,4 +98,25 @@ public class SqlQueries {
 	FROM questionbank AS B, lecturer AS L, questions AS Q, courses AS C, users AS U
 	WHERE L.userId ='5' AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID AND U.id = L.userId  */
 	
+
+	
+	public static String InsertQuestionToDB(ArrayList<String> hm) {
+		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni', '" + hm.get(5) + "');";
+		return query;
+	}
+
+	public static String updateUserByIdLogout(String id) {
+		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
+		return query;
+
+
+	public static String getStudentByPositionAndDepartment(String position, String department) {
+		return "SELECT DISTINCT id,firstName,lastName,position,hod.department,email,pass,username,isLogged FROM users,hod JOIN student ON hod.department =student.department WHERE users.position ='"+ position + "' AND student.department ='" + department + "';" ;
+	}
+  
+	public static String getUserByPosition(String position) {
+		return "SELECT * FROM users WHERE position = '" + position +";" ;
+
+	}
+
 }

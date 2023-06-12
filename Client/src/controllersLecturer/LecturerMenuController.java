@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
+import controllersClient.ChooseProfileController;
+import controllersClient.LogInController;
 import entities.Lecturer;
 import entities.Super;
 import entities.User;
@@ -37,7 +39,7 @@ public class LecturerMenuController extends AbstractController implements Initia
 	private ManageExamsController manageExamsController=null;
 	private CheckResultController checkResultController=null;
 	private Lecturer lecturer=null ;
-	private Super s=null;
+	private Super s;
 	
 	private final Glow buttonPressEffect = new Glow(0.5);
     @FXML
@@ -74,22 +76,29 @@ public class LecturerMenuController extends AbstractController implements Initia
     private Text lblHello;
     public LecturerMenuController() {
     	try {
-			lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+    		User user = ConnectionServer.getInstance().getUser();
+    		if(user instanceof Super) {
+    			this.s = ((Super) user);
+    			this.lecturer = s.getLecturer();
+    		}
+    		else {
+    			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+    			this.s=null;
+    		}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
 
-	public LecturerMenuController(Super s) {
-		this.s=s;
-		this.lecturer=s.getLecturer();
-	}
+//	public LecturerMenuController(Super s) {
+//		this.s= s;
+//		this.lecturer=s.getLecturer();
+//	}
 
 	public void start(Stage primaryStage) {
 	    try {
-	    	ConnectionServer.getInstance();
-	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+	        BorderPane root =  (BorderPane)FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -136,7 +145,35 @@ public class LecturerMenuController extends AbstractController implements Initia
     // to be implemented later (need to change loggedIn flag to 0 and exit the system)
     @FXML
     void LogOut(MouseEvent event) {
-    	System.exit(0);
+    	if(s!=null) {
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			ChooseProfileController chooseProfileController = new ChooseProfileController();	
+			chooseProfileController.start(new Stage());
+    	}
+    	else {
+    		try {
+				boolean res = super.logoutRequest(lecturer);
+				int id = lecturer.getId();
+				if (res) {
+					lecturer=null;
+					s=null;
+					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+					LogInController logInController = new LogInController();	
+					logInController.start(new Stage());
+					System.out.println("User id: "+id + " Logout successfully");
+				}
+				else {
+					System.out.println("Problem at logout, requester id is different in rs->aborting");
+					ConnectionServer.getInstance().quit();
+					System.out.println("exit Academic Tool");
+					
+				}
+    		} catch (IOException e) {
+				System.out.println("Problem at quit connection server");
+			}catch (Exception e) {
+				System.out.println("Exception at invoking logout");
+			}
+    	}
     }
 
     @FXML

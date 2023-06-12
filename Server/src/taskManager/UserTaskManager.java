@@ -11,6 +11,7 @@ import entities.Lecturer;
 import entities.Student;
 import entities.Super;
 import entities.User;
+import thirdPart.JsonHandler;
 
 public class UserTaskManager implements TaskHandler{
 
@@ -24,12 +25,34 @@ public class UserTaskManager implements TaskHandler{
 				case "loginAttempt":
 					msgBack.add(loginAttempt(hm));
 					return msgBack;
+				case "logoutAttempt":
+					msgBack.add(lougoutAttempt(hm));
+					return msgBack;
 				default: 
 			    	System.out.println("no such method for user");
 		    		return msgBack;
 				}
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
+		HashMap<String,Object> res = new HashMap<>();
+		String id = hm.get("details").get(0);
+		try {
+			boolean isUpdated = updateUserByIdLogout(id);
+			if(isUpdated) {
+				res.put("access","approved");
+				res.put("response",id);
+				return res;
+			}
+			res.put("access", "denied");
+			res.put("response",id);
+		} catch (SQLException e) {
+			res.put("access","denied");
+			res.put("response",-1);
+			e.printStackTrace();
+		}
+		return res;
 	}
 //	/**
 //	 *execute get all questions query
@@ -62,14 +85,17 @@ public class UserTaskManager implements TaskHandler{
 		}
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {
-			HashMap<String,Object> userHM = userArr.get(0);
+			HashMap<String,Object> userHM = userQ.get(0);
+			HashMap<String,Object> coursesIdHM;
+
 			User user=null;
-			ArrayList<Integer> coursesId = new ArrayList<>();
-			String department;
+			String coursesId;
+			Integer department;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
-					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
-					user = new Lecturer(userHM,coursesId);
+					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
+					user = new Lecturer(userHM,coursesIdHM);
 					user.setIsLogged(true);
 					break;
 				case "Student":
@@ -83,9 +109,10 @@ public class UserTaskManager implements TaskHandler{
 					user.setIsLogged(true);
 					break;
 				case "Super":
-					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
+					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
 					department = getDepartmentByHodId((int)userHM.get("id"));
-					user = new Super(userHM,coursesId,department);
+					user = new Super(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
 					break;
 				default:
@@ -117,8 +144,9 @@ public class UserTaskManager implements TaskHandler{
 		if(isLogged(username))
 			return false;
 		DBController dbController = DBController.getInstance();
-		dbController.updateQueries(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username, loginFlag));
-		return true;
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username, loginFlag));
+		return ((int)rs.get(0).get("affectedRows"))==1;
+
 	}
 	
 	private boolean isLogged(String username) throws SQLException {
@@ -127,28 +155,29 @@ public class UserTaskManager implements TaskHandler{
 		return !rs.isEmpty();
 	}
 
-	private ArrayList<Integer> getCoursesByLecturerId(int id) throws SQLException{
-		ArrayList<Integer> coursesId = new ArrayList<>();
+	private HashMap<String, Object> getCoursesByLecturerId(int id) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesByLecturerId(id));
-		for(HashMap<String,Object> hm :rs) {
-			coursesId.add((Integer) hm.get("courseId"));
-		}
-		return coursesId;
+		return rs.get(0);
 
 		
 	}
-	private String getDepartmentByStudentId(int id) throws SQLException {
+	private Integer getDepartmentByStudentId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByStudentId(id));
-		return (String) rs.get(0).get("department");
+		return (Integer) rs.get(0).get("departmentId");
 
 	}
-	private String getDepartmentByHodId(int id) throws SQLException {
+	private Integer getDepartmentByHodId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByHodId(id));
-		return (String) rs.get(0).get("department");
+		return (Integer) rs.get(0).get("departmentId");
 
 	}
 	
+	private boolean updateUserByIdLogout(String id) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));
+		return ((int)rs.get(0).get("affectedRows"))==1;
+	} 
 }
