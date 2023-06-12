@@ -123,7 +123,6 @@ public class AddNewQuestionController extends AbstractController implements Init
     			|| getQuestionField()==null || getNotesField()==null || getSubject()==null) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
-    	
     	else{
     		HashMap<String,ArrayList<String>> msg = new HashMap<>();
     		ArrayList<String> arr = new ArrayList<>();
