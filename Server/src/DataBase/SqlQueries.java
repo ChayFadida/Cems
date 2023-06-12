@@ -82,9 +82,13 @@ public class SqlQueries {
 		return query;
 	}
 	public static String getViewQuestionsById(String string) {
-		String quert = "SELECT Q.questionId , Q.details, Q.subject, U.firstName, C.courseName FROM questionbank AS B, lecturer AS L, questions AS Q, courses AS C, question_courses AS QC, users AS U WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID AND C.courseID = QC.courseId AND QC.questionId = Q.questionId AND U.id = L.userId";
+		//returns question id's from questionBank
+		String quert = "SELECT * FROM questionbank WHERE lecturerId = '" + string + "'" + ";" ; 
 		return quert;
 	}
+	
+	
+	
 	public static String getViewExamById(String string) {
 		String quert = "SELECT e.* FROM examsbank eb JOIN exam e ON eb.name = e.bank WHERE eb.lecturerId = '" + string + "'" + ";" ;
 		return quert;
@@ -94,5 +98,10 @@ public class SqlQueries {
 	FROM examsbank eb
 	JOIN exam e ON eb.name = e.bank
 	WHERE eb.lecturerId = 5;*/
+	
+	////query for yoni last DB 
+	/*SELECT Q.questionId , Q.details, Q.subject, U.firstName, U.lastName, C.courseName
+	FROM questionbank AS B, lecturer AS L, questions AS Q, courses AS C, users AS U
+	WHERE L.userId ='5' AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID AND U.id = L.userId  */
 	
 }

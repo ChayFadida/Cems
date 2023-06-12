@@ -1,5 +1,5 @@
 package taskManager;
-
+import thirdPart.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +10,8 @@ import DataBase.SqlQueries;
 import ocsf.server.ConnectionToClient;
 
 public class HODTaskManager implements TaskHandler{	
-	public HODTaskManager() {}
+	public HODTaskManager() {
+	}
 
 	/**
 	 *this method handle with command from the user
@@ -38,8 +39,11 @@ public class HODTaskManager implements TaskHandler{
 
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0)));
-		return rs;
+		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0))).get(0);
+		HashMap HashMapQuestion = jsonHandler.convertJsonToArrayHashMap((String)rs.get("questions"),ArrayList.class);
+		System.out.println("hello");
+		System.out.println(HashMapQuestion);
+		return null;
 	}
 	
 	public ArrayList<HashMap<String, Object>> getViewExamById(ArrayList<String> param) throws SQLException {
@@ -47,8 +51,5 @@ public class HODTaskManager implements TaskHandler{
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewExamById(param.get(0)));
 		return rs;
 	}
-	
-	
-	
 
 }
