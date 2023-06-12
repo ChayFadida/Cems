@@ -9,13 +9,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import entities.User;
+
 
 public class ConnectionServer extends AbstractClient{
  
 	private static ConnectionServer instance;
 	public static ArrayList<HashMap<String,Object>> rs;
+	public static User user;
 	public static boolean awaitResponse = false;
-    
+
 	public ConnectionServer(String host, int port) 
       throws IOException {
 		super(host, port); //Call the superclass constructor
@@ -99,5 +102,14 @@ public class ConnectionServer extends AbstractClient{
 		return instance;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		ConnectionServer.user = user;
+	}
+
 
 }

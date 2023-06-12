@@ -1,21 +1,17 @@
 package entities;
 
 public class Course {
-	private int courseId;
+	private Integer courseId;
 	private String courseName;
-	private boolean selected;
-
-	public Course(int courseId, String courseName) {
-		super();
+	private Integer departmentId;
+	public Course(Integer courseId, String courseName, Integer departmentId) {
 		this.courseId = courseId;
 		this.courseName = courseName;
-		this.selected = false;
+		this.departmentId=departmentId;
+
 	}
-	public int getCourseId() {
+	public Integer getCourseId() {
 		return courseId;
-	}
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
 	}
 	public String getCourseName() {
 		return courseName;
@@ -23,11 +19,17 @@ public class Course {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
+	public String toString() {
+		return courseName;
+		
+	}
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
+	}
 }

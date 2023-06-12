@@ -78,10 +78,12 @@ public class AddNewQuestionController extends AbstractController implements Init
     @FXML
     private TextField txtSubject;
     
+
     public void setMyQuestionBankController(MyQuestionBankController myQuestionBankController) {
 		this.myQuestionBankController = myQuestionBankController;
 	}
     
+
     private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
     }
@@ -124,11 +126,12 @@ public class AddNewQuestionController extends AbstractController implements Init
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
     	lblError.setText(" ");
-    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
+    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null
     			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || coursesSelected.isEmpty()) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
     	
+
     	else{
     		HashMap<String,ArrayList<String>> msg = new HashMap<>();
     		ArrayList<String> arr = new ArrayList<>();
@@ -146,6 +149,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		HmQuestions.put("answer4", getAnswer4());
     		
     		arr2.add(getQuestionField());
+
     		arr2.add(jsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());
@@ -163,7 +167,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
-         	
+
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		myQuestionBankController.showTable(event);
     	}
@@ -197,7 +201,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
+		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId")));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
 		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
 		    coursesMenuItems.add(checkMenuItem);

@@ -1,14 +1,18 @@
 package entities;
 
-public class User {
+import java.io.Serializable;
+import java.util.HashMap;
+
+public class User implements Serializable{
+	private int id;
+	public String firstName, lastName, email, position, username;
+	private boolean isLogged;
+	private String pass;
 	
-	private String id, firstName, lastName, email, position, pass, username;
-	private int isLogged;
-	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getFirstName() {
@@ -41,23 +45,22 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public int getIsLogged() {
+	public boolean getIsLogged() {
 		return isLogged;
 	}
-	public void setIsLogged(int isLogged) {
+	public void setIsLogged(boolean isLogged) {
 		this.isLogged = isLogged;
 	}
-	public User(String id, String firstName, String lastName, String email, String position, String pass,
-			String username, int isLogged) {
+	public User(HashMap<String,Object> userHM) {
 		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.position = position;
-		this.pass = pass;
-		this.username = username;
-		this.isLogged = isLogged;
+		this.id = (int) userHM.get("id");
+		this.firstName = (String) userHM.get("firstName");
+		this.lastName = (String) userHM.get("lastName");
+		this.email = (String) userHM.get("email");
+		this.position = (String) userHM.get("position");
+		this.pass = (String) userHM.get("pass");
+		this.username = (String) userHM.get("username");
+		this.isLogged = (boolean) userHM.get("isLogged");
 	}
 
 	

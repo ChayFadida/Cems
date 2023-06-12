@@ -27,7 +27,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="40.0" prefWidth="300.0">
                <children>
-                  <Text layoutX="38.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="menu-headline" text="Hello, Student!" textAlignment="CENTER" wrappingWidth="224.80345916748047">
+                  <Text fx:id="lblHello" layoutX="38.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="menu-headline" text="Hello, Student!" textAlignment="CENTER" wrappingWidth="224.80345916748047">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="30.0" />
                      </font>

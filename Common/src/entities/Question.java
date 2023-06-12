@@ -3,10 +3,12 @@ package entities;
 import java.util.HashMap;
 import thirdPart.jsonHandler;
 
+import interfaces.QuestionIF;
+
 /**
  * Represents a question entity.
  */
-public class Question {
+public class Question{
     private Integer questionID;
     private String details;
     private String rightAnswer;

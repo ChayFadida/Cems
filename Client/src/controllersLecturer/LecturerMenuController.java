@@ -1,11 +1,23 @@
 package controllersLecturer;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import abstractControllers.AbstractController;
+import client.ConnectionServer;
+import controllersClient.AreYouSureController;
+import controllersClient.ChooseProfileController;
+import controllersClient.LogInController;
+import entities.Lecturer;
+import entities.Super;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,15 +28,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class LecturerMenuController extends AbstractController{
+public class LecturerMenuController extends AbstractController implements Initializable{
 	private MyQuestionBankController myQuestionBankController=null;
 	private MyExamBankController myExamBankController=null;
 	private CreateNewExamController createNewExamController=null;
 	private ManageExamsController manageExamsController=null;
 	private CheckResultController checkResultController=null;
+	private Lecturer lecturer=null ;
+	private Super s;
 	
 	private final Glow buttonPressEffect = new Glow(0.5);
     @FXML
@@ -56,13 +71,34 @@ public class LecturerMenuController extends AbstractController{
 
     @FXML
     private BorderPane bp;
-    
-    
-    /// in order to start without login dependency 
-    // after Login, remove @override (start should stay), remove main
-    public void start(Stage primaryStage) {
+
+    @FXML
+    private Text lblHello;
+    public LecturerMenuController() {
+    	try {
+    		User user = ConnectionServer.getInstance().getUser();
+    		if(user instanceof Super) {
+    			this.s = ((Super) user);
+    			this.lecturer = s.getLecturer();
+    		}
+    		else {
+    			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+    			this.s=null;
+    		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+//	public LecturerMenuController(Super s) {
+//		this.s= s;
+//		this.lecturer=s.getLecturer();
+//	}
+
+	public void start(Stage primaryStage) {
 	    try {
-	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
+	        BorderPane root =  (BorderPane)FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -79,15 +115,11 @@ public class LecturerMenuController extends AbstractController{
 	        e.printStackTrace();
 	    }
 	}
-//    public static void main(String[] args) {
-//		launch(args);
-//	}
-    ///END ITAMAR COMMANDS
+
     @FXML
     void getExitBtn(ActionEvent event) {
-    	//temporary! need to implement log out + server connection shut down
-    	Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        currentStage.close();
+    	AreYouSureController areYouSureController = new AreYouSureController();
+    	areYouSureController.start(new Stage());
     }
 
     @FXML
@@ -113,7 +145,35 @@ public class LecturerMenuController extends AbstractController{
     // to be implemented later (need to change loggedIn flag to 0 and exit the system)
     @FXML
     void LogOut(MouseEvent event) {
-    	System.exit(0);
+    	if(s!=null) {
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			ChooseProfileController chooseProfileController = new ChooseProfileController();	
+			chooseProfileController.start(new Stage());
+    	}
+    	else {
+    		try {
+				boolean res = super.logoutRequest(lecturer);
+				int id = lecturer.getId();
+				if (res) {
+					lecturer=null;
+					s=null;
+					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
+					LogInController logInController = new LogInController();	
+					logInController.start(new Stage());
+					System.out.println("User id: "+id + " Logout successfully");
+				}
+				else {
+					System.out.println("Problem at logout, requester id is different in rs->aborting");
+					ConnectionServer.getInstance().quit();
+					System.out.println("exit Academic Tool");
+					
+				}
+    		} catch (IOException e) {
+				System.out.println("Problem at quit connection server");
+			}catch (Exception e) {
+				System.out.println("Exception at invoking logout");
+			}
+    	}
     }
 
     @FXML
@@ -185,6 +245,11 @@ public class LecturerMenuController extends AbstractController{
         }
         bp.setCenter(root);
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		lblHello.setText("Hello, "+lecturer.getFirstName()+ "!");
+	}
     
 
  
