@@ -89,5 +89,9 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
 	}
+	public static String getUserByPositionAndDepartment(String position,String department) {
+		String query = "SELECT users.id, users.firstName , users.lastName , users.email,users.position,users.pass,users.username,users.isLogged FROM users , "+position.toLowerCase()+" WHERE users.id = "+position.toLowerCase()+".userId AND "+position.toLowerCase()+".departmentId = "+ department+";";
+		return query;
+	}
 
 }
