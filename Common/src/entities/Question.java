@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.HashMap;
+import thirdPart.jsonHandler;
 
 /**
  * Represents a question entity.
@@ -11,7 +12,6 @@ public class Question {
     private String rightAnswer;
     private Integer questionBank;
     private String subject;
-    private String composer;
     private String answers;
     private String notes;
     private String courses;
@@ -33,31 +33,21 @@ public class Question {
      */
 
     public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
-			String composer, String answers, String notes, String courses) {
+			 String answers, String notes, String courses) {
 		super();
 		this.questionID = questionID;
 		this.details = details;
 		this.rightAnswer = rightAnswer;
 		this.questionBank = questionBank;
 		this.subject = subject;
-		this.composer = composer;
 		this.notes=notes;
 		this.answers = answers;
 		this.courses = courses;
-		answersHM = new HashMap<>();
+		
+        answersHM = jsonHandler.convertJsonToHashMap(answers, String.class, String.class);
 		//input answers data into hashmap needs to be implemented!
 	}
 
-
-
-	public String getComposer() {
-		return composer;
-	}
-
-
-	public void setComposer(String composer) {
-		this.composer = composer;
-	}
 
 
 	public String getNotes() {
@@ -191,8 +181,8 @@ public class Question {
      *
      * @param courses the question courses to set
      */
-    public void setCourses(String composer) {
-        this.composer = composer;
+    public void setCourses(String courses) {
+        this.courses = courses;
     }
 
     
@@ -203,7 +193,7 @@ public class Question {
      */
     @Override
     public String toString() {
-        return "Question [questionID=" + questionID + ", composer=" + composer + ", subject=" + subject +
+        return "Question [questionID=" + questionID  + ", subject=" + subject +
                   ", bank=" + questionBank + "]";
     }
 }

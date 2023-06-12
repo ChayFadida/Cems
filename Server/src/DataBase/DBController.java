@@ -167,7 +167,7 @@ public class DBController {
 			result.add(hm);
 		
 		} catch(Exception ex) {
-			System.out.println("could not execute sql command");
+			System.out.println("could not execute sql command !!!");
 		}
 		return result;
 	}

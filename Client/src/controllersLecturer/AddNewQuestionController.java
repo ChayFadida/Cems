@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
@@ -26,15 +27,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import thirdPart.jsonHandler;
 
 
 public class AddNewQuestionController extends AbstractController implements Initializable{
-	List<String> coursesSelected;
+	List<String> coursesSelected = new ArrayList<>();
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
+    private MyQuestionBankController myQuestionBankController;
     
-
-    @FXML
+	@FXML
     private MenuButton CoursesMenu;
     
 	@FXML
@@ -75,6 +77,10 @@ public class AddNewQuestionController extends AbstractController implements Init
   
     @FXML
     private TextField txtSubject;
+    
+    public void setMyQuestionBankController(MyQuestionBankController myQuestionBankController) {
+		this.myQuestionBankController = myQuestionBankController;
+	}
     
     private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
@@ -140,42 +146,29 @@ public class AddNewQuestionController extends AbstractController implements Init
     		HmQuestions.put("answer4", getAnswer4());
     		
     		arr2.add(getQuestionField());
-    		arr2.add(HmQuestions.toString());
+    		arr2.add(jsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
     		
-    		HashMap<String,String> HmCourses = new HashMap<>(); //create json of courses
-    		HmCourses.put("courses", coursesSelected.toString());
+    		HashMap<String,ArrayList<Double>> HmCourses = new HashMap<>(); //create json of courses
+    		ArrayList<Double> doubleList = new ArrayList<>();
+            for (String str : coursesSelected) {
+                double value = Double.parseDouble(str);
+                doubleList.add(value);
+            }
+    		HmCourses.put("courses", doubleList);
     		
-    		arr2.add(HmCourses.toString());
+    		arr2.add(jsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
          	
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    		myQuestionBankController.showTable(event);
     	}
     }
     
- 
-    public void start(Stage primaryStage) {
-	    try {
-	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/AddNewQuestion.fxml"));
-	        Scene scene = new Scene(root);
-	        primaryStage.initStyle(StageStyle.UNDECORATED);
-			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-	        // Set the scene to the primary stage
-	        primaryStage.setScene(scene);
-	        primaryStage.show();
-	        super.setPrimaryStage(primaryStage);
-	        PressHandler<MouseEvent> press = new PressHandler<>();
-	        DragHandler<MouseEvent> drag = new DragHandler<>();
-	        root.setOnMousePressed(press);
-	        root.setOnMouseDragged(drag);
-	    } catch(Exception e) {
-	        e.printStackTrace();
-	    }
-	}
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -229,14 +222,8 @@ public class AddNewQuestionController extends AbstractController implements Init
         } else {
             lblCourses.setText(selected.toString());
         }
-
         coursesSelected = selectedId;
     }
-	
-	
-
-
-
 }
 	
 	

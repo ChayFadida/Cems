@@ -2,6 +2,9 @@ package DataBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import thirdPart.jsonHandler;
+
 import java.io.*;
 
 public class SqlQueries {
@@ -52,13 +55,39 @@ public class SqlQueries {
 		return query;
 	}
 	public static String InsertQuestionToDB(ArrayList<String> param) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "', 'Yoni', '" + param.get(5) + "');";
+		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
+		return query;
+	}
+	
+	public static String updateQuestion(ArrayList<String> param) {
+		String query = "UPDATE questions "
+	            + "SET details = '" + param.get(0) + "', "
+	            + "answers = '" + param.get(1) + "', "
+	            + "rightAnswer = '" + param.get(2) + "', "
+	            + "questionBankId = 1, "
+	            + "subject = '" + param.get(3) + "', "
+	            + "notes = '" + param.get(4) + "', "
+	            + "courses = '" + param.get(5) + "' "
+	            + "WHERE questionId = " + param.get(6) + ";";
 		return query;
 	}
 
 	public static String deleteQuestion(ArrayList<String> param) {
 		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
 		return query;
+	}
+
+	public static String getCoursesNameById(ArrayList<String> param) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
+		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
+		  queryBuilder.append(param.get(i));
+		  if (i < Integer.parseInt(param.get(0)) - 1) {
+		    queryBuilder.append(", ");
+		  }
+		}
+		queryBuilder.append(");");
+		return queryBuilder.toString();
 	}
 	
 	

@@ -1,23 +1,34 @@
 package controllersLecturer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
+import controllers.UpdateQuestionScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import thirdPart.jsonHandler;
 import entities.Question;
 public class MyQuestionBankController extends AbstractController{
 	
@@ -107,9 +118,7 @@ public class MyQuestionBankController extends AbstractController{
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"),
-		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
-		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes"), (String)element.get("courses")));
+		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"), (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"), (String)element.get("answers"),(String)element.get("notes"), (String)element.get("courses")));
 		}
 	}
 	private String getid() {
@@ -127,23 +136,66 @@ public class MyQuestionBankController extends AbstractController{
     }
 
     @FXML
-    void AddNewQuestion(ActionEvent event) {
+    void AddNewQuestion(ActionEvent event) throws IOException {	
 		Stage primaryStage = new Stage();
-		AddNewQuestionController addNewQuestionController = new AddNewQuestionController();
-		addNewQuestionController.start(primaryStage);
+		AddNewQuestionController addNewQuestionController;
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/guiLecturer/AddNewQuestion.fxml").openStream());
+		addNewQuestionController = loader.getController();
+		addNewQuestionController.setMyQuestionBankController(this);
+		try {
+	        Scene scene = new Scene(root);
+	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+	        primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+	        // Set the scene to the primary stage
+	        primaryStage.setScene(scene);
+	        primaryStage.show();
+	        super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
 		
     }
     @FXML
-    void EditQuestion(MouseEvent event) {
+    void EditQuestion(ActionEvent event) throws IOException {
     	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		EditQuestionController editQuestionController = new EditQuestionController();
-		//need to implement start method in EditQuestionController and then -->
-		editQuestionController.start(primaryStage);
+		EditQuestionController editQuestionController;
+		SelectionModel<Question> selectionModel = QuestionBankLecTable.getSelectionModel();
+    	Question selectedItem = selectionModel.getSelectedItem();
+    	if(!(selectedItem == null)) {
+    		FXMLLoader loader = new FXMLLoader();
+    		Pane root = loader.load(getClass().getResource("/guiLecturer/EditQuestion.fxml").openStream());
+    		editQuestionController = loader.getController();
+    		editQuestionController.setMyQuestionBankController(this);
+    		editQuestionController.LoadQuestion(selectedItem);
+    		try {
+    	        Scene scene = new Scene(root);
+    	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+    	        primaryStage.initStyle(StageStyle.UNDECORATED);
+    			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+    	        // Set the scene to the primary stage
+    	        primaryStage.setScene(scene);
+    	        primaryStage.show();
+    	        super.setPrimaryStage(primaryStage);
+    	        PressHandler<MouseEvent> press = new PressHandler<>();
+    	        DragHandler<MouseEvent> drag = new DragHandler<>();
+    	        root.setOnMousePressed(press);
+    	        root.setOnMouseDragged(drag);
+    	    } catch(Exception e) {
+    	        e.printStackTrace();
+    	    }
+    	}
+    		
     }
     
     @FXML
-    void DeleteQuestion(MouseEvent event) {
+    void DeleteQuestion(ActionEvent event) {
     	SelectionModel<Question> selectionModel = QuestionBankLecTable.getSelectionModel();
     	Question selectedItem = selectionModel.getSelectedItem();
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -157,6 +209,7 @@ public class MyQuestionBankController extends AbstractController{
 		arr2.add(selectedItem.getQuestionID() + "");
 		msg.put("param",arr2);
 		super.sendMsgToServer(msg);
+		showTable(event);
     }
 
 }

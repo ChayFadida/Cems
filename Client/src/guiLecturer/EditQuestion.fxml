@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" styleClass="root" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AddNewQuestionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" styleClass="root" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.EditQuestionController">
    <children>
       <VBox prefHeight="850.0" prefWidth="750.0">
          <children>
@@ -193,7 +193,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="SaveChangesButton" alignment="CENTER" mnemonicParsing="false" onAction="#getAddQuestion" prefHeight="47.0" prefWidth="356.0" style="-fx-background-radius: 90;" styleClass="button-view" text="Save the changes" textOverrun="CLIP" GridPane.columnIndex="1">
+                        <Button fx:id="SaveChangesButton" alignment="CENTER" mnemonicParsing="false" onAction="#SaveQuestionChanges" prefHeight="47.0" prefWidth="356.0" style="-fx-background-radius: 90;" styleClass="button-view" text="Save the changes" textOverrun="CLIP" GridPane.columnIndex="1">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="14.0" />
                            </font>
