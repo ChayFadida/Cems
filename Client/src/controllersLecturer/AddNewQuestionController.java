@@ -201,7 +201,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
+		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId")));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
 		    coursesMenuItems.add(checkMenuItem);
 		}

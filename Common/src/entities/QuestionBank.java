@@ -4,23 +4,14 @@ import java.util.HashMap;
 
 public class QuestionBank {
 	private String name;
-	private int lecturerId;
+	private Integer lecturerId;
 	HashMap<String,Integer> questions;
-	/**
-	 *QuestionBank constructor
-	 *@param name,lecturerId.
-	 *
-	 * */
-	public QuestionBank(String name, int lecturerId) {
-		this.name = name;
-		this.lecturerId = lecturerId;
-	}
 	/**
 	 *QuestionBank constructor
 	 *@param name,lecturerId,Questions.
 	 *
 	 * */
-	public QuestionBank(String name, int lecturerId, HashMap<String, Integer> questions) {
+	public QuestionBank(String name, Integer lecturerId, HashMap<String, Integer> questions) {
 		this.name = name;
 		this.lecturerId = lecturerId;
 		this.questions = questions;

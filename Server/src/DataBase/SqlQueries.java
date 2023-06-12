@@ -67,6 +67,11 @@ public class SqlQueries {
 		return query;
 	}
 	
+	public static String getDepartmentByLecturerId(int id) {
+		String query = "Select L.departmentId FROM lecturer AS L WHERE L.userId = '" +id+ "';";
+		return query;
+	}
+	
 	public static String getLoggedFlag(String username, int flag) {
 		return "SELECT * FROM users WHERE username = '" + username +  "' AND isLogged = "+flag+";" ;
 	}
@@ -84,4 +89,6 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
 	}
+
+	
 }

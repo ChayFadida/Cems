@@ -1,19 +1,16 @@
 package entities;
 
 public class Course {
-	private int courseId;
+	private Integer courseId;
 	private String courseName;
-
-	public Course(int courseId, String courseName) {
-		super();
+	private Integer departmentId;
+	public Course(Integer courseId, String courseName, Integer departmentId) {
 		this.courseId = courseId;
 		this.courseName = courseName;
+		this.departmentId=departmentId;
 	}
-	public int getCourseId() {
+	public Integer getCourseId() {
 		return courseId;
-	}
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
 	}
 	public String getCourseName() {
 		return courseName;
@@ -25,4 +22,14 @@ public class Course {
 		return courseName;
 		
 	}
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
+	}
+	
 }
