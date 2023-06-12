@@ -31,6 +31,10 @@ public class QuestionForExam extends Question{
 	public void setSelection(Boolean selection) {
 		this.selection.setIndeterminate(selection);
 	}
+	@Override
+	public String toString() {
+		return getQuestionID()+" "+getScore().getText()+" "+getSelection().isIndeterminate();
+	}
 	
 }
 

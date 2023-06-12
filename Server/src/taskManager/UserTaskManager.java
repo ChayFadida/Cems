@@ -11,6 +11,7 @@ import entities.Lecturer;
 import entities.Student;
 import entities.Super;
 import entities.User;
+import thirdPart.JsonHandler;
 
 public class UserTaskManager implements TaskHandler{
 
@@ -85,13 +86,15 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {
 			HashMap<String,Object> userHM = userQ.get(0);
+			HashMap<String,Object> coursesIdHM;
 			User user=null;
-			ArrayList<Integer> coursesId = new ArrayList<>();
-			String department;
+			String coursesId;
+			Integer department;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
-					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
-					user = new Lecturer(userHM,coursesId);
+					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
+					user = new Lecturer(userHM,coursesIdHM);
 					user.setIsLogged(true);
 					break;
 				case "Student":
@@ -105,9 +108,10 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 					user.setIsLogged(true);
 					break;
 				case "Super":
-					coursesId = getCoursesByLecturerId((int)userHM.get("id"));
+					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
 					department = getDepartmentByHodId((int)userHM.get("id"));
-					user = new Super(userHM,coursesId,department);
+					user = new Super(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
 					break;
 				default:
@@ -149,27 +153,23 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		return !rs.isEmpty();
 	}
 
-	private ArrayList<Integer> getCoursesByLecturerId(int id) throws SQLException{
-		ArrayList<Integer> coursesId = new ArrayList<>();
+	private HashMap<String, Object> getCoursesByLecturerId(int id) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesByLecturerId(id));
-		for(HashMap<String,Object> hm :rs) {
-			coursesId.add((Integer) hm.get("courseId"));
-		}
-		return coursesId;
+		return rs.get(0);
 
 		
 	}
-	private String getDepartmentByStudentId(int id) throws SQLException {
+	private Integer getDepartmentByStudentId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByStudentId(id));
-		return (String) rs.get(0).get("department");
+		return (Integer) rs.get(0).get("departmentId");
 
 	}
-	private String getDepartmentByHodId(int id) throws SQLException {
+	private Integer getDepartmentByHodId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByHodId(id));
-		return (String) rs.get(0).get("department");
+		return (Integer) rs.get(0).get("departmentId");
 
 	}
 	

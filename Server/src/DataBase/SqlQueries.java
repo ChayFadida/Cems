@@ -53,12 +53,12 @@ public class SqlQueries {
 	}
 
 	public static String getDepartmentByStudentId(int id) {
-		String query = "Select S.department FROM student AS S WHERE S.userId = '" +id+ "';";
+		String query = "Select S.departmentId FROM student AS S WHERE S.userId = '" +id+ "';";
 		return query;
 	}
 	
 	public static String getDepartmentByHodId(int id) {
-		String query = "Select H.department FROM hod AS H WHERE H.userId = '" +id+ "';";
+		String query = "Select H.departmentId FROM hod AS H WHERE H.userId = '" +id+ "';";
 		return query;
 	}
 
