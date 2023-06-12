@@ -30,7 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import thirdPart.jsonHandler;
+import thirdPart.JsonHandler;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -147,7 +147,7 @@ public class EditQuestionController extends AbstractController {
 		HmQuestions.put("answer4", getAnswer4());
 		
 		arr2.add(getQuestionField());
-		arr2.add(jsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
+		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
 		arr2.add(getRightAnswer());
 		arr2.add(getSubject());
 		arr2.add(getNotesField());
@@ -160,7 +160,7 @@ public class EditQuestionController extends AbstractController {
         }
 		HmCourses.put("courses", doubleList);
 		
-		arr2.add(jsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
+		arr2.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
 		arr2.add(question.getQuestionID() + "");
 	
 		msg.put("param", arr2);
@@ -183,7 +183,7 @@ public class EditQuestionController extends AbstractController {
         cmbRightAnswer.setValue(question.getRightAnswer());
         cmbRightAnswer.getItems().addAll("1","2","3","4");
         
-        hm = jsonHandler.convertJsonToHashMap(question.getCourses(),String.class, ArrayList.class);
+        hm = JsonHandler.convertJsonToHashMap(question.getCourses(),String.class, ArrayList.class);
         
         HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -209,7 +209,7 @@ public class EditQuestionController extends AbstractController {
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName")));
+		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"), null));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
 		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
 		    coursesMenuItems.add(checkMenuItem);

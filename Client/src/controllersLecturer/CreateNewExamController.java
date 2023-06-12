@@ -198,7 +198,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		    HashMap<String, Object> element = rs.get(i);
 		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"),
 		    		(String)element.get("rightAnswer"), (Integer)element.get("questionBank"), 
-		    		(String)element.get("subject"), (String)element.get("answers"),(String)element.get("notes"));
+		    		(String)element.get("subject"), (String)element.get("answers"),(String)element.get("notes"),(String)element.get("courses"));
 		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
 		    qArr.add(questionForExam);
 		}

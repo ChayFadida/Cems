@@ -3,7 +3,7 @@ package DataBase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import thirdPart.jsonHandler;
+import thirdPart.JsonHandler;
 
 import java.io.*;
 
@@ -83,11 +83,6 @@ public class SqlQueries {
 		return query;
 	}
 	
-	public static String InsertQuestionToDB(ArrayList<String> hm) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni', '" + hm.get(5) + "');";
-		return query;
-	}
-
 	public static String updateUserByIdLogout(String id) {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;

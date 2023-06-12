@@ -27,7 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import thirdPart.jsonHandler;
+import thirdPart.JsonHandler;
 
 
 public class AddNewQuestionController extends AbstractController implements Initializable{
@@ -150,7 +150,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		
     		arr2.add(getQuestionField());
 
-    		arr2.add(jsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
+    		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
@@ -163,7 +163,7 @@ public class AddNewQuestionController extends AbstractController implements Init
             }
     		HmCourses.put("courses", doubleList);
     		
-    		arr2.add(jsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
+    		arr2.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);

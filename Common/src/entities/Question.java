@@ -1,7 +1,7 @@
 package entities;
 
 import java.util.HashMap;
-import thirdPart.jsonHandler;
+import thirdPart.JsonHandler;
 
 import interfaces.QuestionIF;
 
@@ -46,7 +46,7 @@ public class Question{
 		this.answers = answers;
 		this.courses = courses;
 		
-        answersHM = jsonHandler.convertJsonToHashMap(answers, String.class, String.class);
+        answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
 		//input answers data into hashmap needs to be implemented!
 	}
 
