@@ -52,7 +52,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		arr1.add("getAllbyPosition");
 		msg.put("task",arr1);
 		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(((Hod) ConnectionServer.user).getDepartment());
+		arr3.add(""+((Hod)ConnectionServer.user).getDepartment());
 		msg.put("department",arr3);
 		sendMsgToServer(msg);
 		try {
