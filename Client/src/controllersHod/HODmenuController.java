@@ -47,6 +47,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	private HODviewQuestionBankController hODviewQuestionBankController;
 	private Hod hod;
 	private Super s;
+
     @FXML
     private Button LogOutButton;
 

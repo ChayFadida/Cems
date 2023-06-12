@@ -87,6 +87,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		if(loginFlag) {
 			HashMap<String,Object> userHM = userQ.get(0);
 			HashMap<String,Object> coursesIdHM;
+
 			User user=null;
 			String coursesId;
 			Integer department;
