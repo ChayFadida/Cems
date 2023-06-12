@@ -167,7 +167,7 @@ public class DBController {
 			result.add(hm);
 		
 		} catch(Exception ex) {
-			System.out.println("could not execute sql command");
+			System.out.println("could not execute sql command !!!");
 		}
 		return result;
 	}
@@ -182,6 +182,7 @@ public class DBController {
 	        HashMap<String, Object> hm = new HashMap<>();
 	        hm.put("affectedRows", affectedRows);
 	        result.add(hm);
+
 	        statement.close();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();

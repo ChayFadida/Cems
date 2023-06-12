@@ -27,6 +27,12 @@ public class LecturerTaskManager implements TaskHandler {
 					return getCourses();
 				case "addNewQuestion":
 					return addNewQuestion(hm.get("param"));
+				case "updateQuestion":
+					return updateQuestion(hm.get("param"));
+				case "deleteQuestion":
+					return deleteQuestion(hm.get("param"));
+				case "getCoursesNameById":
+					return getCoursesNameById(hm.get("param"));
 				case "getAllQuestions":
 					return getAllQuestions();
 		    	default: 
@@ -38,6 +44,8 @@ public class LecturerTaskManager implements TaskHandler {
 	}
 
 	
+	
+
 	/**
 	 *execute get all questions query
 	 *@return ArrayList of the result of the query
@@ -64,6 +72,25 @@ public class LecturerTaskManager implements TaskHandler {
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertQuestionToDB(param));
 		return rs;
 	}
+	
+	public ArrayList<HashMap<String, Object>> updateQuestion(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestion(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> deleteQuestion(ArrayList<String> param) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.deleteQuestion(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> getCoursesNameById(ArrayList<String> param) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.getCoursesNameById(param));
+		return rs;
+	}
+
 }
 	
 

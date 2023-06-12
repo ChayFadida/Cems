@@ -8,6 +8,7 @@ public class Course {
 		this.courseId = courseId;
 		this.courseName = courseName;
 		this.departmentId=departmentId;
+
 	}
 	public Integer getCourseId() {
 		return courseId;

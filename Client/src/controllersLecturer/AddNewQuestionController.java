@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
@@ -26,15 +27,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import thirdPart.JsonHandler;
 
 
 public class AddNewQuestionController extends AbstractController implements Initializable{
-	List<String> coursesSelected;
+	List<String> coursesSelected = new ArrayList<>();
 	ArrayList<Course> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
+    private MyQuestionBankController myQuestionBankController;
     
-
-    @FXML
+	@FXML
     private MenuButton CoursesMenu;
     
 	@FXML
@@ -76,6 +78,12 @@ public class AddNewQuestionController extends AbstractController implements Init
     @FXML
     private TextField txtSubject;
     
+
+    public void setMyQuestionBankController(MyQuestionBankController myQuestionBankController) {
+		this.myQuestionBankController = myQuestionBankController;
+	}
+    
+
     private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
     }
@@ -118,11 +126,12 @@ public class AddNewQuestionController extends AbstractController implements Init
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
     	lblError.setText(" ");
-    	coursesSelected= new ArrayList<>();
-    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null 
-    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null) {
+    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null
+    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || coursesSelected.isEmpty()) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
+    	
+
     	else{
     		HashMap<String,ArrayList<String>> msg = new HashMap<>();
     		ArrayList<String> arr = new ArrayList<>();
@@ -140,41 +149,32 @@ public class AddNewQuestionController extends AbstractController implements Init
     		HmQuestions.put("answer4", getAnswer4());
     		
     		arr2.add(getQuestionField());
-    		arr2.add(HmQuestions.toString());
+
+    		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
-    		arr2.add(coursesSelected.toString());
+    		
+    		HashMap<String,ArrayList<Double>> HmCourses = new HashMap<>(); //create json of courses
+    		ArrayList<Double> doubleList = new ArrayList<>();
+            for (String str : coursesSelected) {
+                double value = Double.parseDouble(str);
+                doubleList.add(value);
+            }
+    		HmCourses.put("courses", doubleList);
+    		
+    		arr2.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
-         	
-    		
+
+    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    		myQuestionBankController.showTable(event);
     	}
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     }
     
- 
-    public void start(Stage primaryStage) {
-	    try {
-	        Parent root =  FXMLLoader.load(getClass().getResource("/guiLecturer/AddNewQuestion.fxml"));
-	        Scene scene = new Scene(root);
-	        primaryStage.initStyle(StageStyle.UNDECORATED);
-			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-	        // Set the scene to the primary stage
-	        primaryStage.setScene(scene);
-	        primaryStage.show();
-	        super.setPrimaryStage(primaryStage);
-	        PressHandler<MouseEvent> press = new PressHandler<>();
-	        DragHandler<MouseEvent> drag = new DragHandler<>();
-	        root.setOnMousePressed(press);
-	        root.setOnMouseDragged(drag);
-	    } catch(Exception e) {
-	        e.printStackTrace();
-	    }
-	}
 
-	@Override
+    @Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cmbRightAnswer.getItems().addAll("1","2","3","4");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -203,22 +203,31 @@ public class AddNewQuestionController extends AbstractController implements Init
 		    HashMap<String, Object> element = rs.get(i);
 		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId")));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
+		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
 		    coursesMenuItems.add(checkMenuItem);
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
-		CoursesMenu.getItems().stream().forEach((MenuItem menuItem) -> menuItem.setOnAction(ev -> {
-    		final List<String> selected = CoursesMenu.getItems().stream()
-    	            .filter(item -> CheckMenuItem.class.isInstance(item) && CheckMenuItem.class.cast(item).isSelected())
-    	            .map(MenuItem::getText)
-    	            .collect(Collectors.toList());
-    		if(selected.toString()=="[]")
-    			lblCourses.setText(" ");
-    		else
-    			lblCourses.setText(selected.toString());
-    		coursesSelected=selected;
-    	}));
+		coursesMenuItems.forEach(menuItem -> menuItem.setOnAction(event -> updateSelectedCourses()));
+
+        updateSelectedCourses();
 		
 	}
-
-
+	private void updateSelectedCourses() {
+        List<String> selected = coursesMenuItems.stream()
+                .filter(CheckMenuItem::isSelected)
+                .map(MenuItem::getText)
+                .collect(Collectors.toList());
+        List<String> selectedId = coursesMenuItems.stream()
+                .filter(CheckMenuItem::isSelected)
+                .map(MenuItem::getId)
+                .collect(Collectors.toList());
+        if (selected.isEmpty()) {
+            lblCourses.setText(" ");
+        } else {
+            lblCourses.setText(selected.toString());
+        }
+        coursesSelected = selectedId;
+    }
 }
+	
+	
