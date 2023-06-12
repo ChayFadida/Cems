@@ -53,12 +53,12 @@ public class SqlQueries {
 	}
 
 	public static String getDepartmentByStudentId(int id) {
-		String query = "Select S.department FROM student AS S WHERE S.userId = '" +id+ "';";
+		String query = "Select S.departmentId FROM student AS S WHERE S.userId = '" +id+ "';";
 		return query;
 	}
 	
 	public static String getDepartmentByHodId(int id) {
-		String query = "Select H.department FROM hod AS H WHERE H.userId = '" +id+ "';";
+		String query = "Select H.departmentId FROM hod AS H WHERE H.userId = '" +id+ "';";
 		return query;
 	}
 
@@ -84,11 +84,13 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
 
+
 	public static String getStudentByPositionAndDepartment(String position, String department) {
 		return "SELECT DISTINCT id,firstName,lastName,position,hod.department,email,pass,username,isLogged FROM users,hod JOIN student ON hod.department =student.department WHERE users.position ='"+ position + "' AND student.department ='" + department + "';" ;
 	}
   
 	public static String getUserByPosition(String position) {
 		return "SELECT * FROM users WHERE position = '" + position +";" ;
+
 	}
 }

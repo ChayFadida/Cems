@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public class Lecturer extends User{
 	private ArrayList<Integer> coursesId = new ArrayList<>();
-	
-	public Lecturer(HashMap<String,Object> userHM, ArrayList<Integer> coursesId) {
+	private HashMap<String,Object> coursesIdHM = new HashMap<>();
+	public Lecturer(HashMap<String,Object> userHM, HashMap<String,Object> coursesIdHM) {
 		super(userHM);
-		this.coursesId=coursesId;
+		this.coursesIdHM=coursesIdHM;
 	}
 
 	public ArrayList<Integer> getCoursesId() {
@@ -18,8 +18,12 @@ public class Lecturer extends User{
 	public void setCoursesId(ArrayList<Integer> coursesId) {
 		this.coursesId = coursesId;
 	}
-	
-	
 
+	public HashMap<String, Object> getCoursesIdHM() {
+		return coursesIdHM;
+	}
 
+	public void setCoursesIdHM(HashMap<String, Object> coursesIdHM) {
+		this.coursesIdHM = coursesIdHM;
+	}
 }

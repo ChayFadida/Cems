@@ -27,6 +27,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getCourses();
 				case "addNewQuestion":
 					return addNewQuestion(hm.get("param"));
+				case "getAllQuestions":
+					return getAllQuestions();
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
