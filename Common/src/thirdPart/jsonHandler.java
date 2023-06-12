@@ -25,5 +25,7 @@ public class jsonHandler {
         Type hashMapArrayType = new TypeToken<HashMap<String, T>>() {}.getType();
         return gson.toJson(hashMap, hashMapArrayType);
     }
+    
+    
 
 }
