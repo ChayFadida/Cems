@@ -61,16 +61,6 @@ public class Question{
 		this.coursesHM = coursesHM;
 	}
 
-
-	public String getCourses() {
-		return courses;
-	}
-
-
-	public void setCourses(String courses) {
-		this.courses = courses;
-	}
-
 	public String getNotes() {
 		return notes;
 	}

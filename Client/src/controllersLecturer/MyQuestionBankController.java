@@ -3,7 +3,6 @@ package controllersLecturer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
