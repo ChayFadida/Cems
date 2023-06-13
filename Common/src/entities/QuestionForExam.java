@@ -7,7 +7,7 @@ public class QuestionForExam extends Question{
 	public QuestionForExam(Question question,String score) {
 		super(question.getQuestionID(), question.getDetails(), question.getRightAnswer(),
 				question.getQuestionBank(), question.getSubject(), 
-				question.getNotes(), question.getAnswers());
+				question.getNotes(), question.getAnswers(),question.getCourses());
 		this.score = new TextField(score);
 	}
 	

@@ -86,14 +86,14 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {
 			HashMap<String,Object> userHM = userQ.get(0);
-			HashMap<String,Object> coursesIdHM;
+			HashMap<String,ArrayList<Integer>> coursesIdHM;
 			User user=null;
 			String coursesId;
 			Integer department;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
-					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = (Integer)getDepartmentByLecturerId((int)userHM.get("id"));
 					user = new Lecturer(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
@@ -110,7 +110,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 					break;
 				case "Super":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
-					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = getDepartmentByHodId((int)userHM.get("id"));
 					user = new Super(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
