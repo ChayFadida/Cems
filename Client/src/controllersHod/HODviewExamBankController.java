@@ -1,12 +1,10 @@
 package controllersHod;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.Exam;
+import entities.ExamBankView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,32 +14,36 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import thirdPart.JsonHandler;
 
 
 public class HODviewExamBankController extends AbstractController {
-	private ArrayList<Exam> eArr ;
+	private ArrayList<ExamBankView> eArr ;
 	private HODmenuController hODmenuController;
 
     @FXML
     private Button ApplyTemp;
 
     @FXML
-    private TableView<Exam> ExamsTable;
+    private TableView<ExamBankView> ExamsTable;
 
     @FXML
     private TextField LecturerIdText;
 
     @FXML
-    private TableColumn<Exam,String> clmCourse;
+    private TableColumn<ExamBankView,String> clmCourse;
 
     @FXML
-    private TableColumn<Exam,Integer> clmExamId;
+    private TableColumn<ExamBankView,Integer> clmExamId;
 
     @FXML
-    private TableColumn<Exam,String> clmLecturer;
+    private TableColumn<ExamBankView,String> clmLecturerFirstName;
+    
+    @FXML
+    private TableColumn<ExamBankView,String> clmLecturerLastName;
 
     @FXML
-    private TableColumn<Exam,String> clmSubject;
+    private TableColumn<ExamBankView,String> clmSubject;
 
     @FXML
     void showTable(ActionEvent event) {
@@ -65,15 +67,17 @@ public class HODviewExamBankController extends AbstractController {
 		initTableView(eArr);
     }
 
-	private void initTableView(ArrayList<Exam> arr) {
-	   	ObservableList<Exam> list = FXCollections.observableArrayList(arr);
-			PropertyValueFactory<Exam,String> pvfCourse = new PropertyValueFactory<>("Course");
-			PropertyValueFactory<Exam,Integer> pvfExamId = new PropertyValueFactory<>("examID");
-			PropertyValueFactory<Exam,String> pvfLecturer = new PropertyValueFactory<>("ecomposer");
-			PropertyValueFactory<Exam,String> pvfSubject = new PropertyValueFactory<>("subject");
+	private void initTableView(ArrayList<ExamBankView> arr) {
+	   	ObservableList<ExamBankView> list = FXCollections.observableArrayList(arr);
+			PropertyValueFactory<ExamBankView,String> pvfCourse = new PropertyValueFactory<>("courses");
+			PropertyValueFactory<ExamBankView,Integer> pvfExamId = new PropertyValueFactory<>("examId");
+			PropertyValueFactory<ExamBankView,String> pvfLecturerFirstName = new PropertyValueFactory<>("firstName");
+			PropertyValueFactory<ExamBankView,String> pvfLecturerLastName = new PropertyValueFactory<>("lastName");
+			PropertyValueFactory<ExamBankView,String> pvfSubject = new PropertyValueFactory<>("subject");
 			clmCourse.setCellValueFactory(pvfCourse);
 			clmExamId.setCellValueFactory(pvfExamId);
-			clmLecturer.setCellValueFactory(pvfLecturer);
+			clmLecturerFirstName.setCellValueFactory(pvfLecturerFirstName);
+			clmLecturerLastName.setCellValueFactory(pvfLecturerLastName);
 			clmSubject.setCellValueFactory(pvfSubject);
 			ExamsTable.setItems(list);
 		
@@ -85,10 +89,12 @@ public class HODviewExamBankController extends AbstractController {
 			System.out.println("rs is null");
 			return;
 		}
-		for (int i = 0; i < rs.size(); i++) {
-		    eArr.add(new Exam(rs.get(i)));
-		}
-		
+        for (HashMap<String, Object> tmp : rs) {
+		    eArr.add(new ExamBankView((Integer)tmp.get("examId"),
+		    		(String)tmp.get("firstName"),(String)tmp.get("lastName"),
+		    		(String)tmp.get("subject"),(String)tmp.get("courseName")));
+        }
+	
 	}
 
 	private String getid() {

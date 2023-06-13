@@ -15,12 +15,13 @@
             <Font name="Arial Rounded MT Bold" size="27.0" />
          </font>
       </Text>
-      <TableView fx:id="ExamsTable" layoutX="132.0" layoutY="148.0" prefHeight="261.0" prefWidth="505.0">
+      <TableView fx:id="ExamsTable" layoutX="132.0" layoutY="148.0" prefHeight="261.0" prefWidth="555.0">
          <columns>
-            <TableColumn fx:id="clmExamId" prefWidth="123.0" text="Exam ID" />
-            <TableColumn fx:id="clmLecturer" prefWidth="116.0" text="Lecturer" />
-            <TableColumn fx:id="clmCourse" prefWidth="125.0" text="Course" />
-            <TableColumn fx:id="clmSubject" prefWidth="140.0" text="Subject" />
+            <TableColumn fx:id="clmExamId" prefWidth="70.0" text="Exam ID" />
+            <TableColumn fx:id="clmLecturerFirstName" prefWidth="132.0" text="Lecturer first name" />
+            <TableColumn fx:id="clmLecturerLastName" prefWidth="121.0" text="Lecturer last name" />
+            <TableColumn fx:id="clmSubject" minWidth="7.0" prefWidth="104.0" text="Subject" />
+            <TableColumn fx:id="clmCourse" prefWidth="127.0" text="course" />
          </columns>
       </TableView>
       <Text layoutX="132.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Insert Lecurer id:" wrappingWidth="156.13671875">

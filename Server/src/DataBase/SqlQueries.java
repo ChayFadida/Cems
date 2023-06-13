@@ -1,7 +1,9 @@
 package DataBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.io.*;
 
 public class SqlQueries {
@@ -81,13 +83,26 @@ public class SqlQueries {
 		return quert;
 	}
 	
+	public static String getQuestionByQyestionIdArray(ArrayList<Integer> arr) {
+		   String query = "SELECT Q.questionId, Q.courses,Q.details,Q.subject,U.firstName,U.lastName FROM questions AS Q, questionBank AS QB,  users AS U WHERE questionId IN (%s) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id";
+		// String query = "SELECT * FROM questions WHERE questionId IN (%s)";
+		   String idList = listToCsv(arr);
+		   return String.format(query, idList);
+		}
 	
-	
+	//query that by giving an id returns the exam id, first and last name of the exam compose, relevant course and subject.
 	public static String getViewExamById(String string) {
-		String quert = "SELECT e.* FROM examsbank eb JOIN exam e ON eb.name = e.bank WHERE eb.lecturerId = '" + string + "'" + ";" ;
+		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
 		return quert;
 	}
 	
+	/*SELECT e.examID, e.courseID, e.subject, u.firstName, u.lastName, c.courseName
+	FROM exam AS e 
+	JOIN users AS u ON e.composerId = u.id
+	JOIN courses AS c ON c.courseID = e.courseID
+	WHERE e.composerId = '5';*/
+	
+	/*SELECT e.* FROM examsbank eb JOIN exam e ON eb.bankId = e.bankId WHERE eb.lecturerId = '5';*/
 	/*SELECT e.examId, e.course, e.subject, e.ecomposer
 	FROM examsbank eb
 	JOIN exam e ON eb.name = e.bank
@@ -108,7 +123,7 @@ public class SqlQueries {
 	public static String updateUserByIdLogout(String id) {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
-
+	}
 
 	public static String getStudentByPositionAndDepartment(String position, String department) {
 		return "SELECT DISTINCT id,firstName,lastName,position,hod.department,email,pass,username,isLogged FROM users,hod JOIN student ON hod.department =student.department WHERE users.position ='"+ position + "' AND student.department ='" + department + "';" ;
@@ -116,7 +131,27 @@ public class SqlQueries {
   
 	public static String getUserByPosition(String position) {
 		return "SELECT * FROM users WHERE position = '" + position +";" ;
-
 	}
+	
+	public static String getAllCourses() {
+		return "SELECT * FROM courses;";
+	}
+	
+	
+	/*SELECT Q.questionId,Q.details,Q.subject,U.firstName,U.lastName
+	FROM questions AS Q, questionBank AS QB,  users AS U
+	WHERE questionId IN (40, 43) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id*/
+	
+	
+    private static String listToCsv(List<Integer> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(list.get(i));
+        }
+        return sb.toString();
+    }
 
 }

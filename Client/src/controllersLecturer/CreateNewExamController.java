@@ -184,42 +184,42 @@ public class CreateNewExamController extends AbstractController implements Initi
 
 	}
 	private void loadQuestions(Course selectedItem) {
-		// query to get questions from course
-		qArr=new ArrayList<>();
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllQuestions");
-		msg.put("task",arr1);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-		if(rs == null) {
-			System.out.println("rs is null");
-		}
-		for (int i = 0; i < rs.size(); i++) {
-		    HashMap<String, Object> element = rs.get(i);
-		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"), (String)element.get("rightAnswer"),
-		    			(Integer)element.get("questionBank"), (String)element.get("subject"),(String)element.get("composer"),
-		    			(String)element.get("answers"),(String)element.get("notes"));
-		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
-		    qArr.add(questionForExam);
-		}
-		ObservableList<QuestionForExam> list = FXCollections.observableArrayList(qArr);
-		PropertyValueFactory<QuestionForExam, Integer> pvfId = new PropertyValueFactory<>("questionID");
-		PropertyValueFactory<QuestionForExam, String> pvfQuestion = new PropertyValueFactory<>("details");
-		PropertyValueFactory<QuestionForExam, String> pvfSubject = new PropertyValueFactory<>("subject");
-		PropertyValueFactory<QuestionForExam, TextField> pvfScore = new PropertyValueFactory<>("score");
-//		PropertyValueFactory<QuestionForExam, CheckBox> pvfSelection = new PropertyValueFactory<>("selection");
-		
-		clmID.setCellValueFactory(pvfId);
-		clmSubject.setCellValueFactory(pvfSubject);
-		clmQuestion.setCellValueFactory(pvfQuestion);
-//		clmSelection.setCellValueFactory(pvfSelection);
-		clmScore.setCellValueFactory(pvfScore);
-		QuestionTable.setItems(list);
-		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//		// query to get questions from course
+//		qArr=new ArrayList<>();
+//		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+//		ArrayList<String> arr = new ArrayList<>();
+//		arr.add("Lecturer");
+//		msg.put("client", arr);
+//		ArrayList<String> arr1 = new ArrayList<>();
+//		arr1.add("getAllQuestions");
+//		msg.put("task",arr1);
+//		super.sendMsgToServer(msg);
+//		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+//		if(rs == null) {
+//			System.out.println("rs is null");
+//		}
+//		for (int i = 0; i < rs.size(); i++) {
+//		    HashMap<String, Object> element = rs.get(i);
+//		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"), (String)element.get("rightAnswer"),
+//		    			(Integer)element.get("questionBank"), (String)element.get("subject"),(String)element.get("composer"),
+//		    			(String)element.get("answers"),(String)element.get("notes"));
+//		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
+//		    qArr.add(questionForExam);
+//		}
+//		ObservableList<QuestionForExam> list = FXCollections.observableArrayList(qArr);
+//		PropertyValueFactory<QuestionForExam, Integer> pvfId = new PropertyValueFactory<>("questionID");
+//		PropertyValueFactory<QuestionForExam, String> pvfQuestion = new PropertyValueFactory<>("details");
+//		PropertyValueFactory<QuestionForExam, String> pvfSubject = new PropertyValueFactory<>("subject");
+//		PropertyValueFactory<QuestionForExam, TextField> pvfScore = new PropertyValueFactory<>("score");
+////		PropertyValueFactory<QuestionForExam, CheckBox> pvfSelection = new PropertyValueFactory<>("selection");
+//		
+//		clmID.setCellValueFactory(pvfId);
+//		clmSubject.setCellValueFactory(pvfSubject);
+//		clmQuestion.setCellValueFactory(pvfQuestion);
+////		clmSelection.setCellValueFactory(pvfSelection);
+//		clmScore.setCellValueFactory(pvfScore);
+//		QuestionTable.setItems(list);
+//		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 
     @FXML

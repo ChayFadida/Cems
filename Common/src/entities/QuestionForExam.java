@@ -10,7 +10,7 @@ public class QuestionForExam extends Question{
 	private CheckBox selection;
 	public QuestionForExam(Question question,String score) {
 		super(question.getQuestionID(), question.getDetails(), question.getRightAnswer(),
-				question.getQuestionBank(), question.getSubject(), question.getComposer(),
+				question.getQuestionBank(), question.getSubject(),
 				question.getNotes(), question.getAnswers());
 		this.score = new TextField(score);
 		selection= new CheckBox();

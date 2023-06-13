@@ -10,12 +10,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewQuestionBankController">
    <children>
-      <TableView fx:id="QuestionTable" layoutX="132.0" layoutY="148.0" prefHeight="261.0" prefWidth="505.0">
+      <TableView fx:id="QuestionTable" layoutX="90.0" layoutY="148.0" prefHeight="261.0" prefWidth="547.0">
          <columns>
-            <TableColumn fx:id="clmDetails" prefWidth="123.0" text="Question " />
-            <TableColumn fx:id="clmLecturer" prefWidth="116.0" text="Lecturer" />
-            <TableColumn fx:id="clmCourse" prefWidth="125.0" text="Course" />
-            <TableColumn fx:id="clmSubject" prefWidth="140.0" text="Subject" />
+            <TableColumn fx:id="clmDetails" prefWidth="129.99996948242188" text="Question " />
+            <TableColumn fx:id="clmLecturerFirstName" prefWidth="109.3333740234375" text="Lecturer first name" />
+            <TableColumn fx:id="clmLecturerLastName" prefWidth="122.66668701171875" text="Lecturer last name" />
+            <TableColumn fx:id="clmSubject" minWidth="3.33331298828125" prefWidth="78.00003051757812" text="Subject" />
+            <TableColumn fx:id="clmCourse" prefWidth="105.99993896484375" text="Course" />
          </columns>
       </TableView>
       <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View question bank" wrappingWidth="334.13671875">

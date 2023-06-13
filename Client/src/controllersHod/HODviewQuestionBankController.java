@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.Question;
+import entities.QuestionBankView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,10 +16,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import thirdPart.JsonHandler;
 
 public class HODviewQuestionBankController extends AbstractController {
 	
-	private ArrayList<Question> qArr ;
+	private ArrayList<QuestionBankView> qArr ;
 	private HODmenuController hODmenuController;
 
     @FXML
@@ -29,19 +30,22 @@ public class HODviewQuestionBankController extends AbstractController {
     private TextField LecturerIdText;
 
     @FXML
-    private TableView<Question> QuestionTable;
+    private TableView<QuestionBankView> QuestionTable;
 
     @FXML
-    private TableColumn<Question, String> clmCourse;
+    private TableColumn<QuestionBankView, String> clmCourse;
 
     @FXML
-    private TableColumn<Question, String> clmDetails;
+    private TableColumn<QuestionBankView, String> clmDetails;
 
     @FXML
-    private TableColumn<Question, String> clmLecturer;
+    private TableColumn<QuestionBankView, String> clmLecturerFirstName;
+    
+    @FXML
+    private TableColumn<QuestionBankView, String> clmLecturerLastName;
 
     @FXML
-    private TableColumn<Question, String> clmSubject;
+    private TableColumn<QuestionBankView, String> clmSubject;
 
     @FXML
     void showTable(ActionEvent event) {
@@ -71,12 +75,31 @@ public class HODviewQuestionBankController extends AbstractController {
 			System.out.println("rs is null");
 			return;
 		}
-		for (int i = 0; i < rs.size(); i++) {
-		    HashMap<String, Object> element = rs.get(i);
-		    qArr.add(new Question((Integer)element.get("lecturer"), (String)element.get("details"),
-		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
-		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes")));
-		}
+		HashMap<Integer, String> getCourseid_courseName = getCourseid_courseName();
+        StringBuilder courseNames = new StringBuilder();
+        for (HashMap<String, Object> tmp : rs) {
+        	ArrayList<Double> courseLstJson =(ArrayList<Double>) JsonHandler.convertJsonToHashMap((String)tmp.get("courses"), String.class, ArrayList.class).get("courses");
+            StringBuilder courseNames1 = new StringBuilder();
+            ArrayList<Integer> integerQuestionList = new ArrayList<>();
+            for (Double d : courseLstJson) {
+            	integerQuestionList.add(d.intValue());
+            }
+            for (int i = 0 ; i<integerQuestionList.size(); i++) {
+        		courseNames1.append(getCourseid_courseName.get(integerQuestionList.get(i)));
+                if (i < integerQuestionList.size() - 1)
+                	courseNames1.append(", ");
+            }
+//            for (Integer courseCode : integerQuestionList) {
+//                if (getCourseid_courseName.get(courseCode).length() > 0) {
+//                    courseNames1.append(", ");
+//                }
+//                courseNames1.append(getCourseid_courseName.get(courseCode));
+//            }
+            System.out.println(courseNames1.toString());
+		    qArr.add(new QuestionBankView((String)tmp.get("details"),
+		    		(String)tmp.get("subject"),(String)tmp.get("lastName"),
+		    		(String)tmp.get("firstName"),courseNames1.toString()));
+        }
 	}
     
     
@@ -86,13 +109,15 @@ public class HODviewQuestionBankController extends AbstractController {
     	return LecturerIdText.getText();
     }
     
-    private void initTableView(ArrayList<Question> arr) {
-    	ObservableList<Question> list = FXCollections.observableArrayList(arr);
-		PropertyValueFactory<Question, String> pvfDetails = new PropertyValueFactory<>("details");
-		PropertyValueFactory<Question, String> pvfLecutrer = new PropertyValueFactory<>("lecturer");
-		PropertyValueFactory<Question, String> pvfCourse = new PropertyValueFactory<>("course");
-		PropertyValueFactory<Question, String> pvfSubject = new PropertyValueFactory<>("subject");
-		clmLecturer.setCellValueFactory(pvfLecutrer);
+    private void initTableView(ArrayList<QuestionBankView> arr) {
+    	ObservableList<QuestionBankView> list = FXCollections.observableArrayList(arr);
+		PropertyValueFactory<QuestionBankView, String> pvfDetails = new PropertyValueFactory<>("details");
+		PropertyValueFactory<QuestionBankView, String> pvfLecutrerFirstName = new PropertyValueFactory<>("firstName");
+		PropertyValueFactory<QuestionBankView, String> pvfLecutrerLasttName = new PropertyValueFactory<>("lastName");
+		PropertyValueFactory<QuestionBankView, String> pvfCourse = new PropertyValueFactory<>("courses");
+		PropertyValueFactory<QuestionBankView, String> pvfSubject = new PropertyValueFactory<>("subject");
+		clmLecturerFirstName.setCellValueFactory(pvfLecutrerFirstName);
+		clmLecturerLastName.setCellValueFactory(pvfLecutrerLasttName);
 		clmDetails.setCellValueFactory(pvfDetails);
 		clmSubject.setCellValueFactory(pvfSubject);
 		clmCourse.setCellValueFactory(pvfCourse);

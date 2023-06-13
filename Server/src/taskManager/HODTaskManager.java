@@ -10,7 +10,7 @@ import java.util.HashMap;
 import DataBase.DBController;
 import DataBase.SqlQueries;
 import ocsf.server.ConnectionToClient;
-
+import thirdPart.*;
 
 public class HODTaskManager implements TaskHandler{
 
@@ -28,6 +28,10 @@ public class HODTaskManager implements TaskHandler{
 						case("Lecturer"):
 							return getAllLecturers();
 						}
+				case "getViewQuestionsById":
+					return getViewQuestionsById(hm.get("param"));
+				case"getViewExamById":
+					return getViewExamById(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
@@ -48,11 +52,20 @@ public class HODTaskManager implements TaskHandler{
 	}
 	
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<String> param) throws SQLException {
+		ArrayList<HashMap<String, Object>> res = new ArrayList<>();
 		DBController dbController = DBController.getInstance(); 
-		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0))).get(0); 
-		HashMap HashMapQuestion = jsonHandler.convertJsonToArrayHashMap((String)rs.get("questions"),ArrayList.class); 
-		System.out.println("hello"); System.out.println(HashMapQuestion); 
-		return null; 
+		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0))).get(0);
+		String lecturerId = (String) rs.get("firstName");
+		String jsonQuestionArray = (String) rs.get("questions");
+		HashMap HashMapQuestion = JsonHandler.convertJsonToHashMap(jsonQuestionArray, String.class, ArrayList.class);
+		ArrayList<Double> questionIdArr =  (ArrayList<Double>) HashMapQuestion.get("questions");
+        ArrayList<Integer> integerQuestionList = new ArrayList<>();
+        for (Double d : questionIdArr) {
+        	integerQuestionList.add(d.intValue());
+        }
+		ArrayList<HashMap<String, Object>> rs1 = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
+		
+		return rs1; 
 	} 
 	
 	public ArrayList<HashMap<String, Object>> getViewExamById(ArrayList<String> param) throws SQLException {

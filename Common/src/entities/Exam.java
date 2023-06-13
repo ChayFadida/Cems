@@ -5,231 +5,125 @@ import java.util.HashMap;
 //this class represents an Exam object.
 public class Exam {
 	//private variables.
-	private int examID;
-	private String course;
+	private Integer examId;
+	private Integer courseId;
 	private String subject;
-	private int duration;
-	private String type;
+	private Integer duration;
 	private String lecturerNote;
 	private String studentNote;
-	private String ecomposer;
+	private Integer composerId;
 	private String code;
 	private String examNum;
-	private String bank;
-	private String studentInfo;
-	private String status;
+	private Integer bankId;
+	private boolean isLocked;
 	
-	/**
-	 *Exam constructor
-	 *@param examID,course,subject,duration,type,lecturerNote,studentNote,ecomposer,code,exanNum,bank,studentInfo,status.
-	 *
-	 * */
-	public Exam(HashMap<String, Object> examHm) {
-		  this.course = (String) examHm.get("course");
-		  this.subject = (String) examHm.get("subject");
-		  this.duration = (int) examHm.get("duration");
-		  this.type = (String) examHm.get("type");
-		  this.lecturerNote = (String) examHm.get("lecturerNote");
-		  this.studentNote = (String) examHm.get("studentNote");
-		  this.ecomposer = (String) examHm.get("ecomposer");
-		  this.code = (String) examHm.get("code");
-		  this.examNum = (String) examHm.get("examNum");
-		  this.bank = (String) examHm.get("bank");
-		  this.studentInfo = (String) examHm.get("studentInfo");
-		  this.status = (String) examHm.get("status");
-		  this.examID = (int) examHm.get("examId");
-		 }
+	public Exam(Integer examId, Integer courseId, String subject, Integer duration, String lecturerNote,
+			String studentNote, Integer composerId, String code, String examNum, Integer bankId, boolean isLocked) {
+		super();
+		this.examId = examId;
+		this.courseId = courseId;
+		this.subject = subject;
+		this.duration = duration;
+		this.lecturerNote = lecturerNote;
+		this.studentNote = studentNote;
+		this.composerId = composerId;
+		this.code = code;
+		this.examNum = examNum;
+		this.bankId = bankId;
+		this.isLocked = isLocked;
+	}
 
-	/**
-	 *examID getter
-	 *@return return the examID of exam
-	 * */
-	public int getExamID() {
-		return examID;
+	public Integer getExamId() {
+		return examId;
 	}
-	/**
-	 *examID setter
-	 *@param examID
-	 * */
-	public void setExamID(int examID) {
-		this.examID = examID;
+
+	public void setExamId(Integer examId) {
+		this.examId = examId;
 	}
-	/**
-	 *course getter
-	 *@return return the course of exam
-	 * */
-	public String getCourse() {
-		return course;
+
+	public Integer getCourseId() {
+		return courseId;
 	}
-	/**
-	 *course setter
-	 *@param course
-	 * */
-	public void setCourse(String course) {
-		this.course = course;
+
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
-	/**
-	 *subject getter
-	 *@return return the subject of exam
-	 * */
+
 	public String getSubject() {
 		return subject;
 	}
-	/**
-	 *subject setter
-	 *@param subject
-	 * */
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	/**
-	 *duration getter
-	 *@return return the duration of exam
-	 * */
-	public int getDuration() {
+
+	public Integer getDuration() {
 		return duration;
 	}
-	/**
-	 *duration setter
-	 *@param duration
-	 * */
-	public void setDuration(int duration) {
+
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	/**
-	 *type getter
-	 *@return return the type of exam
-	 * */
-	public String getType() {
-		return type;
-	}
-	/**
-	 *type setter
-	 *@param type
-	 * */
-	public void setType(String type) {
-		this.type = type;
-	}
-	/**
-	 *lecturerNote getter
-	 *@return return the lecturerNote of exam
-	 * */
+
 	public String getLecturerNote() {
 		return lecturerNote;
 	}
-	/**
-	 *lecturerNote setter
-	 *@param lecturerNote
-	 * */
+
 	public void setLecturerNote(String lecturerNote) {
 		this.lecturerNote = lecturerNote;
 	}
-	/**
-	 *studentNote getter
-	 *@return return the studentNote of exam
-	 * */
+
 	public String getStudentNote() {
 		return studentNote;
 	}
-	/**
-	 *studentNote setter
-	 *@param studentNote
-	 * */
+
 	public void setStudentNote(String studentNote) {
 		this.studentNote = studentNote;
 	}
-	/**
-	 *ecomposer getter
-	 *@return return the ecomposer of exam
-	 * */
-	public String getEcomposer() {
-		return ecomposer;
+
+	public Integer getComposerId() {
+		return composerId;
 	}
-	/**
-	 *ecomposer setter
-	 *@param ecomposer
-	 * */
-	public void setEcomposer(String ecomposer) {
-		this.ecomposer = ecomposer;
+
+	public void setComposerId(Integer composerId) {
+		this.composerId = composerId;
 	}
-	/**
-	 *code getter
-	 *@return return the code of exam
-	 * */
+
 	public String getCode() {
 		return code;
 	}
-	/**
-	 *code setter
-	 *@param code
-	 * */
+
 	public void setCode(String code) {
 		this.code = code;
 	}
-	/**
-	 *examNum getter
-	 *@return return the examNum of exam
-	 * */
+
 	public String getExamNum() {
 		return examNum;
 	}
-	/**
-	 *examNum setter
-	 *@param examNum
-	 * */
+
 	public void setExamNum(String examNum) {
 		this.examNum = examNum;
 	}
-	/**
-	 *bank getter
-	 *@return return the bank of exam
-	 * */
-	public String getBank() {
-		return bank;
+
+	public Integer getBankId() {
+		return bankId;
 	}
-	/**
-	 *bank setter
-	 *@param bank
-	 * */
-	public void setBank(String bank) {
-		this.bank = bank;
+
+	public void setBankId(Integer bankId) {
+		this.bankId = bankId;
 	}
-	/**
-	 *studentInfo getter
-	 *@return return the student information
-	 * */
-	public String getStudentInfo() {
-		return studentInfo;
+
+	public boolean isLocked() {
+		return isLocked;
 	}
-	/**
-	 *studentInfo setter
-	 *@param studentInfo
-	 * */
-	public void setStudentInfo(String studentInfo) {
-		this.studentInfo = studentInfo;
+
+	public void setLocked(boolean isLocked) {
+		this.isLocked = isLocked;
 	}
-	/**
-	 *status getter
-	 *@return return the status of an exam
-	 * */
-	public String getStatus() {
-		return status;
-	}
-	/**
-	 *status setter
-	 *@param status
-	 * */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	/**
-	 *Exam String getter
-	 *@return return a formated string of an exam
-	 * */
+
 	@Override
 	public String toString() {
-		return "Exam [examID=" + examID + ", course=" + course + ", subject=" + subject + ", duration=" + duration
-				+ ", type=" + type + ", ecomposer=" + ecomposer + ", examNum=" + examNum + ", bank=" + bank
-				+ ", status=" + status + "]";
+		return "Exam [examID=" + examId + ", course=" + courseId + ", subject=" + subject + ", duration=" + duration
+				+ ", ecomposer=" + composerId + ", examNum=" + examNum + ", bank=" + bankId+ "]";
 	}
 }

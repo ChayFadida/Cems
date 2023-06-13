@@ -28,6 +28,8 @@ public class UserTaskManager implements TaskHandler{
 				case "logoutAttempt":
 					msgBack.add(lougoutAttempt(hm));
 					return msgBack;
+				case "initializeCourses":
+					return initializeCourses();
 				default: 
 			    	System.out.println("no such method for user");
 		    		return msgBack;
@@ -35,6 +37,11 @@ public class UserTaskManager implements TaskHandler{
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
+private ArrayList<HashMap<String, Object>> initializeCourses() throws SQLException {
+	DBController dbController = DBController.getInstance();
+	ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllCourses());
+	return rs;
+}
 private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
 		HashMap<String,Object> res = new HashMap<>();
 		String id = hm.get("details").get(0);
@@ -179,5 +186,5 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));
 		return ((int)rs.get(0).get("affectedRows"))==1;
-	} 
+	}
 }

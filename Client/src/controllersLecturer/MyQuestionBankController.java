@@ -59,28 +59,28 @@ public class MyQuestionBankController extends AbstractController{
     @FXML
     private TableColumn<Question,String> clmSubject;
     
-    @FXML
-    void showTable(ActionEvent event) {
-    	String TempId = getid();
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQustionBankById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(TempId);
-		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
-		try {
-			this.loadQuestions(ConnectionServer.rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		initTableView(qArr);
-    	
-    }
+//    @FXML
+//    void showTable(ActionEvent event) {
+//    	String TempId = getid();
+//		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+//		ArrayList<String> arr = new ArrayList<>();
+//		arr.add("Lecturer");
+//		msg.put("client", arr);
+//		ArrayList<String> arr1 = new ArrayList<>();
+//		arr1.add("getQustionBankById");
+//		msg.put("task",arr1);
+//		ArrayList<String> arr2 = new ArrayList<>();
+//		arr2.add(TempId);
+//		msg.put("param", arr2);
+//		super.sendMsgToServer(msg);
+//		try {
+//			this.loadQuestions(ConnectionServer.rs);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		initTableView(qArr);
+//    	
+//    }
     
     
     private void initTableView(ArrayList<Question> arr) {
@@ -96,19 +96,19 @@ public class MyQuestionBankController extends AbstractController{
 	}
 
 
-	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
-		qArr= new ArrayList<>();
-		if(rs == null) {
-			System.out.println("rs is null");
-			return;
-		}
-		for (int i = 0; i < rs.size(); i++) {
-		    HashMap<String, Object> element = rs.get(i);
-		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"),
-		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
-		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes")));
-		}
-	}
+//	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
+//		qArr= new ArrayList<>();
+//		if(rs == null) {
+//			System.out.println("rs is null");
+//			return;
+//		}
+//		for (int i = 0; i < rs.size(); i++) {
+//		    HashMap<String, Object> element = rs.get(i);
+//		    qArr.add(new Question((Integer)element.get("questionId"), (String)element.get("details"),
+//		    (String)element.get("rightAnswer"), (Integer)element.get("questionBank"), (String)element.get("subject"),
+//		    (String)element.get("composer"),(String)element.get("answers"),(String)element.get("notes")));
+////		}
+//	}
 	private String getid() {
     	return TempIDbox.getText();
     }

@@ -39,29 +39,34 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		    stdArr.add(new Student(rs.get(i),null));
 		}
 	}
-    @FXML
-	public void showTable() {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add("Student");
-		msg.put("position",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllbyPosition");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(((Hod) ConnectionServer.user).getDepartment());
-		msg.put("department",arr3);
-		sendMsgToServer(msg);
-		try {
-			this.loadStudents(ConnectionServer.rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		initTableView(stdArr);
-	}
+    
+    
+    // eneedd to talk with eyal
+    
+    
+//    @FXML
+//	public void showTable() {
+//		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+//		ArrayList<String> arr = new ArrayList<>();
+//		arr.add("HOD");
+//		msg.put("client", arr);
+//		ArrayList<String> arr2 = new ArrayList<>();
+//		arr2.add("Student");
+//		msg.put("position",arr2);
+//		ArrayList<String> arr1 = new ArrayList<>();
+//		arr1.add("getAllbyPosition");
+//		msg.put("task",arr1);
+//		ArrayList<String> arr3 = new ArrayList<>();
+//		arr3.add(((Hod) ConnectionServer.user).getDepartment());
+//		msg.put("department",arr3);
+//		sendMsgToServer(msg);
+//		try {
+//			this.loadStudents(ConnectionServer.rs);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		initTableView(stdArr);
+//	}
 	private void initTableView(ArrayList<Student> arr) {
 		ObservableList<Student> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
@@ -74,8 +79,15 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
 	}
+//	@Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//		showTable();		
+//	}
+
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		showTable();		
+		// TODO Auto-generated method stub
+		
 	}
 }
