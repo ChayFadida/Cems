@@ -96,25 +96,6 @@ public class SqlQueries {
 		return quert;
 	}
 	
-	/*SELECT e.examID, e.courseID, e.subject, u.firstName, u.lastName, c.courseName
-	FROM exam AS e 
-	JOIN users AS u ON e.composerId = u.id
-	JOIN courses AS c ON c.courseID = e.courseID
-	WHERE e.composerId = '5';*/
-	
-	/*SELECT e.* FROM examsbank eb JOIN exam e ON eb.bankId = e.bankId WHERE eb.lecturerId = '5';*/
-	/*SELECT e.examId, e.course, e.subject, e.ecomposer
-	FROM examsbank eb
-	JOIN exam e ON eb.name = e.bank
-	WHERE eb.lecturerId = 5;*/
-	
-	////query for yoni last DB 
-	/*SELECT Q.questionId , Q.details, Q.subject, U.firstName, U.lastName, C.courseName
-	FROM questionbank AS B, lecturer AS L, questions AS Q, courses AS C, users AS U
-	WHERE L.userId ='5' AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID AND U.id = L.userId  */
-	
-
-	
 	public static String InsertQuestionToDB(ArrayList<String> hm) {
 		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, composer, courses)\r\n" + "VALUES ('" + hm.get(0)+ "','" + hm.get(1)+ "','" + hm.get(2)+ "', '1', '" +  hm.get(3)+ "','" + hm.get(4)+ "', 'Yoni', '" + hm.get(5) + "');";
 		return query;
@@ -137,10 +118,29 @@ public class SqlQueries {
 		return "SELECT * FROM courses;";
 	}
 	
+	//Tomer: view student statistic HOD //
 	
-	/*SELECT Q.questionId,Q.details,Q.subject,U.firstName,U.lastName
-	FROM questions AS Q, questionBank AS QB,  users AS U
-	WHERE questionId IN (40, 43) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id*/
+	public static String getStudentNameByID(String id) {
+		return "SELECT users.firstName, users.lastName FROM users WHERE id = '" + id +"' ;";
+	}
+	
+	public static String getStudentDoneExamsGradeByID(String id) {
+		return "SELECT grade  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getStudentDoneExamsIdByID(String id) {
+		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getStudentDoneExamsIdANDgradeByID(String id) {//this query returns the student done exams id and their grades
+		return "SELECT examId, grade FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getInfoForStudentStats(String id) {
+		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
+	}
+	
+	
 	
 	
     private static String listToCsv(List<Integer> list) {
