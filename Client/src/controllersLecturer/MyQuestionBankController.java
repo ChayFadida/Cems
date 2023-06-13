@@ -165,7 +165,6 @@ public class MyQuestionBankController extends AbstractController{
     }
     @FXML
     void EditQuestion(ActionEvent event) throws IOException {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		EditQuestionController editQuestionController;
 		SelectionModel<Question> selectionModel = QuestionBankLecTable.getSelectionModel();

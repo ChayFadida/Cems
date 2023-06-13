@@ -1,13 +1,12 @@
 package entities;
 
-import java.util.HashMap;
-
 //this class represents an Exam object.
 public class Exam {
 	//private variables.
 	private Integer examId;
 	private Integer courseId;
 	private String subject;
+	private String examName;
 	private Integer duration;
 	private String lecturerNote;
 	private String studentNote;
@@ -17,10 +16,11 @@ public class Exam {
 	private Integer bankId;
 	private boolean isLocked;
 	
-	public Exam(Integer examId, Integer courseId, String subject, Integer duration, String lecturerNote,
+	public Exam(Integer examId,String examName, Integer courseId, String subject, Integer duration, String lecturerNote,
 			String studentNote, Integer composerId, String code, String examNum, Integer bankId, boolean isLocked) {
 		super();
 		this.examId = examId;
+		this.examName = examName;
 		this.courseId = courseId;
 		this.subject = subject;
 		this.duration = duration;
@@ -32,7 +32,15 @@ public class Exam {
 		this.bankId = bankId;
 		this.isLocked = isLocked;
 	}
+	
+	public String getExamName() {
+		return examName;
+	}
 
+	public void setExamName(String examName) {
+		this.examName = examName;
+	}
+	
 	public Integer getExamId() {
 		return examId;
 	}

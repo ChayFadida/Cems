@@ -15,11 +15,11 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="examTable" layoutX="114.0" layoutY="77.0" prefHeight="273.0" prefWidth="573.0">
+      <TableView fx:id="examTable" layoutX="114.0" layoutY="77.0" prefHeight="274.0" prefWidth="574.0">
         <columns>
-          <TableColumn prefWidth="133.0" text="Exam ID" />
-            <TableColumn prefWidth="267.0" text="Course" />
-            <TableColumn prefWidth="172.0" text="Subject" />
+          <TableColumn fx:id="clmExamName" prefWidth="150.0" text="Exam Name" />
+            <TableColumn fx:id="clmCourse" prefWidth="250.0" text="Course" />
+            <TableColumn fx:id="clmSubject" prefWidth="172.0" text="Subject" />
         </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

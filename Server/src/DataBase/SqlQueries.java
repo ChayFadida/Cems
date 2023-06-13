@@ -126,6 +126,18 @@ public class SqlQueries {
 		queryBuilder.append(");");
 		return queryBuilder.toString();
 	}
+
+	public static String AddDurationRequest(ArrayList<String> param) {
+		String query = "INSERT INTO durationrequest (examId, lecturerId, courseId, subject, oldDuration, newDuration, status, reasons)\r\n" + "VALUES (" + param.get(0)+ "," + param.get(1)+ "," + param.get(2)+ ",'" + param.get(3)+ "'," +  param.get(4)+ "," + param.get(5)+ ",'" + param.get(6) + "','" +  param.get(7) + "');";
+		return query;
+	}
 	
+	public static String getLecturerExams(ArrayList<String> param) {
+		String query = "SELECT e.*, c.courseName\r\n"
+				+ "FROM exam e\r\n"
+				+ "JOIN courses c ON c.courseID = e.courseID\r\n" 
+				+ "WHERE e.composerId = " + param.get(0) + ";";
+		return query;
+	}
 	
 }

@@ -35,6 +35,10 @@ public class LecturerTaskManager implements TaskHandler {
 					return getCoursesNameById(hm.get("param"));
 				case "getAllQuestions":
 					return getAllQuestions();
+				case "AddDurationRequest":
+					return AddDurationRequest(hm.get("param"));
+				case "getLecturerExams":
+					return getLecturerExams(hm.get("param"));
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
@@ -43,7 +47,6 @@ public class LecturerTaskManager implements TaskHandler {
 		return null;
 	}
 
-	
 	
 
 	/**
@@ -88,6 +91,18 @@ public class LecturerTaskManager implements TaskHandler {
 	private ArrayList<HashMap<String, Object>> getCoursesNameById(ArrayList<String> param) {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.getCoursesNameById(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> AddDurationRequest(ArrayList<String> param) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.AddDurationRequest(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> getLecturerExams(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExams(param));
 		return rs;
 	}
 

@@ -27,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -177,10 +178,14 @@ public class LecturerMenuController extends AbstractController implements Initia
     }
 
     @FXML
-    void ManageExams(MouseEvent event) {
-    	loadPage("ManageExams");
-    	if(manageExamsController==null)
-    		manageExamsController = new ManageExamsController();
+    void ManageExams(MouseEvent event) throws IOException {
+		Stage primaryStage = new Stage();
+		ManageExamsController manageExamsController;
+		FXMLLoader loader = new FXMLLoader();
+		Pane root = loader.load(getClass().getResource("/guiLecturer/ManageExams.fxml").openStream());
+		manageExamsController = loader.getController();
+		manageExamsController.showTable();
+        bp.setCenter(root);
     }
 
     @FXML
