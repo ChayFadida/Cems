@@ -114,6 +114,51 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String getCoursesByCourseId(String id) {
+		String query = "SELECT * FROM courses WHERE courseID = '" + id +  "';" ;
+		return query;
+	}
+	
+	public static String getQuestionsByLecIdAndCourse(String lecId, String courseId) {
+		String query = "SELECT Q.*"
+				+ " FROM questions AS Q, users AS U, questionBank AS B"
+				+ " WHERE U.id = '"+lecId+"' AND Q.questionBankId=B.bankID AND"
+				+ " B.lecturerId = U.id AND LOCATE('"+courseId+"', Q.courses) > 0;";
+		return query;
+	}
+
+	public static String getExamBankByLecId(String id) {
+		String query = "SELECT B.* FROM examsbank AS B WHERE lecturerId = '" + id +  "';" ;
+		return query;
+	}
+
+	public static String getExamCountByLecId(String id) {
+		String query = "SELECT COUNT(*) AS count FROM exam WHERE composerId = '"+ id+"';";
+		return query;
+	}
+
+	public static String updateExamBankById(ArrayList<String> param) {
+		String query = "UPDATE examsbank SET exams = '"+param.get(1)+"' WHERE bankId = '"+ param.get(0) +"' ;";
+		return query;
+	}
+
+	public static ArrayList<String> InsertExamToDB(ArrayList<String> param) {
+		String insert = "INSERT INTO exam (courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
+				"VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '"+param.get(3)+"', '" +  param.get(4)+ "','" + param.get(5)+ "', '"+param.get(6)+"', '"
+						+param.get(7)+"', '"+param.get(8)+"', '0');";
+		String select = "SELECT LAST_INSERT_ID();";
+		ArrayList<String> queries = new ArrayList<>();
+		queries.add(insert);
+		queries.add(select);
+		return queries;
+	}
+
+	public static String getDepartmentNameById(String id) {
+		String query = "SELECT D.* FROM department AS D WHERE id = '" + id +  "';" ;
+		return query;
+	}
+
+
 	public static String getCoursesNameById(ArrayList<String> param) {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
@@ -126,6 +171,5 @@ public class SqlQueries {
 		queryBuilder.append(");");
 		return queryBuilder.toString();
 	}
-	
-	
+
 }

@@ -18,6 +18,7 @@ public class Question{
     private String notes;
     private String courses;
     private HashMap<String,String> answersHM;
+    private HashMap<String,String> coursesHM;
 
     /**
      * Constructs a Question object with the given parameters.
@@ -35,7 +36,7 @@ public class Question{
      */
 
     public Question(Integer questionID, String details, String rightAnswer, Integer questionBank, String subject,
-			 String answers, String notes, String courses) {
+			String answers, String notes,String courses) {
 		super();
 		this.questionID = questionID;
 		this.details = details;
@@ -44,13 +45,31 @@ public class Question{
 		this.subject = subject;
 		this.notes=notes;
 		this.answers = answers;
-		this.courses = courses;
-		
-        answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
+		this.courses=courses;
+		answersHM = new HashMap<>();
+		coursesHM=new HashMap<>();
+    answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
 		//input answers data into hashmap needs to be implemented!
 	}
 
+    public HashMap<String, String> getCoursesHM() {
+		return coursesHM;
+	}
 
+
+	public void setCoursesHM(HashMap<String, String> coursesHM) {
+		this.coursesHM = coursesHM;
+	}
+
+
+	public String getCourses() {
+		return courses;
+	}
+
+
+	public void setCourses(String courses) {
+		this.courses = courses;
+	}
 
 	public String getNotes() {
 		return notes;
