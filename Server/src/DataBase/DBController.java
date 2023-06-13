@@ -167,7 +167,7 @@ public class DBController {
 			result.add(hm);
 		
 		} catch(Exception ex) {
-			System.out.println("could not execute sql command");
+			System.out.println("could not execute sql command !!!");
 		}
 		return result;
 	}
@@ -178,11 +178,37 @@ public class DBController {
 	        PreparedStatement statement = conn.prepareStatement(sqlQueries);
 
 	        int affectedRows = statement.executeUpdate();
-
 	        HashMap<String, Object> hm = new HashMap<>();
 	        hm.put("affectedRows", affectedRows);
 	        result.add(hm);
+
 	        statement.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return result;
+	}
+
+	public ArrayList<HashMap<String, Object>> insertAndGetKeysQueries(ArrayList<String> sqlQueries) {
+	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+	    try {
+	        PreparedStatement insertionStatement = conn.prepareStatement(sqlQueries.get(0));
+	        Statement selectionStatement = conn.createStatement();
+
+	        int affectedRows = insertionStatement.executeUpdate();
+	        HashMap<String, Object> hm = new HashMap<>();
+	        if (affectedRows>0) {
+                ResultSet rs = selectionStatement.executeQuery(sqlQueries.get(1));
+                if (rs.next()) {
+                    long generatedId = rs.getLong(1);
+                    hm.put("keys", generatedId);
+                } else {
+                	hm.put("keys", -1);
+                }
+            }
+	        result.add(hm);
+	        insertionStatement.close();
+	        selectionStatement.close();
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
