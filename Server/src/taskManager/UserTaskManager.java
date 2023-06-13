@@ -147,6 +147,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByUserNameAndPassIsLogged(pass, username, loginFlag));
 		return ((int)rs.get(0).get("affectedRows"))==1;
+
 	}
 	
 	private boolean isLogged(String username) throws SQLException {
