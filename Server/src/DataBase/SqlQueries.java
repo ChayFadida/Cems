@@ -172,4 +172,10 @@ public class SqlQueries {
 		return queryBuilder.toString();
 	}
 
+	public static String InsertQuestionToExamInDB(ArrayList<String> param) {
+		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
+				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
+		return query;
+	}
+
 }

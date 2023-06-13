@@ -176,8 +176,48 @@ public class CreateNewExamController extends AbstractController implements Initi
 		Long lId = lastId;
 		Integer examId = lId.intValue();
 		addToExamBank(bank,examId);
+		addQuestionsAndScore(examId);
 	}
 	
+
+	private void addQuestionsAndScore(Integer examId) {
+		HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
+		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
+		ArrayList<Integer> qIds= new ArrayList<>();
+		ArrayList<Integer> qScores= new ArrayList<>();
+		for(QuestionForExam q: qSelected) {
+			qIds.add(q.getQuestionID());
+			qScores.add(Integer.parseInt(q.getScore().getText()));
+		}
+		qIdsHm.put("questions", qIds);
+		qScoresHm.put("scores", qScores);
+		String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
+		String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("insertQuestionsForExam");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		arr2.add(qIdsStr);
+		arr2.add(qScoresStr);
+		msg.put("param", arr2);
+		super.sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+		}
+		if((int)rs.get(0).get("affectedRows")==1) {
+			resetAll();
+			lblError.setText("Exam uploaded successfully");
+		}
+		else {
+			lblError.setText("Problam at exam upload");
+		}
+	}
 
 	private String getDepartmentName() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -241,6 +281,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		lecNotesTxt.setText("");
 		studNotesText.setText("");
 		lblScore.setText("0/100");
+		loadQuestions(CourseComboBox.getSelectionModel().getSelectedItem());
 	}
 
 	private HashMap<String, Object> getExamBank() {
