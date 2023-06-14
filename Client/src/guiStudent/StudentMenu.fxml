@@ -18,11 +18,8 @@
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="300.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="75.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/Images/Cems-light.png" />
-                     </image>
-                  </ImageView>
+                  <Button fx:id="btnChay" layoutX="72.0" layoutY="7.0" mnemonicParsing="false" onAction="#getChay" prefHeight="160.0" prefWidth="147.0" />
+                  <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="75.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="40.0" prefWidth="300.0">

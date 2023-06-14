@@ -61,6 +61,9 @@ public class StudentMenuController extends AbstractController implements Initial
     @FXML
     private Text lblHello;
     
+    @FXML
+    private Button btnChay;
+    
     public StudentMenuController() {
     	try {
 			student = (Student) ConnectionServer.getInstance().getUser();
@@ -181,5 +184,10 @@ public class StudentMenuController extends AbstractController implements Initial
 		lblHello.setText("Hello, "+student.getFirstName()+ "!");
 		
 	}
+	
+    @FXML
+    void getChay(ActionEvent event) {
+
+    }
 
 }
