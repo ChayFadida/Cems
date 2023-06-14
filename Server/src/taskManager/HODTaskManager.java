@@ -17,7 +17,7 @@ public class HODTaskManager implements TaskHandler{
 
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
-		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;
+		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
 		ArrayList<HashMap<String, Object>> msgBack = new ArrayList<HashMap<String, Object>>();
 		String task = (String) hm.get("task").get(0);
 		try {
@@ -84,7 +84,8 @@ public class HODTaskManager implements TaskHandler{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
 		return rs;	
-
+	}
+	
 	private ArrayList<HashMap<String, Object>> getAllRequestsInDepartment(String department,String status) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllRequestsInDepartmentOfStatus(department,status));
@@ -102,7 +103,7 @@ public class HODTaskManager implements TaskHandler{
 		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0))).get(0);
 		String lecturerId = (String) rs.get("firstName");
 		String jsonQuestionArray = (String) rs.get("questions");
-		HashMap HashMapQuestion = JsonHandler.convertJsonToHashMap(jsonQuestionArray, String.class, ArrayList.class);
+		HashMap<String,ArrayList<Double>> HashMapQuestion = JsonHandler.convertJsonToHashMap(jsonQuestionArray, String.class, ArrayList.class);
 		ArrayList<Double> questionIdArr =  (ArrayList<Double>) HashMapQuestion.get("questions");
         ArrayList<Integer> integerQuestionList = new ArrayList<>();
         for (Double d : questionIdArr) {
