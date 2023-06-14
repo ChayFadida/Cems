@@ -93,16 +93,16 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {
 			HashMap<String,Object> userHM = userQ.get(0);
-			HashMap<String,Object> coursesIdHM;
-
+			HashMap<String,ArrayList<Integer>> coursesIdHM;
 			User user=null;
 			String coursesId;
 			Integer department;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
-					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
-					user = new Lecturer(userHM,coursesIdHM);
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
+					department = (Integer)getDepartmentByLecturerId((int)userHM.get("id"));
+					user = new Lecturer(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
 					break;
 				case "Student":
@@ -117,7 +117,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 					break;
 				case "Super":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
-					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class);
+					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = getDepartmentByHodId((int)userHM.get("id"));
 					user = new Super(userHM,coursesIdHM,department);
 					user.setIsLogged(true);
@@ -136,6 +136,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		res.put("response", "logged in");
 		return res;
 	}
+	
 	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserName(username));
@@ -182,6 +183,12 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 
 	}
 	
+	private Integer getDepartmentByLecturerId(int id) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByLecturerId(id));
+		return (Integer) rs.get(0).get("departmentId");
+	}
+
 	private boolean updateUserByIdLogout(String id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));

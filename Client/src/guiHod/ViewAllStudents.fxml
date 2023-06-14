@@ -10,10 +10,10 @@
    <children>
       <TableView fx:id="AllStudentsTable" layoutX="58.0" layoutY="106.0" prefHeight="302.0" prefWidth="677.0">
          <columns>
-            <TableColumn id="id" fx:id="id" prefWidth="71.0" text="id" />
-            <TableColumn id="firstName" fx:id="firstName" prefWidth="166.0" text="firstName" />
-            <TableColumn id="lastName" fx:id="lastName" prefWidth="178.0" text="lastName" />
-            <TableColumn id="email" fx:id="email" prefWidth="261.0" text="email" />
+            <TableColumn id="id" fx:id="id" prefWidth="71.0" text="ID" />
+            <TableColumn id="firstName" fx:id="firstName" prefWidth="166.0" text="FirstName" />
+            <TableColumn id="lastName" fx:id="lastName" prefWidth="178.0" text="LastName" />
+            <TableColumn id="email" fx:id="email" prefWidth="261.0" text="Email" />
          </columns>
       </TableView>
       <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View all students" wrappingWidth="334.13671875">

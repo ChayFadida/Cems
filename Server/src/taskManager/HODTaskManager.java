@@ -12,11 +12,12 @@ import DataBase.SqlQueries;
 import ocsf.server.ConnectionToClient;
 import thirdPart.*;
 
+
 public class HODTaskManager implements TaskHandler{
 
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
-		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
+		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;
 		ArrayList<HashMap<String, Object>> msgBack = new ArrayList<HashMap<String, Object>>();
 		String task = (String) hm.get("task").get(0);
 		try {
@@ -24,9 +25,9 @@ public class HODTaskManager implements TaskHandler{
 				case "getAllbyPosition":
 					switch((String)hm.get("position").get(0)) {
 						case("Student"):
-							return getAllStudents(hm.get("department").get(0));
+							return getAllPositionUsersInDepartment("Student",(String)hm.get("department").get(0));
 						case("Lecturer"):
-							return getAllLecturers();
+							return getAllPositionUsersInDepartment("Lecturer",(String)hm.get("department").get(0));
 						}
 				case "getViewQuestionsById":
 					return getViewQuestionsById(hm.get("param"));
@@ -45,8 +46,6 @@ public class HODTaskManager implements TaskHandler{
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
-	
-
 
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsGradeByID(ArrayList<String> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
@@ -71,12 +70,12 @@ public class HODTaskManager implements TaskHandler{
 	}*/
 
 
-
-	private ArrayList<HashMap<String, Object>> getAllStudents(String id) throws SQLException{
+	private ArrayList<HashMap<String, Object>> getAllPositionUsersInDepartment(String position,String department) throws SQLException{
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentByPositionAndDepartment("Student",id));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPositionAndDepartment(position,department));
 		return rs;
 	}
+  
 	private ArrayList<HashMap<String, Object>> getAllLecturers() throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
@@ -106,3 +105,4 @@ public class HODTaskManager implements TaskHandler{
 		return rs; 
 	}
 }
+	
