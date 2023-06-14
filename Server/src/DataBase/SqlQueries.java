@@ -332,8 +332,8 @@ public class SqlQueries {
 	               "JOIN examresults ON exam.examId = examresults.examId " +
 	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
 	               "WHERE exam.examId = " + param.get(0);
-
-
+		return query;
+	}
 
 	public static String getQBByLecId(String id) {
 		String query= "SELECT * FROM questionbank WHERE lecturerId='"+id+"';";
