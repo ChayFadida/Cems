@@ -187,7 +187,8 @@ public class StudentMenuController extends AbstractController implements Initial
 	
     @FXML
     void getChay(ActionEvent event) {
-
+    	ChayScreenController chayScreenController = new ChayScreenController();
+    	chayScreenController.start(new Stage());
     }
 
 }
