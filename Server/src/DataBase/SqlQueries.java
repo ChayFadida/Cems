@@ -1,10 +1,8 @@
 package DataBase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import thirdPart.JsonHandler;
 import java.io.*;
 
 public class SqlQueries {
@@ -198,7 +196,6 @@ public class SqlQueries {
 		return query;
 	}
 
-	
 	public static String updateDurationRequest(String status,String id) {
 		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
 		return query;
@@ -273,19 +270,6 @@ public class SqlQueries {
 	}
 
 
-	public static String getCoursesNameById(ArrayList<String> param) {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
-		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt(param.get(0)) - 1) {
-		    queryBuilder.append(", ");
-		  }
-		}
-		queryBuilder.append(");");
-		return queryBuilder.toString();
-	}
-
 	public static String InsertQuestionToExamInDB(ArrayList<String> param) {
 		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
 				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
@@ -317,6 +301,19 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String getCoursesNameById(ArrayList<String> param) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
+		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
+		  queryBuilder.append(param.get(i));
+		  if (i < Integer.parseInt(param.get(0)) - 1) {
+		    queryBuilder.append(", ");
+		  }
+		}
+		queryBuilder.append(");");
+		return queryBuilder.toString();
+	}
+
 	public static String AddDurationRequest(ArrayList<String> param) {
 		String query = "INSERT INTO durationrequest (examId, lecturerId, courseId, subject, oldDuration, newDuration, status, reasons)\r\n" + "VALUES (" + param.get(0)+ "," + param.get(1)+ "," + param.get(2)+ ",'" + param.get(3)+ "'," +  param.get(4)+ "," + param.get(5)+ ",'" + param.get(6) + "','" +  param.get(7) + "');";
 		return query;
@@ -329,6 +326,13 @@ public class SqlQueries {
 				+ "WHERE e.composerId = " + param.get(0) + ";";
 		return query;
 	}
+	
+	public static String LockExamById(ArrayList<String> param) {
+		String query = "UPDATE exam " +
+	               "JOIN examresults ON exam.examId = examresults.examId " +
+	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
+	               "WHERE exam.examId = " + param.get(0);
+
 
 
 	public static String getQBByLecId(String id) {

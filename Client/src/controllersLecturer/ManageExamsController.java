@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import abstractControllers.AbstractController;
+import client.ConnectionServer;
+import entities.Exam;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
@@ -33,7 +35,6 @@ import javafx.scene.control.TableRow;
 public class ManageExamsController extends AbstractController {
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
-	Exam selectedExam;
 
     @FXML
     private Button AnalyizeExamButton;
@@ -55,6 +56,12 @@ public class ManageExamsController extends AbstractController {
 
     @FXML
     private TableColumn<Exam, String> clmSubject;
+    
+    @FXML
+    private TableColumn<Exam, Integer> clmDuration;
+
+    @FXML
+    private TableColumn<Exam, String> clmIsLocked;
 
     @FXML
     private TableView<Exam> examTable;
@@ -101,12 +108,14 @@ public class ManageExamsController extends AbstractController {
     
     private void initTableView(ArrayList<Exam> arr) {
         ObservableList<Exam> list = FXCollections.observableArrayList(arr);
-
+     
         PropertyValueFactory<Exam, String> pvfExamName = new PropertyValueFactory<>("examName");
         PropertyValueFactory<Exam, String> pvfSubject = new PropertyValueFactory<>("subject");
+        PropertyValueFactory<Exam, Integer> pvfDuration = new PropertyValueFactory<>("duration");
 
         clmExamName.setCellValueFactory(pvfExamName);
         clmSubject.setCellValueFactory(pvfSubject);
+        clmDuration.setCellValueFactory(pvfDuration);
 
         // Set the cell value factory for the course column
         clmCourse.setCellValueFactory(cellData -> {
@@ -117,6 +126,13 @@ public class ManageExamsController extends AbstractController {
             String courseName = HmCourseIdName.get(courseId);
 
             return new SimpleStringProperty(courseName);
+        });
+        
+        // Set the cell value factory for the Is Locked column
+        clmIsLocked.setCellValueFactory(cellData -> {
+            Boolean isLocked = cellData.getValue().isLocked();
+            String lockedStatus = isLocked ? "Yes" : "No";
+            return new SimpleStringProperty(lockedStatus);
         });
 
         examTable.setItems(list);		
@@ -147,13 +163,14 @@ public class ManageExamsController extends AbstractController {
 		Stage primaryStage = new Stage();
 		ChangeDurationController ChangeDurationController;
 		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
-    	Exam selectedItem = selectionModel.getSelectedItem();
-    	if(!(selectedItem == null)) {
+    Exam selectedExam = selectionModel.getSelectedItem();
+    	if(!(selectedExam == null)) {
     		FXMLLoader loader = new FXMLLoader();
     		Pane root = loader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml").openStream());
     		ChangeDurationController = loader.getController();
-    		ChangeDurationController.setExam(selectedItem);
-    		ChangeDurationController.LoadExamOldDuration(selectedItem);
+    		ChangeDurationController.setExam(selectedExam);
+    		ChangeDurationController.LoadExamOldDuration(selectedExam);
+
     		try {
     	        Scene scene = new Scene(root);
     	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
@@ -174,8 +191,33 @@ public class ManageExamsController extends AbstractController {
     }
 
     @FXML
-    void LockExam(ActionEvent event) {
-    	
+    void LockExam(ActionEvent event) throws IOException {
+		Stage primaryStage = new Stage();
+		LockAreYouSureController lockAreYouSureController;
+		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
+    	Exam selectedExam = selectionModel.getSelectedItem();
+    	if(!(selectedExam == null)) {
+    		FXMLLoader loader = new FXMLLoader();
+    		Pane root = loader.load(getClass().getResource("/guiLecturer/LockAreYouSure.fxml").openStream());
+    		lockAreYouSureController = loader.getController();
+    		lockAreYouSureController.setExam(selectedExam);
+    		try {
+    	        Scene scene = new Scene(root);
+    	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+    	        primaryStage.initStyle(StageStyle.UNDECORATED);
+    			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+    	        // Set the scene to the primary stage
+    	        primaryStage.setScene(scene);
+    	        primaryStage.show();
+    	        super.setPrimaryStage(primaryStage);
+    	        PressHandler<MouseEvent> press = new PressHandler<>();
+    	        DragHandler<MouseEvent> drag = new DragHandler<>();
+    	        root.setOnMousePressed(press);
+    	        root.setOnMouseDragged(drag);
+    	    } catch(Exception e) {
+    	        e.printStackTrace();
+    	    }
+    	}
     }
 
     @FXML

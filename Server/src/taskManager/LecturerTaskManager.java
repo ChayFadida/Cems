@@ -16,6 +16,7 @@ public class LecturerTaskManager implements TaskHandler {
 	 * */
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
+		@SuppressWarnings("unchecked")
 		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
 		
 		String task = (String) hm.get("task").get(0);
@@ -55,6 +56,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getDepartmentNameById(hm.get("param"));
 				case "insertQuestionsForExam":
 					return insertQuestionToExam(hm.get("param"));
+				case "LockExamById":
+					return LockExamById(hm.get("param"));
 				case "getQuestionBank":
 					return getQB(hm.get("param"));
 				case "updateQuestionBank":
@@ -185,7 +188,12 @@ public class LecturerTaskManager implements TaskHandler {
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExams(param));
 		return rs;
 	}
-
+	
+	public ArrayList<HashMap<String, Object>> LockExamById(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.LockExamById(param));
+		return rs;
+	}
 }
 	
 
