@@ -101,13 +101,6 @@ public class SqlQueries {
 		   return String.format(query, idList);
 		}
 	
-	//query that by giving an id returns the exam id, first and last name of the exam compose, relevant course and subject.
-	public static String getViewExamById(String string) {
-		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
-		return quert;
-	}
-
-	//query that by giving an id returns the exam id, first and last name of the exam compose, relevant course and subject.
 	public static String getViewExamById(String string) {
 		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
 		return quert;
@@ -127,29 +120,10 @@ public class SqlQueries {
 		return "SELECT * FROM users WHERE position = '" + position +";" ;
 	}
 	
-	public static String getAllCourses() {
-		return "SELECT * FROM courses;";
-	}
-	
-	public static String getStudentNameByID(String id) {
-		return "SELECT users.firstName, users.lastName FROM users WHERE id = '" + id +"' ;";
-	}
-	
-	public static String getStudentDoneExamsGradeByID(String id) {
-		return "SELECT grade  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
-	}
-	
 	public static String getStudentDoneExamsIdByID(String id) {
 		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
 	}
 	
-	public static String getStudentDoneExamsIdANDgradeByID(String id) {//this query returns the student done exams id and their grades
-		return "SELECT examId, grade FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
-	}
-	
-	public static String getInfoForStudentStats(String id) {
-		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
-	}
 	
 	public static String getInfoForCourseStats(String CourseId) {
 		return "SELECT er.examId, er.grade, c.courseName, ex.examName, avg_grades.avgGrade\r\n"
@@ -269,11 +243,7 @@ public class SqlQueries {
 		queries.add(select);
 		return queries;
 	}
-  
-	public static String getUserByPosition(String position) {
-		return "SELECT * FROM users WHERE position = '" + position +";" ;
-	}
-	
+  	
 	public static String getAllCourses() {
 		return "SELECT * FROM courses;";
 	}
@@ -288,10 +258,6 @@ public class SqlQueries {
 		return "SELECT grade  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
 	}
 	
-	public static String getStudentDoneExamsIdByID(String id) {
-		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
-	}
-	
 	public static String getStudentDoneExamsIdANDgradeByID(String id) {//this query returns the student done exams id and their grades
 		return "SELECT examId, grade FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
 	}
@@ -300,19 +266,6 @@ public class SqlQueries {
 		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
 	}
 	
-	
-	
-	
-    private static String listToCsv(List<Integer> list) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-            sb.append(list.get(i));
-        }
-        return sb.toString();
-    }
 
 	public static String getDepartmentNameById(String id) {
 		String query = "SELECT D.* FROM department AS D WHERE id = '" + id +  "';" ;
