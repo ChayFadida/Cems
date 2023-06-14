@@ -103,7 +103,5 @@ public class Request {
 				+ courseId + ", subject=" + subject + ", oldDuration=" + oldDuration + ", newDuration=" + newDuration
 				+ ", status=" + status + ", reasons=" + reasons + "]";
 	}
-
-
-    
 }
+

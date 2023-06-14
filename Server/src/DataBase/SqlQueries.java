@@ -89,6 +89,7 @@ public class SqlQueries {
 		return quert;
 	}
 	
+
 	public static String getQuestionByQyestionIdArray(ArrayList<Integer> arr) {
 		   String query = "SELECT Q.questionId, Q.courses,Q.details,Q.subject,U.firstName,U.lastName FROM questions AS Q, questionBank AS QB,  users AS U WHERE questionId IN (%s) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id";
 		// String query = "SELECT * FROM questions WHERE questionId IN (%s)";
@@ -102,6 +103,7 @@ public class SqlQueries {
 		return quert;
 	}
 	
+
 	public static String updateUserByIdLogout(String id) {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
@@ -110,10 +112,12 @@ public class SqlQueries {
 		String query = "SELECT users.id, users.firstName , users.lastName , users.email,users.position,users.pass,users.username,users.isLogged FROM users , "+position.toLowerCase()+" WHERE users.id = "+position.toLowerCase()+".userId AND "+position.toLowerCase()+".departmentId = "+ department+";";
 		return query;
 	}
+
 	public static String getAllRequestsInDepartmentOfStatus(String department,String status) {
 		String query = "SELECT dr.requestId, dr.examId,dr.lecturerId,dr.courseId,dr.subject,dr.oldDuration,dr.newDuration,dr.status,dr.reasons FROM durationrequest as dr, lecturer as lec  WHERE lec.departmentId =" + department +" AND lec.userId = dr.lecturerId AND dr.status = '" + status +"';";
 		return query;
 	}
+
 	public static String InsertQuestionToDB(ArrayList<String> param) {
 		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
 		return query;
@@ -270,4 +274,35 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String deleteQuestion(ArrayList<String> param) {
+		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
+		return query;
+	}
+
+	public static String getCoursesNameById(ArrayList<String> param) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
+		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
+		  queryBuilder.append(param.get(i));
+		  if (i < Integer.parseInt(param.get(0)) - 1) {
+		    queryBuilder.append(", ");
+		  }
+		}
+		queryBuilder.append(");");
+		return queryBuilder.toString();
+	}
+
+	public static String AddDurationRequest(ArrayList<String> param) {
+		String query = "INSERT INTO durationrequest (examId, lecturerId, courseId, subject, oldDuration, newDuration, status, reasons)\r\n" + "VALUES (" + param.get(0)+ "," + param.get(1)+ "," + param.get(2)+ ",'" + param.get(3)+ "'," +  param.get(4)+ "," + param.get(5)+ ",'" + param.get(6) + "','" +  param.get(7) + "');";
+		return query;
+	}
+	
+	public static String getLecturerExams(ArrayList<String> param) {
+		String query = "SELECT e.*, c.courseName\r\n"
+				+ "FROM exam e\r\n"
+				+ "JOIN courses c ON c.courseID = e.courseID\r\n" 
+				+ "WHERE e.composerId = " + param.get(0) + ";";
+		return query;
+	}
+	
 }
