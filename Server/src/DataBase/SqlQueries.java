@@ -152,9 +152,9 @@ public class SqlQueries {
 	}
 
 	public static ArrayList<String> InsertExamToDB(ArrayList<String> param) {
-		String insert = "INSERT INTO exam (courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-				"VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '"+param.get(3)+"', '" +  param.get(4)+ "','" + param.get(5)+ "', '"+param.get(6)+"', '"
-						+param.get(7)+"', '"+param.get(8)+"', '0');";
+		String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
+				"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
+						+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
 		String select = "SELECT LAST_INSERT_ID();";
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(insert);
@@ -179,6 +179,32 @@ public class SqlQueries {
 		}
 		queryBuilder.append(");");
 		return queryBuilder.toString();
+	}
+
+	public static String InsertQuestionToExamInDB(ArrayList<String> param) {
+		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
+				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
+		return query;
+	}
+
+	public static String getExamBank(int id) {
+		return "SELECT * FROM examsbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String getQuestionBank(int id) {
+		return "SELECT * FROM questionbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String insertQuestionBankForId(int id) {
+		System.out.println("  '{\"questions\": [] }' ");
+		String query = "INSERT INTO questionbank (lecturerId, questions) VALUES ("+id+","
+				+ " '{\"questions\": [] }');";
+		return query;
+	}
+
+	public static String insertExamBankForId(int id) {
+		String query = "INSERT INTO examsbank (lecturerId, exams) VALUES ("+id+", '{\"exams\": []}');";
+		return query;
 	}
 
 }
