@@ -10,16 +10,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ManageExamsController">
    <children>
-      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Manage your exams" wrappingWidth="364.0">
+      <Text layoutX="41.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Manage your exams" wrappingWidth="364.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="examTable" layoutX="114.0" layoutY="77.0" prefHeight="274.0" prefWidth="574.0">
+      <TableView fx:id="examTable" layoutX="41.0" layoutY="75.0" prefHeight="277.0" prefWidth="722.0">
         <columns>
           <TableColumn fx:id="clmExamName" prefWidth="150.0" text="Exam Name" />
-            <TableColumn fx:id="clmCourse" prefWidth="250.0" text="Course" />
-            <TableColumn fx:id="clmSubject" prefWidth="172.0" text="Subject" />
+            <TableColumn fx:id="clmCourse" prefWidth="150.0" text="Course" />
+            <TableColumn fx:id="clmSubject" prefWidth="150.0" text="Subject" />
+            <TableColumn fx:id="clmDuration" prefWidth="150.0" text="Duration" />
+            <TableColumn fx:id="clmIsLocked" prefWidth="120.0" text="Is Locked" />
         </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -30,7 +32,7 @@
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Text layoutX="114.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select an Exam:" wrappingWidth="332.0810546875">
+      <Text layoutX="41.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select an Exam:" wrappingWidth="332.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="16.0" />
          </font>
