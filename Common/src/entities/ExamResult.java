@@ -2,12 +2,19 @@ package entities;
 
 public class ExamResult {
 	private int examId ,courseId;
-	private float grade;
+	private Integer grade;
 	private String examName,status,subject;
-	public ExamResult(int examId, int courseId, float grade, String examName, String status, String subject) {
+	public ExamResult(int examId, int courseId, Integer grade, String examName, String status, String subject) {
 		this.examId = examId;
 		this.courseId = courseId;
 		this.grade = grade;
+		this.examName = examName;
+		this.status = status;
+		this.subject = subject;
+	}
+	public ExamResult(int examId, int courseId, String examName, String status, String subject) {
+		this.examId = examId;
+		this.courseId = courseId;
 		this.examName = examName;
 		this.status = status;
 		this.subject = subject;
@@ -24,10 +31,10 @@ public class ExamResult {
 	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
-	public float getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
-	public void setGrade(int grade) {
+	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
 	public String getExamName() {

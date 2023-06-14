@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.Exam;
 import entities.ExamResult;
 import entities.Student;
 import javafx.collections.FXCollections;
@@ -32,7 +31,7 @@ public class MyExamController extends AbstractController implements Initializabl
     private TableColumn<ExamResult, String> examName;
 
     @FXML
-    private TableColumn<ExamResult, Float> grade;
+    private TableColumn<ExamResult, Integer> grade;
 
     @FXML
     private TableColumn<ExamResult, String> status;
@@ -51,9 +50,8 @@ public class MyExamController extends AbstractController implements Initializabl
 			String subject = (String)rs.get(i).get("subject");
 			String examName = (String)rs.get(i).get("examName");
 			String status = (String)rs.get(i).get("status");
-			float grade = (float)rs.get(i).get("grade");
-
-		    examResArr.add(new ExamResult(examId,courseId,grade,examName,status,subject));
+			Integer grade = (Integer)rs.get(i).get("grade");
+			examResArr.add(new ExamResult(examId,courseId,grade,examName,status,subject));
 		}
 	}
     public void showTable() {
@@ -82,7 +80,7 @@ public class MyExamController extends AbstractController implements Initializabl
 		PropertyValueFactory<ExamResult, String> pvfStatus = new PropertyValueFactory<ExamResult, String>("status");
 		PropertyValueFactory<ExamResult, Integer> pvfCourseId = new PropertyValueFactory<ExamResult, Integer>("courseId");
 		PropertyValueFactory<ExamResult, String> pvfSubject = new PropertyValueFactory<ExamResult, String>("subject");
-		PropertyValueFactory<ExamResult, Float> pvfGrade = new PropertyValueFactory<ExamResult, Float>("grade");
+		PropertyValueFactory<ExamResult, Integer> pvfGrade = new PropertyValueFactory<ExamResult, Integer>("grade");
 		examId.setCellValueFactory(pvfExamId);
 		examName.setCellValueFactory(pvfExamName);
 		status.setCellValueFactory(pvfStatus);
