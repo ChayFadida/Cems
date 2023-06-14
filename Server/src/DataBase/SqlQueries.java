@@ -91,6 +91,10 @@ public class SqlQueries {
 		String query = "SELECT users.id, users.firstName , users.lastName , users.email,users.position,users.pass,users.username,users.isLogged FROM users , "+position.toLowerCase()+" WHERE users.id = "+position.toLowerCase()+".userId AND "+position.toLowerCase()+".departmentId = "+ department+";";
 		return query;
 	}
+	public static String getAllRequestsInDepartmentOfStatus(String department,String status) {
+		String query = "SELECT dr.requestId, dr.examId,dr.lecturerId,dr.courseId,dr.subject,dr.oldDuration,dr.newDuration,dr.status,dr.reasons FROM durationrequest as dr, lecturer as lec  WHERE lec.departmentId =" + department +" AND lec.userId = dr.lecturerId AND dr.status = '" + status +"';";
+		return query;
+	}
 	public static String InsertQuestionToDB(ArrayList<String> param) {
 		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
 		return query;
@@ -113,6 +117,11 @@ public class SqlQueries {
 		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
 		return query;
 	}
+	public static String updateDurationRequest(String status,String id) {
+		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
+		return query;
+	}
+
 
 	public static String getCoursesByCourseId(String id) {
 		String query = "SELECT * FROM courses WHERE courseID = '" + id +  "';" ;
