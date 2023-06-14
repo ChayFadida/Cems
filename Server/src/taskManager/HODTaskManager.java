@@ -33,22 +33,38 @@ public class HODTaskManager implements TaskHandler{
 					return getViewQuestionsById(hm.get("param"));
 				case"getViewExamById":
 					return getViewExamById(hm.get("param"));
-				//case "getStudentNameByID":
-					//return getStudentNameByID(hm.get("name"));
 				case "getStudentDoneExamsIdANDgradeByID":
 					return getStudentDoneExamsIdANDgradeByID(hm.get("param"));
 				case "getStudentDoneExamsGradeByID":
 					return getStudentDoneExamsGradeByID(hm.get("param"));
+				case"getInfoForCourseStats":
+					return getInfoForCourseStats(hm.get("param"));
+				case"getInfoForLecturerStats":
+					return getInfoForLecturerStats(hm.get("param"));
 				case "getAllRequests":
 					return getAllRequestsInDepartment((String)hm.get("department").get(0),(String)hm.get("status").get(0));
 				case "updateRequest":
 					return updateRequestStatus((String)hm.get("status").get(0),(String)hm.get("requestId").get(0));
+				case "getUser":
+					return getUserById((String)hm.get("lecturerId").get(0));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
 				}
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+  
+	private ArrayList<HashMap<String, Object>> getInfoForLecturerStats(ArrayList<String> arrayList) throws SQLException {
+		 DBController dbController = DBController.getInstance();
+		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForLecturerStats(arrayList.get(0)));
+		 return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> getInfoForCourseStats(ArrayList<String> arrayList) throws SQLException {
+		 DBController dbController = DBController.getInstance();
+		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForCourseStats(arrayList.get(0)));
+		 return rs;
 	}
 
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsGradeByID(ArrayList<String> arrayList) throws SQLException {
@@ -57,35 +73,24 @@ public class HODTaskManager implements TaskHandler{
 	    return rs;
 	}
 
-
-
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsIdANDgradeByID(ArrayList<String> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentDoneExamsIdANDgradeByID(arrayList.get(0)));
 	    return rs;
 	}
 
-
-
-	/*private ArrayList<HashMap<String, Object>> getStudentNameByID(ArrayList<String> arrayList) throws SQLException {
+	private ArrayList<HashMap<String, Object>> getUserById(String id) throws SQLException {
 	    DBController dbController = DBController.getInstance();
-	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentNameByID(arrayList.get(0)));
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserById(id));
 	    return rs;
-	}*/
-
+	}
 
 	private ArrayList<HashMap<String, Object>> getAllPositionUsersInDepartment(String position,String department) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPositionAndDepartment(position,department));
 		return rs;
 	}
-  
-	private ArrayList<HashMap<String, Object>> getAllLecturers() throws SQLException{
-		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
-		return rs;	
-	}
-	
+
 	private ArrayList<HashMap<String, Object>> getAllRequestsInDepartment(String department,String status) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllRequestsInDepartmentOfStatus(department,status));
@@ -95,7 +100,7 @@ public class HODTaskManager implements TaskHandler{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateDurationRequest(status,id));
 		return rs;
-	}
+  }
 	
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<String> param) throws SQLException {
 		ArrayList<HashMap<String, Object>> res = new ArrayList<>();
@@ -120,4 +125,3 @@ public class HODTaskManager implements TaskHandler{
 		return rs; 
 	}
 }
-	

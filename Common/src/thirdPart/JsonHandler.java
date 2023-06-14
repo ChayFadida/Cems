@@ -41,6 +41,7 @@ public class JsonHandler {
             return new HashMap<>();
         }
     }
+
     public static <K, V> String convertHashMapToJson(HashMap<K, V> hashMap, Type keyType, Type valueType) {
         Gson gson = new Gson();
         Type hashMapType = TypeToken.getParameterized(HashMap.class, keyType, valueType).getType();

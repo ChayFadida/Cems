@@ -6,6 +6,11 @@ import java.util.HashMap;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Exam;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
+import client.ConnectionServer;
+import entities.Exam;
+import entities.Question;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,11 +23,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.TableRow;
 
 
 public class ManageExamsController extends AbstractController {
@@ -55,7 +62,6 @@ public class ManageExamsController extends AbstractController {
 
     @FXML
     private TableColumn<Exam, String> clmIsLocked;
-
 
     @FXML
     private TableView<Exam> examTable;
@@ -102,7 +108,7 @@ public class ManageExamsController extends AbstractController {
     
     private void initTableView(ArrayList<Exam> arr) {
         ObservableList<Exam> list = FXCollections.observableArrayList(arr);
-        
+     
         PropertyValueFactory<Exam, String> pvfExamName = new PropertyValueFactory<>("examName");
         PropertyValueFactory<Exam, String> pvfSubject = new PropertyValueFactory<>("subject");
         PropertyValueFactory<Exam, Integer> pvfDuration = new PropertyValueFactory<>("duration");
@@ -157,13 +163,14 @@ public class ManageExamsController extends AbstractController {
 		Stage primaryStage = new Stage();
 		ChangeDurationController ChangeDurationController;
 		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
-    	Exam selectedExam = selectionModel.getSelectedItem();
+    Exam selectedExam = selectionModel.getSelectedItem();
     	if(!(selectedExam == null)) {
     		FXMLLoader loader = new FXMLLoader();
     		Pane root = loader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml").openStream());
     		ChangeDurationController = loader.getController();
     		ChangeDurationController.setExam(selectedExam);
     		ChangeDurationController.LoadExamOldDuration(selectedExam);
+
     		try {
     	        Scene scene = new Scene(root);
     	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");

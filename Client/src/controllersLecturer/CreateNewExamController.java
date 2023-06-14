@@ -369,7 +369,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	}
 	
 	private void loadQuestions(Course selectedItem) {
-		// query to get questions from course
+
 		qArr=new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -411,6 +411,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		clmScore.setCellValueFactory(pvfScore);
 		QuestionTable.setItems(list);
 		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 	}
 
 

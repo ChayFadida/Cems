@@ -111,7 +111,6 @@ public class HODviewRequestController extends AbstractController implements Init
 		PropertyValueFactory<Request, String> pvfSSubject = new PropertyValueFactory<Request, String>("subject");
 		PropertyValueFactory<Request, Integer> pvfSOldDuration = new PropertyValueFactory<Request, Integer>("oldDuration");
 		PropertyValueFactory<Request, Integer> pvfSNewDuration = new PropertyValueFactory<Request, Integer>("newDuration");
-//		PropertyValueFactory<Request, String> pvfReasons = new PropertyValueFactory<Request, String>("reasons");
 		requestId.setCellValueFactory(pvfrequestId);
 		examId.setCellValueFactory(pvfexamId);
 		lecturerId.setCellValueFactory(pvfLecturer);
@@ -119,7 +118,6 @@ public class HODviewRequestController extends AbstractController implements Init
 		subject.setCellValueFactory(pvfSSubject);
 		oldDuration.setCellValueFactory(pvfSOldDuration);
 		newDuration.setCellValueFactory(pvfSNewDuration);
-//		reasons.setCellValueFactory(pvfReasons);
 		RequestsTable.setItems(list);
 		RequestsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -160,8 +158,6 @@ public class HODviewRequestController extends AbstractController implements Init
 					Scene scene = new Scene(root);
 					HODReasonsRequestController hodReasonsRequestController=loader.getController();
 					hodReasonsRequestController.viewReason((String)ConnectionServer.rs.get(0).get("reasons"));
-//					hodReasonsRequestController.setExitImage();
-//					hodReasonsRequestController.start(seconderyStage);
 					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 					seconderyStage.initStyle(StageStyle.UNDECORATED);
 					seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -206,11 +202,56 @@ public class HODviewRequestController extends AbstractController implements Init
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request approved successfuly!");
+				simulatePopUp();
 				showTable();
 			}
 		}
-		
 	}
+    private void simulatePopUp() {
+    	ArrayList<Request> selectedId = new ArrayList<>();
+		selectedId.addAll(RequestsTable.getSelectionModel().getSelectedItems());
+		if(selectedId.isEmpty()) {
+			lblNonSelected.setText("No entry was selected!");
+		}
+		else {
+			lblNonSelected.setText("");
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("HOD");
+			msg.put("client", arr);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(""+selectedId.get(0).getLecturerId());
+			msg.put("lecturerId",arr2);
+			ArrayList<String> arr1 = new ArrayList<>();
+			arr1.add("getUser");
+			msg.put("task",arr1);
+			sendMsgToServer(msg);
+			if(ConnectionServer.rs != null) {
+				String email = (String)ConnectionServer.rs.get(0).get("email");
+				Stage seconderyStage = new Stage();
+		        try {
+		        	FXMLLoader loader = new FXMLLoader();
+					Parent root = loader.load(getClass().getResource("/guiHod/SimulationPopUp.fxml").openStream());
+					Scene scene = new Scene(root);
+					SimulationPopUpController simulationPopUpController=loader.getController();
+					simulationPopUpController.viewEmail(email);
+					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+					seconderyStage.initStyle(StageStyle.UNDECORATED);
+					seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+					seconderyStage.setScene(scene);
+					seconderyStage.show();
+			        super.setPrimaryStage(seconderyStage);
+			        PressHandler<MouseEvent> press = new PressHandler<>();
+			        DragHandler<MouseEvent> drag = new DragHandler<>();
+			        root.setOnMousePressed(press);
+			        root.setOnMouseDragged(drag);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("view Email successfuly!");
+			}
+		}
+    }
     @FXML
 	private void getDenyButton(ActionEvent event) {
 		ArrayList<Request> selectedId = new ArrayList<>();
@@ -236,6 +277,7 @@ public class HODviewRequestController extends AbstractController implements Init
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request denied successfuly!");
+				simulatePopUp();
 				showTable();
 			}
 		}
