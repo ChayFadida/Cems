@@ -24,9 +24,9 @@ public class HODTaskManager implements TaskHandler{
 			switch (task) {
 				case "getAllbyPosition":
 					switch((String)hm.get("position").get(0)) {
-						case("Student"):
+						case"Student":
 							return getAllPositionUsersInDepartment("Student",(String)hm.get("department").get(0));
-						case("Lecturer"):
+						case"Lecturer":
 							return getAllPositionUsersInDepartment("Lecturer",(String)hm.get("department").get(0));
 						}
 				case "getViewQuestionsById":
@@ -39,6 +39,10 @@ public class HODTaskManager implements TaskHandler{
 					return getStudentDoneExamsIdANDgradeByID(hm.get("param"));
 				case "getStudentDoneExamsGradeByID":
 					return getStudentDoneExamsGradeByID(hm.get("param"));
+				case "getAllRequests":
+					return getAllRequestsInDepartment((String)hm.get("department").get(0),(String)hm.get("status").get(0));
+				case "updateRequest":
+					return updateRequestStatus((String)hm.get("status").get(0),(String)hm.get("requestId").get(0));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
@@ -80,6 +84,16 @@ public class HODTaskManager implements TaskHandler{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
 		return rs;	
+
+	private ArrayList<HashMap<String, Object>> getAllRequestsInDepartment(String department,String status) throws SQLException{
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllRequestsInDepartmentOfStatus(department,status));
+		return rs;
+	}
+	private ArrayList<HashMap<String, Object>> updateRequestStatus(String status,String id) throws SQLException{
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateDurationRequest(status,id));
+		return rs;
 	}
 	
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<String> param) throws SQLException {

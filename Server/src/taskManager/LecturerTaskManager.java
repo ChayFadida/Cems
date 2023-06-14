@@ -49,12 +49,20 @@ public class LecturerTaskManager implements TaskHandler {
 					return updateExamBankById(hm.get("param"));
 				case "getDepartmentNameById":
 					return getDepartmentNameById(hm.get("param"));
+				case "insertQuestionsForExam":
+					return insertQuestionToExam(hm.get("param"));
 		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
 		} catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+
+	private ArrayList<HashMap<String, Object>> insertQuestionToExam(ArrayList<String> param) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertQuestionToExamInDB(param));
+		return rs;
 	}
 
 	private ArrayList<HashMap<String, Object>> getDepartmentNameById(ArrayList<String> param) throws SQLException {

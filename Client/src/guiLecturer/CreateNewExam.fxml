@@ -41,7 +41,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="91.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Duration:" wrappingWidth="148.0810546875">
+      <Text layoutX="91.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Duration:" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
@@ -56,18 +56,18 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="118.0" promptText="code (4 digits)" />
-      <TextField fx:id="DurauinTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="447.0" prefHeight="25.0" prefWidth="118.0" promptText="Duration (minutes)" />
+      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits)" />
+      <TextField fx:id="DurauinTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="441.0" prefHeight="25.0" prefWidth="148.0" promptText="Duration (minutes)" />
       <TextField fx:id="lecNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="362.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
       <TextField fx:id="studNotesText" alignment="TOP_LEFT" layoutX="522.0" layoutY="451.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
-      <Button fx:id="FinishCreateNewExamButton" layoutX="292.0" layoutY="516.0" mnemonicParsing="false" onAction="#getFinish" prefHeight="33.0" prefWidth="217.0" style="-fx-background-radius: 0;" text="Finish and create new exam">
+      <Button fx:id="FinishCreateNewExamButton" layoutX="292.0" layoutY="555.0" mnemonicParsing="false" onAction="#getFinish" prefHeight="33.0" prefWidth="217.0" style="-fx-background-radius: 0;" text="Finish and create new exam">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
       <Label fx:id="lblErrorCode" alignment="TOP_LEFT" layoutX="90.0" layoutY="388.0" prefHeight="51.0" prefWidth="198.0" wrapText="true" />
-      <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="472.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
-      <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="292.0" layoutY="553.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
+      <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="467.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
+      <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="549.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
       <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="692.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="17.0" />
@@ -79,5 +79,12 @@
          </font>
       </Button>
       <Label fx:id="lblErrorSelected" alignment="TOP_CENTER" layoutX="667.0" layoutY="246.0" prefHeight="71.0" prefWidth="127.0" wrapText="true" />
+      <Text layoutX="91.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Name:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtName" layoutX="171.0" layoutY="514.0" prefHeight="25.0" prefWidth="148.0" promptText="Algebra1 winter term A" />
+      <Label fx:id="lblErrorName" alignment="TOP_LEFT" layoutX="90.0" layoutY="541.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
    </children>
 </AnchorPane>

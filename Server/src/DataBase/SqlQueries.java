@@ -110,6 +110,10 @@ public class SqlQueries {
 		String query = "SELECT users.id, users.firstName , users.lastName , users.email,users.position,users.pass,users.username,users.isLogged FROM users , "+position.toLowerCase()+" WHERE users.id = "+position.toLowerCase()+".userId AND "+position.toLowerCase()+".departmentId = "+ department+";";
 		return query;
 	}
+	public static String getAllRequestsInDepartmentOfStatus(String department,String status) {
+		String query = "SELECT dr.requestId, dr.examId,dr.lecturerId,dr.courseId,dr.subject,dr.oldDuration,dr.newDuration,dr.status,dr.reasons FROM durationrequest as dr, lecturer as lec  WHERE lec.departmentId =" + department +" AND lec.userId = dr.lecturerId AND dr.status = '" + status +"';";
+		return query;
+	}
 	public static String InsertQuestionToDB(ArrayList<String> param) {
 		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
 		return query;
@@ -132,6 +136,11 @@ public class SqlQueries {
 		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
 		return query;
 	}
+	public static String updateDurationRequest(String status,String id) {
+		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
+		return query;
+	}
+
 
 	public static String getCoursesByCourseId(String id) {
 		String query = "SELECT * FROM courses WHERE courseID = '" + id +  "';" ;
@@ -162,9 +171,9 @@ public class SqlQueries {
 	}
 
 	public static ArrayList<String> InsertExamToDB(ArrayList<String> param) {
-		String insert = "INSERT INTO exam (courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-				"VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '"+param.get(3)+"', '" +  param.get(4)+ "','" + param.get(5)+ "', '"+param.get(6)+"', '"
-						+param.get(7)+"', '"+param.get(8)+"', '0');";
+		String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
+				"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
+						+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
 		String select = "SELECT LAST_INSERT_ID();";
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(insert);
@@ -233,6 +242,32 @@ public class SqlQueries {
 		}
 		queryBuilder.append(");");
 		return queryBuilder.toString();
+	}
+
+	public static String InsertQuestionToExamInDB(ArrayList<String> param) {
+		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
+				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
+		return query;
+	}
+
+	public static String getExamBank(int id) {
+		return "SELECT * FROM examsbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String getQuestionBank(int id) {
+		return "SELECT * FROM questionbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String insertQuestionBankForId(int id) {
+		System.out.println("  '{\"questions\": [] }' ");
+		String query = "INSERT INTO questionbank (lecturerId, questions) VALUES ("+id+","
+				+ " '{\"questions\": [] }');";
+		return query;
+	}
+
+	public static String insertExamBankForId(int id) {
+		String query = "INSERT INTO examsbank (lecturerId, exams) VALUES ("+id+", '{\"exams\": []}');";
+		return query;
 	}
 
 }
