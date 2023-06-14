@@ -167,7 +167,7 @@ public class EditQuestionController extends AbstractController {
 		super.sendMsgToServer(msg);
 		
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    	myQuestionBankController.showTable(event);
+    	myQuestionBankController.showTable();
     	
     }
     
