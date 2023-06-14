@@ -82,6 +82,10 @@ public class SqlQueries {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
+	public static String getUserById(String id) {
+		String query = "SELECT * FROM users WHERE id = '" + id +  "';" ;
+		return query;
+	}
 
 	public static String getViewQuestionsById(String string) {
 		//returns question id's from questionBank

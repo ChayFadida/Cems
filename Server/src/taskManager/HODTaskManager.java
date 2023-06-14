@@ -43,6 +43,8 @@ public class HODTaskManager implements TaskHandler{
 					return getAllRequestsInDepartment((String)hm.get("department").get(0),(String)hm.get("status").get(0));
 				case "updateRequest":
 					return updateRequestStatus((String)hm.get("status").get(0),(String)hm.get("requestId").get(0));
+				case "getUser":
+					return getUserById((String)hm.get("lecturerId").get(0));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
@@ -64,6 +66,11 @@ public class HODTaskManager implements TaskHandler{
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentDoneExamsIdANDgradeByID(arrayList.get(0)));
 	    return rs;
 	}
+	private ArrayList<HashMap<String, Object>> getUserById(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserById(id));
+	    return rs;
+	}
 
 
 
@@ -80,11 +87,11 @@ public class HODTaskManager implements TaskHandler{
 		return rs;
 	}
   
-	private ArrayList<HashMap<String, Object>> getAllLecturers() throws SQLException{
-		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
-		return rs;	
-	}
+//	private ArrayList<HashMap<String, Object>> getAllLecturers() throws SQLException{
+//		DBController dbController = DBController.getInstance();
+//		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPosition("Lecturer"));
+//		return rs;	
+//	}
 	
 	private ArrayList<HashMap<String, Object>> getAllRequestsInDepartment(String department,String status) throws SQLException{
 		DBController dbController = DBController.getInstance();
