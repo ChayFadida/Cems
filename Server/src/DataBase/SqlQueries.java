@@ -122,9 +122,13 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String InsertQuestionToDB(ArrayList<String> param) {
-		String query = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
-		return query;
+	public static ArrayList<String> InsertQuestionToDB(ArrayList<String> param) {
+		String insert = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
+		String select = "SELECT LAST_INSERT_ID();";
+		ArrayList<String> queries = new ArrayList<>();
+		queries.add(insert);
+		queries.add(select);
+		return queries;
 	}
 	
 	public static String updateQuestion(ArrayList<String> param) {
@@ -290,6 +294,17 @@ public class SqlQueries {
 				+ "FROM exam e\r\n"
 				+ "JOIN courses c ON c.courseID = e.courseID\r\n" 
 				+ "WHERE e.composerId = " + param.get(0) + ";";
+		return query;
+	}
+
+
+	public static String getQBByLecId(String id) {
+		String query= "SELECT * FROM questionbank WHERE lecturerId='"+id+"';";
+		return query;
+	}
+
+	public static String updateQuestionBankById(ArrayList<String> param) {
+		String query = "UPDATE questionbank SET questions = '"+param.get(1)+"' WHERE bankID = '"+ param.get(0) +"' ;";
 		return query;
 	}
 	
