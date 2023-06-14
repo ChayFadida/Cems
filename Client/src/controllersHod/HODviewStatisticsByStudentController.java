@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.ExamBankView;
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -110,9 +112,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 
     private void loadAverage(ArrayList<HashMap<String, Object>> rs) {
         if (rs.isEmpty()) {
-        	System.out.println("rs is niill");
-            // Handle the case when the result set is empty
-            // You can display an error message or perform any other necessary action
+        	System.out.println("rs is null");
             return;
         }
         StudentBarChart.getData().clear();
@@ -137,7 +137,6 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     	double total = 0;
         int count = 0;
         for (HashMap<String, Object> row : rs) {
-            // Assuming the grade is stored in a key called "grade"
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
                 if (gradeObj instanceof Integer) {
@@ -153,8 +152,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
             double average = total / count;
             StudentAvaregeTxt.setText(String.format("%.2f", average));
         } else {
-            // Handle the case when no grades were found in the result set
-            // You can display an error message or perform any other necessary action
+        	System.out.println("No grades");
         }
     }
     
@@ -163,21 +161,16 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     }
     
     private void setMedian() {
-            // Sort the grades array in ascending order
             Collections.sort(gradesArr);
 
             int length = gradesArr.size();
             if (length % 2 == 0) {
-                // If the array length is even, average the two middle elements
                 int middleIndex1 = length / 2 - 1;
                 int middleIndex2 = length / 2;
                 StudentMedianTxt.setText(String.valueOf((gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0));
-              //  return (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
             } else {
-                // If the array length is odd, return the middle element
                 int middleIndex = length / 2;
                 StudentMedianTxt.setText(String.valueOf(gradesArr.get(middleIndex)));
-              //  return gradesArr.get(middleIndex);
             }
             
         }
@@ -189,11 +182,9 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		StudentAvaregeTxt.setText("");
 		StudentNameTxt.setText("");
 		StudentMedianTxt.setText("");
-		/*StudentBarChart.setTitle("Student's grades");
-		XYChart.Series<String,Number> dataSeries = new XYChart.Series<>();
-		dataSeries.getData().add(new XYChart.Data<>("hello", 20));
-		StudentBarChart.getData().add(dataSeries);*/
+	    
 	}
+	
 
     
 	public void start(Stage primaryStage) {
@@ -202,7 +193,6 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 	        Scene scene = new Scene(root);
 	        primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-	        // Set the scene to the primary stage
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
 	        super.setPrimaryStage(primaryStage);
@@ -218,15 +208,5 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 	private String getid() {
 		return StudentIDTxt.getText();
 	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 }
 

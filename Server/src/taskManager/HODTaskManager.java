@@ -17,7 +17,7 @@ public class HODTaskManager implements TaskHandler{
 
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
-		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;
+		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
 		ArrayList<HashMap<String, Object>> msgBack = new ArrayList<HashMap<String, Object>>();
 		String task = (String) hm.get("task").get(0);
 		try {
@@ -33,12 +33,14 @@ public class HODTaskManager implements TaskHandler{
 					return getViewQuestionsById(hm.get("param"));
 				case"getViewExamById":
 					return getViewExamById(hm.get("param"));
-				//case "getStudentNameByID":
-					//return getStudentNameByID(hm.get("name"));
 				case "getStudentDoneExamsIdANDgradeByID":
 					return getStudentDoneExamsIdANDgradeByID(hm.get("param"));
 				case "getStudentDoneExamsGradeByID":
 					return getStudentDoneExamsGradeByID(hm.get("param"));
+				case"getInfoForCourseStats":
+					return getInfoForCourseStats(hm.get("param"));
+				case"getInfoForLecturerStats":
+					return getInfoForLecturerStats(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
@@ -47,6 +49,22 @@ public class HODTaskManager implements TaskHandler{
 		return null;
 	}
 	
+
+
+	private ArrayList<HashMap<String, Object>> getInfoForLecturerStats(ArrayList<String> arrayList) throws SQLException {
+		 DBController dbController = DBController.getInstance();
+		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForLecturerStats(arrayList.get(0)));
+		 return rs;
+	}
+
+
+
+	private ArrayList<HashMap<String, Object>> getInfoForCourseStats(ArrayList<String> arrayList) throws SQLException {
+		 DBController dbController = DBController.getInstance();
+		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForCourseStats(arrayList.get(0)));
+		 return rs;
+	}
+
 
 
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsGradeByID(ArrayList<String> arrayList) throws SQLException {

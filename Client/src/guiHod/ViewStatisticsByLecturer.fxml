@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByLecturerController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByLecturerController">
    <children>
       <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Lecturer Analyze :" wrappingWidth="268.6810302734375">
          <font>
@@ -20,13 +20,13 @@
       </Text>
       <BarChart fx:id="LecturerBarChart" layoutX="64.0" layoutY="271.0" prefHeight="488.0" prefWidth="613.0">
          <xAxis>
-            <CategoryAxis side="BOTTOM" />
+            <CategoryAxis fx:id="rowExamName" label="Exams" side="BOTTOM" />
          </xAxis>
          <yAxis>
-            <NumberAxis side="LEFT" />
+            <NumberAxis fx:id="clmGrade" label="Grade" side="LEFT" />
          </yAxis>
       </BarChart>
-      <Text layoutX="109.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Lecturer Number:" wrappingWidth="192.0810546875">
+      <Text layoutX="109.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Lecturer id:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
@@ -41,10 +41,10 @@
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="LecturerNumberTxt" alignment="CENTER" layoutX="284.0" layoutY="165.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Lecturer Number" />
+      <TextField fx:id="LecturerIdTxt" alignment="CENTER" layoutX="284.0" layoutY="117.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Lecturer ID" />
       <TextField fx:id="LecturerAvaregeTxt" alignment="CENTER" editable="false" layoutX="284.0" layoutY="204.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="LecturerMedianTxtbox" alignment="CENTER" editable="false" layoutX="284.0" layoutY="246.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="minimizeBtn" layoutX="651.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+      <Button fx:id="minimizeBtn" layoutX="651.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -53,7 +53,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="exitBtn" layoutX="721.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+      <Button fx:id="exitBtn" layoutX="721.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -62,5 +62,12 @@
             </ImageView>
          </graphic>
       </Button>
+      <Text layoutX="109.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Lecturer Name:" wrappingWidth="192.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="LecturerNameTxt" alignment="CENTER" editable="false" layoutX="284.0" layoutY="163.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="ApplyTemp" layoutX="520.0" layoutY="114.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
    </children>
 </AnchorPane>

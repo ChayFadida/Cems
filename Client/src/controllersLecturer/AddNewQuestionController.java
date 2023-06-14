@@ -169,7 +169,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		super.sendMsgToServer(msg);
 
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    		myQuestionBankController.showTable(event);
+    		//myQuestionBankController.showTable(event);
     	}
     }
     

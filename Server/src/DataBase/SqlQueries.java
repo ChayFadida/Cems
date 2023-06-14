@@ -3,7 +3,7 @@ package DataBase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
+import java.util.List;
 
 import thirdPart.JsonHandler;
 
@@ -144,6 +144,33 @@ public class SqlQueries {
 		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
 	}
 	
+	public static String getInfoForCourseStats(String CourseId) {
+		return "SELECT er.examId, er.grade, c.courseName, ex.examName, avg_grades.avgGrade\r\n"
+				+ "FROM examresults er\r\n"
+				+ "JOIN exam ex ON er.examId = ex.examId\r\n"
+				+ "JOIN courses c ON ex.courseId = c.courseID\r\n"
+				+ "JOIN (\r\n"
+				+ "    SELECT examId, AVG(grade) AS avgGrade\r\n"
+				+ "    FROM examresults\r\n"
+				+ "    WHERE status = 'Done'\r\n"
+				+ "    GROUP BY examId\r\n"
+				+ ") avg_grades ON er.examId = avg_grades.examId\r\n"
+				+ "WHERE ex.courseId = '" + CourseId + "' AND er.status = 'Done';\r\n"
+				+ ";" ;
+	}
+	
+	public static String getInfoForLecturerStats(String LecurerId) {
+		return "SELECT er.examId, e.examName, er.grade, u.firstName, u.lastName, avg_grade.avgGrade\r\n"
+				+ "FROM examresults er\r\n"
+				+ "JOIN exam e ON er.examId = e.examId\r\n"
+				+ "JOIN users u ON e.composerId = u.id\r\n"
+				+ "JOIN (\r\n"
+				+ "    SELECT examId, AVG(grade) AS avgGrade\r\n"
+				+ "    FROM examresults\r\n"
+				+ "    GROUP BY examId\r\n"
+				+ ") avg_grade ON er.examId = avg_grade.examId\r\n"
+				+ "WHERE er.status = 'Done' AND u.id = '" + LecurerId + "';";
+	}
 	
 	
 	

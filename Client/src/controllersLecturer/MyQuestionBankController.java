@@ -213,7 +213,7 @@ public class MyQuestionBankController extends AbstractController{
 		arr2.add(selectedItem.getQuestionID() + "");
 		msg.put("param",arr2);
 		super.sendMsgToServer(msg);
-		showTable(event);
+	//	showTable(event);
     }
 
 }
