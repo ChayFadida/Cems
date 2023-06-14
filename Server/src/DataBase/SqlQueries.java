@@ -143,9 +143,9 @@ public class SqlQueries {
 	}
 
 	public static ArrayList<String> InsertExamToDB(ArrayList<String> param) {
-		String insert = "INSERT INTO exam (courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-				"VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '"+param.get(3)+"', '" +  param.get(4)+ "','" + param.get(5)+ "', '"+param.get(6)+"', '"
-						+param.get(7)+"', '"+param.get(8)+"', '0');";
+		String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
+				"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
+						+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
 		String select = "SELECT LAST_INSERT_ID();";
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(insert);

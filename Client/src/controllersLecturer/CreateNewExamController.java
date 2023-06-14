@@ -80,6 +80,9 @@ public class CreateNewExamController extends AbstractController implements Initi
     private TextField studNotesText;
     
     @FXML
+    private TextField txtName;
+    
+    @FXML
     private Button closeButton;
 
     @FXML
@@ -104,6 +107,8 @@ public class CreateNewExamController extends AbstractController implements Initi
     private Label lblErrorSelected;
     
     @FXML
+    private Label lblErrorName;
+    @FXML
     void getFinish(ActionEvent event) {
     	lblError.setText(" ");
     	lblErrorCode.setText(" ");
@@ -113,6 +118,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     	String duration = DurauinTxt.getText();
     	String lecNotes = lecNotesTxt.getText();
     	String studNotes = studNotesText.getText();
+    	String name = txtName.getText();
     	boolean flag=false;
     	Integer durationMins;
     	if(qArr.isEmpty()) {
@@ -143,11 +149,17 @@ public class CreateNewExamController extends AbstractController implements Initi
     		return;
     	}
     	durationMins = Integer.parseInt(duration);
-    	createExam(code,duration,lecNotes,studNotes);
+    	if(lecNotes==null)
+    		lecNotes=" ";
+    	if(studNotes==null)
+    		studNotes=" ";
+    	if(name==null)
+    		name=" ";
+    	createExam(code,duration,lecNotes,studNotes,name);
     	//implement enter exam to DB
     }
     
-	private void createExam(String code, String duration, String lecNotes, String studNotes) {
+	private void createExam(String code, String duration, String lecNotes, String studNotes,String name) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		HashMap<String, Object> bank=getExamBank();
@@ -166,6 +178,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		arr2.add(code);
 		arr2.add((getLecturerExamCount()+1)+"");
 		arr2.add((Integer)bank.get("bankId")+"");
+		arr2.add(name);
 		msg.put("param", arr2);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -299,6 +312,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
 			System.out.println("RS is null");
+		}
+		if(rs.get(0)==null) {
+			System.out.println("Empty table from Sql");
 		}
 		return rs.get(0);
 	}
