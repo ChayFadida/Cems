@@ -136,10 +136,7 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String deleteQuestion(ArrayList<String> param) {
-		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
-		return query;
-	}
+	
 	public static String updateDurationRequest(String status,String id) {
 		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
 		return query;
@@ -277,19 +274,6 @@ public class SqlQueries {
 	public static String deleteQuestion(ArrayList<String> param) {
 		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
 		return query;
-	}
-
-	public static String getCoursesNameById(ArrayList<String> param) {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
-		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt(param.get(0)) - 1) {
-		    queryBuilder.append(", ");
-		  }
-		}
-		queryBuilder.append(");");
-		return queryBuilder.toString();
 	}
 
 	public static String AddDurationRequest(ArrayList<String> param) {
