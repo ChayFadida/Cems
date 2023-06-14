@@ -70,28 +70,28 @@ public class MyQuestionBankController extends AbstractController{
     @FXML
     private TableColumn<Question,String> clmSubject;
     
-    @FXML
-    void showTable(ActionEvent event) {
-    	String TempId = getid();
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQustionBankById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(TempId);
-		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
-		try {
-			this.loadQuestions(ConnectionServer.rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		initTableView(qArr);
-    	
-    }
+//    @FXML
+//    void showTable(ActionEvent event) {
+//    	String TempId = getid();
+//		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+//		ArrayList<String> arr = new ArrayList<>();
+//		arr.add("Lecturer");
+//		msg.put("client", arr);
+//		ArrayList<String> arr1 = new ArrayList<>();
+//		arr1.add("getQustionBankById");
+//		msg.put("task",arr1);
+//		ArrayList<String> arr2 = new ArrayList<>();
+//		arr2.add(TempId);
+//		msg.put("param", arr2);
+//		super.sendMsgToServer(msg);
+//		try {
+//			this.loadQuestions(ConnectionServer.rs);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		initTableView(qArr);
+//    	
+//    }
     
     
     private void initTableView(ArrayList<Question> arr) {
@@ -122,6 +122,7 @@ public class MyQuestionBankController extends AbstractController{
 		    (String)element.get("subject"),(String)element.get("answers"),(String)element.get("notes"),(String)element.get("courses")));
 		}
 	}
+
 	private String getid() {
     	return TempIDbox.getText();
     }

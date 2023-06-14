@@ -152,6 +152,7 @@ public class LogInController extends AbstractController{
 			switch ((String)rsHM.get("access")){
 				case "approve":
 					User user = (User)rsHM.get("response");
+					initializeCourses();
 					if(user instanceof Lecturer) {
 						ConnectionServer.getInstance().setUser((Lecturer)user);
 						return "Lecturer";

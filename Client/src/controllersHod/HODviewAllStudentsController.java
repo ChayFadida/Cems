@@ -39,6 +39,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		    stdArr.add(new Student(rs.get(i),null));
 		}
 	}
+
     @FXML
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -62,6 +63,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		}
 		initTableView(stdArr);
 	}
+
 	private void initTableView(ArrayList<Student> arr) {
 		ObservableList<Student> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
@@ -74,8 +76,15 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
 	}
+//	@Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//		showTable();		
+//	}
+
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		showTable();		
+		// TODO Auto-generated method stub
+		
 	}
 }

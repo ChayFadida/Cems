@@ -1,10 +1,10 @@
 package DataBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-
+import java.util.List;
 import thirdPart.JsonHandler;
-
 import java.io.*;
 
 public class SqlQueries {
@@ -81,6 +81,25 @@ public class SqlQueries {
 	public static String getUserByUserName(String username) {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
+	}
+
+	public static String getViewQuestionsById(String string) {
+		//returns question id's from questionBank
+		String quert = "SELECT * FROM questionbank WHERE lecturerId = '" + string + "'" + ";" ; 
+		return quert;
+	}
+	
+	public static String getQuestionByQyestionIdArray(ArrayList<Integer> arr) {
+		   String query = "SELECT Q.questionId, Q.courses,Q.details,Q.subject,U.firstName,U.lastName FROM questions AS Q, questionBank AS QB,  users AS U WHERE questionId IN (%s) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id";
+		// String query = "SELECT * FROM questions WHERE questionId IN (%s)";
+		   String idList = listToCsv(arr);
+		   return String.format(query, idList);
+		}
+	
+	//query that by giving an id returns the exam id, first and last name of the exam compose, relevant course and subject.
+	public static String getViewExamById(String string) {
+		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
+		return quert;
 	}
 	
 	public static String updateUserByIdLogout(String id) {
@@ -161,6 +180,50 @@ public class SqlQueries {
 		queries.add(select);
 		return queries;
 	}
+  
+	public static String getUserByPosition(String position) {
+		return "SELECT * FROM users WHERE position = '" + position +";" ;
+	}
+	
+	public static String getAllCourses() {
+		return "SELECT * FROM courses;";
+	}
+	
+	//Tomer: view student statistic HOD //
+	
+	public static String getStudentNameByID(String id) {
+		return "SELECT users.firstName, users.lastName FROM users WHERE id = '" + id +"' ;";
+	}
+	
+	public static String getStudentDoneExamsGradeByID(String id) {
+		return "SELECT grade  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getStudentDoneExamsIdByID(String id) {
+		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getStudentDoneExamsIdANDgradeByID(String id) {//this query returns the student done exams id and their grades
+		return "SELECT examId, grade FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	public static String getInfoForStudentStats(String id) {
+		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
+	}
+	
+	
+	
+	
+    private static String listToCsv(List<Integer> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(list.get(i));
+        }
+        return sb.toString();
+    }
 
 	public static String getDepartmentNameById(String id) {
 		String query = "SELECT D.* FROM department AS D WHERE id = '" + id +  "';" ;

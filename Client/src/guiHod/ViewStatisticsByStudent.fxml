@@ -11,19 +11,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByStudentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewStatisticsByStudentController">
    <children>
       <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Student Analyze :" wrappingWidth="257.6810302734375">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <BarChart fx:id="StudentBarChart" layoutX="94.0" layoutY="250.0" prefHeight="488.0" prefWidth="613.0">
+      <BarChart fx:id="StudentBarChart" layoutX="94.0" layoutY="286.0" prefHeight="488.0" prefWidth="613.0">
          <xAxis>
-            <CategoryAxis side="BOTTOM" />
+            <CategoryAxis fx:id="rowExamID" label="Exam id" side="BOTTOM" />
          </xAxis>
          <yAxis>
-            <NumberAxis side="LEFT" />
+            <NumberAxis fx:id="colGrade" label="Grade" side="LEFT" />
          </yAxis>
       </BarChart>
       <Text layoutX="143.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student ID:" wrappingWidth="192.0810546875">
@@ -31,20 +31,20 @@
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="143.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Avarege:" wrappingWidth="192.0810546875">
+      <Text layoutX="143.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Avarege:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text fx:id="ExamMedianTxt" layoutX="143.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Median:" wrappingWidth="192.0810546875">
+      <Text fx:id="ExamMedianTxt" layoutX="143.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Median:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
       <TextField fx:id="StudentIDTxt" alignment="CENTER" layoutX="310.0" layoutY="146.0" prefHeight="25.0" prefWidth="200.0" promptText="Insert Student ID" />
-      <TextField fx:id="StudentAvaregeTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="186.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="StudentMedianTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="226.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="minimizeBtn" layoutX="647.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+      <TextField fx:id="StudentAvaregeTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="222.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="StudentMedianTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="262.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="minimizeBtn" layoutX="647.0" layoutY="14.0" mnemonicParsing="false" onAction="#Minimize" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -53,7 +53,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="exitBtn" layoutX="715.0" layoutY="14.0" mnemonicParsing="false" styleClass="toggle-btns">
+      <Button fx:id="exitBtn" layoutX="715.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -62,5 +62,12 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="ApplyTemp" layoutX="525.0" layoutY="143.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
+      <Text layoutX="143.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Name:" wrappingWidth="192.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="StudentNameTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="187.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

@@ -56,12 +56,11 @@ public class Question{
 		return coursesHM;
 	}
 
-
 	public void setCoursesHM(HashMap<String, String> coursesHM) {
 		this.coursesHM = coursesHM;
 	}
 
-	public String getNotes() {
+  public String getNotes() {
 		return notes;
 	}
 
@@ -195,7 +194,6 @@ public class Question{
     public void setCourses(String courses) {
         this.courses = courses;
     }
-
     
     /**
      * Returns a string representation of the Question object.
@@ -208,5 +206,3 @@ public class Question{
                   ", bank=" + questionBank + "]";
     }
 }
-
-
