@@ -178,4 +178,24 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String getExamBank(int id) {
+		return "SELECT * FROM examsbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String getQuestionBank(int id) {
+		return "SELECT * FROM questionbank WHERE lecturerId = '" + id +  "' ;" ;
+	}
+
+	public static String insertQuestionBankForId(int id) {
+		System.out.println("  '{\"questions\": [] }' ");
+		String query = "INSERT INTO questionbank (lecturerId, questions) VALUES ("+id+","
+				+ " '{\"questions\": [] }');";
+		return query;
+	}
+
+	public static String insertExamBankForId(int id) {
+		String query = "INSERT INTO examsbank (lecturerId, exams) VALUES ("+id+", '{\"exams\": []}');";
+		return query;
+	}
+
 }
