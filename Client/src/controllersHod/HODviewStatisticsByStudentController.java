@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.ExamBankView;
@@ -113,7 +111,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     private void loadAverage(ArrayList<HashMap<String, Object>> rs) {
         if (rs.isEmpty()) {
         	System.out.println("rs is null");
-            return;
+          return;
         }
         StudentBarChart.getData().clear();
         setAvg(rs);
@@ -134,8 +132,8 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     }
     
     private void setAvg(ArrayList<HashMap<String, Object>> rs) {
-    	double total = 0;
-        int count = 0;
+      double total = 0;
+      int count = 0;
         for (HashMap<String, Object> row : rs) {
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
@@ -181,10 +179,10 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 	public void initialize(URL location, ResourceBundle resourceBundle) {
 		StudentAvaregeTxt.setText("");
 		StudentNameTxt.setText("");
-		StudentMedianTxt.setText("");
-	    
+		StudentMedianTxt.setText("");   
 	}
 	
+
 
     
 	public void start(Stage primaryStage) {

@@ -155,11 +155,10 @@ public class AddNewQuestionController extends AbstractController implements Init
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
     		
-    		HashMap<String,ArrayList<Double>> HmCourses = new HashMap<>(); //create json of courses
-    		ArrayList<Double> doubleList = new ArrayList<>();
+    		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
+    		ArrayList<Integer> doubleList = new ArrayList<>();
             for (String str : coursesSelected) {
-                double value = Double.parseDouble(str);
-                doubleList.add(value);
+                doubleList.add(Integer.parseInt(str));
             }
     		HmCourses.put("courses", doubleList);
     		
@@ -167,12 +166,61 @@ public class AddNewQuestionController extends AbstractController implements Init
     	
     		msg.put("param", arr2);
     		super.sendMsgToServer(msg);
-
+    		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+    		if(rs == null) {
+    			System.out.println("RS is null");
+    		}
+    		long lastId=((long) rs.get(0).get("keys"));
+    		System.out.println(lastId);
+    		Long lId = lastId;
+    		Integer questionId = lId.intValue();
+    		addToQB(questionId);
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    		//myQuestionBankController.showTable(event);
+    		myQuestionBankController.showTable();
     	}
     }
-    
+    private void addToQB(Integer id) {
+    	HashMap<String,ArrayList<String>> msg = new HashMap<>();
+    	HashMap<String,Object> bank = getQuestionBank(ConnectionServer.user.getId());
+    	String questions = (String) bank.get("questions");
+    	HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(questions, String.class, ArrayList.class,Integer.class);
+		ArrayList<Integer> questionsInBank = jsonHM.get("questions");
+		questionsInBank.add(id);
+		jsonHM.put("questions", questionsInBank);
+		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("updateQuestionBank");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(bank.get("bankID")+"");
+		arr2.add(jsonString);
+		msg.put("param",arr2);
+		super.sendMsgToServer(msg);
+	}
+    private HashMap<String, Object> getQuestionBank(int id) {
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getQuestionBank");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(ConnectionServer.user.getId()+"");
+		msg.put("param",arr2);
+		super.sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null) {
+			System.out.println("RS is null");
+		}
+		if(rs.get(0)==null) {
+			System.out.println("Empty table from Sql");
+		}
+		return rs.get(0);
+	}
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {

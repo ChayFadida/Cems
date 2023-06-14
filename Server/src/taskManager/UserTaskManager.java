@@ -97,13 +97,25 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 			User user=null;
 			String coursesId;
 			Integer department;
+			boolean flag =false;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
 					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
 					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = (Integer)getDepartmentByLecturerId((int)userHM.get("id"));
 					user = new Lecturer(userHM,coursesIdHM,department);
+					if(!hasQuestionBank((int)userHM.get("id")))
+						if(insertQuestionBank((int)userHM.get("id"))==false)
+							flag=true;
+					if(!hasExamBank((int)userHM.get("id")))
+						if(insertExamBank((int)userHM.get("id"))==false)
+							flag=true;
 					user.setIsLogged(true);
+					if(flag) {
+						res.put("access","deny");
+						res.put("response", "error in create exam and question bank");
+						return res;
+					}
 					break;
 				case "Student":
 					department = getDepartmentByStudentId((int)userHM.get("id"));
@@ -137,6 +149,26 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		return res;
 	}
 	
+	private boolean insertExamBank(int id) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.insertExamBankForId(id));
+		return ((int)rs.get(0).get("affectedRows"))==1;
+	}
+	private boolean hasExamBank(int id) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamBank(id));
+		return !rs.isEmpty();
+	}
+	private boolean insertQuestionBank(int id) {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.insertQuestionBankForId(id));
+		return ((int)rs.get(0).get("affectedRows"))==1;
+	}
+	private boolean hasQuestionBank(int id) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(id));
+		return !rs.isEmpty();
+	}
 	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserName(username));
