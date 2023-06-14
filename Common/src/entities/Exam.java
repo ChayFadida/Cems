@@ -15,6 +15,7 @@ public class Exam {
 	private String examNum;
 	private Integer bankId;
 	private boolean isLocked;
+	private String examName;
 	
 	public Exam(Integer examId,String examName, Integer courseId, String subject, Integer duration, String lecturerNote,
 			String studentNote, Integer composerId, String code, String examNum, Integer bankId, boolean isLocked) {
@@ -31,6 +32,7 @@ public class Exam {
 		this.examNum = examNum;
 		this.bankId = bankId;
 		this.isLocked = isLocked;
+		this.examName=examName;
 	}
 	
 	public String getExamName() {

@@ -12,7 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public abstract class AbstractController {	
-	ConnectionServer connectionServer;
+	static ConnectionServer connectionServer;
+	static HashMap<Integer, String> courseid_courseName = new HashMap<Integer, String>();
 	Stage primaryStage;
 	double xOffset = 0; 
 	double yOffset = 0;
@@ -76,6 +77,29 @@ public abstract class AbstractController {
 			primaryStage.setX(((MouseEvent) event).getScreenX() - xOffset);
         	primaryStage.setY(((MouseEvent) event).getScreenY() - yOffset);
 		}
-		
+	}
+	
+	public void initializeCourses(){
+		ArrayList<HashMap<String,Object>> tmp = new ArrayList<>();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("User");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("initializeCourses");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		msg.put("param", arr2);
+		sendMsgToServer(msg);
+		try {
+			tmp =  ConnectionServer.rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (HashMap<String,Object> obj : tmp)
+			courseid_courseName.put((int)obj.get("courseID"),(String) obj.get("courseName"));
+	}
+	public HashMap<Integer, String> getCourseid_courseName() {
+		return courseid_courseName;
 	}
 }
