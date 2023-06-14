@@ -67,7 +67,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 
     @FXML
     private TableColumn<Question,String> clmSubject;
-    
+   
     void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -101,6 +101,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 		QuestionBankLecTable.setItems(list);
 		
 	}
+
 
 
 	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
