@@ -41,8 +41,12 @@ public class SqlQueries {
 	}
 
 	public static String getQuestionsById(String string) {
-		String quert = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
-		return quert;
+		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
+		return query;
+	}
+	public static String getExamsByUserId(String id) {
+		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
+		return query;
 	}
 	public static String getUserByUserNameAndPass(String pass,String userName) {
 		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
@@ -80,7 +84,7 @@ public class SqlQueries {
 		String query = "SELECT * FROM users WHERE username = '" + username +  "';" ;
 		return query;
 	}
-  
+
 	public static String getUserById(String id) {
 		String query = "SELECT * FROM users WHERE id = '" + id +  "';" ;
 		return query;
