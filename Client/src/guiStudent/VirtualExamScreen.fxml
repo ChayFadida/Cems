@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.VirtualExamController">
+   <children>
+      <GridPane alignment="CENTER" layoutX="245.0" layoutY="13.0" prefHeight="90.0" prefWidth="262.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="24.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="67.0" minHeight="10.0" prefHeight="66.0" valignment="CENTER" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Hours">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Minutes" GridPane.columnIndex="1">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Seconds" GridPane.columnIndex="2">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6C4F73;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+               <children>
+                  <Label fx:id="lblHour" layoutX="17.0" layoutY="3.0" text="00" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6C4F73;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+               <children>
+                  <Label fx:id="lblMin" alignment="CENTER" layoutX="17.0" layoutY="3.0" text="00" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6C4F73;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+               <children>
+                  <Label fx:id="lblSec" alignment="CENTER" layoutX="17.0" layoutY="3.0" text="00" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </GridPane>
+      <Text layoutX="143.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Time left:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnMinimize" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/minimize.png" />
+               </image></ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnExit" layoutX="668.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+               </image></ImageView>
+         </graphic>
+      </Button>
+      <Text fx:id="txtQuestionNo" layoutX="329.0" layoutY="819.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="0/0" textAlignment="CENTER" wrappingWidth="91.05859375">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnForward" layoutX="420.0" layoutY="784.0" mnemonicParsing="false" onAction="#getForwardBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/forward.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnBackward" layoutX="267.0" layoutY="784.0" mnemonicParsing="false" onAction="#getBackwardBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/backward.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <AnchorPane fx:id="questionAP" layoutY="131.0" prefHeight="653.0" prefWidth="756.0">
+         <children>
+            <Text layoutX="85.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Question:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldQuestion" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="14.0" prefHeight="141.0" prefWidth="281.0" />
+            <Text layoutX="85.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Lecturer's notes:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldNotes" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="176.0" prefHeight="90.0" prefWidth="281.0" />
+            <Text layoutX="86.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.1:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer1" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="310.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="86.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.2:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer2" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="384.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="85.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.3:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer3" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="461.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="85.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.4:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer4" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="541.0" prefHeight="58.0" prefWidth="281.0" />
+            <RadioButton fx:id="radio1" contentDisplay="TOP" layoutX="605.0" layoutY="334.0" mnemonicParsing="false" selected="true">
+               <toggleGroup>
+                  <ToggleGroup fx:id="answers" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radio2" layoutX="605.0" layoutY="408.0" mnemonicParsing="false" toggleGroup="$answers" />
+            <RadioButton fx:id="radio3" layoutX="605.0" layoutY="485.0" mnemonicParsing="false" toggleGroup="$answers" />
+            <RadioButton fx:id="radio4" layoutX="605.0" layoutY="565.0" mnemonicParsing="false" toggleGroup="$answers" />
+            <Label layoutX="536.0" layoutY="311.0" text="Press to choose answer no.1" />
+            <Label layoutX="537.0" layoutY="385.0" text="Press to choose answer no.2" />
+            <Label layoutX="536.0" layoutY="462.0" text="Press to choose answer no.3" />
+            <Label layoutX="536.0" layoutY="542.0" text="Press to choose answer no.4" />
+            <Label layoutX="542.0" layoutY="17.0" text="The score for this question is:" />
+            <Label fx:id="lblScore" layoutX="587.0" layoutY="36.0" prefHeight="27.0" prefWidth="68.0" textAlignment="CENTER" />
+         </children>
+      </AnchorPane>
+      <ProgressBar fx:id="progressBar" layoutX="65.0" layoutY="111.0" prefHeight="10.0" prefWidth="627.0" progress="1.0" styleClass="clock-progress-bar" />
+   </children>
+</AnchorPane>

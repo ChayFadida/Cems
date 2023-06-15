@@ -236,14 +236,9 @@ public class MyQuestionBankController extends AbstractController implements Init
     	String questions = (String) bank.get("questions");
     	HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(questions, String.class, ArrayList.class,Integer.class);
 		ArrayList<Integer> questionsInBank = jsonHM.get("questions");
-		Integer index=null;
-		for(int i=0;i<questionsInBank.size();i++) {
-			if(id==questionsInBank.get(i))
-					index=i;
-		}
-		if(index!=null) {
-			questionsInBank.remove(index);
-			jsonHM.put("exams",questionsInBank);
+		if(questionsInBank.contains(id)) {
+			questionsInBank.remove(id);
+			jsonHM.put("questions",questionsInBank);
 		}
 		else {
 			System.out.println("Problem at removing question from bank");
@@ -257,7 +252,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 		arr1.add("updateQuestionBank");
 		msg.put("task",arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(bank.get("bankId")+"");
+		arr2.add(bank.get("bankID")+"");
 		arr2.add(jsonString);
 		msg.put("param",arr2);
 		super.sendMsgToServer(msg);

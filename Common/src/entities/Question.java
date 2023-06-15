@@ -48,7 +48,7 @@ public class Question{
 		this.courses=courses;
 		answersHM = new HashMap<>();
 		coursesHM=new HashMap<>();
-    answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
+		answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
 		//input answers data into hashmap needs to be implemented!
 	}
 

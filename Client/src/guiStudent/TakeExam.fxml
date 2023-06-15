@@ -1,37 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.TakeExamController">
    <children>
-      <TableView fx:id="examTable" layoutX="100.0" layoutY="85.0" prefHeight="313.0" prefWidth="600.0">
-        <columns>
-          <TableColumn prefWidth="104.0000228881836" text="Exam ID" />
-          <TableColumn prefWidth="165.0" text="Course" />
-            <TableColumn prefWidth="150.0" text="Subject" />
-            <TableColumn prefWidth="179.0" text="type" />
-        </columns>
-      </TableView>
+      <StackPane layoutX="79.0" layoutY="57.0" prefHeight="93.0" prefWidth="721.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblErrorBegin" layoutX="542.0" layoutY="36.0" prefHeight="39.0" prefWidth="164.0" />
+                  <Button fx:id="btnBegin" layoutX="417.0" layoutY="36.0" mnemonicParsing="false" onAction="#getBeginExam" prefHeight="40.0" prefWidth="125.0" text="Begin Exam">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="txtID" layoutX="285.0" layoutY="24.0" prefHeight="25.0" prefWidth="121.0" promptText="111222333" />
+                  <TextField fx:id="txtCode" layoutX="285.0" layoutY="56.0" prefHeight="25.0" prefWidth="121.0" promptText="exam code" />
+                  <Text layoutX="58.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Enter your identity number:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="58.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Enter exam code:">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apA" disable="true" opacity="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e8e1e9;" />
+         </children>
+      </StackPane>
       <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Take Exam">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <Text layoutX="139.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Insert exam code">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="16.0" />
-         </font>
-      </Text>
-      <TextField fx:id="examCodeTxt" alignment="CENTER" layoutX="266.0" layoutY="451.0" prefHeight="21.0" prefWidth="209.0" promptText="exam code" />
-      <Button fx:id="BeginExamButton" layoutX="491.0" layoutY="444.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="171.0" style="-fx-background-radius: 90;" text="Begin Exam">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="12.0" />
-         </font></Button>
+      <StackPane layoutY="158.0" prefHeight="444.0" prefWidth="800.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnManual" layoutX="227.0" layoutY="141.0" mnemonicParsing="false" onAction="#getManual" prefHeight="62.0" prefWidth="125.0" text="Manually">
+                     <graphic>
+                        <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/Images/manually.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="btnVirtual" layoutX="454.0" layoutY="142.0" mnemonicParsing="false" onAction="#getVirtual" prefHeight="60.0" prefWidth="125.0" text="Virtually">
+                     <graphic>
+                        <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/Images/virtually.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <AnchorPane fx:id="apB" layoutX="53.0" layoutY="156.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="738.0" style="-fx-background-color: #e8e1e9;" />
    </children>
 </AnchorPane>
