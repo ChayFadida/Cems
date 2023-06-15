@@ -1,10 +1,8 @@
 package DataBase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import thirdPart.JsonHandler;
 import java.io.*;
 
 public class SqlQueries {
@@ -43,8 +41,12 @@ public class SqlQueries {
 	}
 
 	public static String getQuestionsById(String string) {
-		String quert = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
-		return quert;
+		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
+		return query;
+	}
+	public static String getExamsByUserId(String id) {
+		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
+		return query;
 	}
 	public static String getUserByUserNameAndPass(String pass,String userName) {
 		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
@@ -83,12 +85,16 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String getUserById(String id) {
+		String query = "SELECT * FROM users WHERE id = '" + id +  "';" ;
+		return query;
+	}
+
 	public static String getViewQuestionsById(String string) {
 		//returns question id's from questionBank
 		String quert = "SELECT * FROM questionbank WHERE lecturerId = '" + string + "'" + ";" ; 
 		return quert;
 	}
-	
 
 	public static String getQuestionByQyestionIdArray(ArrayList<Integer> arr) {
 		   String query = "SELECT Q.questionId, Q.courses,Q.details,Q.subject,U.firstName,U.lastName FROM questions AS Q, questionBank AS QB,  users AS U WHERE questionId IN (%s) AND Q.questionBankId=QB.bankID AND QB.lecturerId=U.id";
@@ -97,7 +103,6 @@ public class SqlQueries {
 		   return String.format(query, idList);
 		}
 	
-	//query that by giving an id returns the exam id, first and last name of the exam compose, relevant course and subject.
 	public static String getViewExamById(String string) {
 		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
 		return quert;
@@ -108,6 +113,61 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+0+" WHERE id = '"+ id +"' ;";
 		return query;
 	}
+
+	public static String getStudentByPositionAndDepartment(String position, String department) {
+		return "SELECT DISTINCT id,firstName,lastName,position,hod.department,email,pass,username,isLogged FROM users,hod JOIN student ON hod.department =student.department WHERE users.position ='"+ position + "' AND student.department ='" + department + "';" ;
+	}
+  
+	public static String getUserByPosition(String position) {
+		return "SELECT * FROM users WHERE position = '" + position +";" ;
+	}
+	
+	public static String getStudentDoneExamsIdByID(String id) {
+		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
+	}
+	
+	
+	public static String getInfoForCourseStats(String CourseId) {
+		return "SELECT er.examId, er.grade, c.courseName, ex.examName, avg_grades.avgGrade\r\n"
+				+ "FROM examresults er\r\n"
+				+ "JOIN exam ex ON er.examId = ex.examId\r\n"
+				+ "JOIN courses c ON ex.courseId = c.courseID\r\n"
+				+ "JOIN (\r\n"
+				+ "    SELECT examId, AVG(grade) AS avgGrade\r\n"
+				+ "    FROM examresults\r\n"
+				+ "    WHERE status = 'Done'\r\n"
+				+ "    GROUP BY examId\r\n"
+				+ ") avg_grades ON er.examId = avg_grades.examId\r\n"
+				+ "WHERE ex.courseId = '" + CourseId + "' AND er.status = 'Done';\r\n"
+				+ ";" ;
+	}
+	
+	public static String getInfoForLecturerStats(String LecurerId) {
+		return "SELECT er.examId, e.examName, er.grade, u.firstName, u.lastName, avg_grade.avgGrade\r\n"
+				+ "FROM examresults er\r\n"
+				+ "JOIN exam e ON er.examId = e.examId\r\n"
+				+ "JOIN users u ON e.composerId = u.id\r\n"
+				+ "JOIN (\r\n"
+				+ "    SELECT examId, AVG(grade) AS avgGrade\r\n"
+				+ "    FROM examresults\r\n"
+				+ "    GROUP BY examId\r\n"
+				+ ") avg_grade ON er.examId = avg_grade.examId\r\n"
+				+ "WHERE er.status = 'Done' AND u.id = '" + LecurerId + "';";
+	}
+	
+	
+	
+    private static String listToCsv(List<Integer> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(list.get(i));
+        }
+        return sb.toString();
+    }
+
 	public static String getUserByPositionAndDepartment(String position,String department) {
 		String query = "SELECT users.id, users.firstName , users.lastName , users.email,users.position,users.pass,users.username,users.isLogged FROM users , "+position.toLowerCase()+" WHERE users.id = "+position.toLowerCase()+".userId AND "+position.toLowerCase()+".departmentId = "+ department+";";
 		return query;
@@ -140,7 +200,6 @@ public class SqlQueries {
 		return query;
 	}
 
-	
 	public static String updateDurationRequest(String status,String id) {
 		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
 		return query;
@@ -185,11 +244,7 @@ public class SqlQueries {
 		queries.add(select);
 		return queries;
 	}
-  
-	public static String getUserByPosition(String position) {
-		return "SELECT * FROM users WHERE position = '" + position +";" ;
-	}
-	
+  	
 	public static String getAllCourses() {
 		return "SELECT * FROM courses;";
 	}
@@ -204,10 +259,6 @@ public class SqlQueries {
 		return "SELECT grade  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
 	}
 	
-	public static String getStudentDoneExamsIdByID(String id) {
-		return "SELECT examId  FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
-	}
-	
 	public static String getStudentDoneExamsIdANDgradeByID(String id) {//this query returns the student done exams id and their grades
 		return "SELECT examId, grade FROM examresults WHERE studentId = '" + id + "' AND status = 'Done';";
 	}
@@ -216,38 +267,12 @@ public class SqlQueries {
 		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
 	}
 	
-	
-	
-	
-    private static String listToCsv(List<Integer> list) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-            sb.append(list.get(i));
-        }
-        return sb.toString();
-    }
 
 	public static String getDepartmentNameById(String id) {
 		String query = "SELECT D.* FROM department AS D WHERE id = '" + id +  "';" ;
 		return query;
 	}
 
-
-	public static String getCoursesNameById(ArrayList<String> param) {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
-		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt(param.get(0)) - 1) {
-		    queryBuilder.append(", ");
-		  }
-		}
-		queryBuilder.append(");");
-		return queryBuilder.toString();
-	}
 
 	public static String InsertQuestionToExamInDB(ArrayList<String> param) {
 		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
@@ -280,6 +305,19 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String getCoursesNameById(ArrayList<String> param) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
+		for (int i = 1; i < Integer.parseInt(param.get(0)); i++) {
+		  queryBuilder.append(param.get(i));
+		  if (i < Integer.parseInt(param.get(0)) - 1) {
+		    queryBuilder.append(", ");
+		  }
+		}
+		queryBuilder.append(");");
+		return queryBuilder.toString();
+	}
+
 	public static String AddDurationRequest(ArrayList<String> param) {
 		String query = "INSERT INTO durationrequest (examId, lecturerId, courseId, subject, oldDuration, newDuration, status, reasons)\r\n" + "VALUES (" + param.get(0)+ "," + param.get(1)+ "," + param.get(2)+ ",'" + param.get(3)+ "'," +  param.get(4)+ "," + param.get(5)+ ",'" + param.get(6) + "','" +  param.get(7) + "');";
 		return query;
@@ -292,7 +330,14 @@ public class SqlQueries {
 				+ "WHERE e.composerId = " + param.get(0) + ";";
 		return query;
 	}
-
+	
+	public static String LockExamById(ArrayList<String> param) {
+		String query = "UPDATE exam " +
+	               "JOIN examresults ON exam.examId = examresults.examId " +
+	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
+	               "WHERE exam.examId = " + param.get(0);
+		return query;
+	}
 
 	public static String getQBByLecId(String id) {
 		String query= "SELECT * FROM questionbank WHERE lecturerId='"+id+"';";

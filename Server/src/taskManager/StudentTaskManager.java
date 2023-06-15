@@ -24,13 +24,18 @@ public class StudentTaskManager implements TaskHandler{
 					return getQuestionById(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for Student");
+				case "getExams":
+					return getExamsByStudentId((String)hm.get("studentId").get(0));
+					
+				default: 
+			    	System.out.println("no such method for HOD");
 		    		return msgBack;
 				}
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
 
-	private ArrayList<HashMap<String, Object>> getQuestionById(ArrayList<String> param) throws SQLException {
+  private ArrayList<HashMap<String, Object>> getQuestionById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionById(param.get(0)));
 	    return rs;
@@ -47,5 +52,10 @@ public class StudentTaskManager implements TaskHandler{
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamByCode(param.get(0)));
 	    return rs;
 	}
-
+	
+	private ArrayList<HashMap<String, Object>> getExamsByStudentId(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsByUserId(id));
+	    return rs;
+	}
 }

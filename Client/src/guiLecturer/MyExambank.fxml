@@ -15,9 +15,9 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="examTable" layoutX="114.0" layoutY="140.0" prefHeight="320.0" prefWidth="573.0">
+      <TableView fx:id="tblExams" layoutX="114.0" layoutY="140.0" prefHeight="320.0" prefWidth="573.0">
         <columns>
-          <TableColumn prefWidth="150.0" text="Exam ID" />
+          <TableColumn prefWidth="150.0" text="Exam Name" />
           <TableColumn prefWidth="138.0" text="Course" />
             <TableColumn prefWidth="157.0" text="Subject" />
             <TableColumn prefWidth="127.0" text="Duration" />
