@@ -171,7 +171,6 @@ public class AddNewQuestionController extends AbstractController implements Init
     			System.out.println("RS is null");
     		}
     		long lastId=((long) rs.get(0).get("keys"));
-    		System.out.println(lastId);
     		Long lId = lastId;
     		Integer questionId = lId.intValue();
     		addToQB(questionId);
