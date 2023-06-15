@@ -27,6 +27,7 @@ import timer.TimerController;
 
 public class VirtualExamController extends AbstractController implements Initializable{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
+	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
 	private QuestionForVirtualExam currQ =null;
 	private Integer currIndex=0;
 	private Clock clock;
@@ -98,27 +99,25 @@ public class VirtualExamController extends AbstractController implements Initial
     @FXML
     private Label lblScore;
     
+    @FXML
+    private Button btnSubmit;
+    
 	@FXML
     void getBackwardBtn(ActionEvent event) {
-		btnForward.setDisable(false);
 		currIndex--;
 		currQ=questions.get(currIndex);
 		loadQuestion(currQ,currIndex);
-		if(currIndex==0) {
-			btnBackward.setDisable(true);
-		}
     }
 	
 	@FXML
     void getForwardBtn(ActionEvent event) {
-		btnBackward.setDisable(false);
     	currIndex++;
 		currQ=questions.get(currIndex);
 		loadQuestion(currQ,currIndex);
     }
     @FXML
     void getExitBtn(ActionEvent event) {
-    	//need to set
+    	//need to be set
     }
 
     @FXML
@@ -127,8 +126,9 @@ public class VirtualExamController extends AbstractController implements Initial
         stage.setIconified(true);
     }
 
-	void loadQuestionsAndTime(ArrayList<QuestionForVirtualExam> questions,Integer time) {
+	void loadQuestionsAndTime(ArrayList<QuestionForVirtualExam> questions, Integer time, ArrayList<HashMap<String,Object>> rs) {
 		this.questions=questions;
+		this.rs=rs;
 		timeMode= new TimeMode(time);
 		timerController = new TimerController();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
@@ -139,6 +139,12 @@ public class VirtualExamController extends AbstractController implements Initial
 			currIndex=0;
 			loadQuestion(currQ,currIndex);
 		}
+		else {
+			System.out.println("No questions in test");
+			timerController.countdown.stop();
+			return;
+		}
+		//need to insert row to DB with the current Start Time details
 	}
 
 
@@ -146,12 +152,17 @@ public class VirtualExamController extends AbstractController implements Initial
 		if(currIndex==0) {
 			btnBackward.setDisable(true);
 		}
+		else
+			btnBackward.setDisable(false);
 		if((currIndex+1)==questions.size()) {
 			btnForward.setDisable(true);
 		}
+		else
+			btnForward.setDisable(false);
+		setRadioBtnSelection(q);
 		txtQuestionNo.setText((currIndex+1)+"/"+questions.size());
 		txtfieldQuestion.setText(q.getDetails());
-		if(q.getNotes()!=null)
+		if(q.getNotes()!=" ")
 			txtfieldNotes.setText(q.getNotes());
 		else
 			txtfieldNotes.setText("No specific notes from the lecturer.");
@@ -161,6 +172,21 @@ public class VirtualExamController extends AbstractController implements Initial
 		txtfieldAnswer3.setText(answersHM.get("answer3"));
 		txtfieldAnswer4.setText(answersHM.get("answer4"));
 		lblScore.setText(q.getScore()+"");
+	}
+
+	private void setRadioBtnSelection(QuestionForVirtualExam q) {
+		radio1.setSelected(false);
+		radio2.setSelected(false);
+		radio3.setSelected(false);
+		radio4.setSelected(false);
+		if(q.getSelection()==1)
+			radio1.setSelected(true);
+		if(q.getSelection()==2)
+			radio2.setSelected(true);
+		if(q.getSelection()==3)
+			radio3.setSelected(true);
+		if(q.getSelection()==4)
+			radio4.setSelected(true);
 	}
 
 	@Override

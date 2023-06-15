@@ -31,6 +31,7 @@ import thirdPart.JsonHandler;
 
 public class TakeExamController extends AbstractController{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
+	private ArrayList<HashMap<String,Object>> rs = new ArrayList<>();
 	
 	@FXML
 	private AnchorPane apA;
@@ -59,8 +60,8 @@ public class TakeExamController extends AbstractController{
     @FXML
     void getBeginExam(ActionEvent event) {
     	boolean  flagId = checkID(txtID.getText());
-    	ArrayList<HashMap<String,Object>> rs = checkCode(txtCode.getText());
-    	int flagCode = (int)rs.get(0).get("code");
+    	rs = checkCode(txtCode.getText());
+    	int flagCode = (int)rs.get(0).get("examId");
     	if(flagId && (flagCode==-1)) {
     		lblErrorBegin.setText("Both ID and exam code are wrong, try again.");
     		return;
@@ -73,23 +74,26 @@ public class TakeExamController extends AbstractController{
     		lblErrorBegin.setText("Wrong exam code, try again");
     		return;
     	}
-    	FadeTransition fadeA = new FadeTransition();  
-    	fadeA.setNode(apA);
-    	fadeA.setFromValue(0);
-    	fadeA.setToValue(1);
-    	apA.setDisable(false);
-    	FadeTransition fadeB = new FadeTransition();
-    	fadeB.setNode(apB);
-    	fadeB.setFromValue(1);
-    	fadeB.setToValue(0);
-    	apB.setDisable(true);
-    	fadeA.play();
-    	fadeB.play();
-    	retrieveQuestionsForExam(flagCode);
-    	
+    	int res = retrieveQuestionsForExam(flagCode);
+    	if(res==1) {
+	    	FadeTransition fadeA = new FadeTransition();  
+	    	fadeA.setNode(apA);
+	    	fadeA.setFromValue(0);
+	    	fadeA.setToValue(1);
+	    	apA.setDisable(false);
+	    	FadeTransition fadeB = new FadeTransition();
+	    	fadeB.setNode(apB);
+	    	fadeB.setFromValue(1);
+	    	fadeB.setToValue(0);
+	    	apB.setDisable(true);
+	    	fadeA.play();
+	    	fadeB.play();
+    	}
+
     }
 
-	private void retrieveQuestionsForExam(int flagCode) {
+	private int retrieveQuestionsForExam(int flagCode) {
+		questions = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Student");
@@ -104,13 +108,12 @@ public class TakeExamController extends AbstractController{
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
 			System.out.println("RS is null");
-			return;
+			return -1;
 		}
 		if(rs.isEmpty()) {
 			System.out.println("Empty table from DB");
-			return;
+			return -1;
 		}
-		questions = new ArrayList<>();
 		String questionsStr = (String) rs.get(0).get("questions");
 		HashMap<String,ArrayList<Integer>> QjsonHM= JsonHandler.convertJsonToHashMap(questionsStr, String.class, ArrayList.class,Integer.class);
 		ArrayList<Integer> questionsInExam = QjsonHM.get("questions");
@@ -121,18 +124,23 @@ public class TakeExamController extends AbstractController{
 			HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
 			ArrayList<String> Arr = new ArrayList<>();
 			Arr.add("Student");
-			msg.put("client", Arr);
+			msg1.put("client", Arr);
 			ArrayList<String> Arr1 = new ArrayList<>();
 			Arr1.add("getQuestionById");
-			msg.put("task",Arr1);
+			msg1.put("task",Arr1);
 			ArrayList<String> Arr2 = new ArrayList<>();
-			Arr2.add("");
-			msg.put("param", Arr2);
-			super.sendMsgToServer(msg);
+			Arr2.add(questionsInExam.get(i)+"");
+			msg1.put("param", Arr2);
+			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
 			if(rs1==null) {
 				System.out.println("RS is null");
-				return;
+				return -1;
+			}
+			if(rs.isEmpty()) {
+				System.out.println("One of the exam's questions does not exist in DB");
+				lblErrorBegin.setText("One of the exam's questions does not exist in DB, check it with you lecturer.");
+				return -1;
 			}
 			QuestionForVirtualExam q = new QuestionForVirtualExam((Integer)rs1.get(0).get("questionId"),
 					(String)rs1.get(0).get("details"),(String)rs1.get(0).get("rightAnswer"),(Integer)rs1.get(0).get("questionBankId"),
@@ -140,12 +148,13 @@ public class TakeExamController extends AbstractController{
 					(String)rs1.get(0).get("courses"),scoresForQuestions.get(i));
 			questions.add(q);
 		}
+		return 1;
 		
 	}
 
 	@FXML
     void getManual(ActionEvent event) {
-		
+		//wait for chay
     }
 
     @FXML
@@ -154,7 +163,7 @@ public class TakeExamController extends AbstractController{
     		FXMLLoader loader = new FXMLLoader();
     		Parent root = loader.load(getClass().getResource("/guiStudent/VirtualExamScreen.fxml").openStream());
     		VirtualExamController virtualExamController = loader.getController();
-    		virtualExamController.loadQuestionsAndTime(new ArrayList<QuestionForVirtualExam>(), 120);
+    		virtualExamController.loadQuestionsAndTime(questions, (Integer)rs.get(0).get("duration"),rs);
     		Stage primaryStage = new Stage();
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -184,13 +193,13 @@ public class TakeExamController extends AbstractController{
 	private ArrayList<HashMap<String,Object>> checkCode(String text) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
+		arr.add("Student");
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getExamByCode");
 		msg.put("task",arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(txtCode.getText());
+		arr2.add(text);
 		msg.put("param", arr2);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -198,16 +207,21 @@ public class TakeExamController extends AbstractController{
 			System.out.println("RS is null");
 			rs= new ArrayList<>();
 			HashMap<String,Object> hm = new HashMap<>();
-			hm.put("code",-1);
+			hm.put("examId",-1);
 			rs.add(hm);
 			return rs;
 		}
 		if(rs.isEmpty()) {
 			HashMap<String,Object> hm = new HashMap<>();
-			hm.put("code",-1);
+			hm.put("examId",-1);
 			rs.add(hm);
 			return rs;
 		}
 		return rs;
 	}
+	
+    @FXML
+    void getSubmitBtn(ActionEvent event) {
+
+    }
 }

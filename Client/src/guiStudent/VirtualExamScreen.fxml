@@ -103,12 +103,12 @@
                </image></ImageView>
          </graphic>
       </Button>
-      <Text fx:id="txtQuestionNo" layoutX="329.0" layoutY="819.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="0/0" textAlignment="CENTER" wrappingWidth="91.05859375">
+      <Text fx:id="txtQuestionNo" layoutX="329.0" layoutY="775.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="0/0" textAlignment="CENTER" wrappingWidth="91.05859375">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <Button fx:id="btnForward" layoutX="420.0" layoutY="784.0" mnemonicParsing="false" onAction="#getForwardBtn" styleClass="toggle-btns">
+      <Button fx:id="btnForward" layoutX="418.0" layoutY="739.0" mnemonicParsing="false" onAction="#getForwardBtn" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -117,7 +117,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btnBackward" layoutX="267.0" layoutY="784.0" mnemonicParsing="false" onAction="#getBackwardBtn" styleClass="toggle-btns">
+      <Button fx:id="btnBackward" layoutX="265.0" layoutY="739.0" mnemonicParsing="false" onAction="#getBackwardBtn" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -126,7 +126,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="questionAP" layoutY="131.0" prefHeight="653.0" prefWidth="756.0">
+      <AnchorPane fx:id="questionAP" layoutY="131.0" prefHeight="608.0" prefWidth="756.0">
          <children>
             <Text layoutX="85.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Question:">
                <font>
@@ -164,7 +164,7 @@
                </font>
             </Text>
             <TextField fx:id="txtfieldAnswer4" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="541.0" prefHeight="58.0" prefWidth="281.0" />
-            <RadioButton fx:id="radio1" contentDisplay="TOP" layoutX="605.0" layoutY="334.0" mnemonicParsing="false" selected="true">
+            <RadioButton fx:id="radio1" contentDisplay="TOP" layoutX="605.0" layoutY="334.0" mnemonicParsing="false">
                <toggleGroup>
                   <ToggleGroup fx:id="answers" />
                </toggleGroup>
@@ -181,5 +181,6 @@
          </children>
       </AnchorPane>
       <ProgressBar fx:id="progressBar" layoutX="65.0" layoutY="111.0" prefHeight="10.0" prefWidth="627.0" progress="1.0" styleClass="clock-progress-bar" />
+      <Button fx:id="btnSubmit" layoutX="332.0" layoutY="804.0" mnemonicParsing="false" onAction="#getSubmitBtn" styleClass="button-view" text="Submit exam" />
    </children>
 </AnchorPane>

@@ -303,5 +303,20 @@ public class SqlQueries {
 		String query = "UPDATE questionbank SET questions = '"+param.get(1)+"' WHERE bankID = '"+ param.get(0) +"' ;";
 		return query;
 	}
+
+	public static String getExamByCode(String code) {
+		String query = "SELECT * FROM exam WHERE code='"+code+"';";
+		return query;
+	}
+
+	public static String getQuestionsAndScoresByExamId(String id) {
+		String query = "SELECT * FROM questionsinexam WHERE examId='"+id+"';";
+		return query;
+	}
+
+	public static String getQuestionById(String id) {
+		String query = "SELECT * FROM questions WHERE questionId='"+id+"';";
+		return query;
+	}
 	
 }

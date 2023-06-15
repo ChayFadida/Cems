@@ -2,7 +2,7 @@ package entities;
 
 public class QuestionForVirtualExam extends Question{
 	private Integer score;
-	private Integer selection=1;
+	private Integer selection=0;
 	public QuestionForVirtualExam(Integer questionID, String details, String rightAnswer, Integer questionBank,
 			String subject, String answers, String notes, String courses,Integer score) {
 		super(questionID, details, rightAnswer, questionBank, subject, answers, notes, courses);
