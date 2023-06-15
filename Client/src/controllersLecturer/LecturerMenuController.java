@@ -89,11 +89,6 @@ public class LecturerMenuController extends AbstractController implements Initia
 		}
     }
 
-//	public LecturerMenuController(Super s) {
-//		this.s= s;
-//		this.lecturer=s.getLecturer();
-//	}
-
 	public void start(Stage primaryStage) {
 	    try {
 	        BorderPane root =  (BorderPane)FXMLLoader.load(getClass().getResource("/guiLecturer/LecturerMenu.fxml"));

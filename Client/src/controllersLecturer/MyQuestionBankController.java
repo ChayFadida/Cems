@@ -67,7 +67,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 
     @FXML
     private TableColumn<Question,String> clmSubject;
-    
+   
     void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -101,6 +101,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 		QuestionBankLecTable.setItems(list);
 		
 	}
+
 
 
 	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
@@ -244,6 +245,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 			System.out.println("Problem at removing question from bank");
 			return;
 		}
+		
 		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Lecturer");
@@ -257,12 +259,11 @@ public class MyQuestionBankController extends AbstractController implements Init
 		msg.put("param",arr2);
 		super.sendMsgToServer(msg);
 	}
-
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();
-		
 	}
 
 }
