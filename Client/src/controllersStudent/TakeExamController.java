@@ -154,7 +154,32 @@ public class TakeExamController extends AbstractController{
 
 	@FXML
     void getManual(ActionEvent event) {
-		//wait for chay
+		try {
+    		FXMLLoader loader = new FXMLLoader();
+    		Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
+    		ManualExamController manualExamController = loader.getController();
+    		//need to implement the below comment
+    		//manualExamController.loadQuestionsAndTime(questions, (Integer)rs.get(0).get("duration"),rs);
+    		Stage primaryStage = new Stage();
+    		Scene scene = new Scene(root);
+    		primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+			primaryStage.setScene(scene);
+		    primaryStage.show();
+		    super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
+	        FadeTransition fadeC = new FadeTransition();
+	    	fadeC.setNode(apB);
+	    	fadeC.setFromValue(0);
+	    	fadeC.setToValue(1);
+	    	fadeC.play();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
 
     @FXML
@@ -220,8 +245,4 @@ public class TakeExamController extends AbstractController{
 		return rs;
 	}
 	
-    @FXML
-    void getSubmitBtn(ActionEvent event) {
-
-    }
 }

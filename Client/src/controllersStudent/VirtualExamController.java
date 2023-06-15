@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 import timer.Clock;
 import timer.TimeMode;
 import timer.TimerController;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;    
 
 public class VirtualExamController extends AbstractController implements Initializable{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
@@ -33,6 +35,9 @@ public class VirtualExamController extends AbstractController implements Initial
 	private Clock clock;
 	private TimeMode timeMode;
 	private TimerController timerController;
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+	private LocalDateTime start,end; 
+	private String startTime,endTime;
 	
 	@FXML
     private ToggleGroup answers;
@@ -142,9 +147,12 @@ public class VirtualExamController extends AbstractController implements Initial
 		else {
 			System.out.println("No questions in test");
 			timerController.countdown.stop();
+			//need to close test window
 			return;
 		}
-		//need to insert row to DB with the current Start Time details
+		start=LocalDateTime.now();
+		startTime=dtf.format(start);
+		//need to insert row to DB with the current Start Time(in 'startTime') details and status 'inProgress'
 	}
 
 
@@ -188,7 +196,18 @@ public class VirtualExamController extends AbstractController implements Initial
 		if(q.getSelection()==4)
 			radio4.setSelected(true);
 	}
+	
+    @FXML
+    void getSubmitBtn(ActionEvent event) {
+    	end=LocalDateTime.now();
+    	endTime=dtf.format(end);
+    	//update the row in examresuls to status 'done', and update 'endTime'
+    	//run in loop on questions array in order to find matches betweeen 'Selection' and 'rightAnswer'
+    	//sum up the grade when the student when he got the correct answer
+    	//check if there are any other student in 'inProgess' status on the same exam, if not -> LockExam!
+    	//close window
 
+    }
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		radio1.selectedProperty().addListener(new ChangeListener<Boolean>() {
