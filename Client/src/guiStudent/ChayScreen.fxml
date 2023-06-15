@@ -9,10 +9,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="controllersStudent.ChayScreenController">
    <children>
-      <Button fx:id="btn" layoutX="399.0" layoutY="285.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="84.0" text="Button" />
       <TextField fx:id="txt" layoutX="93.0" layoutY="172.0" prefHeight="58.0" prefWidth="215.0" />
-      <Button fx:id="browse" layoutX="375.0" layoutY="172.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="96.0" text="Browse" />
-      <Region fx:id="region" layoutX="32.0" layoutY="20.0" onDragDetected="#dragDetectR" onDragDone="#dragDoneR" onDragDropped="#dragDroppedR" onDragEntered="#dragEnterR" onDragExited="#dragExitR" onDragOver="#dragOverR" onMouseDragEntered="#dragMenterR" onMouseDragExited="#dragMexitR" onMouseDragOver="#dragMoverR" onMouseDragReleased="#dragMreleaseR" prefHeight="125.0" prefWidth="313.0" style="-fx-background-color: #444444;" />
-      <Pane fx:id="pane" layoutX="44.0" layoutY="253.0" onDragDetected="#dragDetectP" onDragDone="#dragDoneP" onDragDropped="#dragDroppedP" onDragEntered="#dragEnterP" onDragExited="#dragExitP" onDragOver="#dragOverP" onMouseDragEntered="#dragMenterP" onMouseDragExited="#dragMexitP" onMouseDragOver="#dragMoverP" onMouseDragReleased="#dragMreleaseP" prefHeight="125.0" prefWidth="313.0" style="-fx-background-color: #490FFF;" />
+      <Button fx:id="browse" layoutX="375.0" layoutY="172.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="96.0" text="Browse" onAction="#browseAction" />
+      <Pane fx:id="pane" layoutX="44.0" layoutY="253.0"  onDragDropped="#dragDroppedP" onDragOver="#dragOverP"  prefHeight="125.0" prefWidth="313.0" style="-fx-background-color: #490FFF;" />
+      <Button fx:id="submitBtn" layoutX="500.0" layoutY="172.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="96.0" text="Submit" onAction="#submitAction" />
+   
    </children>
 </AnchorPane>

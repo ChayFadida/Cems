@@ -1,5 +1,9 @@
 package controllersStudent;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.ArrayList;
 import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
@@ -18,9 +22,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 public class ChayScreenController extends AbstractController{
-
+    private List<byte[]> fileBytesList = new ArrayList<>();
+    private List<File> fileList = new ArrayList<>();
     @FXML
     private Button browse;
 
@@ -70,11 +77,6 @@ public class ChayScreenController extends AbstractController{
 
     @FXML
     void dragDoneR(DragEvent event) {
-
-    }
-
-    @FXML
-    void dragDroppedP(DragEvent event) {
 
     }
 
@@ -145,12 +147,74 @@ public class ChayScreenController extends AbstractController{
     }
 
     @FXML
-    void dragOverP(DragEvent event) {
-
-    }
-
-    @FXML
     void dragOverR(DragEvent event) {
 
     }
+    @FXML
+    void submitAction() {
+        if (!fileBytesList.isEmpty()) {
+            for (byte[] fileBytes : fileBytesList) {
+                try {
+                   System.out.println("Submit files");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            fileBytesList.clear(); // Clear the file bytes list after submitting
+        }
+    }
+
+
+    @FXML
+    void dragDroppedP(DragEvent event) {
+        boolean success = false;
+        if (event.getDragboard().hasFiles()) {
+            List<File> files = event.getDragboard().getFiles();
+            // Process the dropped files
+            for (File file : files) {
+                System.out.println("Dropped file: " + file.getAbsolutePath());
+                fileList.add(file);
+                try {
+					byte[] fileBytes = Files.readAllBytes(file.toPath());
+                    fileBytesList.add(fileBytes);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
+            success = true;
+        }
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    @FXML
+    void dragOverP(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
+        }
+        event.consume();
+    }
+    
+    @FXML
+    void browseAction() {
+        FileChooser fileChooser = new FileChooser();
+        Stage stage = new Stage();
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
+
+        if (selectedFiles != null) {
+            for (File file : selectedFiles) {
+                System.out.println("Dropped file: " + file.getAbsolutePath());
+                fileList.add(file);
+                try {
+					byte[] fileBytes = Files.readAllBytes(file.toPath());
+                    fileBytesList.add(fileBytes);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
+        }
+    }
+
 }
