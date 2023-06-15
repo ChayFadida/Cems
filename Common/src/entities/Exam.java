@@ -15,7 +15,7 @@ public class Exam {
 	private String examNum;
 	private Integer bankId;
 	private boolean isLocked;
-
+  
 	public Exam(Integer examId,String examName, Integer courseId, String subject, Integer duration, String lecturerNote,
 			String studentNote, Integer composerId, String code, String examNum, Integer bankId, boolean isLocked) {
 		super();
