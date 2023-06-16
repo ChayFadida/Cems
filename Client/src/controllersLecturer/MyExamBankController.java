@@ -1,5 +1,6 @@
 package controllersLecturer;
 
+import entities.Exam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class MyExamBankController {
     private Button EditExamButton;
 
     @FXML
-    private TableView<?> examTable;
+    private TableView<Exam> examTable;
     
     @FXML
     private Button closeButton;
@@ -40,7 +41,7 @@ public class MyExamBankController {
 
     @FXML
     void DeleteExam(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -53,18 +54,3 @@ public class MyExamBankController {
     }
 
 }
-
-    
-   /* @FXML
-    void DeleteExam(ActionEvent event) {
-    	//needs implementation
-    }*/
-
-    /*@FXML
-    void EditExam(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		EditExamController editExamController = new EditExamController();
-		//need to implement start method in AddNewQuestionController and then -->
-		editExamController.start(primaryStage);
-    }*/

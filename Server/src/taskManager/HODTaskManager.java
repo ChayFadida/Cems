@@ -3,7 +3,7 @@ package taskManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import java.sql.ResultSet;
+import java.sql.ResultSet;https://github.com/ChayFadida/Cems/pull/74/conflict?name=Server%252Fsrc%252Fserver%252FServerController.java&ancestor_oid=3040875df44a99d486901671224cca5121ed4822&base_oid=7b997449f1b1f5b1130634b83b3f1bfe54405bbe&head_oid=644681115fa51cd8b50ad76af47f61d355d28921
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +76,11 @@ public class HODTaskManager implements TaskHandler{
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsIdANDgradeByID(ArrayList<String> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentDoneExamsIdANDgradeByID(arrayList.get(0)));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getUserById(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserById(id));
 	    return rs;
 	}
 

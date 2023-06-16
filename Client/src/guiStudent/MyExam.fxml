@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,19 +8,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.MyExamController">
    <children>
-      <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="My exams">
+      <Text layoutX="73.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="My exams:">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="ExamTable" layoutX="80.0" layoutY="114.0" prefHeight="361.0" prefWidth="594.0">
+      <TableView fx:id="ExamTable" layoutX="51.0" layoutY="119.0" prefHeight="362.0" prefWidth="731.0">
         <columns>
-          <TableColumn prefWidth="133.0" text="Exam id" />
-          <TableColumn prefWidth="146.0" text="Course" />
-            <TableColumn prefWidth="152.0" text="Subject" />
-            <TableColumn prefWidth="162.0" text="Grade" />
+            <TableColumn fx:id="examId" prefWidth="53.60003662109375" text="Exam id" />
+          <TableColumn fx:id="examName" prefWidth="169.5999755859375" text="Exam name" />
+            <TableColumn fx:id="status" prefWidth="177.60003662109375" text="Status" />
+          <TableColumn fx:id="courseId" prefWidth="65.5999755859375" text="Course Id" />
+            <TableColumn fx:id="subject" minWidth="0.0" prefWidth="154.4000244140625" text="Subject" />
+            <TableColumn fx:id="grade" minWidth="0.0" prefWidth="107.99993896484375" text="Grade" />
         </columns>
       </TableView>
-      <Button layoutX="247.0" layoutY="345.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" style="-fx-background-color: White;" visible="false" />
    </children>
 </AnchorPane>
