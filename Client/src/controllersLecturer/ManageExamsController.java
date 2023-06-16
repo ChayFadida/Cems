@@ -14,8 +14,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,7 +32,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableRow;
 
 
-public class ManageExamsController extends AbstractController {
+public class ManageExamsController extends AbstractController  {
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
 	Exam selectedExam;
@@ -119,7 +121,8 @@ public class ManageExamsController extends AbstractController {
             return new SimpleStringProperty(courseName);
         });
 
-        examTable.setItems(list);		
+        examTable.setItems(list);
+
 	}
 
 
@@ -134,14 +137,36 @@ public class ManageExamsController extends AbstractController {
     
     
     @FXML
-    void AnalyzeExam(ActionEvent event) {
-       	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    		Stage primaryStage = new Stage();
-    		AnalyzerExamController analyzerExamController = new AnalyzerExamController();
-    		//need to implement start method in AddNewQuestionController and then -->
-    		analyzerExamController.start(primaryStage);
+    void AnalyzeExam(ActionEvent event) throws IOException {
+    	Stage primaryStage = new Stage();
+    	AnalyzerExamController analyzerExamController;
+		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
+    	Exam selectedItem = selectionModel.getSelectedItem();
+    	if(!(selectedItem == null)) {
+    		FXMLLoader loader = new FXMLLoader();
+    		Pane root = loader.load(getClass().getResource("/guiLecturer/AnalyzeExam.fxml").openStream());
+    		analyzerExamController = loader.getController();
+    		analyzerExamController.setExam(selectedItem);
+    		analyzerExamController.LoadExamStats(selectedItem);
+    		try {
+    	        Scene scene = new Scene(root);
+    	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+    	        primaryStage.initStyle(StageStyle.UNDECORATED);
+    			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+    	        // Set the scene to the primary stage
+    	        primaryStage.setScene(scene);
+    	        primaryStage.show();
+    	        super.setPrimaryStage(primaryStage);
+    	        PressHandler<MouseEvent> press = new PressHandler<>();
+    	        DragHandler<MouseEvent> drag = new DragHandler<>();
+    	        root.setOnMousePressed(press);
+    	        root.setOnMouseDragged(drag);
+    	    } catch(Exception e) {
+    	        e.printStackTrace();
+    	    }
+    	}
     }
-
+    
     @FXML
     void ChangeDuration(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
