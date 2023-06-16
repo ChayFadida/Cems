@@ -73,19 +73,14 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     private Text lblHello;
     public LecturerMenuController() {
-    	try {
-    		User user = ConnectionServer.getInstance().getUser();
-    		if(user instanceof Super) {
-    			this.s = ((Super) user);
-    			this.lecturer = s.getLecturer();
-    		}
-    		else {
-    			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
-    			this.s=null;
-    		}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    	User user = ConnectionServer.getInstance().getUser();
+		if(user instanceof Super) {
+			this.s = ((Super) user);
+			this.lecturer = s.getLecturer();
+		}
+		else {
+			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+			this.s=null;
 		}
     }
 

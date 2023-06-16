@@ -44,12 +44,7 @@ public class ChooseProfileController extends AbstractController{
    
     public ChooseProfileController() {
 		super();
-		try {
-			s = (Super) ConnectionServer.getInstance().getUser();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		s = (Super) ConnectionServer.getInstance().getUser();
 	}
 
 	@FXML

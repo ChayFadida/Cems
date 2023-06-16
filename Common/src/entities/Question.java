@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import thirdPart.JsonHandler;
 
@@ -8,7 +9,7 @@ import interfaces.QuestionIF;
 /**
  * Represents a question entity.
  */
-public class Question{
+public class Question implements Serializable{
     private Integer questionID;
     private String details;
     private String rightAnswer;

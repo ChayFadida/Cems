@@ -1,4 +1,5 @@
 package controllersLecturer;
+import java.math.BigInteger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +30,7 @@ import thirdPart.JsonHandler;
 public class CreateNewExamController extends AbstractController implements Initializable{
 	private ArrayList<Course> courses;
 	private ArrayList<QuestionForExam> qArr;
-	private ArrayList<QuestionForExam> qSelected=new ArrayList<>();
+	private ArrayList<Object> qSelected=new ArrayList<>();
 	private int sum;
     @FXML
     private ComboBox<Course> CourseComboBox;
@@ -145,15 +146,16 @@ public class CreateNewExamController extends AbstractController implements Initi
     }
     
 	private void createExam(String code, String duration, String lecNotes, String studNotes,String name) {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
+		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+		ArrayList<Object> arr = new ArrayList<>();
 		HashMap<String, Object> bank=getExamBank();
 		arr.add("Lecturer");
 		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
+		ArrayList<Object> arr1 = new ArrayList<>();
 		arr1.add("insertExam");
 		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
+		ArrayList<Object> arr2 = new ArrayList<>();
+		HashMap<Object, Object> arr2Param = new HashMap<>();
 		arr2.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
 		arr2.add(getDepartmentName());
 		arr2.add(duration);
@@ -164,15 +166,16 @@ public class CreateNewExamController extends AbstractController implements Initi
 		arr2.add((getLecturerExamCount()+1)+"");
 		arr2.add((Integer)bank.get("bankId")+"");
 		arr2.add(name);
+		msg.put("questions", qSelected);
 		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
+		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
 			System.out.println("RS is null");
 		}
-		long lastId=((long) rs.get(0).get("keys"));
-		Long lId = lastId;
-		Integer examId = lId.intValue();
+		System.out.println(rs);
+		BigInteger lastId=  (BigInteger)rs.get(0).get("id");
+		Integer examId = lastId.intValue();
 		addToExamBank(bank,examId);
 		addQuestionsAndScore(examId);
 	}
@@ -183,22 +186,22 @@ public class CreateNewExamController extends AbstractController implements Initi
 		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
 		ArrayList<Integer> qIds= new ArrayList<>();
 		ArrayList<Integer> qScores= new ArrayList<>();
-		for(QuestionForExam q: qSelected) {
-			qIds.add(q.getQuestionID());
-			qScores.add(Integer.parseInt(q.getScore().getText()));
+		for(Object q: qSelected) {
+			qIds.add(((QuestionForExam) q).getQuestionID());
+			qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
 		}
 		qIdsHm.put("questions", qIds);
 		qScoresHm.put("scores", qScores);
 		String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
 		String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
+		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+		ArrayList<Object> arr = new ArrayList<>();
 		arr.add("Lecturer");
 		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
+		ArrayList<Object> arr1 = new ArrayList<>();
 		arr1.add("insertQuestionsForExam");
 		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
+		ArrayList<Object> arr2 = new ArrayList<>();
 		arr2.add(examId+"");
 		arr2.add(qIdsStr);
 		arr2.add(qScoresStr);
@@ -330,12 +333,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	}
 
 	private void setCoursesComboBox() {
-		//implement query to import lecturer courses
-		try {
-			ConnectionServer.getInstance();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		ConnectionServer.getInstance();
 		Lecturer lecturer = (Lecturer) ConnectionServer.user;
 		ArrayList<Integer> coursesId = (ArrayList<Integer>) lecturer.getCoursesIdHM().get("courses");
 		for(Integer id: coursesId) {
@@ -422,14 +420,14 @@ public class CreateNewExamController extends AbstractController implements Initi
     	lblErrorSelected.setText(" ");
     	lblScore.setText("0/100");
     	qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
-    	for(QuestionForExam q: qSelected) {
-    		String scoreStr = q.getScore().getText();
+    	for(Object q: qSelected) {
+    		String scoreStr = ((QuestionForExam) q).getScore().getText();
     		if(!scoreStr.matches("\\d+")) {
     			lblErrorSelected.setText("One of the selected questions score is not number, try again.");
     			qSelected = new ArrayList<>();
     			return;
     		}
-    		int score = Integer.parseInt(q.getScore().getText());
+    		int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
     		if(score==0) {
     			lblErrorSelected.setText("One of the selected questions score is set to '0', try again.");
     			qSelected = new ArrayList<>();

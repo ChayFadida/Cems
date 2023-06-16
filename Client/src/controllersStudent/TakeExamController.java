@@ -1,5 +1,6 @@
 package controllersStudent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ import entities.QuestionForExam;
 import entities.QuestionForVirtualExam;
 import entities.Student;
 import javafx.animation.FadeTransition;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,7 +135,7 @@ public class TakeExamController extends AbstractController{
 			msg1.put("param", Arr2);
 			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
-			if(rs1==null) {
+			if(rs1.isEmpty()) {
 				System.out.println("RS is null");
 				return -1;
 			}
@@ -154,11 +156,35 @@ public class TakeExamController extends AbstractController{
 
 	@FXML
     void getManual(ActionEvent event) {
-		//wait for chay
+		FXMLLoader loader = new FXMLLoader();
+		try {
+			Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
+			ManualExamController manualExamController = loader.getController();
+			manualExamController.setExamInfo((int)rs.get(0).get("examId"));
+    		Stage primaryStage = new Stage();
+    		Scene scene = new Scene(root);
+    		primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+			primaryStage.setScene(scene);
+		    primaryStage.show();
+		    super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
+	        FadeTransition fadeC = new FadeTransition();
+	    	fadeC.setNode(apB);
+	    	fadeC.setFromValue(0);
+	    	fadeC.setToValue(1);
+	    	fadeC.play();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
     }
 
     @FXML
-    void getVirtual(ActionEvent event) {
+    void getVirtual() {
     	try {
     		FXMLLoader loader = new FXMLLoader();
     		Parent root = loader.load(getClass().getResource("/guiStudent/VirtualExamScreen.fxml").openStream());
@@ -224,4 +250,6 @@ public class TakeExamController extends AbstractController{
     void getSubmitBtn(ActionEvent event) {
 
     }
+    
+
 }
