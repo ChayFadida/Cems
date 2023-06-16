@@ -69,6 +69,9 @@ public class LecturerTaskManager implements TaskHandler {
 				case "updateExamResultGradeNotes":
 					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<String>)hm.get("params"));
 				default: 
+				case "getInfoForExamStats":
+					return getInfoForExamStats(hm.get("param"));
+		    	default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
@@ -91,6 +94,13 @@ public class LecturerTaskManager implements TaskHandler {
 	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,params));
 	    return rs;
 	}
+
+	private ArrayList<HashMap<String, Object>> getInfoForExamStats(ArrayList<String> arrayList) throws SQLException {
+		 DBController dbController = DBController.getInstance();
+		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForExamStats(arrayList.get(0)));
+		 return rs;
+	}
+
 	private ArrayList<HashMap<String, Object>> updateQuestionBankById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestionBankById(param));
