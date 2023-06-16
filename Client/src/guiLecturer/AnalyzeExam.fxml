@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AnalyzerExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.AnalyzerExamController">
 
    <children>
       <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Exam Analyze:" wrappingWidth="242.0810546875">
@@ -19,12 +19,12 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <BarChart fx:id="BarChart" layoutX="94.0" layoutY="265.0" prefHeight="488.0" prefWidth="613.0">
+      <BarChart fx:id="ExamBarChart" layoutX="94.0" layoutY="265.0" prefHeight="488.0" prefWidth="613.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis fx:id="GradeRow" label="Student's id" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis fx:id="StudentClm" label="Grade" side="LEFT" />
         </yAxis>
       </BarChart>
       <Text layoutX="146.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam Number:" wrappingWidth="192.0810546875">

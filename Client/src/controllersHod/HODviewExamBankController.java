@@ -70,7 +70,7 @@ public class HODviewExamBankController extends AbstractController {
 	private void initTableView(ArrayList<ExamBankView> arr) {
 	   	ObservableList<ExamBankView> list = FXCollections.observableArrayList(arr);
 			PropertyValueFactory<ExamBankView,String> pvfCourse = new PropertyValueFactory<>("courses");
-			PropertyValueFactory<ExamBankView,Integer> pvfExamId = new PropertyValueFactory<>("examId");
+			PropertyValueFactory<ExamBankView,Integer> pvfExamId = new PropertyValueFactory<>("examName");
 			PropertyValueFactory<ExamBankView,String> pvfLecturerFirstName = new PropertyValueFactory<>("firstName");
 			PropertyValueFactory<ExamBankView,String> pvfLecturerLastName = new PropertyValueFactory<>("lastName");
 			PropertyValueFactory<ExamBankView,String> pvfSubject = new PropertyValueFactory<>("subject");
@@ -92,7 +92,7 @@ public class HODviewExamBankController extends AbstractController {
         for (HashMap<String, Object> tmp : rs) {
 		    eArr.add(new ExamBankView((Integer)tmp.get("examId"),
 		    		(String)tmp.get("firstName"),(String)tmp.get("lastName"),
-		    		(String)tmp.get("subject"),(String)tmp.get("courseName")));
+		    		(String)tmp.get("subject"), (String)tmp.get("courseName"), (String)tmp.get("examName")));
         }
 	
 	}
