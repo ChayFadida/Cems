@@ -62,7 +62,13 @@ public class LecturerTaskManager implements TaskHandler {
 					return getQB(hm.get("param"));
 				case "updateQuestionBank":
 					return updateQuestionBankById(hm.get("param"));
-		    	default: 
+				case "getExamsResults":
+					return getExamsByLecturerId((String)hm.get("lecturerId").get(0));
+				case "updateExamResultStatus":
+					return updateExamResultByExamId((String)hm.get("examId").get(0),(String)hm.get("status").get(0));
+				case "updateExamResultGradeNotes":
+					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<String>)hm.get("params"));
+				default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
@@ -70,7 +76,21 @@ public class LecturerTaskManager implements TaskHandler {
 		return null;
 	}
 
-
+	private ArrayList<HashMap<String, Object>> getExamsByLecturerId(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsByComposerId(id));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> updateExamResultByExamId(String examId , String status) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamStatusByExamId(examId,status));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResultByExamId(String examId , ArrayList<String> params) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,params));
+	    return rs;
+	}
 	private ArrayList<HashMap<String, Object>> updateQuestionBankById(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestionBankById(param));
