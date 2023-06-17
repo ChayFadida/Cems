@@ -48,12 +48,24 @@ public class SqlQueries {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
 		return query;
 	}
+	public static String getExamsByComposerId(String id) {
+		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status != 'Done';";
+		return query;
+	}
 	public static String getUserByUserNameAndPass(String pass,String userName) {
 		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
 		return query;
 	}
 	public static String updateUserByUserNameAndPassIsLogged(String pass,String userName, int loggedFlag) {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
+		return query;
+	}
+	public static String updateExamStatusByExamId(String examId,String status) {
+		String query = "UPDATE examresults SET status = '"+ status +"' WHERE examId = "+ examId +";";
+		return query;
+	}
+	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<String> params) {
+		String query = "UPDATE examresults SET notes = '"+ params.get(0) +"' , status = 'Done' ,grade = "+ params.get(1) +" WHERE examId = "+ examId +";";
 		return query;
 	}
 
