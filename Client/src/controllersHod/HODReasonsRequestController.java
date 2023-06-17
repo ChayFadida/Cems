@@ -15,7 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * Controller class for the HOD.
+ * In this controller the HOD will see all of his reasons for changing the time duration.
+ * Extends AbstractController.
+ */
 public class HODReasonsRequestController extends AbstractController{
 	Image img = new Image("Images/exit.png");
     @FXML
@@ -25,41 +29,29 @@ public class HODReasonsRequestController extends AbstractController{
     @FXML
     private ImageView imgExit;
     
+    /**
+     * Display the lecturer reasons for changing the exam duration
+     * @param reasons Show the reasons
+     */
     public void viewReason(String reasons) {
         txtReasons.setText(reasons);
     }
+    /**
+     * exit image for the btnExit
+     */
     public void setExitImage() {
     	imgExit.setImage(img);
     }
+    
+    /**
+     * close current window when clicked.
+     * @param event 
+     */
     @FXML
 	public void getExitBtn(ActionEvent event) {
 		Stage currentStage = (Stage) btnExit.getScene().getWindow();
         currentStage.close();
 	}
-	
-    
-//    public void start(Stage primaryStage) throws IOException {
-////		try {
-//	        Parent root = FXMLLoader.load(getClass().getResource("/guiClient/AreYouSureScreen.fxml"));
-////			Scene scene = new Scene(root);
-////			primaryStage.initStyle(StageStyle.UNDECORATED);
-//////			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-//////			scene.getStylesheets().add(getClass().getResource("/guiHod/HODmenuCSS.css").toExternalForm());
-////			primaryStage.setScene(scene);
-////			primaryStage.show();
-////			 //handle dragging the window
-////	        PressHandler<MouseEvent> press = new PressHandler<>();
-////	        DragHandler<MouseEvent> drag = new DragHandler<>();
-////	        root.setOnMousePressed(press);
-////	        root.setOnMouseDragged(drag);
-////		} catch(Exception e) {
-////			e.printStackTrace();
-////		}
-//		Scene scene = new Scene(root);
-//		primaryStage.setTitle("Reasons");
-//		primaryStage.setScene(scene);
-//		primaryStage.show();
-//	}
 
 }
 
