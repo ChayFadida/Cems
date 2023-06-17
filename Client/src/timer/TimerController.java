@@ -11,6 +11,7 @@ import client.ConnectionServer;
 import controllersStudent.TakeExamController;
 import controllersStudent.VirtualExamController;
 import controllersStudent.ManualExamController;
+import controllersStudent.SimulationPopUpController;
 import entities.QuestionForVirtualExam;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sms.SimulationPopUpController;
 import thirdPart.JsonHandler;
 
 public class TimerController extends AbstractController{
@@ -156,9 +156,9 @@ public class TimerController extends AbstractController{
 	private void openPopUp() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			Parent root = loader.load(FXMLLoader.getDefaultClassLoader().getResource("/Common/sms/SimulationPopUp.fxml").openStream());
+			Parent root = loader.load(getClass().getResource("/guiStudent/SimulationPopUp.fxml").openStream());
 			SimulationPopUpController simulationPopUpController = loader.getController();
-			simulationPopUpController.setLblMsg("Studnet id: "+ConnectionServer.user.getId()+"might cheated");
+			simulationPopUpController.setLblMsg("Studnet id: "+ConnectionServer.user.getId()+" might cheated");
     		Stage primaryStage = new Stage();
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);

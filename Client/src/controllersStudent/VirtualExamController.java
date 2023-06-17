@@ -31,7 +31,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sms.SimulationPopUpController;
 import thirdPart.JsonHandler;
 import timer.Clock;
 import timer.TimeMode;
@@ -345,12 +344,12 @@ public class VirtualExamController extends AbstractController implements Initial
 			}
 			for(HashMap<String,Object> row:rs) {
 				String answers = (String) row.get("answersChosen");
-				HashMap<String,ArrayList<Integer>> jsonHM = JsonHandler.convertJsonToHashMap(answers, String.class, ArrayList.class);
+				HashMap<String,ArrayList<Integer>> jsonHM = JsonHandler.convertJsonToHashMap(answers, String.class, ArrayList.class,Integer.class);
 				ArrayList<Integer> otherStudentAnswers = jsonHM.get("answers");
 				System.out.println(otherStudentAnswers.toString());
 				int wrongAnswers=0;
 				int matchingWrongAnswers=0;
-				for(int i=0;i<q.size();i++) {
+				for(int i=0;i<q.size();i++){
 					QuestionForVirtualExam question = q.get(i);
 					if(question.getSelection()!=0 && Integer.parseInt(question.getRightAnswer())!=question.getSelection() ) {
 						wrongAnswers+=1;
@@ -358,7 +357,7 @@ public class VirtualExamController extends AbstractController implements Initial
 							matchingWrongAnswers+=1;
 					}
 				}
-				if(wrongAnswers==matchingWrongAnswers) {
+				if(wrongAnswers==matchingWrongAnswers){
 					System.out.println("HIIIIIIIII!");
 					String email = getLecturerEmail(examId);
 					openPopUp(email);
@@ -393,10 +392,10 @@ public class VirtualExamController extends AbstractController implements Initial
 	private void openPopUp(String email) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			Parent root = loader.load(FXMLLoader.getDefaultClassLoader().getResource("/Common/sms/SimulationPopUp.fxml").openStream());
+			Parent root = loader.load(getClass().getResource("/guiStudent/SimulationPopUp.fxml").openStream());
 			SimulationPopUpController simulationPopUpController = loader.getController();
 			simulationPopUpController.viewEmail(email);
-			simulationPopUpController.setLblMsg("Studnet id: "+ConnectionServer.user.getId()+"might cheated");
+			simulationPopUpController.setLblMsg("Studnet id: "+ConnectionServer.user.getId()+" might cheated");
 	    	Stage primaryStage = new Stage();
 	    	Scene scene = new Scene(root);
 	    	primaryStage.initStyle(StageStyle.UNDECORATED);

@@ -473,10 +473,10 @@ public class SqlQueries {
 	}
 
 	public static String getLecturerEmailByExamId(Object id) {
-		String query = "SELECT U.email FROM exam AS E"
-				+ "JOIN users AS U ON E.composerId=U.id"
-				+ "WHERE E.examId='"+id+"';";
-		return query;
+		String query = "SELECT U.email FROM exam AS E "
+	            + "JOIN users AS U ON E.composerId = U.id "
+	            + "WHERE E.examId = " + id + ";";
+	    return query;
 	}
 	
 	public static String updateExamInDB() {
