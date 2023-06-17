@@ -394,7 +394,7 @@ public class SqlQueries {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
 	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
-	               "WHERE exam.examId = " + arrayList.get(0);
+	               "WHERE exam.examId = " + arrayList.get(0)+ " AND examresults.status = 'inProgress'; ";
 		return query;
 	}
 
@@ -430,8 +430,55 @@ public class SqlQueries {
 	public static String InsertExamToDB() {
 		return "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked, examFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
-	
 
+	public static String getExamresultByExamAndUserId(ArrayList<Object> param) {
+		String query = "SELECT R.* FROM examresults AS R WHERE R.examId='"+param.get(0)+"' AND R.studentId='"+param.get(1)+"' ;";
+		return query;
+	}
+
+	public static String checkIsLockedByExamId(ArrayList<Object> param) {
+		String query = "SELECT * FROM exam WHERE examId='"+param.get(0)+"' AND isLocked='1' ;";
+		return query;
+	}
+
+	public static String insertToExamresults(ArrayList<Object> param) {
+		String query = "INSERT INTO examresults (examId, studentId, selected, startTime, status)"
+				+ " VALUES ('"+param.get(0)+"', '"+param.get(1)+"', '"+param.get(2)+"', '"+param.get(3)+"', '"+param.get(4)+"');";
+		return query;
+
+	}
+
+	public static String updateExamresults(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET endTime = '"+param.get(2)+"', status = '"+param.get(3)+"' ,"
+				+ " grade = '"+param.get(4)+"', answersChosen = '"+param.get(5)+"' "
+				+ "WHERE examId = '"+ param.get(0) +"'"
+				+ " AND studentId = '"+param.get(1)+"';";
+		return query;
+	}
+
+	public static String checkCountInProgressByExamId(Object id) {
+		String query = "SELECT COUNT(*) AS count FROM examresults WHERE examId='"+id+"' AND status='inProgress' ;";
+		return query;
+	}
+
+	public static String lockExamByExamId(Object id) {
+		String query = "UPDATE exam SET isLocked = '1' WHERE examId='"+id+"' ;";
+		return query;
+	}
+
+	public static String getExamresultsOfOtherStudentsByExamId(ArrayList<Object> param) {
+		String query = "SELECT * FROM examresults WHERE examId='"+param.get(0)+"' AND "
+				+ "status IN ('waiting for approve','Done') AND studentId != '"+param.get(1)+"' ;";
+		return query;
+	}
+
+	public static String getLecturerEmailByExamId(Object id) {
+		String query = "SELECT U.email FROM exam AS E"
+				+ "JOIN users AS U ON E.composerId=U.id"
+				+ "WHERE E.examId='"+id+"';";
+		return query;
+	}
+	
 	public static String updateExamInDB() {
 	    return "UPDATE exam SET examName = ?, courseId = ?, subject = ?, duration = ?, lecturerNote = ?, studentNote = ?, composerId = ?, code = ?, examNum = ?, bankId = ?, isLocked = ?, examFile = ? WHERE examId = ?";
 	}

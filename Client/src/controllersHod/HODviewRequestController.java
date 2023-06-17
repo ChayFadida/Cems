@@ -146,7 +146,7 @@ public class HODviewRequestController extends AbstractController implements Init
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	showTable();				
+		showTable();				
 	}
 	
 	/**

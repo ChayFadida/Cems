@@ -36,6 +36,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import timer.TimerHandler;
 import thirdPart.ExamGenerator;
 import timer.Clock;
 import timer.TimeMode;
@@ -195,7 +196,7 @@ public class ManualExamController extends AbstractController {
     		HashMap<String, Object> info = new HashMap<String, Object>();
     		info.put("byte", fileBytesList.get(0));
     		info.put("startTime", examInfo.get("startTime"));
-    		info.put("endTime", timerHandler.GetCurrentTimestamp());
+    		info.put("endTime", TimerHandler.GetCurrentTimestamp());
     		info.put("examId", examInfo.get("examId"));
     		info.put("studentId", ConnectionServer.getInstance().getUser().getId());
     		info.put("status", "Under Check");
