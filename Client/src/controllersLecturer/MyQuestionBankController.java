@@ -237,8 +237,6 @@ public class MyQuestionBankController extends AbstractController implements Init
     	String questions = (String) bank.get("questions");
     	HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(questions, String.class, ArrayList.class,Integer.class);
 		ArrayList<Integer> questionsInBank = jsonHM.get("questions");
-		System.out.println(questionsInBank);
-//		Integer index=null;
 		if(questionsInBank.contains(id)) {
 			questionsInBank.remove(id);
 			jsonHM.put("questions",questionsInBank);
