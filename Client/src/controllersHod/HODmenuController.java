@@ -116,19 +116,14 @@ public class HODmenuController extends AbstractController implements Initializab
      * Initializing new instance for the HODmenuController class.
      */
     public HODmenuController() {
-    	try {
-    		User user = ConnectionServer.getInstance().getUser();
-			if(user instanceof Super) {
-				this.s = (Super)user;
-				this.hod=s.getHod();
-			}
-			else {
-				this.hod=(Hod) ConnectionServer.getInstance().getUser();
-				this.s=null;
-			}
-		} catch (IOException e) {
-			
-			e.printStackTrace();
+    	User user = ConnectionServer.getInstance().getUser();
+		if(user instanceof Super) {
+			this.s = (Super)user;
+			this.hod=s.getHod();
+		}
+		else {
+			this.hod=(Hod) ConnectionServer.getInstance().getUser();
+			this.s=null;
 		}
     }
     /**

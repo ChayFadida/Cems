@@ -65,11 +65,7 @@ public class StudentMenuController extends AbstractController implements Initial
     private Button btnChay;
     
     public StudentMenuController() {
-    	try {
-			student = (Student) ConnectionServer.getInstance().getUser();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	student = (Student) ConnectionServer.getInstance().getUser();
     }
     @FXML
     void getExitBtn(ActionEvent event) {

@@ -55,6 +55,7 @@ public class ChooseProfileController extends AbstractController{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
     
     /**

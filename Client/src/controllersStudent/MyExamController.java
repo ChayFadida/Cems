@@ -50,8 +50,14 @@ public class MyExamController extends AbstractController implements Initializabl
 			String subject = (String)rs.get(i).get("subject");
 			String examName = (String)rs.get(i).get("examName");
 			String status = (String)rs.get(i).get("status");
-			Integer grade = (Integer)rs.get(i).get("grade");
-			examResArr.add(new ExamResult(examId,courseId,grade,examName,status,subject));
+			if(status.equals("waiting for approve")) {
+				Integer grade = null;
+				examResArr.add(new ExamResult(examId,courseId,ConnectionServer.user.getId(),grade,examName,status,subject));
+			}
+			else {
+				Integer grade = (Integer)rs.get(i).get("grade");
+				examResArr.add(new ExamResult(examId,courseId,ConnectionServer.user.getId(),grade,examName,status,subject));		
+			}
 		}
 	}
     public void showTable() {

@@ -93,7 +93,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
 	}
-	
+  
 	/**
 	 * initialize the controller.
 	 * @param location
@@ -103,5 +103,8 @@ public class HODviewAllStudentsController extends AbstractController implements 
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		
 	}
+
+
+
 
 }

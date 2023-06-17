@@ -16,19 +16,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -76,19 +73,14 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     private Text lblHello;
     public LecturerMenuController() {
-    	try {
-    		User user = ConnectionServer.getInstance().getUser();
-    		if(user instanceof Super) {
-    			this.s = ((Super) user);
-    			this.lecturer = s.getLecturer();
-    		}
-    		else {
-    			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
-    			this.s=null;
-    		}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    	User user = ConnectionServer.getInstance().getUser();
+		if(user instanceof Super) {
+			this.s = ((Super) user);
+			this.lecturer = s.getLecturer();
+		}
+		else {
+			this.lecturer= (Lecturer) ConnectionServer.getInstance().getUser();
+			this.s=null;
 		}
     }
 

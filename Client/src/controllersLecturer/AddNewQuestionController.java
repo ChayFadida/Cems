@@ -32,7 +32,7 @@ import thirdPart.JsonHandler;
 
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	List<String> coursesSelected = new ArrayList<>();
-	ArrayList<Course> courses;
+	HashMap<Integer,String> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
     private MyQuestionBankController myQuestionBankController;
     
@@ -229,9 +229,29 @@ public class AddNewQuestionController extends AbstractController implements Init
 		arr.add("Lecturer");
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getCourses");
+		arr1.add("getCoursesIdByLecturerId");
 		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(ConnectionServer.user.getId() + "");
+		msg.put("param",arr2);
 		super.sendMsgToServer(msg);
+		
+		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
+		ArrayList<String> arr3 = new ArrayList<>();
+		arr3.add("Lecturer");
+		msg1.put("client", arr3);
+		ArrayList<String> arr4 = new ArrayList<>();
+		arr4.add("getCoursesNameById");
+		msg1.put("task",arr4);
+		
+		ArrayList<String> arr5 = new ArrayList<>();
+		@SuppressWarnings("unchecked")
+		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
+		arr5.add(crsId.size() + "");
+		arr5.addAll(crsId);
+		msg1.put("param",arr5);
+		super.sendMsgToServer(msg1);
+		
 		try {
 			this.loadCourses(ConnectionServer.rs);
 		} catch (Exception e) {
@@ -240,7 +260,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 	}
 	
 	private void loadCourses(ArrayList<HashMap<String, Object>> rs) {
-		courses= new ArrayList<>();
+		courses= new HashMap<>();
 		coursesMenuItems= new ArrayList<>();
 		if(rs==null) {
 			System.out.println("RS is null");
@@ -248,8 +268,8 @@ public class AddNewQuestionController extends AbstractController implements Init
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId")));
-		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
+		    courses.put((Integer)element.get("courseID"), (String)element.get("courseName"));
+		    CheckMenuItem checkMenuItem = new CheckMenuItem((String)element.get("courseName"));
 		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
 		    coursesMenuItems.add(checkMenuItem);
 		}
