@@ -152,13 +152,13 @@ public class EditQuestionController extends AbstractController {
 		arr2.add(getSubject());
 		arr2.add(getNotesField());
 		
-		HashMap<String,ArrayList<Double>> HmCourses = new HashMap<>(); //create json of courses
-		ArrayList<Double> doubleList = new ArrayList<>();
+		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
+		ArrayList<Integer> IntegerList = new ArrayList<>();
         for (String str : coursesSelected) {
-            double value = Double.parseDouble(str);
-            doubleList.add(value);
+            Integer value = Integer.parseInt(str);
+            IntegerList.add(value);
         }
-		HmCourses.put("courses", doubleList);
+		HmCourses.put("courses", IntegerList);
 		
 		arr2.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
 		arr2.add(question.getQuestionID() + "");
@@ -167,7 +167,7 @@ public class EditQuestionController extends AbstractController {
 		super.sendMsgToServer(msg);
 		
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    	myQuestionBankController.showTable();	
+    	myQuestionBankController.CourseFilter(event);
     }
     
     void LoadQuestion(Question q) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
@@ -12,6 +13,7 @@ import entities.Course;
 import entities.Lecturer;
 import entities.Question;
 import entities.QuestionForExam;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +33,8 @@ public class CreateNewExamController extends AbstractController implements Initi
 	private ArrayList<Course> courses;
 	private ArrayList<QuestionForExam> qArr;
 	private ArrayList<Object> qSelected=new ArrayList<>();
+	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
+
 	private int sum;
     @FXML
     private ComboBox<Course> CourseComboBox;
@@ -45,7 +49,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     private TableView<QuestionForExam> QuestionTable;
 
     @FXML
-    private TableColumn<QuestionForExam, Integer> clmID;
+    private TableColumn<QuestionForExam, String> clmCourse;
 
     @FXML
     private TableColumn<QuestionForExam, String> clmQuestion;
@@ -142,7 +146,6 @@ public class CreateNewExamController extends AbstractController implements Initi
     	if(name==null)
     		name=" ";
     	createExam(code,duration,lecNotes,studNotes,name);
-    	//implement enter exam to DB
     }
     
 	private void createExam(String code, String duration, String lecNotes, String studNotes,String name) {
@@ -173,7 +176,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		if(rs == null) {
 			System.out.println("RS is null");
 		}
-		System.out.println(rs);
 		BigInteger lastId=  (BigInteger)rs.get(0).get("id");
 		Integer examId = lastId.intValue();
 		addToExamBank(bank,examId);
@@ -356,6 +358,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 			courses=new ArrayList<>();
 			HashMap<String, Object> element = rs.get(0);
 			Course course= new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId"));
+		    HmCourseIdName.put((Integer)element.get("courseID"), (String)element.get("courseName"));
 		    courses.add(course);
 		    CourseComboBox.getItems().add(course);
 		}
@@ -367,7 +370,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 	}
 	
 	private void loadQuestions(Course selectedItem) {
-
 		qArr=new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -399,14 +401,36 @@ public class CreateNewExamController extends AbstractController implements Initi
 
     private void loadTable() {
     	ObservableList<QuestionForExam> list = FXCollections.observableArrayList(qArr);
-		PropertyValueFactory<QuestionForExam, Integer> pvfId = new PropertyValueFactory<>("questionID");
 		PropertyValueFactory<QuestionForExam, String> pvfQuestion = new PropertyValueFactory<>("details");
 		PropertyValueFactory<QuestionForExam, String> pvfSubject = new PropertyValueFactory<>("subject");
 		PropertyValueFactory<QuestionForExam, TextField> pvfScore = new PropertyValueFactory<>("score");		
-		clmID.setCellValueFactory(pvfId);
 		clmSubject.setCellValueFactory(pvfSubject);
 		clmQuestion.setCellValueFactory(pvfQuestion);
 		clmScore.setCellValueFactory(pvfScore);
+		clmCourse.setCellValueFactory(cellData -> {
+		    Question question = cellData.getValue();
+		    String courseId = question.getCourses();
+		    HashMap<String,ArrayList<String>> json = JsonHandler.convertJsonToHashMap(courseId, String.class, ArrayList.class, String.class);
+		    // Split the course IDs into an array
+		    ArrayList<String> courseIds = json.get("courses");
+
+		    // Create a list to store the course names
+		    List<String> courseNames = new ArrayList<>();
+		    // Retrieve the course name for each course ID
+		    for (String id : courseIds) {
+		        int courseIdInt = Integer.parseInt(id.trim());
+		        String courseName = HmCourseIdName.get(courseIdInt);
+		        if (courseName != null) {
+		            courseNames.add(courseName);
+		        }
+		    }
+
+		    // Join the course names into a single string
+		    String joinedNames = String.join(", ", courseNames);
+
+		    return new SimpleStringProperty(joinedNames);
+		});
+
 		QuestionTable.setItems(list);
 		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -439,7 +463,6 @@ public class CreateNewExamController extends AbstractController implements Initi
     	if(sum!=100) {
     		lblErrorSelected.setText("Total score is not '100', change scores and try again.");
     		qSelected = new ArrayList<>();
-    		return;
     	}
     }
 }

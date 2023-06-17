@@ -15,7 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+/**
+ * Controller class for the HOD.
+ * In this controller the HOD can view in a table all the lecturers that belongs the HOD's department.
+ * Extends AbstractController.
+ * Implement Initializable.
+ */
 public class HODviewAllLecturersTableController extends AbstractController implements Initializable{
 	
 	private ArrayList<Lecturer> lecArr ;
@@ -29,7 +34,12 @@ public class HODviewAllLecturersTableController extends AbstractController imple
     public TableColumn<Lecturer, String> email;
     @FXML
     private TableView<Lecturer> AllLecturersTable;
-
+    
+    /**
+     * Loads ArrayList of lecturers according to the rs = result set. 
+     * @param rs the data about the lecturers from the query.
+     * @throws Exception in case there is an error while loads.
+     */
     public void loadLecturers(ArrayList<HashMap<String, Object>> rs) throws Exception {
     	lecArr = new ArrayList<Lecturer>();
     	if(rs == null) {
@@ -39,6 +49,10 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 		    lecArr.add(new Lecturer(rs.get(i),null,null));
 		}
 	}
+    
+    /**
+     * Show the table of all the lecturers from the HOD department
+     */
     @FXML
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -62,6 +76,11 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 		}
 		initTableView(lecArr);
 	}
+    
+    /**
+     * Initialize the table and sets the columns with the wanted data
+     * @param arr
+     */
 	private void initTableView(ArrayList<Lecturer> arr) {
 		ObservableList<Lecturer> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Lecturer, Integer> pvfId = new PropertyValueFactory<Lecturer, Integer>("id");
@@ -74,6 +93,12 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 		email.setCellValueFactory(pvfEmail);
 		AllLecturersTable.setItems(list);
 	}
+	
+	/**
+	 * Initialize the controller
+	 * @param location
+	 * @param resources 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		

@@ -175,7 +175,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		Integer questionId = lId.intValue();
     		addToQB(questionId);
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-    		myQuestionBankController.showTable();
+    		myQuestionBankController.CourseFilter(event);
     	}
     }
     private void addToQB(Integer id) {

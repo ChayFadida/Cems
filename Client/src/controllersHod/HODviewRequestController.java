@@ -28,6 +28,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Controller class for the HOD.
+ * In this controller the HOD can view all the time change requests that are waiting for approve or deny.
+ * Extends AbstractController.
+ * Implements Initializable.
+ */
 public class HODviewRequestController extends AbstractController implements Initializable{
 	private ArrayList<Request> examArr ;
 	ArrayList<CheckMenuItem> requestsSelected;
@@ -60,7 +66,11 @@ public class HODviewRequestController extends AbstractController implements Init
     @FXML
     private TableView<Request> RequestsTable;
 
-	
+	/**
+	 * Loads the relevant information to get from the DB
+	 * @param rs Hash Map result set from the DB
+	 * @throws Exception in case of error while loading.
+	 */
 	public void loadRequests(ArrayList<HashMap<String, Object>> rs) throws Exception {
     	examArr = new ArrayList<Request>();
     	if(rs == null) {
@@ -79,7 +89,10 @@ public class HODviewRequestController extends AbstractController implements Init
 		    examArr.add(new Request(requestId,examId,lecturerId,courseId,subject,oldDuration,newDuration,status,reasons));
 		}
 	}
-		
+	
+	/**
+	 * send to the server message for activate the relevant query and activate initTableView
+	 */
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -102,6 +115,11 @@ public class HODviewRequestController extends AbstractController implements Init
 		}
 		initTableView(examArr);
 	}
+	
+	/**
+	 * Initialize the Table with the provided ArrayList of requests
+	 * @param arr ArrayList of requests to display.
+	 */
 	private void initTableView(ArrayList<Request> arr) {
 		ObservableList<Request> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Request, Integer> pvfrequestId = new PropertyValueFactory<Request, Integer>("requestId");
@@ -123,10 +141,19 @@ public class HODviewRequestController extends AbstractController implements Init
 
 	}
 	
+	/**
+	 * Initialize the table
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();				
 	}
+	
+	/**
+	 * HOD watch the full lecturer reason for wanting to change exam duration.
+	 * Sends message to server and activate the relevant query to get the info.
+	 * @param event JavaFx action event that activates when pressing the view reasons button
+	 */
 	@FXML
 	public void getviewReasonsbtn(ActionEvent event) {
 		ArrayList<Request> selectedId = new ArrayList<>();
@@ -177,6 +204,10 @@ public class HODviewRequestController extends AbstractController implements Init
 		}
 	}
 	
+	/**
+	 * Approve the time change request, change request status to approved and delete the request from the DB.
+	 * @param event JavaFx action event that activate when pressing approve button.
+	 */
     @FXML
 	private void getApproveButton(ActionEvent event) {
 		ArrayList<Request> selectedId = new ArrayList<>();
@@ -207,6 +238,10 @@ public class HODviewRequestController extends AbstractController implements Init
 			}
 		}
 	}
+    
+    /**
+     * HOD watch the full reason for the time change request in a pop up window 
+     */
     private void simulatePopUp() {
     	ArrayList<Request> selectedId = new ArrayList<>();
 		selectedId.addAll(RequestsTable.getSelectionModel().getSelectedItems());
@@ -252,6 +287,11 @@ public class HODviewRequestController extends AbstractController implements Init
 			}
 		}
     }
+    
+	/**
+	 * Deny the time change request, change request status to denied and delete the request from the DB.
+	 * @param event JavaFx action event that activate when pressing deny button.
+	 */
     @FXML
 	private void getDenyButton(ActionEvent event) {
 		ArrayList<Request> selectedId = new ArrayList<>();

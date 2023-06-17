@@ -17,11 +17,11 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="QuestionTable" layoutX="91.0" layoutY="93.0" prefHeight="230.0" prefWidth="567.0">
+      <TableView fx:id="QuestionTable" layoutX="91.0" layoutY="93.0" prefHeight="230.0" prefWidth="592.0">
         <columns>
-          <TableColumn fx:id="clmID" prefWidth="84.0" text="Question ID" />
-          <TableColumn fx:id="clmSubject" prefWidth="128.0" text="Subject" />
             <TableColumn fx:id="clmQuestion" prefWidth="264.0" text="Question" />
+          <TableColumn fx:id="clmSubject" prefWidth="128.0" text="Subject" />
+          <TableColumn fx:id="clmCourse" prefWidth="105.0" text="Course" />
             <TableColumn fx:id="clmScore" prefWidth="90.0" text="Score" />
         </columns>
       </TableView>
@@ -68,12 +68,12 @@
       <Label fx:id="lblErrorCode" alignment="TOP_LEFT" layoutX="90.0" layoutY="388.0" prefHeight="51.0" prefWidth="198.0" wrapText="true" />
       <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="467.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
       <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="549.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
-      <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="692.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="702.0" layoutY="182.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Button fx:id="btnSelected" alignment="CENTER" layoutX="675.0" layoutY="209.0" mnemonicParsing="false" onAction="#getSelected" prefHeight="31.0" prefWidth="110.0" text="Add selected">
+      <Button fx:id="btnSelected" alignment="CENTER" layoutX="684.0" layoutY="208.0" mnemonicParsing="false" onAction="#getSelected" prefHeight="31.0" prefWidth="110.0" text="Add selected">
          <font>
             <Font size="10.0" />
          </font>

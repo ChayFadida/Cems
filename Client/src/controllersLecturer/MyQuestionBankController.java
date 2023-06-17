@@ -273,7 +273,7 @@ public class MyQuestionBankController extends AbstractController implements Init
 		msg.put("param",arr2);
 		super.sendMsgToServer(msg);;
 		deleteFromQB(selectedItem.getQuestionID());
-		showTable();
+		CourseFilter(event);
     }
 
 	private void deleteFromQB(Integer id) {

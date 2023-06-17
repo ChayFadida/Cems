@@ -43,6 +43,8 @@ public class StudentTaskManager implements TaskHandler{
 					return getExamresultsOfOtherStudentsByExamId(hm.get("param"));
 				case "getLecturerEmailByExamId":
 					return getLecturerEmailByExamId(hm.get("param"));
+				case "getExamFile":
+					return getExamFile(hm.get("param").get(0));
 				default: 
 			    	System.out.println("no such method for Student");
 				}
@@ -98,6 +100,11 @@ public class StudentTaskManager implements TaskHandler{
 	    return rs;
 	}
 
+	private ArrayList<HashMap<String, Object>> getExamFile(Object examId) throws SQLException{
+		DBController dbController = DBController.getInstance();
+		return dbController.executeQueries(SqlQueries.getExamFileByExamId((Integer) examId));
+	}
+	
 	private ArrayList<HashMap<String, Object>> UploadTestsToDB(Object param){
 		HashMap<String, Object> argument = (HashMap<String, Object>) param;
 		DBController dbController = DBController.getInstance();

@@ -76,6 +76,9 @@ public class ConnectClientScreenController extends AbstractController{
 	 *@param event
 	 * */
 	public void getShutdownBtn(ActionEvent event) throws Exception {
+		if(ConnectionServer.getInstance() == null) {
+			System.exit(0);
+		}
 		ConnectionServer.getInstance().quit();
 		System.out.println("exit Academic Tool");
 		System.exit(0);
