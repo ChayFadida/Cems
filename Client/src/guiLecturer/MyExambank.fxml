@@ -15,12 +15,12 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="tblExams" layoutX="114.0" layoutY="140.0" prefHeight="320.0" prefWidth="573.0">
+      <TableView fx:id="tblExams" layoutX="114.0" layoutY="140.0" prefHeight="320.0" prefWidth="576.0">
         <columns>
-          <TableColumn prefWidth="150.0" text="Exam Name" />
-          <TableColumn prefWidth="138.0" text="Course" />
-            <TableColumn prefWidth="157.0" text="Subject" />
-            <TableColumn prefWidth="127.0" text="Duration" />
+          <TableColumn fx:id="clmExamName" prefWidth="150.0" text="Exam Name" />
+          <TableColumn fx:id="clmCourse" prefWidth="138.0" text="Course" />
+            <TableColumn fx:id="clmSubject" prefWidth="157.0" text="Subject" />
+            <TableColumn fx:id="clmDuration" prefWidth="127.0" text="Duration" />
         </columns>
       </TableView>
       <Button id="EditExamButton" fx:id="EditExamButton" layoutX="219.0" layoutY="481.0" mnemonicParsing="false" onAction="#EditExam" prefHeight="25.0" prefWidth="363.0" style="-fx-background-radius: 90;" text="Edit Exam" textAlignment="CENTER">
@@ -38,7 +38,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <ComboBox id="CourseComboBox" fx:id="CourseComboBox" layoutX="263.0" layoutY="78.0" prefHeight="8.0" prefWidth="148.0" styleClass="ddl-view" />
+      <ComboBox id="CourseComboBox" fx:id="CourseComboBox" layoutX="263.0" layoutY="78.0" onAction="#CourseFilter" prefHeight="8.0" prefWidth="148.0" promptText="Courses Filter" styleClass="ddl-view" />
       <Text layoutX="114.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select an Exam:" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />

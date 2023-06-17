@@ -100,7 +100,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 			boolean flag =false;
 			switch((String)userHM.get("position")) {
 				case "Lecturer":
-					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesId = (String) getCoursesIdByLecturerId((int)userHM.get("id")).get("courseId");
 					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = (Integer)getDepartmentByLecturerId((int)userHM.get("id"));
 					user = new Lecturer(userHM,coursesIdHM,department);
@@ -128,7 +128,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 					user.setIsLogged(true);
 					break;
 				case "Super":
-					coursesId = (String) getCoursesByLecturerId((int)userHM.get("id")).get("courseId");
+					coursesId = (String) getCoursesIdByLecturerId((int)userHM.get("id")).get("courseId");
 					coursesIdHM = JsonHandler.convertJsonToHashMap(coursesId, String.class, ArrayList.class,Integer.class);
 					department = getDepartmentByHodId((int)userHM.get("id"));
 					user = new Super(userHM,coursesIdHM,department);
@@ -156,7 +156,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 	}
 	private boolean hasExamBank(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamBank(id));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamBankByLecId(id + ""));
 		return !rs.isEmpty();
 	}
 	private boolean insertQuestionBank(int id) {
@@ -166,7 +166,7 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 	}
 	private boolean hasQuestionBank(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(id));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(id +""));
 		return !rs.isEmpty();
 	}
 	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
@@ -195,12 +195,11 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		return !rs.isEmpty();
 	}
 
-	private HashMap<String, Object> getCoursesByLecturerId(int id) throws SQLException{
+	private HashMap<String, Object> getCoursesIdByLecturerId(int id) throws SQLException{
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesByLecturerId(id));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesIdByLecturerId(id));
 		return rs.get(0);
 
-		
 	}
 	private Integer getDepartmentByStudentId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();

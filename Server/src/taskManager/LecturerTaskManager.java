@@ -26,21 +26,26 @@ public class LecturerTaskManager implements TaskHandler {
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		@SuppressWarnings("unchecked")
-		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;
-		
+		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;		
 		String task = (String) hm.get("task").get(0);
 		try {
 			switch (task) {
-				case "getQustionBankById":
+				case "getQuestionsById":
 		    		return getQuestionsById(hm.get("param"));
-				case "getCourses":
-					return getCourses();
+				case "getQuestionsByIdByCourse":
+		    		return getQuestionsByIdByCourse(hm.get("param"));
+				case "getExamsById":
+		    		return getExamsById(hm.get("param"));
+				case "getCoursesIdByLecturerId":
+					return getCoursesIdByLecturerId(hm.get("param"));
 				case "addNewQuestion":
 					return addNewQuestion(hm.get("param"));
 				case "updateQuestion":
 					return updateQuestion(hm.get("param"));
 				case "deleteQuestion":
 					return deleteQuestion(hm.get("param"));
+				case "deleteExam":
+					return deleteExam(hm.get("param"));
 				case "getCoursesNameById":
 					return getCoursesNameById(hm.get("param"));
 				case "getAllQuestions":
@@ -49,6 +54,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return AddDurationRequest(hm.get("param"));
 				case "getLecturerExams":
 					return getLecturerExams(hm.get("param"));
+				case "getLecturerExamsByCourse":
+					return getLecturerExamsByCourse(hm.get("param"));
 				case "getCoursesByCourseId":
 					return getCoursesByCourseId(hm.get("param"));
 				case "getQuestionsByIdAndCourse":
@@ -68,7 +75,7 @@ public class LecturerTaskManager implements TaskHandler {
 				case "LockExamById":
 					return LockExamById(hm.get("param"));
 				case "getQuestionBank":
-					return getQB(hm.get("param"));
+					return getQuestionBank(hm.get("param"));
 				case "updateQuestionBank":
 					return updateQuestionBankById(hm.get("param"));
 				case "getExamsResults":
@@ -115,6 +122,12 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 
+	private ArrayList<HashMap<String, Object>> getQuestionBank(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(param.get(0)));
+		return rs;
+	}
+	
 	private ArrayList<HashMap<String, Object>> getQB(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQBByLecId(arrayList.get(0)));
@@ -207,9 +220,22 @@ public class LecturerTaskManager implements TaskHandler {
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsById(arrayList.get(0)));
 		return rs;
 	}
-	public ArrayList<HashMap<String, Object>> getCourses() throws SQLException {
+	
+	public ArrayList<HashMap<String, Object>> getQuestionsByIdByCourse(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllTable("courses"));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsByIdByCourse(param));
+		return rs;
+	}
+	
+	public ArrayList<HashMap<String, Object>> getExamsById(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsById(param.get(0)));
+		return rs;
+	}
+	
+	public ArrayList<HashMap<String, Object>> getCoursesIdByLecturerId(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesIdByLecturerId(Integer.parseInt(param.get(0))));
 		return rs;
 	}
 	
@@ -224,16 +250,23 @@ public class LecturerTaskManager implements TaskHandler {
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestion(param));
 		return rs;
 	}
-	
-	private ArrayList<HashMap<String, Object>> deleteQuestion(ArrayList<Object> param) {
+
+	private ArrayList<HashMap<String, Object>> deleteQuestion(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.deleteQuestion(param));
 		return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> getCoursesNameById(ArrayList<Object> param) {
+	private ArrayList<HashMap<String, Object>> deleteExam(ArrayList<String> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.getCoursesNameById(param));
+		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.deleteExam(param));
+		return rs;
+	}
+	
+
+	private ArrayList<HashMap<String, Object>> getCoursesNameById(ArrayList<Object> param) throws SQLException{
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesNameById(param));
 		return rs;
 	}
 	
@@ -246,6 +279,12 @@ public class LecturerTaskManager implements TaskHandler {
 	private ArrayList<HashMap<String, Object>> getLecturerExams(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExams(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> getLecturerExamsByCourse(ArrayList<String> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExamsByCourse(param));
 		return rs;
 	}
 	
