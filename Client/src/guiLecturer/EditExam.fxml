@@ -6,8 +6,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -19,11 +17,11 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="QuestionTable" layoutX="91.0" layoutY="93.0" prefHeight="230.0" prefWidth="595.0">
+      <TableView fx:id="QuestionTable" layoutX="91.0" layoutY="93.0" prefHeight="230.0" prefWidth="567.0">
          <columns>
             <TableColumn fx:id="clmQuestion" prefWidth="264.0" text="Question" />
             <TableColumn fx:id="clmSubject" prefWidth="128.0" text="Subject" />
-            <TableColumn fx:id="clmCourse" prefWidth="110.0" text="Course" />
+            <TableColumn fx:id="clmCourse" prefWidth="84.0" text="Course" />
             <TableColumn fx:id="clmScore" prefWidth="90.0" text="Score" />
          </columns>
       </TableView>
@@ -70,12 +68,12 @@
       <Label fx:id="lblErrorCode" alignment="TOP_LEFT" layoutX="90.0" layoutY="388.0" prefHeight="51.0" prefWidth="198.0" wrapText="true" />
       <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="467.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
       <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="549.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
-      <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="701.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="692.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Button fx:id="btnSelected" alignment="CENTER" layoutX="689.0" layoutY="208.0" mnemonicParsing="false" onAction="#getSelected" prefHeight="31.0" prefWidth="110.0" text="Add selected">
+      <Button fx:id="btnSelected" alignment="CENTER" layoutX="675.0" layoutY="209.0" mnemonicParsing="false" onAction="#getSelected" prefHeight="31.0" prefWidth="110.0" text="Add selected">
          <font>
             <Font size="10.0" />
          </font>
@@ -88,27 +86,5 @@
       </Text>
       <TextField fx:id="txtName" layoutX="171.0" layoutY="514.0" prefHeight="25.0" prefWidth="148.0" promptText="Algebra1 winter term A" />
       <Label fx:id="lblErrorName" alignment="TOP_LEFT" layoutX="90.0" layoutY="541.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
-      <AnchorPane layoutX="601.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="CloseBtn" layoutX="119.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
-               <graphic>
-                  <ImageView fitHeight="48.0" fitWidth="60.0" preserveRatio="true">
-                     <image>
-                        <Image url="@/Images/exit.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="MinimizeBtn" layoutX="59.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
-               <graphic>
-                  <ImageView fitHeight="48.0" fitWidth="60.0" preserveRatio="true">
-                     <image>
-                        <Image url="@/Images/minimize.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </AnchorPane>
    </children>
 </AnchorPane>
