@@ -21,9 +21,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import timer.Clock;
 import timer.TimeMode;
 import timer.TimerController;
+import timer.Clock;
 
 public class VirtualExamController extends AbstractController implements Initializable{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();

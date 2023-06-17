@@ -76,8 +76,7 @@ public class LecturerTaskManager implements TaskHandler {
 				case "updateExamResultStatus":
 					return updateExamResultByExamId((String)hm.get("examId").get(0),(String)hm.get("status").get(0));
 				case "updateExamResultGradeNotes":
-					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<String>)hm.get("params"));
-				default: 
+					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<Object>)hm.get("params"));
 				case "getInfoForExamStats":
 					return getInfoForExamStats(hm.get("param"));
 		    	default: 
@@ -98,13 +97,13 @@ public class LecturerTaskManager implements TaskHandler {
 	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamStatusByExamId(examId,status));
 	    return rs;
 	}
-	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResultByExamId(String examId , ArrayList<String> params) throws SQLException {
+	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResultByExamId(String examId , ArrayList<Object> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
-	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,params));
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,arrayList));
 	    return rs;
 	}
 
-	private ArrayList<HashMap<String, Object>> getInfoForExamStats(ArrayList<String> arrayList) throws SQLException {
+	private ArrayList<HashMap<String, Object>> getInfoForExamStats(ArrayList<Object> arrayList) throws SQLException {
 		 DBController dbController = DBController.getInstance();
 		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForExamStats(arrayList.get(0)));
 		 return rs;
