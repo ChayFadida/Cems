@@ -204,11 +204,7 @@ public class LogInController extends AbstractController{
     
     @FXML
     void getExitBtn(ActionEvent event) {
-    	try {
-			ConnectionServer.getInstance().quit();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	ConnectionServer.getInstance().quit();
 		System.out.println("exit Academic Tool");
 		System.exit(0);
     }

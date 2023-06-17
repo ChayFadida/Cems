@@ -4,7 +4,7 @@ public class TimeMode {
 
     private int seconds;
 
-    TimeMode(int minutes) {
+    public TimeMode(int minutes) {
         seconds = minutes * 60;
     }
 

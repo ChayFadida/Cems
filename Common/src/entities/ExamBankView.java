@@ -7,16 +7,29 @@ public class ExamBankView {
 	private String lastName;
 	private String subject;
 	private String courses;
-	
-	public ExamBankView(Integer examId, String firstName, String lastName, String subject, String courses) {
+	private String examName;
+
+
+
+	public ExamBankView(Integer examId, String firstName, String lastName, String subject, String courses, String examName) {
 		super();
 		this.examId = examId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.subject = subject;
 		this.courses = courses;
+		this.examName = examName;
 	}
 	
+	
+	public String getExamName() {
+		return examName;
+	}
+
+
+	public void setExamName(String examName) {
+		this.examName = examName;
+	}
 	
 	public Integer getExamId() {
 		return examId;

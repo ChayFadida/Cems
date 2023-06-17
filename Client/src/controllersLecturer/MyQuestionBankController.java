@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
@@ -381,4 +380,3 @@ public class MyQuestionBankController extends AbstractController implements Init
 	}
 
 }
-

@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="319.0" prefWidth="961.0" style="-fx-background-color: #e8e1e9;" styleClass="style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timer.TimerExampleController">
-   <children>
+<AnchorPane prefHeight="319.0" prefWidth="961.0" style="-fx-background-color: #e8e1e9;" styleClass="style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="timer.TimerExampleControllertroller">
+	<children>
       <GridPane prefHeight="319.0" prefWidth="961.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="0.0" prefWidth="166.0" />

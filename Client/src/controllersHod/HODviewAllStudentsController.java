@@ -77,7 +77,6 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		AllStudentsTable.setItems(list);
 	}
 
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		

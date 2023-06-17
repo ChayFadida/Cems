@@ -1,20 +1,12 @@
 package timer;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 
 public class TimerExampleController {
@@ -46,14 +38,14 @@ public class TimerExampleController {
     private CountDown countdown;
     private Clock clock;
 
-    @FXML
-    public void initialize() {
-    	TimeMode timeMode = new TimeMode(1);//set TimeMode to 120 min - need to take it from DB
-        clock = new Clock(
-                this, lblHour,lblMin,lblSec, clockProgressBar, timeMode); 
-        countdown = new CountDown(timeMode, clock);
-        //initializeButtonToMode();
-    }
+//    @FXML
+//    public void initialize() {
+//    	TimeMode timeMode = new TimeMode(1);//set TimeMode to 120 min - need to take it from DB
+//        clock = new Clock(
+//                this, lblHour,lblMin,lblSec, clockProgressBar, timeMode); 
+//        countdown = new CountDown(timeMode, clock);
+//        //initializeButtonToMode();
+//    }
 
     public void toggleBtnClicked() {
         if (countdown.isRunning())

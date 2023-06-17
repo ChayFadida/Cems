@@ -1,8 +1,8 @@
 package taskManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import java.util.HashMap;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,7 +78,6 @@ public class HODTaskManager implements TaskHandler{
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentDoneExamsIdANDgradeByID(arrayList.get(0)));
 	    return rs;
 	}
-
 	private ArrayList<HashMap<String, Object>> getUserById(String id) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserById(id));

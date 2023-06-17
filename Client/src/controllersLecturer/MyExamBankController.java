@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
 import javax.management.MBeanServerConnection;
-
 import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
@@ -16,6 +14,7 @@ import entities.Question;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import entities.Exam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -100,7 +99,6 @@ public class MyExamBankController extends AbstractController implements Initiali
         }
 
 	}
-	
 
     @FXML
     void DeleteExam(ActionEvent event) {
@@ -244,7 +242,6 @@ public class MyExamBankController extends AbstractController implements Initiali
         clmCourse.setCellValueFactory(cellData -> {
             Exam exam = cellData.getValue();
             Integer courseId = exam.getCourseId();
-
             // Retrieve the course name based on the course ID
             String courseName = HmCourseIdName.get(courseId);
 
@@ -294,6 +291,4 @@ public class MyExamBankController extends AbstractController implements Initiali
     	    }
     	}
     }
-
-
 }
