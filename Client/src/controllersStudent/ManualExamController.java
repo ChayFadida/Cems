@@ -41,7 +41,7 @@ import thirdPart.ExamGenerator;
 import timer.Clock;
 import timer.TimeMode;
 import timer.TimerController;
-import timer.timerHandler;
+import timer.TimerHandler;
 import javafx.stage.FileChooser;
 import java.io.File;
 
@@ -211,11 +211,11 @@ public class ManualExamController extends AbstractController {
     
     public void setExamInfo(ArrayList<HashMap<String,Object>> rs) {
     	examInfo.put("examId", (int)rs.get(0).get("examId"));
-    	examInfo.put("startTime", timerHandler.GetCurrentTimestamp());
+    	examInfo.put("startTime", TimerHandler.GetCurrentTimestamp());
     	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
         timerController = new TimerController();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
-		timerController.start(clock, timeMode);
+		//timerController.start(clock, timeMode);
     }
 
 }

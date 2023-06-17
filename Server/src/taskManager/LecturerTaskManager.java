@@ -94,7 +94,6 @@ public class LecturerTaskManager implements TaskHandler {
 					return updateQuestionInExamInDB(hm.get("param"));
 				case "getQuestionsInExam":
 					return getQuestionsInExam(hm.get("param"));
-		    	default: 
 				case "getExamResultChosenAnswers":
 					return getExamResultChosenAnswers((String) hm.get("examId").get(0));
 				case "getExamQuestions":
