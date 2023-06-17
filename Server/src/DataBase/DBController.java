@@ -173,6 +173,8 @@ public class DBController {
 		return result;
 	}
 	
+
+	
 	public ArrayList<HashMap<String, Object>> insertQueries(String sqlQueries) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 	    try {
@@ -211,6 +213,30 @@ public class DBController {
 	                hm.put("id", generatedKeys.getObject(1));
 	            }
 
+	            result.add(hm);
+	        }
+
+	        statement.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return result;
+	}
+	
+	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQuery, List<Object[]> parameterValuesList) {
+	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+	    try {
+	        PreparedStatement statement = conn.prepareStatement(sqlQuery);
+
+	        for (Object[] parameterValues : parameterValuesList) {
+	            // Set values for each parameter
+	            for (int i = 0; i < parameterValues.length; i++) {
+	                statement.setObject(i + 1, parameterValues[i]);
+	            }
+
+	            int affectedRows = statement.executeUpdate();
+	            HashMap<String, Object> hm = new HashMap<>();
+	            hm.put("affectedRows", affectedRows);
 	            result.add(hm);
 	        }
 
