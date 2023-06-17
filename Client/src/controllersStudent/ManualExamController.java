@@ -36,6 +36,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import thirdPart.ExamGenerator;
+import timer.Clock;
+import timer.TimeMode;
+import timer.TimerController;
 import timer.timerHandler;
 import javafx.stage.FileChooser;
 import java.io.File;
@@ -45,6 +49,10 @@ public class ManualExamController extends AbstractController {
     private List<byte[]> fileBytesList = new ArrayList<>();
     private List<File> fileList = new ArrayList<>();
 	private HashMap<String, Object> examInfo = new HashMap<>();
+	TimeMode timeMode;
+	TimerController timerController;
+	Clock clock;
+	int time;
     @FXML
     private Button btnBrowse;
 
@@ -115,17 +123,35 @@ public class ManualExamController extends AbstractController {
 
     @FXML
     void getDownloadBtn(ActionEvent event) {
+    	HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+    	ArrayList<Object> arr = new ArrayList<>();
+    	arr.add("Student");
+    	msg.put("client", arr);
+    	ArrayList<Object> task = new ArrayList<>();
+		task.add("getExamFile");
+		msg.put("task",task);
+		ArrayList<Object> param = new ArrayList<>();
+		param.add(examInfo.get("examId"));
+		msg.put("param", param);
+		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		byte[] fileBytes = (byte[])rs.get(0).get("examFile");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*.*"));
-        
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Word Documents (*.doc)", "*.doc"));
+
         // Show the file save dialog
         Stage stage = new Stage();
         File saveFile = fileChooser.showSaveDialog(stage);
-        
+
         if (saveFile != null) {
+            if (!saveFile.getName().toLowerCase().endsWith(".doc")) {
+                saveFile = new File(saveFile.getParentFile(), saveFile.getName() + ".doc");
+            }
+
             try (FileOutputStream outputStream = new FileOutputStream(saveFile)) {
-                //outputStream.write(fileBytes);
+                outputStream.write(fileBytes);
+                outputStream.close();
                 System.out.println("File saved successfully.");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -154,9 +180,6 @@ public class ManualExamController extends AbstractController {
     		task.add("UploadTestsToDB");
     		msg.put("task",task);
     		ArrayList<Object> param = new ArrayList<>();
-
-    		
-
     		HashMap<String, Object> info = new HashMap<String, Object>();
     		info.put("byte", fileBytesList.get(0));
     		info.put("startTime", examInfo.get("startTime"));
@@ -172,8 +195,13 @@ public class ManualExamController extends AbstractController {
         }        
     }
     
-    public void setExamInfo(int ExamId) {
-    	examInfo.put("examId", ExamId);
+    public void setExamInfo(ArrayList<HashMap<String,Object>> rs) {
+    	examInfo.put("examId", (int)rs.get(0).get("examId"));
     	examInfo.put("startTime", timerHandler.GetCurrentTimestamp());
+    	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
+        timerController = new TimerController();
+		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
+		timerController.start(clock, timeMode);
     }
+
 }

@@ -21,7 +21,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import timer.Clock;
 import timer.TimeMode;
 import timer.TimerController;
 import java.time.format.DateTimeFormatter;  

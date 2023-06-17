@@ -11,7 +11,7 @@ public class QuestionForExam extends Question implements Serializable{
 	public QuestionForExam(Question question,String score) {
 		super(question.getQuestionID(), question.getDetails(), question.getRightAnswer(),
 				question.getQuestionBank(), question.getSubject(), 
-				question.getNotes(), question.getAnswers(),question.getCourses());
+				question.getAnswers(), question.getNotes(),question.getCourses());
 		this.score = new TextField(score);
 	}
 	
