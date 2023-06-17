@@ -180,7 +180,6 @@ public class TakeExamController extends AbstractController{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
     }
   
     @FXML
@@ -245,12 +244,27 @@ public class TakeExamController extends AbstractController{
 		}
 		return rs;
 	}
-	
-
-	
     @FXML
     void getSubmitBtn(ActionEvent event) {
 
+    }
+    
+    
+    
+    public static void showBlockedPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
+            BlockedPopupController blockedPopupController = loader.getController();
+    		Stage primaryStage = new Stage();
+            Parent root = loader.load();
+    		Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
 

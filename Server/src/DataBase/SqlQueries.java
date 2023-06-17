@@ -426,7 +426,21 @@ public class SqlQueries {
 	public static String getExamFileByExamId(Integer examId) {
 		return "SELECT examFile FROM exam WHERE examId ='"+ examId + "';";
 	}
+	
+	public static String getStudentWithExamIdAndInProgress(ArrayList<Object> examIds) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT * FROM examresults WHERE examId IN (");
 
+		// Build the comma-separated list of examId values
+		for (int i = 0; i < examIds.size(); i++) {
+		    queryBuilder.append(examIds.get(i));
+		    if (i < examIds.size() - 1) {
+		        queryBuilder.append(", ");
+		    }
+		}
+		queryBuilder.append(") AND status = 'inProgress';");
+		return queryBuilder.toString();
+	}
 //	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
 //	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
 //			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";

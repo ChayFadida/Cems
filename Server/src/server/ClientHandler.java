@@ -8,14 +8,16 @@ import java.util.HashMap;
 import ocsf.server.*;
 import taskManager.*;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 //echo server
 public class ClientHandler extends AbstractServer {
-	
+    private ArrayList<ConnectionToClient> connectedClients;
 	private static ClientHandler instance;
 	private int port = 8000;
 	
+
 //	/**
 //	 *constructor for default port for server
 //	 * */
@@ -23,6 +25,7 @@ public class ClientHandler extends AbstractServer {
 //		super(8000);
 //		this.port = 8000;
 //	}
+
 
 	/**
 	 *constructor for user to set server port
@@ -120,4 +123,13 @@ public class ClientHandler extends AbstractServer {
 	private String getUserType(HashMap<String, ArrayList<String>> msg) {
 		return msg.get("client").get(0);
 	}
+	
+	/**
+	 * Sends a message to all connected clients.
+	 * @param msg The message to send.
+	 */
+	public void sendToAllClients(Object msg) {
+		super.sendToAllClients(msg);
+	}
+	
 }

@@ -49,6 +49,8 @@ public class ManualExamController extends AbstractController {
     private List<byte[]> fileBytesList = new ArrayList<>();
     private List<File> fileList = new ArrayList<>();
 	private HashMap<String, Object> examInfo = new HashMap<>();
+	private boolean filesDragged = false;
+
 	TimeMode timeMode;
 	TimerController timerController;
 	Clock clock;
@@ -82,6 +84,7 @@ public class ManualExamController extends AbstractController {
         boolean success = false;
         if (event.getDragboard().hasFiles()) {
             List<File> files = event.getDragboard().getFiles();
+            
             // Process the dropped files
             for (File file : files) {
                 System.out.println("Dropped file: " + file.getAbsolutePath());
@@ -89,11 +92,18 @@ public class ManualExamController extends AbstractController {
                 try {
 					byte[] fileBytes = Files.readAllBytes(file.toPath());
                     fileBytesList.add(fileBytes);
+                    
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
             }
+            // Display a visual element or text inside the Pane to indicate the dragged files
+            Label fileLabel = new Label("Files Dropped");
+            fileLabel.setStyle("-fx-font-size: 18px;");
+            fileLabel.setLayoutX(10);
+            fileLabel.setLayoutY(10);
+            pane.getChildren().add(fileLabel);
             success = true;
         }
         event.setDropCompleted(success);
@@ -167,6 +177,8 @@ public class ManualExamController extends AbstractController {
             event.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
         }
         event.consume();
+        filesDragged = true;
+        pane.getStyleClass().add("dragged");
     }
 
     @FXML
@@ -192,6 +204,7 @@ public class ManualExamController extends AbstractController {
     		super.sendMsgToServer(msg);
     		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
             fileBytesList.clear();
+            timerController.countdown.stop();
         }        
     }
     

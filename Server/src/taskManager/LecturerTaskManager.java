@@ -8,11 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DataBase.DBController;
 import DataBase.SqlQueries;
 import entities.Question;
 import entities.QuestionForExam;
+import server.ClientHandler;
 import thirdPart.ExamGenerator;
 
 public class LecturerTaskManager implements TaskHandler {
@@ -312,7 +314,17 @@ public class LecturerTaskManager implements TaskHandler {
 	
 	public ArrayList<HashMap<String, Object>> LockExamById(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.LockExamById(arrayList));
+		HashMap<String, Object> msgToClient = new HashMap<String, Object>();
+		msgToClient.put("Special Method", "EXAM_BLOCKED");
+;		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentWithExamIdAndInProgress(arrayList));
+		ArrayList<HashMap<String, Object>> lockedExam = dbController.updateQueries(SqlQueries.LockExamById(arrayList));
+        ArrayList<Integer> idToLock = new ArrayList<Integer>();
+		for (Map<String, Object> dict : rs) {
+            Integer studentId = (int) dict.get("studentId");
+            idToLock.add(studentId);
+        }
+		msgToClient.put("idToLock", idToLock);
+		ClientHandler.getInstance().sendToAllClients(msgToClient);
 		return rs;
 	}
 }

@@ -160,3 +160,12 @@
     -fx-border-radius: 0;
     -fx-padding: 0;
 }
+.file-upload-pane {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-color: #6C4F73;
+}
+
+.file-upload-pane.dragged {
+    -fx-background-color: #F2F2F2;
+}
