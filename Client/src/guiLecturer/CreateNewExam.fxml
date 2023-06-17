@@ -30,7 +30,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <ComboBox fx:id="CourseComboBox" layoutX="240.0" layoutY="44.0" prefHeight="8.0" prefWidth="148.0" styleClass="ddl-view" />
+      <ComboBox fx:id="CourseComboBox" layoutX="240.0" layoutY="44.0" prefHeight="8.0" prefWidth="148.0" promptText="Click to choose" styleClass="ddl-view" />
       <Text layoutX="91.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select Questions: (Ctrl+click to select multiple questions)" wrappingWidth="397.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
@@ -56,7 +56,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits)" />
+      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits &amp; letters)" />
       <TextField fx:id="DurauinTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="441.0" prefHeight="25.0" prefWidth="148.0" promptText="Duration (minutes)" />
       <TextField fx:id="lecNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="362.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
       <TextField fx:id="studNotesText" alignment="TOP_LEFT" layoutX="522.0" layoutY="451.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />

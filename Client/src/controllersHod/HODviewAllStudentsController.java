@@ -76,9 +76,13 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		
 	}
+
+
+
 
 }

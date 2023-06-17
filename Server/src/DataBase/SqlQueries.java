@@ -40,6 +40,30 @@ public class SqlQueries {
 		return getFile.toString();
 	}
 
+	public static String getQuestionsById(String string) {
+		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + string + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
+		return query;
+	}
+	
+	public static String getQuestionsByIdByCourse(ArrayList<Object> arrayList) {
+		String query = "SELECT *\r\n"
+				+ "FROM questions\r\n"
+				+ "WHERE questionBankId = " + arrayList.get(0) + " AND JSON_CONTAINS(courses, CAST('[";
+		for(int i = 1 ; i < arrayList.size()-1 ; i++) {
+			query += arrayList.get(i) + ",";
+		}
+		query +=  arrayList.get(arrayList.size()-1) + "]' AS JSON), '$.courses');";
+		return query;
+	}
+	
+	public static String getExamsById(String string) {
+		String quert = "SELECT e.*\r\n"
+				+ "FROM exam AS e\r\n"
+				+ "JOIN examsbank AS eb ON e.bankId = eb.bankId\r\n"
+				+ "WHERE e.composerId = " + string + " AND eb.lecturerId = " + string + ";";
+		return quert;
+  }
+  
 	public static String getQuestionsById(Object object) {
 		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + object + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return query;
@@ -52,6 +76,7 @@ public class SqlQueries {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status != 'Done';";
 		return query;
 	}
+	
 	public static String getUserByUserNameAndPass(String pass,String userName) {
 		String query = "SELECT * FROM users WHERE username = '" + userName +  "'AND pass = '" + pass+ "';" ;
 		return query;
@@ -79,11 +104,11 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String getCoursesByLecturerId(int id) {
+	public static String getCoursesIdByLecturerId(int id) {
 		String query = "Select L.courseId FROM lecturer AS L WHERE L.userId = '" +id+ "';";
 		return query;
 	}
-	
+		
 	public static String getDepartmentByLecturerId(int id) {
 		String query = "Select L.departmentId FROM lecturer AS L WHERE L.userId = '" +id+ "';";
 		return query;
@@ -278,23 +303,13 @@ public class SqlQueries {
 		return query;
 	}
 
-
 	public static String InsertQuestionToExamInDB(ArrayList<Object> param) {
 		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
 				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
 		return query;
 	}
 
-	public static String getExamBank(int id) {
-		return "SELECT * FROM examsbank WHERE lecturerId = '" + id +  "' ;" ;
-	}
-
-	public static String getQuestionBank(int id) {
-		return "SELECT * FROM questionbank WHERE lecturerId = '" + id +  "' ;" ;
-	}
-
 	public static String insertQuestionBankForId(int id) {
-		System.out.println("  '{\"questions\": [] }' ");
 		String query = "INSERT INTO questionbank (lecturerId, questions) VALUES ("+id+","
 				+ " '{\"questions\": [] }');";
 		return query;
@@ -309,13 +324,18 @@ public class SqlQueries {
 		String query = "DELETE FROM questions\r\n" + "WHERE questionId = " + param.get(0) + ";";
 		return query;
 	}
+	
+	public static String deleteExam(ArrayList<Object> param) {
+		String query = "DELETE FROM exam\r\n" + "WHERE examId = '" + param.get(0) + "';";
+		return query;
+	}
 
 	public static String getCoursesNameById(ArrayList<Object> param) {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i < Integer.parseInt((String) param.get(0)); i++) {
+		for (int i = 1; i <= Integer.parseInt((String) param.get(0)); i++) {
 		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt((String) param.get(0)) - 1) {
+		  if (i < Integer.parseInt((String) param.get(0))) {
 		    queryBuilder.append(", ");
 		  }
 		}
@@ -336,6 +356,20 @@ public class SqlQueries {
 		return query;
 	}
 	
+	public static String getLecturerExamsByCourse(ArrayList<Object> arrayList) {
+		String query = "SELECT e.*, c.courseName\r\n"
+				+ "FROM exam e\r\n"
+				+ "JOIN courses c ON c.courseID = e.courseId\r\n"
+				+ "WHERE e.composerId = " + arrayList.get(0) + " AND c.courseName = '" + arrayList.get(1) + "';\r\n"
+				+ "";
+		return query;
+	}
+
+	public static String getQuestionBank(String id) {
+		String query= "SELECT * FROM questionbank WHERE lecturerId= "+id+";";
+		return query;
+  }
+  
 	public static String LockExamById(ArrayList<Object> arrayList) {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
@@ -362,7 +396,7 @@ public class SqlQueries {
 	public static String getQuestionsAndScoresByExamId(String id) {
 		String query = "SELECT * FROM questionsinexam WHERE examId='"+id+"';";
 		return query;
-	}
+	}	
 
 	public static String getQuestionById(String id) {
 		String query = "SELECT * FROM questions WHERE questionId='"+id+"';";
@@ -380,6 +414,7 @@ public class SqlQueries {
 	public static String getExamFileByExamId(Integer examId) {
 		return "SELECT examFile FROM exam WHERE examId ='"+ examId + "';";
 	}
+
 //	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
 //	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
 //			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";

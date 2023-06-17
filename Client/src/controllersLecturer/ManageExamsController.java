@@ -132,11 +132,10 @@ public class ManageExamsController extends AbstractController  {
         
         // Set the cell value factory for the Is Locked column
         clmIsLocked.setCellValueFactory(cellData -> {
-            Boolean isLocked = cellData.getValue().isLocked();
-            String lockedStatus = isLocked ? "Yes" : "No";
+            Integer isLocked = cellData.getValue().isLocked();
+            String lockedStatus = isLocked != null ? "Yes" : "No";
             return new SimpleStringProperty(lockedStatus);
         });
-
         examTable.setItems(list);
 
 	}
@@ -146,7 +145,7 @@ public class ManageExamsController extends AbstractController  {
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"), (String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"), (String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),(String)element.get("examNum"), (Integer)element.get("bankId"),(Boolean)element.get("isLocked")));
+		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"), (String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"), (String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),(String)element.get("examNum"), (Integer)element.get("bankId"),(Integer)element.get("isLocked")));
 		    HmCourseIdName.put((Integer)element.get("courseId"), (String)element.get("courseName"));
 		}
 	}
@@ -186,16 +185,15 @@ public class ManageExamsController extends AbstractController  {
     @FXML
     void ChangeDuration(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
-		ChangeDurationController ChangeDurationController;
+		ChangeDurationController changeDurationController;
 		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
-    Exam selectedExam = selectionModel.getSelectedItem();
+		Exam selectedExam = selectionModel.getSelectedItem();
     	if(!(selectedExam == null)) {
     		FXMLLoader loader = new FXMLLoader();
     		Pane root = loader.load(getClass().getResource("/guiLecturer/ChangeDuration.fxml").openStream());
-    		ChangeDurationController = loader.getController();
-    		ChangeDurationController.setExam(selectedExam);
-    		ChangeDurationController.LoadExamOldDuration(selectedExam);
-
+    		changeDurationController = loader.getController();
+    		changeDurationController.setExam(selectedExam);
+    		changeDurationController.LoadExamOldDuration(selectedExam);
     		try {
     	        Scene scene = new Scene(root);
     	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");
