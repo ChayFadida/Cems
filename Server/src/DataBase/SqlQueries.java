@@ -45,14 +45,14 @@ public class SqlQueries {
 		return query;
 	}
 	
-	public static String getQuestionsByIdByCourse(ArrayList<String> param) {
+	public static String getQuestionsByIdByCourse(ArrayList<Object> arrayList) {
 		String query = "SELECT *\r\n"
 				+ "FROM questions\r\n"
-				+ "WHERE questionBankId = " + param.get(0) + " AND JSON_CONTAINS(courses, CAST('[";
-		for(int i = 1 ; i < param.size()-1 ; i++) {
-			query += param.get(i) + ",";
+				+ "WHERE questionBankId = " + arrayList.get(0) + " AND JSON_CONTAINS(courses, CAST('[";
+		for(int i = 1 ; i < arrayList.size()-1 ; i++) {
+			query += arrayList.get(i) + ",";
 		}
-		query +=  param.get(param.size()-1) + "]' AS JSON), '$.courses');";
+		query +=  arrayList.get(arrayList.size()-1) + "]' AS JSON), '$.courses');";
 		return query;
 	}
 	
@@ -325,30 +325,17 @@ public class SqlQueries {
 		return query;
 	}
 	
-	public static String deleteExam(ArrayList<String> param) {
+	public static String deleteExam(ArrayList<Object> param) {
 		String query = "DELETE FROM exam\r\n" + "WHERE examId = '" + param.get(0) + "';";
 		return query;
-	}
-
-	public static String getCoursesNameById(ArrayList<String> param) {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i <= Integer.parseInt(param.get(0)); i++) {
-		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt(param.get(0))) {
-		    queryBuilder.append(", ");
-		  }
-		}
-		queryBuilder.append(");");
-		return queryBuilder.toString();
 	}
 
 	public static String getCoursesNameById(ArrayList<Object> param) {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT courseName, courseID FROM courses WHERE courseID IN (");
-		for (int i = 1; i < Integer.parseInt((String) param.get(0)); i++) {
+		for (int i = 1; i <= Integer.parseInt((String) param.get(0)); i++) {
 		  queryBuilder.append(param.get(i));
-		  if (i < Integer.parseInt((String) param.get(0)) - 1) {
+		  if (i < Integer.parseInt((String) param.get(0))) {
 		    queryBuilder.append(", ");
 		  }
 		}
@@ -369,17 +356,18 @@ public class SqlQueries {
 		return query;
 	}
 	
-	public static String getLecturerExamsByCourse(ArrayList<String> param) {
+	public static String getLecturerExamsByCourse(ArrayList<Object> arrayList) {
 		String query = "SELECT e.*, c.courseName\r\n"
 				+ "FROM exam e\r\n"
 				+ "JOIN courses c ON c.courseID = e.courseId\r\n"
-				+ "WHERE e.composerId = " + param.get(0) + " AND c.courseName = '" + param.get(1) + "';\r\n"
+				+ "WHERE e.composerId = " + arrayList.get(0) + " AND c.courseName = '" + arrayList.get(1) + "';\r\n"
 				+ "";
 		return query;
 	}
 
 	public static String getQuestionBank(String id) {
 		String query= "SELECT * FROM questionbank WHERE lecturerId= "+id+";";
+		return query;
   }
   
 	public static String LockExamById(ArrayList<Object> arrayList) {

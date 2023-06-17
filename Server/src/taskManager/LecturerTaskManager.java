@@ -122,9 +122,9 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 
-	private ArrayList<HashMap<String, Object>> getQuestionBank(ArrayList<String> param) throws SQLException {
+	private ArrayList<HashMap<String, Object>> getQuestionBank(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(param.get(0)));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank((String) param.get(0)));
 		return rs;
 	}
 	
@@ -221,21 +221,21 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 	
-	public ArrayList<HashMap<String, Object>> getQuestionsByIdByCourse(ArrayList<String> param) throws SQLException {
+	public ArrayList<HashMap<String, Object>> getQuestionsByIdByCourse(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsByIdByCourse(param));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsByIdByCourse(arrayList));
 		return rs;
 	}
 	
-	public ArrayList<HashMap<String, Object>> getExamsById(ArrayList<String> param) throws SQLException {
+	public ArrayList<HashMap<String, Object>> getExamsById(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsById(param.get(0)));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsById((String) param.get(0)));
 		return rs;
 	}
 	
-	public ArrayList<HashMap<String, Object>> getCoursesIdByLecturerId(ArrayList<String> param) throws SQLException {
+	public ArrayList<HashMap<String, Object>> getCoursesIdByLecturerId(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesIdByLecturerId(Integer.parseInt(param.get(0))));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesIdByLecturerId(Integer.parseInt((String) param.get(0))));
 		return rs;
 	}
 	
@@ -257,7 +257,7 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> deleteExam(ArrayList<String> param) throws SQLException {
+	private ArrayList<HashMap<String, Object>> deleteExam(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.deleteExam(param));
 		return rs;
@@ -282,9 +282,9 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> getLecturerExamsByCourse(ArrayList<String> param) throws SQLException {
+	private ArrayList<HashMap<String, Object>> getLecturerExamsByCourse(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExamsByCourse(param));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerExamsByCourse(arrayList));
 		return rs;
 	}
 	
