@@ -29,7 +29,7 @@
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="LecturerIdText" layoutX="262.0" layoutY="107.0" prefHeight="25.0" prefWidth="172.0" promptText="111222333" />
+      <TextField fx:id="LecturerIdText" layoutX="262.0" layoutY="107.0" prefHeight="25.0" prefWidth="172.0" />
       <Button fx:id="ApplyTemp" layoutX="481.0" layoutY="104.0" mnemonicParsing="false" onAction="#showTable" prefHeight="16.0" prefWidth="91.0" text="Apply" />
    </children>
 </AnchorPane>

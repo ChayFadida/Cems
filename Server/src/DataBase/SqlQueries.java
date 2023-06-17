@@ -104,7 +104,7 @@ public class SqlQueries {
 		}
 	
 	public static String getViewExamById(String string) {
-		String quert = "SELECT e.examID, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
+		String quert = "SELECT e.examID, e.examName, e.subject, u.firstName, u.lastName, c.courseName FROM exam AS e JOIN users AS u ON e.composerId = u.id JOIN courses AS c ON c.courseID = e.courseID WHERE e.composerId ='" + string + "'" + ";" ;
 		return quert;
 	}
 	
@@ -254,6 +254,10 @@ public class SqlQueries {
 	
 	public static String getInfoForStudentStats(String id) {
 		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
+	}
+	//this query is used for the lecturer who wants to analyze his exam. 
+	public static String getInfoForExamStats(String Examid) {
+		return "SELECT ex.examId, ex.grade, ex.studentId, u.firstName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id WHERE ex.status = 'Done' AND ex.examId= '" + Examid + "' ;";
 	}
 	
 
