@@ -26,6 +26,9 @@ import timer.TimeMode;
 import timer.TimerController;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
+import timer.TimeMode;
+import timer.TimerController;
+import timer.Clock;
 
 public class VirtualExamController extends AbstractController implements Initializable{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
