@@ -244,7 +244,6 @@ public class TakeExamController extends AbstractController{
 		}
 		return rs;
 	}
-	
     @FXML
     void getSubmitBtn(ActionEvent event) {
 

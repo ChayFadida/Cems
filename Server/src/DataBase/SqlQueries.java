@@ -68,8 +68,20 @@ public class SqlQueries {
 		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + object + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return query;
 	}
+	public static String getRightAnswerAndDetailsForQuestionById(Object object) {
+		String query = "SELECT details ,rightAnswer FROM questions WHERE questionId = " + (String)object + ";";
+		return query;
+	}
+	public static String getExamQuestionsById(Object object) {
+		String query = "SELECT qie.questions FROM questionsinexam as qie WHERE qie.examId = " + (String)object + " ;";
+		return query;
+	}
 	public static String getExamsByUserId(String id) {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
+		return query;
+	}
+	public static String getExamResultChosenAnswersByExamId(String id) {
+		String query = "SELECT DISTINCT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + id + ";";
 		return query;
 	}
 	public static String getExamsByComposerId(String id) {

@@ -88,7 +88,14 @@ public class LecturerTaskManager implements TaskHandler {
 					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<Object>)hm.get("params"));
 				case "getInfoForExamStats":
 					return getInfoForExamStats(hm.get("param"));
-		    	default: 
+				case "getExamResultChosenAnswers":
+					return getExamResultChosenAnswers((String) hm.get("examId").get(0));
+				case "getExamQuestions":
+					return getExamQuestions((String) hm.get("examId").get(0));
+					
+				case "getRightAnswerForQuestion":
+					return getRightAnswerForQuestion((String) hm.get("questionId").get(0));
+				default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
@@ -96,6 +103,21 @@ public class LecturerTaskManager implements TaskHandler {
 		return null;
 	}
 
+	private ArrayList<HashMap<String, Object>> getExamQuestions(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamQuestionsById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getRightAnswerForQuestion(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getRightAnswerAndDetailsForQuestionById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getExamResultChosenAnswers(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamResultChosenAnswersByExamId(id));
+	    return rs;
+	}
 	private ArrayList<HashMap<String, Object>> getExamsByLecturerId(String id) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsByComposerId(id));

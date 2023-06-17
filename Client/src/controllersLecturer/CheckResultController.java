@@ -1,5 +1,6 @@
 package controllersLecturer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -21,7 +25,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import thirdPart.JsonHandler;
 
 public class CheckResultController extends AbstractController implements Initializable{
 	private ArrayList<ExamResult> examResArr ;
@@ -119,46 +127,105 @@ public class CheckResultController extends AbstractController implements Initial
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();				
 	}
-//    @FXML
-//    void getViewBtn(ActionEvent event) {
-//    	//simulation of getting json string of student answers from DB
-//    	//and converting it to hashmap with <key , value> = <question number ,chosen answer>.
-//    	HashMap<String,Integer>  simulatedAnswers= new HashMap<String,Integer>();
-//    	simulatedAnswers.put("q1", 1);
-//    	simulatedAnswers.put("q2", 3);
-//    	simulatedAnswers.put("q3", 2);
-//    	simulatedAnswers.put("q4", 1);
-//    	simulatedAnswers.put("q5", 4);
-//    	//simulation END.
-//    	ArrayList<ExamResult> selectedId = new ArrayList<>();
-//		selectedId.addAll(resultTable.getSelectionModel().getSelectedItems());
-//		if(selectedId.isEmpty()) {
-//			lblNonSelected.setText("No entry was selected!");
-//		}
-//		else {
-//			lblNonSelected.setText("");
-//			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-//			ArrayList<String> arr = new ArrayList<>();
-//			arr.add("Lecturer");
-//			msg.put("client", arr);
-//			ArrayList<String> arr2 = new ArrayList<>();
-//			arr2.add(""+selectedId.get(0).getExamId());
-//			msg.put("examId",arr2);
-//			ArrayList<String> arr3 = new ArrayList<>();
-//			arr3.add("Done");
-//			msg.put("status",arr3);
-//			ArrayList<String> arr1 = new ArrayList<>();
-//			arr1.add("getExamResultPriview");
-//			msg.put("task",arr1);
-//			sendMsgToServer(msg);
-//			if(ConnectionServer.rs != null) {
-//				//add conversion from json string to hash map to work with here.(json of answers of student)
-//				System.out.println("status changed to Done successfuly!");
-//				showTable();
-//			}
-//		}
-//    	
-//    }
+    @FXML
+    void getViewBtn(ActionEvent event) {
+    	ArrayList<ExamResult> selectedId = new ArrayList<>();
+		selectedId.addAll(resultTable.getSelectionModel().getSelectedItems());
+		if(selectedId.isEmpty()) {
+			lblNonSelected.setText("No entry was selected!");
+		}
+		else {
+			lblNonSelected.setText("");
+				ArrayList<Integer> studentAnswers = getStdAnswers(""+selectedId.get(0).getExamId());
+				ArrayList<Integer> questionsInExam = getExamQuestions(""+selectedId.get(0).getExamId());
+				ArrayList<String> rightAnswers = new ArrayList<String>();
+				ArrayList<String> questionDetails = new ArrayList<String>();
+				for(int i = 0 ; i < questionsInExam.size() ; i++) {
+					rightAnswers.add(getRightAnswerForQuestion(""+questionsInExam.get(i)));
+					questionDetails.add((String)ConnectionServer.rs.get(0).get("details"));
+				}
+				//build exam string here.
+				StringBuilder examString = new StringBuilder();
+				for(int j = 0 ; j < studentAnswers.size() ; j++) {
+					examString.append("Question" + (j+1) + ": \n");
+					examString.append(questionDetails.get(j) + "\n");
+					examString.append("Student Answer: " + studentAnswers.get(j) + "\n");
+					examString.append("Right Answer: " + rightAnswers.get(j) + "\n");
+					examString.append("\n");
+				}
+				examString.append("\n Exam End.");
+				Stage seconderyStage = new Stage();
+				 try {
+			        	FXMLLoader loader = new FXMLLoader();
+						Parent root = loader.load(getClass().getResource("/guiLecturer/viewExamResult.fxml").openStream());
+						Scene scene = new Scene(root);
+						LecturerViewExamResultController lecturerViewExamResultController=loader.getController();
+						lecturerViewExamResultController.viewReason(examString.toString());
+						scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+						seconderyStage.initStyle(StageStyle.UNDECORATED);
+						seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+						seconderyStage.setScene(scene);
+						seconderyStage.show();
+				        super.setPrimaryStage(seconderyStage);
+				        PressHandler<MouseEvent> press = new PressHandler<>();
+				        DragHandler<MouseEvent> drag = new DragHandler<>();
+				        root.setOnMousePressed(press);
+				        root.setOnMouseDragged(drag);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				System.out.println("view exam successfuly!");
+		}
+	}
+    private String getRightAnswerForQuestion(String questionId){
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(questionId);
+		msg.put("questionId",arr2);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getRightAnswerForQuestion");
+		msg.put("task",arr1);
+		sendMsgToServer(msg);
+    	return (String)ConnectionServer.rs.get(0).get("rightAnswer");
+    }
+    
+    private ArrayList<Integer> getExamQuestions(String examId){
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId);
+		msg.put("examId",arr2);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getExamQuestions");
+		msg.put("task",arr1);
+		sendMsgToServer(msg);
+    	String questionsColumn = (String)ConnectionServer.rs.get(0).get("questions");
+		HashMap<String,ArrayList<Integer>> stdAnswers = JsonHandler.convertJsonToHashMap(questionsColumn, String.class, ArrayList.class ,Integer.class);
+		return stdAnswers.get("questions");
+    }
+    private ArrayList<Integer> getStdAnswers(String examId){
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId);
+		msg.put("examId",arr2);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getExamResultChosenAnswers");
+		msg.put("task",arr1);
+		sendMsgToServer(msg);
+    	String answersChosen = (String)ConnectionServer.rs.get(0).get("answersChosen");
+		HashMap<String,ArrayList<Integer>> stdAnswers = JsonHandler.convertJsonToHashMap(answersChosen, String.class, ArrayList.class, Integer.class);
+		return stdAnswers.get("answers");
+    }
+//	@FXML
+//	  void getViewBtn(ActionEvent event) {return;} // temp func for not crushing while not implemented.
 
     @FXML
     void getApproveBtn(ActionEvent event) {
@@ -211,7 +278,7 @@ public class CheckResultController extends AbstractController implements Initial
 			msg.put("status",arr3);
 			ArrayList<String> arr4 = new ArrayList<>();
 			if(txtNotes.getLength() == 0 ||txtNotes.getLength() == 0) {
-				lblNonSelected.setText("No Grade or Notes ,please fill all fields!");
+				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
 				return;
 			}
 			lblNonSelected.setText("");
