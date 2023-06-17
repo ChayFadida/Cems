@@ -1,41 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ViewExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="847.0" prefWidth="748.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.ViewExamController">
    <children>
-      <Text layoutX="14.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View exam" wrappingWidth="250.0810546875">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="179.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="כאן צריך להופיע המבחן......." wrappingWidth="373.0810546875">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="26.0" />
-         </font>
-      </Text>
-      <Button fx:id="CloseBtn" layoutX="710.0" layoutY="16.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
+      <Button fx:id="btnMinimize" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
          <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/exit.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="MinimizeBtn" layoutX="642.0" layoutY="15.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
-         <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/Images/minimize.png" />
+               </image></ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnExit" layoutX="668.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Images/exit.png" />
+               </image></ImageView>
+         </graphic>
+      </Button>
+      <Text fx:id="txtQuestionNo" layoutX="332.0" layoutY="815.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label" text="0/0" textAlignment="CENTER" wrappingWidth="91.05859375">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnForward" layoutX="418.0" layoutY="739.0" mnemonicParsing="false" onAction="#getForwardBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                 <Image url="@/Images/forward.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="btnBackward" layoutX="265.0" layoutY="739.0" mnemonicParsing="false" onAction="#getBackwardBtn" styleClass="toggle-btns">
+         <graphic>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+               <image>  <Image url="@/Images/backward.png" />
+            </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <AnchorPane fx:id="questionAP" layoutX="2.0" layoutY="148.0" prefHeight="588.0" prefWidth="744.0">
+         <children>
+            <Text layoutX="84.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Question:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldQuestion" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="4.0" prefHeight="141.0" prefWidth="281.0" />
+            <Text layoutX="84.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Lecturer's notes:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldNotes" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="166.0" prefHeight="90.0" prefWidth="281.0" />
+            <Text layoutX="86.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.1:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer1" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="273.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="86.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.2:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer2" alignment="TOP_LEFT" editable="false" layoutX="242.0" layoutY="341.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="85.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.3:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer3" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="410.0" prefHeight="58.0" prefWidth="281.0" />
+            <Text layoutX="85.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Answer no.4:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtfieldAnswer4" alignment="TOP_LEFT" editable="false" layoutX="241.0" layoutY="478.0" prefHeight="58.0" prefWidth="281.0" />
+            <Label layoutX="543.0" layoutY="4.0" text="The score for this question is:" />
+            <Label fx:id="lblScore" layoutX="588.0" layoutY="23.0" prefHeight="27.0" prefWidth="68.0" textAlignment="CENTER" />
+            <Text layoutX="74.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Correct answer:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextField id="CorrectAnswear" fx:id="txtfieldCorrectAnswer" layoutX="242.0" layoutY="557.0" prefHeight="26.0" prefWidth="65.0" />
+         </children>
+      </AnchorPane>
+      <Text layoutX="77.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam's notes:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="examNotes" alignment="TOP_LEFT" editable="false" layoutX="244.0" layoutY="34.0" prefHeight="100.0" prefWidth="280.0" />
    </children>
 </AnchorPane>
