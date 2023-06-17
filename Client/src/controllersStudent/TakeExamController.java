@@ -160,7 +160,7 @@ public class TakeExamController extends AbstractController{
 		try {
 			Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
 			ManualExamController manualExamController = loader.getController();
-			manualExamController.setExamInfo((int)rs.get(0).get("examId"));
+			manualExamController.setExamInfo(rs);
     		Stage primaryStage = new Stage();
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);
