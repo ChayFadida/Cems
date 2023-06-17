@@ -135,11 +135,11 @@ public class TakeExamController extends AbstractController{
 			msg1.put("param", Arr2);
 			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
-			if(rs1.isEmpty()) {
+			if(rs1==null) {
 				System.out.println("RS is null");
 				return -1;
 			}
-			if(rs.isEmpty()) {
+			if(rs1.isEmpty()) {
 				System.out.println("One of the exam's questions does not exist in DB");
 				lblErrorBegin.setText("One of the exam's questions does not exist in DB, check it with you lecturer.");
 				return -1;
@@ -154,37 +154,8 @@ public class TakeExamController extends AbstractController{
 		
 	}
 
-	@FXML
-    void getManual(ActionEvent event) {
-		FXMLLoader loader = new FXMLLoader();
-		try {
-			Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
-			ManualExamController manualExamController = loader.getController();
-			manualExamController.setExamInfo((int)rs.get(0).get("examId"));
-    		Stage primaryStage = new Stage();
-    		Scene scene = new Scene(root);
-    		primaryStage.initStyle(StageStyle.UNDECORATED);
-			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
-			primaryStage.setScene(scene);
-		    primaryStage.show();
-		    super.setPrimaryStage(primaryStage);
-	        PressHandler<MouseEvent> press = new PressHandler<>();
-	        DragHandler<MouseEvent> drag = new DragHandler<>();
-	        root.setOnMousePressed(press);
-	        root.setOnMouseDragged(drag);
-	        FadeTransition fadeC = new FadeTransition();
-	    	fadeC.setNode(apB);
-	    	fadeC.setFromValue(0);
-	    	fadeC.setToValue(1);
-	    	fadeC.play();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-    }
-
     @FXML
-    void getVirtual() {
+    void getVirtual(ActionEvent event) {
     	try {
     		FXMLLoader loader = new FXMLLoader();
     		Parent root = loader.load(getClass().getResource("/guiStudent/VirtualExamScreen.fxml").openStream());
@@ -245,6 +216,41 @@ public class TakeExamController extends AbstractController{
 		}
 		return rs;
 	}
+	
+}
+
+	@FXML
+    void getManual(ActionEvent event) {
+		FXMLLoader loader = new FXMLLoader();
+		try {
+			Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
+			ManualExamController manualExamController = loader.getController();
+			manualExamController.setExamInfo((int)rs.get(0).get("examId"));
+    		Stage primaryStage = new Stage();
+    		Scene scene = new Scene(root);
+    		primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+			primaryStage.setScene(scene);
+		    primaryStage.show();
+		    super.setPrimaryStage(primaryStage);
+	        PressHandler<MouseEvent> press = new PressHandler<>();
+	        DragHandler<MouseEvent> drag = new DragHandler<>();
+	        root.setOnMousePressed(press);
+	        root.setOnMouseDragged(drag);
+	        FadeTransition fadeC = new FadeTransition();
+	    	fadeC.setNode(apB);
+	    	fadeC.setFromValue(0);
+	    	fadeC.setToValue(1);
+	    	fadeC.play();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+    }
+    
+    private boolean checkID(String text) {
+		return (ConnectionServer.user.getId()+"")==text;
+  	}
 	
     @FXML
     void getSubmitBtn(ActionEvent event) {

@@ -39,5 +39,9 @@ public class TimerController {
     }
     public void timeIsUp() {
     	//implement query for timeIdUp
+    	//update the examresult row to status 'not finished'
+    	//run in loop on questions array in order to find matches betweeen 'Selection' and 'rightAnswer'
+    	//sum up the grade when the student when he got the correct answer
+    	//check if there are any other student in 'inProgess' status on the same exam, if not -> LockExam!
     }
 }
