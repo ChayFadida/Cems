@@ -48,13 +48,9 @@ public class ChooseProfileController extends AbstractController{
    /**
     * Constructor for the class.
     */
-    public ChooseProfileController() {
+    public ChooseProfileController() throws IOException {
 		super();
-		try {
-			s = (Super) ConnectionServer.getInstance().getUser();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		s = (Super) ConnectionServer.getInstance().getUser();
 
 	}
     

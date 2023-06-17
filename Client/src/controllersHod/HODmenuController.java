@@ -178,9 +178,10 @@ public class HODmenuController extends AbstractController implements Initializab
     /**
      * Logs out the user and close the current window of the program.
      * @param event mouse event that triggered by clicking the button.
+     * @throws IOException 
      */
     @FXML
-    void LogOut(MouseEvent event) {
+    void LogOut(MouseEvent event) throws IOException {
     	if(s!=null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
