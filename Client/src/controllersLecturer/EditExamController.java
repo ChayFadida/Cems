@@ -109,7 +109,7 @@ public class EditExamController extends AbstractController{
         if (selectedCourse.equals("All Courses")) {
         	showTable();
         } else {
-            showTableWithFilters(selectedCourse);
+            //showTableWithFilters(selectedCourse);
         }
     }
     
