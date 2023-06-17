@@ -64,8 +64,8 @@ public class SqlQueries {
 		String query = "UPDATE examresults SET status = '"+ status +"' WHERE examId = "+ examId +";";
 		return query;
 	}
-	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<String> params) {
-		String query = "UPDATE examresults SET notes = '"+ params.get(0) +"' , status = 'Done' ,grade = "+ params.get(1) +" WHERE examId = "+ examId +";";
+	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<Object> arrayList) {
+		String query = "UPDATE examresults SET notes = '"+ arrayList.get(0) +"' , status = 'Done' ,grade = "+ arrayList.get(1) +" WHERE examId = "+ examId +";";
 		return query;
 	}
 
@@ -268,8 +268,8 @@ public class SqlQueries {
 		return "SELECT ex.examId, ex.grade, u.firstName, u.lastName, e.examName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id JOIN exam AS e ON ex.examId = e.examId WHERE ex.studentId = '" + id + "' AND ex.status = 'Done' GROUP BY ex.examId, ex.grade, u.firstName, u.lastName, e.examName";
 	}
 	//this query is used for the lecturer who wants to analyze his exam. 
-	public static String getInfoForExamStats(String Examid) {
-		return "SELECT ex.examId, ex.grade, ex.studentId, u.firstName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id WHERE ex.status = 'Done' AND ex.examId= '" + Examid + "' ;";
+	public static String getInfoForExamStats(Object object) {
+		return "SELECT ex.examId, ex.grade, ex.studentId, u.firstName FROM examresults AS ex JOIN users AS u ON ex.studentId = u.id WHERE ex.status = 'Done' AND ex.examId= '" + object + "' ;";
 	}
 	
 
