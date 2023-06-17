@@ -184,14 +184,34 @@ public class EditQuestionController extends AbstractController {
         
         hm = JsonHandler.convertJsonToHashMap(question.getCourses(),String.class, ArrayList.class);
         
-        HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Lecturer");
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getCourses");
+		arr1.add("getCoursesIdByLecturerId");
 		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(ConnectionServer.user.getId() + "");
+		msg.put("param",arr2);
 		super.sendMsgToServer(msg);
+		
+		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
+		ArrayList<String> arr3 = new ArrayList<>();
+		arr3.add("Lecturer");
+		msg1.put("client", arr3);
+		ArrayList<String> arr4 = new ArrayList<>();
+		arr4.add("getCoursesNameById");
+		msg1.put("task",arr4);
+		
+		ArrayList<String> arr5 = new ArrayList<>();
+		@SuppressWarnings("unchecked")
+		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
+		arr5.add(crsId.size() + "");
+		arr5.addAll(crsId);
+		msg1.put("param",arr5);
+		super.sendMsgToServer(msg1);
+		
 		try {
 			this.loadCourses(ConnectionServer.rs);
 		} catch (Exception e) {

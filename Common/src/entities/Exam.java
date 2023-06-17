@@ -14,10 +14,10 @@ public class Exam {
 	private String code;
 	private String examNum;
 	private Integer bankId;
-	private boolean isLocked;
+	private Integer isLocked;
   
 	public Exam(Integer examId,String examName, Integer courseId, String subject, Integer duration, String lecturerNote,
-			String studentNote, Integer composerId, String code, String examNum, Integer bankId, boolean isLocked) {
+			String studentNote, Integer composerId, String code, String examNum, Integer bankId, Integer isLocked) {
 		super();
 		this.examId = examId;
 		this.examName = examName;
@@ -31,7 +31,6 @@ public class Exam {
 		this.examNum = examNum;
 		this.bankId = bankId;
 		this.isLocked = isLocked;
-		this.examName=examName;
 	}
 	
 	public String getExamName() {
@@ -122,11 +121,11 @@ public class Exam {
 		this.bankId = bankId;
 	}
 
-	public boolean isLocked() {
+	public Integer isLocked() {
 		return isLocked;
 	}
 
-	public void setLocked(boolean isLocked) {
+	public void setLocked(Integer isLocked) {
 		this.isLocked = isLocked;
 	}
 

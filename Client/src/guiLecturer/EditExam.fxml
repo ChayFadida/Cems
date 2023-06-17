@@ -1,46 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.EditExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.EditExamController">
    <children>
-      <Text layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Edit Exam" wrappingWidth="250.0810546875">
+      <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="Edit exam" wrappingWidth="205.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <Button fx:id="SaveApplyMyChangesButton" layoutX="188.0" layoutY="725.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="356.0" style="-fx-background-radius: 90;" text="Save &amp; Apply my changes" textOverrun="CLIP">
+      <TableView fx:id="QuestionTable" layoutX="91.0" layoutY="93.0" prefHeight="230.0" prefWidth="567.0">
+         <columns>
+            <TableColumn fx:id="clmQuestion" prefWidth="264.0" text="Question" />
+            <TableColumn fx:id="clmSubject" prefWidth="128.0" text="Subject" />
+            <TableColumn fx:id="clmCourse" prefWidth="84.0" text="Course" />
+            <TableColumn fx:id="clmScore" prefWidth="90.0" text="Score" />
+         </columns>
+      </TableView>
+      <Text layoutX="91.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Choose Course" wrappingWidth="148.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="CourseComboBox" layoutX="240.0" layoutY="44.0" onAction="#cmbCourseFilter" prefHeight="8.0" prefWidth="148.0" styleClass="ddl-view" />
+      <Text layoutX="91.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Select Questions: (Ctrl+click to select multiple questions)" wrappingWidth="397.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font>
-      </Button>
-      <Text layoutX="179.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="כאן צריך להופיע המבחן......." wrappingWidth="373.0810546875">
+      </Text>
+      <Text layoutX="90.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Code:" wrappingWidth="148.0810546875">
          <font>
-            <Font name="Arial Rounded MT Bold" size="26.0" />
+            <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Button fx:id="CloseBtn" layoutX="703.0" layoutY="16.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
-         <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/exit.png" />
-               </image>
-            </ImageView>
-         </graphic>
+      <Text layoutX="91.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Duration:" wrappingWidth="148.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="337.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for lecturers:" wrappingWidth="175.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="337.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for students:" wrappingWidth="175.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits &amp; letters)" />
+      <TextField fx:id="DurationTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="446.0" prefHeight="25.0" prefWidth="148.0" promptText="Duration (minutes)" />
+      <TextField fx:id="lecNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="362.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
+      <TextField fx:id="studNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="451.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
+      <Button fx:id="btnSaveChanges" layoutX="292.0" layoutY="555.0" mnemonicParsing="false" onAction="#getSaveChanges" prefHeight="33.0" prefWidth="217.0" style="-fx-background-radius: 0;" text="Save the changes">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font>
       </Button>
-      <Button fx:id="MinimizeBtn" layoutX="634.0" layoutY="16.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" style="-fx-background-radius: 90;" styleClass="toggle-btns">
-         <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/minimize.png" />
-               </image>
-            </ImageView>
-         </graphic>
+      <Label fx:id="lblErrorCode" alignment="TOP_LEFT" layoutX="90.0" layoutY="388.0" prefHeight="51.0" prefWidth="198.0" wrapText="true" />
+      <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="467.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
+      <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="549.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
+      <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="692.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnSelected" alignment="CENTER" layoutX="675.0" layoutY="209.0" mnemonicParsing="false" onAction="#getSelected" prefHeight="31.0" prefWidth="110.0" text="Add selected">
+         <font>
+            <Font size="10.0" />
+         </font>
       </Button>
+      <Label fx:id="lblErrorSelected" alignment="TOP_CENTER" layoutX="667.0" layoutY="246.0" prefHeight="71.0" prefWidth="127.0" wrapText="true" />
+      <Text layoutX="91.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Name:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtName" layoutX="171.0" layoutY="514.0" prefHeight="25.0" prefWidth="148.0" promptText="Algebra1 winter term A" />
+      <Label fx:id="lblErrorName" alignment="TOP_LEFT" layoutX="90.0" layoutY="541.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
    </children>
 </AnchorPane>
