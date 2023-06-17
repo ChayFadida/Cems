@@ -9,13 +9,13 @@ import javafx.scene.control.ProgressBar;
  * Takes care of displaying progress
  * through Label and ProgressBar
  */
-class Clock implements CountDownObserver {
-    private final TimerExampleController controller;
+public class Clock implements CountDownObserver {
+    private final TimerController controller;
     private final Label lblHour,lblMin,lblSec;
     private final ProgressBar progressBar;
     private TimeMode mode;
 
-    public Clock(TimerExampleController controller,
+    public Clock(TimerController controller,
                          Label lblHour,
                          Label lblMin,
                          Label lblSec,

@@ -84,9 +84,13 @@ public class ConnectionServer extends AbstractClient{
 	 *@param String host, int port
 	 *@return instance of the connection
 	 * */
-	public static ConnectionServer getInstance(String host, int port) throws IOException {
-		if (instance == null)
-			instance = new ConnectionServer(host, port);
+	public static ConnectionServer getInstance(String host, int port){
+		try {
+			if (instance == null)
+				instance = new ConnectionServer(host, port);
+		} catch (Exception exception) {
+			System.out.println("could not create instance of Connection Server");
+		}
 		return instance;
 	}
 	
@@ -94,7 +98,7 @@ public class ConnectionServer extends AbstractClient{
 	 *this method connects to the server
 	 *@return instance of the connection
 	 * */
-	public static ConnectionServer getInstance() throws IOException {
+	public static ConnectionServer getInstance(){
 		if (instance == null) {
 			System.out.println("you must fill the fields in the first connection");
 			return null;

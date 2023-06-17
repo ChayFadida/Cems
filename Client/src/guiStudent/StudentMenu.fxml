@@ -93,7 +93,7 @@
          </children></AnchorPane>
    </center>
    <right>
-      <AnchorPane prefHeight="750.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="125.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="minimizeBtn" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
                <graphic>
