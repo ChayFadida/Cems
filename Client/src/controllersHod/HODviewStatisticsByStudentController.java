@@ -23,6 +23,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +33,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.lang.Math;
 import javafx.scene.chart.XYChart;
+
+/**
+ * Controller class for the HOD.
+ * In this controller the HOD can view statistic report about specific Lecturer by insert the course id.
+ * Extends AbstractController.
+ * Implements Initializable.
+ */
 
 public class HODviewStatisticsByStudentController extends AbstractController implements Initializable {
 	private ArrayList<ExamResults> erArr ;
@@ -74,17 +82,33 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     private CategoryAxis rowExamID;
     
     @FXML
+    private Label notFoundLbl;
+    
+
+    /**
+     * Close current window.
+     * @param event Action event that triggered when pressing close button.
+     */
+    @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
+    
+    /**
+     * Minimize the current window.
+     * @param event Action event that triggered when pressing minimize button.
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
 
+    /**
+     * Sends message to the server with the relevant query to activate.
+     * @param event JavaFX event handler that activates when pressing apply button.
+     */
     @FXML
     void showStats(ActionEvent event) {
     	String StudentId = getid();
@@ -100,15 +124,25 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		msg.put("param", arr2);
 		sendMsgToServer(msg);
 		try {
-			this.loadAverage(ConnectionServer.rs);
+	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
+	        if (rs.isEmpty()) {
+	            notFoundLbl.setText("Student has not found");
+	            StudentBarChart.getData().clear();
+	        } else {
+	        	notFoundLbl.setText("");
+	        	this.loadStats(ConnectionServer.rs);
+	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
     
 
-
-    private void loadAverage(ArrayList<HashMap<String, Object>> rs) {
+	/**
+	 * Function that loads the statistic and insert for the text field the correct data.
+	 * @param rs result set of data from the DB. 
+	 */
+    private void loadStats(ArrayList<HashMap<String, Object>> rs) {
         if (rs.isEmpty()) {
         	System.out.println("rs is niill");
             // Handle the case when the result set is empty
@@ -124,6 +158,9 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
         examId_ExamName.clear();
     }
     
+    /**
+     * Sets the bar chart with the data.
+     */
     private void setBarChart() {
     	StudentBarChart.setTitle("Student's grades");
 		XYChart.Series<String,Number> dataSeries = new XYChart.Series<>();
@@ -133,6 +170,10 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		StudentBarChart.getData().add(dataSeries);
     }
     
+    /**
+     * Function that calculate the average of the grades.
+     * @param rs result set of data from the DB.
+     */
     private void setAvg(ArrayList<HashMap<String, Object>> rs) {
     	double total = 0;
         int count = 0;
@@ -158,10 +199,18 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
         }
     }
     
+    /**
+     * Sets for the StudentNameTxt the students first and last name.
+     * @param rs result set of information from the DB. 
+     */
     private void setName(HashMap<String, Object> rs) {
     	StudentNameTxt.setText(rs.get("firstName") + " " + rs.get("lastName"));
     }
     
+    
+    /**
+     * Function that calculate the median.
+     */
     private void setMedian() {
             // Sort the grades array in ascending order
             Collections.sort(gradesArr);
@@ -183,7 +232,9 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
         }
     
 
-
+    /**
+     * Initialize Text Fields with empty strings.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resourceBundle) {
 		StudentAvaregeTxt.setText("");
@@ -191,7 +242,10 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		StudentMedianTxt.setText("");
 	}
 
-    
+	/**
+     * Loads the current window.
+     * @param primaryStage
+     */
 	public void start(Stage primaryStage) {
 		try {
 	        Parent root =  FXMLLoader.load(getClass().getResource("/guiHod/ViewStatisticsByStudent.fxml"));
@@ -211,6 +265,10 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 	    }
 	}
 	
+	/**
+	 * gets the course id from user input.
+	 * @return course id.
+	 */
 	private String getid() {
 		return StudentIDTxt.getText();
 	}
