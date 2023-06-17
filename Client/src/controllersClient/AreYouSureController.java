@@ -17,6 +17,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Controller class that is activated when closing the primary window of the program.
+ * Gives the user two option: close the window and log out or do nothing
+ *
+ */
 public class AreYouSureController extends AbstractController{
 	private User user;
     @FXML
@@ -25,14 +30,21 @@ public class AreYouSureController extends AbstractController{
     @FXML
     private Button btnYes;
 
+    /**
+     * If the user press NO the window will be closed.
+     * @param event Action event
+     */
     @FXML
     void getNoBtn(ActionEvent event) {
     	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
     }
-
+    
+    /**
+     * If the user press YES the client program will terminate and the user will logout.
+     * @param event Action event
+     */
     @FXML
     void getYesBtn(ActionEvent event) {
-    	//need to implement log out
     	try {
     		user = ConnectionServer.getInstance().getUser();
     		boolean res = super.logoutRequest(user);
@@ -57,6 +69,10 @@ public class AreYouSureController extends AbstractController{
 		
     }
     
+    /**
+     * Activate and load the window.
+     * @param primaryStage Stage.
+     */
     public void start(Stage primaryStage) {
 	    try {
 	        Parent root = FXMLLoader.load(getClass().getResource("/guiClient/AreYouSureScreen.fxml"));

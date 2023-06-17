@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -55,6 +56,8 @@ public class ServerController  {
 
     @FXML
     private TextArea txtPass;
+    @FXML
+    private Label lblError;
 
     @FXML
     private TextArea txtPort;
@@ -85,36 +88,43 @@ public class ServerController  {
 	 * */
 	@FXML
 	void clickConnectBtn(MouseEvent event) {
-		/*
-		HashMap<String, String> db_info = new HashMap<>() {{
-			put("ip", getIP());
-			put("password", getPass());
-			put("username", getHost());
-			put("scheme", getScheme());
-			put("port", getPort());
-		}};
-		if(db_info.containsValue("")) {
-			System.out.println("You must enter values");
-			return;			
-		}*/
+		
+//		HashMap<String, String> db_info = new HashMap<>() {{
+//			put("ip", getIP());
+//			put("password", getPass());
+//			put("username", getHost());
+//			put("scheme", getScheme());
+//			put("port", getPort());
+//		}};
+//		if(db_info.containsValue("")) {
+//			System.out.println("You must enter values");
+//			return;			
+//		}
 		HashMap<String, String> db_info_temp = new HashMap<>() {{
 			put("ip","localhost");
-			put("password", "Yoni46001021");
+			put("password", "EyalMySq");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");
 		}};
 
-		//startServer(db_info);
+//		startServer(db_info);
 		startServer(db_info_temp);
-    	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
-		try {
-			connectedScreenController.start(primaryStage);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    	if(lblError.getText().length() == 0) {
+    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    		Stage primaryStage = new Stage();
+    		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
+    		try {
+    			connectedScreenController.start(primaryStage);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+		return;
+	}
+	
+	public void setErrorLbl(String error) {
+		lblError.setText(error);
 	}
 	
 	/**
@@ -136,7 +146,7 @@ public class ServerController  {
 	void startServer(HashMap<String, String> db_info) {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
-		dbController.connectToDb();
+		dbController.connectToDb(this);
 		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();
 		
 	}

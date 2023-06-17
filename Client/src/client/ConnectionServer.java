@@ -9,8 +9,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import controllersStudent.TakeExamController;
 import entities.User;
-
+import javafx.application.Platform;
+ 
 
 public class ConnectionServer extends AbstractClient{
  
@@ -31,12 +33,17 @@ public class ConnectionServer extends AbstractClient{
 	 *@param msg from the server
 	 * */
     public void handleMessageFromServer(Object msg) {
-    	if (!( msg instanceof ArrayList)) {
-    		System.out.println("not valid return from server");
-    		return;
+    	if (msg instanceof ArrayList) {
+        	awaitResponse = false;
+        	rs = (ArrayList<HashMap<String,Object>>) msg;
+    	    // Handle the ArrayList return type here
+    	} else if (msg instanceof HashMap) {
+    		specialMethod((HashMap<String, Object>) msg);
+    	} else {
+    	    System.out.println("Not a valid return from the server");
+    	    rs = null;
     	}
-    	awaitResponse = false;
-    	rs = (ArrayList<HashMap<String,Object>>) msg;
+
     }
     
     /**
@@ -100,7 +107,6 @@ public class ConnectionServer extends AbstractClient{
 	 * */
 	public static ConnectionServer getInstance(){
 		if (instance == null) {
-			System.out.println("you must fill the fields in the first connection");
 			return null;
 		}
 		return instance;
@@ -114,6 +120,17 @@ public class ConnectionServer extends AbstractClient{
 	public void setUser(User user) {
 		ConnectionServer.user = user;
 	}
-
-
+	
+	public void specialMethod(HashMap<String, Object> msg) {
+	    String message = (String) msg.get("Special Method");
+	    if (message.equals("EXAM_BLOCKED")) {
+	    	ArrayList<Integer> idToLock = (ArrayList<Integer>) msg.get("idToLock");
+	        int userId = ConnectionServer.instance.getUser().getId();
+	    	if(idToLock.contains(userId)){
+	    		Platform.runLater(() -> {
+	            	TakeExamController.showBlockedPage();
+	        	});
+	    	}
+	    }
+	}
 }

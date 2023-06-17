@@ -68,8 +68,20 @@ public class SqlQueries {
 		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + object + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return query;
 	}
+	public static String getRightAnswerAndDetailsForQuestionById(Object object) {
+		String query = "SELECT details ,rightAnswer FROM questions WHERE questionId = " + (String)object + ";";
+		return query;
+	}
+	public static String getExamQuestionsById(Object object) {
+		String query = "SELECT qie.questions FROM questionsinexam as qie WHERE qie.examId = " + (String)object + " ;";
+		return query;
+	}
 	public static String getExamsByUserId(String id) {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
+		return query;
+	}
+	public static String getExamResultChosenAnswersByExamId(String id) {
+		String query = "SELECT DISTINCT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + id + ";";
 		return query;
 	}
 	public static String getExamsByComposerId(String id) {
@@ -419,6 +431,7 @@ public class SqlQueries {
 		return "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked, examFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
 	
+
 	public static String updateExamInDB() {
 	    return "UPDATE exam SET examName = ?, courseId = ?, subject = ?, duration = ?, lecturerNote = ?, studentNote = ?, composerId = ?, code = ?, examNum = ?, bankId = ?, isLocked = ?, examFile = ? WHERE examId = ?";
 	}
@@ -431,6 +444,26 @@ public class SqlQueries {
 				+ "WHERE examId = " + arrayList.get(0) + ";";
 	}
 	
+
+	public static String getExamFileByExamId(Integer examId) {
+		return "SELECT examFile FROM exam WHERE examId ='"+ examId + "';";
+	}
+	
+	public static String getStudentWithExamIdAndInProgress(ArrayList<Object> examIds) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT * FROM examresults WHERE examId IN (");
+
+		// Build the comma-separated list of examId values
+		for (int i = 0; i < examIds.size(); i++) {
+		    queryBuilder.append(examIds.get(i));
+		    if (i < examIds.size() - 1) {
+		        queryBuilder.append(", ");
+		    }
+		}
+		queryBuilder.append(") AND status = 'inProgress';");
+		return queryBuilder.toString();
+	}
+
 //	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
 //	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
 //			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";

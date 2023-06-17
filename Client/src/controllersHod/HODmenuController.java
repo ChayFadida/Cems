@@ -37,15 +37,43 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ocsf.server.AbstractServer;
 
-//remove Application after Login implementation
+/**
+ * Controller class for the HOD menu screen.
+ * Class purpose is to manage the HOD interaction with his menu screen.
+ *
+ */
 public class HODmenuController extends AbstractController implements Initializable {
+	/**
+	 * Controller for the HOD to view all the students that belongs to his department.
+	 */
 	private HODviewAllStudentsController hODviewAllStudentsController;
+	/**
+	 * Controller for the HOD to view all the lecturers that belongs to his department.
+	 */
 	private HODviewAllLecturersTableController hODviewAllLecturersTableController;
+	/**
+	 * Controller for the HOD to view the bank exam of each lecturer.
+	 */
 	private HODviewExamBankController hODviewExamBankController;
+	/**
+	 * Controller for the HOD to view the requests he have for changing the exam time duration.
+	 */
 	private HODviewRequestController hODviewRequestController;
+	/**
+	 * Controller for the HOD to view statistic reports about student / course / lecturer.
+	 */
 	private HODviewStatisticsController hODviewStatisticsController;
+	/**
+	 * Controller for the HOD to view the question exam of each lecturer.
+	 */
 	private HODviewQuestionBankController hODviewQuestionBankController;
+	/**
+	 * HOD object that refers to HOD entity.
+	 */
 	private Hod hod;
+	/**
+	 * Super object that refers to the Super entity. "Super" is for HOD's that are also lecturers.
+	 */
 	private Super s;
 
     @FXML
@@ -84,6 +112,9 @@ public class HODmenuController extends AbstractController implements Initializab
     @FXML
     private Text lblHello;
     
+    /**
+     * Initializing new instance for the HODmenuController class.
+     */
     public HODmenuController() {
     	User user = ConnectionServer.getInstance().getUser();
 		if(user instanceof Super) {
@@ -95,6 +126,11 @@ public class HODmenuController extends AbstractController implements Initializab
 			this.s=null;
 		}
     }
+    /**
+     * Event handler for the Exit button.
+     * Display "Are you sure" confirmation pop-up for log out
+     * @param event javaFX action event that will trigger the exit button 
+     */
 
 	@FXML
     void getExitBtn(ActionEvent event) {
@@ -102,6 +138,11 @@ public class HODmenuController extends AbstractController implements Initializab
     	areYouSureController.start(new Stage());
     }
 
+	/**
+	 * Event handler for the Minimize button.
+	 * Minimize the program window.
+	 * @param event  javaFX action event that will trigger the minimize button 
+	 */
 	@FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -110,7 +151,10 @@ public class HODmenuController extends AbstractController implements Initializab
     
     private final Glow buttonPressEffect = new Glow(0.5);
    
-    
+    /**
+     * loads the HOD first screen - the menu.
+     * @param primaryStage JavaFX stage that shows the primary window.
+     */
     public void start(Stage primaryStage) {
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/guiHod/HODmenu.fxml"));
@@ -130,9 +174,14 @@ public class HODmenuController extends AbstractController implements Initializab
 			e.printStackTrace();
 		}
 	}
-
+    
+    /**
+     * Logs out the user and close the current window of the program.
+     * @param event mouse event that triggered by clicking the button.
+     * @throws IOException 
+     */
     @FXML
-    void LogOut(MouseEvent event) {
+    void LogOut(MouseEvent event) throws IOException {
     	if(s!=null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
@@ -163,28 +212,40 @@ public class HODmenuController extends AbstractController implements Initializab
 			}
     	}
     }
-
+    /**
+     * Loads the ViewExamBank FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewExamBank(MouseEvent event) {
     	loadPage("ViewExamBank");
     	if(hODviewExamBankController==null)
     		hODviewExamBankController = new HODviewExamBankController();
     }
-
+    /**
+     * Loads the ViewQuestionBank FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewQuestionBank(MouseEvent event) {
     	loadPage("ViewQuestionBank");
     	if(hODviewQuestionBankController==null)
     		hODviewQuestionBankController = new HODviewQuestionBankController();
     }
-
+    /**
+     * Loads the ViewRequest FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewRequest(MouseEvent event) {
     	loadPage("ViewRequest");
     	if(hODviewRequestController==null)
     		hODviewRequestController = new HODviewRequestController();
     }
-
+    /**
+     * Loads the ViewStatistics FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewStatistics(MouseEvent event) {
     	loadPage("ViewStatistics");
@@ -192,13 +253,20 @@ public class HODmenuController extends AbstractController implements Initializab
     		hODviewStatisticsController = new HODviewStatisticsController();
     }
     
+    /**
+     * Loads the ViewAllStudents FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewAllStudents(MouseEvent event) {
     	loadPage("ViewAllStudents");
     	if(hODviewAllStudentsController==null)
     		hODviewAllStudentsController= new HODviewAllStudentsController();
     }
-    
+    /**
+     * Loads the ViewAllLecturers FXML page
+     * @param event mouse event that triggered by clicking the button.
+     */
     @FXML
     void ViewAllLecturers(MouseEvent event) {
     	loadPage("ViewAllLecturers");
@@ -206,9 +274,12 @@ public class HODmenuController extends AbstractController implements Initializab
     		hODviewAllLecturersTableController = new HODviewAllLecturersTableController();
     	
     }
-    
+    /**
+     * Initializes the HOD menu GUI components and the associated event handlers.
+     */
     @FXML
     public void initialize() {
+    	//sets effects for the buttons when pressed
         buttonPressEffect.setInput(LogOutButton.getEffect());
         buttonPressEffect.setInput(ViewExamBankButton.getEffect());
         buttonPressEffect.setInput(ViewQuestionBankButton.getEffect());
@@ -216,7 +287,8 @@ public class HODmenuController extends AbstractController implements Initializab
         buttonPressEffect.setInput(ViewStatisticsButton.getEffect());
         buttonPressEffect.setInput(ViewAllLecturersButton.getEffect());
         buttonPressEffect.setInput(ViewAllStudentsButton.getEffect());
-
+        //sets event handlers for each button
+        
         LogOutButton.setOnMousePressed(this::applyButtonPressEffect);
         LogOutButton.setOnMouseReleased(this::removeButtonPressEffect);
 
@@ -241,16 +313,28 @@ public class HODmenuController extends AbstractController implements Initializab
         
     }
 
+    /**
+     * Apply the press effect from specific button
+     * @param event	triggered by release the button.
+     */
     private void applyButtonPressEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setEffect(buttonPressEffect);
     }
-
+    
+    /**
+     * Removing the press effect from specific button
+     * @param event	triggered by release the button.
+     */
     private void removeButtonPressEffect(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setEffect(null);
     }
   
+    /**
+     * Loads new FXML page
+     * @param page the page that is need to be loaded.
+     */
     private void loadPage(String page) {
         Parent root = null;
         try {
@@ -260,7 +344,12 @@ public class HODmenuController extends AbstractController implements Initializab
         }
         bp.setCenter(root);
     }
-
+    
+    /**
+     * Sets the user first name after log in 
+     * @param location  The location used to resolve relative paths for the root object.
+     * @param resources The resources used to localize the root object.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		lblHello.setText("Hello, "+hod.getFirstName()+ "!");

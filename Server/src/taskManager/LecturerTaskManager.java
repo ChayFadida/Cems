@@ -8,11 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DataBase.DBController;
 import DataBase.SqlQueries;
 import entities.Question;
 import entities.QuestionForExam;
+import server.ClientHandler;
 import thirdPart.ExamGenerator;
 
 public class LecturerTaskManager implements TaskHandler {
@@ -93,6 +95,13 @@ public class LecturerTaskManager implements TaskHandler {
 				case "getQuestionsInExam":
 					return getQuestionsInExam(hm.get("param"));
 		    	default: 
+				case "getExamResultChosenAnswers":
+					return getExamResultChosenAnswers((String) hm.get("examId").get(0));
+				case "getExamQuestions":
+					return getExamQuestions((String) hm.get("examId").get(0));
+				case "getRightAnswerForQuestion":
+					return getRightAnswerForQuestion((String) hm.get("questionId").get(0));
+				default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
@@ -105,7 +114,23 @@ public class LecturerTaskManager implements TaskHandler {
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsInExam(arrayList));
 	    return rs;
 	}
-	
+
+	private ArrayList<HashMap<String, Object>> getExamQuestions(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamQuestionsById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getRightAnswerForQuestion(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getRightAnswerAndDetailsForQuestionById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getExamResultChosenAnswers(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamResultChosenAnswersByExamId(id));
+	    return rs;
+	}
+
 	private ArrayList<HashMap<String, Object>> getExamsByLecturerId(String id) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsByComposerId(id));
@@ -332,7 +357,17 @@ public class LecturerTaskManager implements TaskHandler {
 	
 	public ArrayList<HashMap<String, Object>> LockExamById(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.LockExamById(arrayList));
+		HashMap<String, Object> msgToClient = new HashMap<String, Object>();
+		msgToClient.put("Special Method", "EXAM_BLOCKED");
+;		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentWithExamIdAndInProgress(arrayList));
+		ArrayList<HashMap<String, Object>> lockedExam = dbController.updateQueries(SqlQueries.LockExamById(arrayList));
+        ArrayList<Integer> idToLock = new ArrayList<Integer>();
+		for (Map<String, Object> dict : rs) {
+            Integer studentId = (int) dict.get("studentId");
+            idToLock.add(studentId);
+        }
+		msgToClient.put("idToLock", idToLock);
+		ClientHandler.getInstance().sendToAllClients(msgToClient);
 		return rs;
 	}
 }

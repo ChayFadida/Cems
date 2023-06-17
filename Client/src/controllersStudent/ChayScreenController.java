@@ -38,6 +38,7 @@ public class ChayScreenController extends AbstractController{
     
     public void start(Stage primaryStage) {
 	    try {
+	    	System.out.println();
 	        Parent root =  FXMLLoader.load(getClass().getResource("/guiStudent/ChayScreen.fxml"));
 	        Scene scene = new Scene(root);
 //			primaryStage.initStyle(StageStyle.UNDECORATED);

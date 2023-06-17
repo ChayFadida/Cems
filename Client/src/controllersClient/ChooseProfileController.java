@@ -22,6 +22,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Controller class that gives users who are both lecturers and HOD's the option to chose their working profile 
+ * and to navigate to the wanted menu
+ */
 public class ChooseProfileController extends AbstractController{
 	public Super s;
 
@@ -41,12 +45,19 @@ public class ChooseProfileController extends AbstractController{
     private Button btnMinimize;
 
 
-   
-    public ChooseProfileController() {
+   /**
+    * Constructor for the class.
+    */
+    public ChooseProfileController() throws IOException {
 		super();
 		s = (Super) ConnectionServer.getInstance().getUser();
-	}
 
+	}
+    
+    /**
+     * Handling the action event when the btnHOD button is pressed 
+     * @param event Action event
+     */
 	@FXML
     void getHodBtn(ActionEvent event) {
     	System.out.println("HOD Login Successfuly.");
@@ -55,6 +66,10 @@ public class ChooseProfileController extends AbstractController{
 		hodMenuController.start(new Stage());
     }
 
+	/**
+     * Handling the action event when the btnLecturer button is pressed 
+     * @param event Action event
+     */
     @FXML
     void getLecBtn(ActionEvent event) {
     	System.out.println("Lecturer Login Successfuly.");
@@ -63,6 +78,10 @@ public class ChooseProfileController extends AbstractController{
 		lecturerMenuController.start(new Stage());
     }
 
+    /**
+     * Start and initialize the stage.
+     * @param primaryStage Stage.
+     */
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/guiClient/SuperChooseScreen.fxml"));
@@ -81,18 +100,31 @@ public class ChooseProfileController extends AbstractController{
 		}
 		
 	}
+	
+	/**
+     * Handling the action event when the btnLogout button is pressed 
+     * @param event Action event
+     */
     @FXML
     void getLogoutBtn(ActionEvent event) {
     	//need to implement log out
     	System.exit(0);
     }
-
+    
+	/**
+     * Handling the action event when the btnMinimize button is pressed 
+     * @param event Action event
+     */
     @FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
     
+	/**
+     * Handling the action event when the btnExit button is pressed 
+     * @param event Action event
+     */
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();

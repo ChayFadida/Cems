@@ -4,19 +4,25 @@ import java.util.HashMap;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import entities.Exam;
 import entities.ExamBankView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import thirdPart.JsonHandler;
 
-
+/**
+ * Controller class for the HOD 
+ * In this controller the HOD can view the exam bank of specific lecturer by insert her id.
+ * Extends AbstractController.
+ */
 public class HODviewExamBankController extends AbstractController {
 	private ArrayList<ExamBankView> eArr ;
 	private HODmenuController hODmenuController;
@@ -44,7 +50,15 @@ public class HODviewExamBankController extends AbstractController {
 
     @FXML
     private TableColumn<ExamBankView,String> clmSubject;
-
+    
+    @FXML
+    private Label notFoundLbl;
+    
+    
+    /**
+     * Activate the relevant query and sends massage to the server.
+     * @param event JAVAFX event.
+     */
     @FXML
     void showTable(ActionEvent event) {
     	String LecturerId = getid();
@@ -61,12 +75,22 @@ public class HODviewExamBankController extends AbstractController {
 		sendMsgToServer(msg);
 		try {
 			this.loadExam(ConnectionServer.rs);
+			if(eArr.isEmpty()) {
+				notFoundLbl.setText("Lecturer has not found");
+				ExamsTable.setItems(null);
+			}else {
+				notFoundLbl.setText("");
+				initTableView(eArr);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		initTableView(eArr);
     }
-
+     /**
+      * Initialize the table with the data we need.
+      * @param arr ArrayList of exams.
+      */
 	private void initTableView(ArrayList<ExamBankView> arr) {
 	   	ObservableList<ExamBankView> list = FXCollections.observableArrayList(arr);
 			PropertyValueFactory<ExamBankView,String> pvfCourse = new PropertyValueFactory<>("courses");
@@ -82,7 +106,11 @@ public class HODviewExamBankController extends AbstractController {
 			ExamsTable.setItems(list);
 		
 	}
-
+	
+	/**
+	 * Load the data from the result set.
+	 * @param rs the data from the DB.
+	 */
 	private void loadExam(ArrayList<HashMap<String, Object>> rs) {
 		eArr= new ArrayList<>();
 		if(rs == null) {
@@ -96,7 +124,11 @@ public class HODviewExamBankController extends AbstractController {
         }
 	
 	}
-
+	
+	/**
+	 * Get the id that the user insert.
+	 * @return the lecturer id.
+	 */
 	private String getid() {
 		return LecturerIdText.getText();
 	}
