@@ -73,6 +73,9 @@ public class CreateNewExamController extends AbstractController implements Initi
     private TextField txtName;
     
     @FXML
+    private TextField txtSubject;
+    
+    @FXML
     private Button closeButton;
 
     @FXML
@@ -98,25 +101,31 @@ public class CreateNewExamController extends AbstractController implements Initi
     
     @FXML
     private Label lblErrorName;
+    
+    @FXML
+    private Label lblErrorSubject;
+    
     @FXML
     void getFinish(ActionEvent event) {
     	lblError.setText(" ");
     	lblErrorCode.setText(" ");
     	lblErrorDuration.setText(" ");
     	lblErrorSelected.setText(" ");
+    	lblErrorSubject.setText(" ");
+    	String subject = txtSubject.getText();
     	String code = codetXT.getText();
     	String duration = DurauinTxt.getText();
     	String lecNotes = lecNotesTxt.getText();
     	String studNotes = studNotesText.getText();
     	String name = txtName.getText();
     	boolean flag=false;
-    	Integer durationMins;
-    	if(qArr.isEmpty()) {
+    	
+    	if(qArr.isEmpty() || qArr.equals("")) {
     		lblError.setText("You must select atleast one question");
     		flag=true;
     	}
-    	if(code==null || duration==null) {
-    		lblError.setText("You must define both code and duration");
+    	if(subject.equals("")) {
+    		lblErrorSubject.setText("You must enter a subject");
     		flag=true;
     	}
     	if(code.length()!=4 || !code.matches("^[a-zA-Z0-9]+$")) {
@@ -138,17 +147,16 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblError.setText("Please fix all error and try again later.");
     		return;
     	}
-    	durationMins = Integer.parseInt(duration);
     	if(lecNotes==null)
     		lecNotes=" ";
     	if(studNotes==null)
     		studNotes=" ";
     	if(name==null)
     		name=" ";
-    	createExam(code,duration,lecNotes,studNotes,name);
+    	createExam(code,duration,lecNotes,studNotes,name,subject);
     }
     
-	private void createExam(String code, String duration, String lecNotes, String studNotes,String name) {
+	private void createExam(String code, String duration, String lecNotes, String studNotes,String name, String subject) {
 		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 		ArrayList<Object> arr = new ArrayList<>();
 		HashMap<String, Object> bank=getExamBank();
@@ -160,7 +168,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		ArrayList<Object> arr2 = new ArrayList<>();
 		HashMap<Object, Object> arr2Param = new HashMap<>();
 		arr2.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
-		arr2.add(getDepartmentName());
+		arr2.add(subject);
 		arr2.add(duration);
 		arr2.add(lecNotes);
 		arr2.add(studNotes);
@@ -222,25 +230,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		}
 	}
 
-	private String getDepartmentName() {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getDepartmentNameById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(((Lecturer)ConnectionServer.user).getDepartmentId()+"");
-		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-		if(rs == null){
-			System.out.println("RS is null");
-		}
-		return (String) rs.get(0).get("name");
-	}
-
 	private void addToExamBank(HashMap<String, Object> bank, Integer examId) {
 		String exams = (String) bank.get("exams");
 		HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class,Integer.class);
@@ -279,6 +268,8 @@ public class CreateNewExamController extends AbstractController implements Initi
 		lblErrorCode.setText(" ");
 		lblErrorDuration.setText(" ");
 		lblErrorSelected.setText(" ");
+		txtSubject.setText("");
+		txtName.setText("");
 		codetXT.setText("");
 		DurauinTxt.setText("");
 		lecNotesTxt.setText("");
