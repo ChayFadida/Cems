@@ -100,6 +100,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getExamQuestions((String) hm.get("examId").get(0));
 				case "getRightAnswerForQuestion":
 					return getRightAnswerForQuestion((String) hm.get("questionId").get(0));
+				case "getAllExams":
+					return getAllExams();
 				default: 
 		    		System.out.println("no such method for lecturer");
 				}
@@ -108,6 +110,12 @@ public class LecturerTaskManager implements TaskHandler {
 		return null;
 	}
 	
+	private ArrayList<HashMap<String, Object>> getAllExams() throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewAllExams());
+	    return rs;
+	}
+
 	private ArrayList<HashMap<String, Object>> getQuestionsInExam(ArrayList<Object> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsInExam(arrayList));

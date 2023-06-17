@@ -182,7 +182,7 @@
       </AnchorPane>
       <ProgressBar fx:id="progressBar" layoutX="65.0" layoutY="111.0" prefHeight="10.0" prefWidth="627.0" progress="1.0" styleClass="clock-progress-bar" />
       <Button fx:id="btnSubmit" layoutX="332.0" layoutY="804.0" mnemonicParsing="false" onAction="#getSubmitBtn" styleClass="button-view" text="Submit exam" />
-      <Text layoutX="81.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam's notes:">
+      <Text layoutX="81.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam's notes:">
          <font>
             <Font size="20.0" />
          </font>
