@@ -7,94 +7,100 @@ import java.util.List;
 import java.io.FileOutputStream;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
-import entities.Question;
+import entities.*;
 import thirdPart.JsonHandler;
 import java.io.FileInputStream;
 
 public class ExamGenerator {
 
-	final int maxQuestionsPerPage = 4;	
-	public void generateExamDoc(ArrayList<Object> arrayList2, String filePath, String courseId, String testName, String duration) {
-	    try {
-	        XWPFDocument document = new XWPFDocument();
+    private final int maxQuestionsPerPage = 4;
 
-	        XWPFParagraph testNameParagraph = document.createParagraph();
-	        testNameParagraph.setAlignment(ParagraphAlignment.CENTER);
-	        XWPFRun testNameRun = testNameParagraph.createRun();
-	        testNameRun.setBold(true);
-	        testNameRun.setFontSize(16);
-	        testNameRun.setText(testName);
+    public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
+        try {
+            XWPFDocument document = new XWPFDocument();
 
-	        XWPFParagraph courseDurationParagraph = document.createParagraph();
-	        courseDurationParagraph.setAlignment(ParagraphAlignment.CENTER);
-	        XWPFRun courseDurationRun = courseDurationParagraph.createRun();
-	        courseDurationRun.setBold(true);
-	        courseDurationRun.setFontSize(12);
-	        courseDurationRun.setText("Course: " + courseId + " | Duration: " + duration);
+            XWPFParagraph testNameParagraph = document.createParagraph();
+            testNameParagraph.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun testNameRun = testNameParagraph.createRun();
+            testNameRun.setBold(true);
+            testNameRun.setFontSize(16);
+            testNameRun.setText(testName);
 
-	        int totalPages = (int) Math.ceil((double) arrayList2.size() / maxQuestionsPerPage);
-	        int currentPage = 1;
-	        int questionIndex = 0;
-	        int remainingQuestions = arrayList2.size();
+            XWPFParagraph courseDurationParagraph = document.createParagraph();
+            courseDurationParagraph.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun courseDurationRun = courseDurationParagraph.createRun();
+            courseDurationRun.setBold(true);
+            courseDurationRun.setFontSize(12);
+            courseDurationRun.setText("Course: " + courseId + " | Duration: " + duration + "M" + " | ID: _____ ");
 
-	        while (remainingQuestions > 0) {
-	            XWPFParagraph pageHeaderParagraph = document.createParagraph();
-	            pageHeaderParagraph.setAlignment(ParagraphAlignment.LEFT);
-	            XWPFRun pageHeaderRun = pageHeaderParagraph.createRun();
-	            pageHeaderRun.setBold(true);
-	            pageHeaderRun.setFontSize(12);
-	            pageHeaderRun.setText("Page " + currentPage);
-	            XWPFParagraph emptyParagraphAfterPage = document.createParagraph();
-	            emptyParagraphAfterPage.setSpacingAfter(0); // Adjust spacing as needed
+            int totalPages = (int) Math.ceil((double) questions.size() / maxQuestionsPerPage);
+            int currentPage = 1;
+            int questionIndex = 0;
 
-	            for (int i = 0; i < Math.min(maxQuestionsPerPage, remainingQuestions); i++) {
-	                Question question = (Question) arrayList2.get(questionIndex);
+            while (questionIndex < questions.size()) {
+                if (currentPage > 1) {
+                    XWPFParagraph pageHeaderParagraph = document.createParagraph();
+                    pageHeaderParagraph.setAlignment(ParagraphAlignment.LEFT);
+                    XWPFRun pageHeaderRun = pageHeaderParagraph.createRun();
+                    pageHeaderRun.setBold(true);
+                    pageHeaderRun.setFontSize(12);
+                    pageHeaderRun.setText("Page " + currentPage + " of " + totalPages);
 
-	                XWPFParagraph questionParagraph = document.createParagraph();
-	                questionParagraph.setAlignment(ParagraphAlignment.LEFT);
-	                XWPFRun questionRun = questionParagraph.createRun();
-	                questionRun.setBold(true);
-	                questionRun.setText("Question " + (questionIndex + 1) + ":");
+                    XWPFParagraph emptyParagraphAfterPage = document.createParagraph();
+                    emptyParagraphAfterPage.setSpacingAfter(0); // Adjust spacing as needed
+                }
 
-	                HashMap<Object, Object> choices = JsonHandler.convertJsonToHashMap(question.getAnswers(), String.class, String.class);
+                for (int i = 0; i < maxQuestionsPerPage; i++) {
+                    if (questionIndex >= questions.size()) {
+                        break;  // No more questions, exit the loop
+                    }
 
-	                for (Object key : choices.keySet()) {
-	                    XWPFParagraph choiceParagraph = document.createParagraph();
-	                    choiceParagraph.setAlignment(ParagraphAlignment.LEFT);
-	                    XWPFRun choiceRun = choiceParagraph.createRun();
-	                    choiceRun.setText("   " + key.toString() + ") " + choices.get(key));
-	                }
+                    Question question = (Question) questions.get(questionIndex);
 
-	                // Add empty paragraphs for spacing
-	                for (int j = 0; j < 5; j++) {
-	                    XWPFParagraph emptyParagraph = document.createParagraph();
-	                    emptyParagraph.setSpacingAfter(0); // Adjust spacing as needed
-	                }
+                    XWPFParagraph questionParagraph = document.createParagraph();
+                    questionParagraph.setAlignment(ParagraphAlignment.LEFT);
+                    XWPFRun questionRun = questionParagraph.createRun();
+                    questionRun.setBold(true);
+                    questionRun.setText("Question " + (questionIndex + 1) + ":");
+                    XWPFRun questionRun1 = questionParagraph.createRun();
+                    questionRun.setText(question.getDetails());
 
-	                questionIndex++;
-	            }
+                    HashMap<Object, Object> choices = JsonHandler.convertJsonToHashMap(question.getAnswers(), String.class, String.class);
 
+                    for (Object key : choices.keySet()) {
+                        XWPFParagraph choiceParagraph = document.createParagraph();
+                        choiceParagraph.setAlignment(ParagraphAlignment.LEFT);
+                        XWPFRun choiceRun = choiceParagraph.createRun();
+                        choiceRun.setText("   " + key.toString() + ") " + choices.get(key));
+                    }
 
-	            remainingQuestions -= maxQuestionsPerPage;
+                    // Add empty paragraphs for spacing
+                    for (int j = 0; j < 5; j++) {
+                        XWPFParagraph emptyParagraph = document.createParagraph();
+                        emptyParagraph.setSpacingAfter(0); // Adjust spacing as needed
+                    }
 
-	            // Add a page break if there are more questions
-	            if (remainingQuestions > 0) {
-	                document.createParagraph().setPageBreak(true);
-	                currentPage++;
-	            }
-	        }
+                    questionIndex++;
+                }
 
-	        FileOutputStream out = new FileOutputStream(new File(filePath));
-	        document.write(out);
-	        out.close();
+                if (questionIndex < questions.size()) {
+                    XWPFParagraph pageBreakParagraph = document.createParagraph();
+                    pageBreakParagraph.setPageBreak(true);
+                }
 
-	        System.out.println("Word document generated successfully at: " + filePath);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	
-	public static void fillIDFieldInWordDoc(String filePath, String id) {
+                currentPage++;
+            }
+
+            FileOutputStream out = new FileOutputStream(new File(filePath));
+            document.write(out);
+            out.close();
+
+            System.out.println("Word document generated successfully at: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	public static void fillIDFieldInWordDoc(String filePath, int id) {
 	    try {
 	        XWPFDocument document = new XWPFDocument(new FileInputStream(filePath));
 
@@ -116,6 +122,10 @@ public class ExamGenerator {
 	        e.printStackTrace();
 	    }
 	}
+	public static void main(String[] args) {
+		ExamGenerator.fillIDFieldInWordDoc("/Users/chayfadida/Desktop/try1111.doc", 37);
+	}///Users/chayfadida/Desktop/ffaaddd.doc
+
 }
 
 

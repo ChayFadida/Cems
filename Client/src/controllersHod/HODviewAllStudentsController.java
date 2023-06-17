@@ -16,6 +16,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * Controller class for the HOD.
+ * In this controller the HOD can view in a table all the Students that belongs to the HOD's department.
+ * Extends AbstractController.
+ * Implement Initializable.
+ */
 public class HODviewAllStudentsController extends AbstractController implements Initializable{
 	private ArrayList<Student> stdArr ;
 
@@ -30,6 +36,11 @@ public class HODviewAllStudentsController extends AbstractController implements 
     @FXML
     public TableColumn<Student, String> email;
 
+    /**
+     * Loads the ArrayList of students that belongs to the HOD department.
+     * @param rs the data about the Students
+     * @throws Exception in case of error while loading
+     */
     public void loadStudents(ArrayList<HashMap<String, Object>> rs) throws Exception {
     	stdArr = new ArrayList<Student>();
     	if(rs == null) {
@@ -39,7 +50,10 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		    stdArr.add(new Student(rs.get(i),null));
 		}
 	}
-
+    
+    /**
+     * Loads the student table by sending the relevant query to the server.
+     */
     @FXML
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -63,7 +77,10 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		}
 		initTableView(stdArr);
 	}
-
+    /**
+     * Initialize the table with the wanted data.
+     * @param arr of students from the result set
+     */
 	private void initTableView(ArrayList<Student> arr) {
 		ObservableList<Student> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
@@ -76,7 +93,12 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		email.setCellValueFactory(pvfEmail);
 		AllStudentsTable.setItems(list);
 	}
-
+  
+	/**
+	 * initialize the controller.
+	 * @param location
+	 * @param resources	  
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		

@@ -7,6 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.*;
 
+/**
+ * HOD Controller class.
+ * Showing to the HOD three options to get his statistic reports: by student/course/lecturer.
+ * Extends AbstractController. 
+ *
+ */
 public class HODviewStatisticsController extends AbstractController{
 
     @FXML
@@ -21,30 +27,36 @@ public class HODviewStatisticsController extends AbstractController{
     @FXML
     private AnchorPane ap;
 
+    /**
+     * Handle action event when user press "by course" button.
+     * @param event Action Event.
+     */
     @FXML
     void ByCourse(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	Stage primaryStage = new Stage();
     	HODviewStatisticsByCourseController hODviewStatisticsByCourseController = new HODviewStatisticsByCourseController();
-   		//need to implement start method in AddNewQuestionController and then -->
    		hODviewStatisticsByCourseController.start(primaryStage);
     }
 
+    /**
+     * Handle action event when user press "by lecturer" button.
+     * @param event Action Event.
+     */
     @FXML
     void ByLecturer(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	Stage primaryStage = new Stage();
     	HODviewStatisticsByLecturerController hODviewStatisticsByLecturerController = new HODviewStatisticsByLecturerController();
-   		//need to implement start method in AddNewQuestionController and then -->
    		hODviewStatisticsByLecturerController.start(primaryStage);
     }
 
+    /**
+     * Handle action event when user press "by student" button.
+     * @param event Action Event.
+     */
     @FXML
     void ByStudent(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	Stage primaryStage = new Stage();
     	HODviewStatisticsByStudentController hODviewStatisticsByStudentController = new HODviewStatisticsByStudentController();
-   		//need to implement start method in AddNewQuestionController and then -->
    		hODviewStatisticsByStudentController.start(primaryStage);
     }
 

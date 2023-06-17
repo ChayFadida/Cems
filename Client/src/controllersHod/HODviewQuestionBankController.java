@@ -12,12 +12,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import thirdPart.JsonHandler;
 
+/**
+ * Controller class for the HOD 
+ * In this controller the HOD can view the question bank of specific lecturer by insert her id.
+ * Extends AbstractController.
+ */
 public class HODviewQuestionBankController extends AbstractController {
 	
 	private ArrayList<QuestionBankView> qArr ;
@@ -46,10 +52,18 @@ public class HODviewQuestionBankController extends AbstractController {
 
     @FXML
     private TableColumn<QuestionBankView, String> clmSubject;
+    
+    @FXML
+    private Label notFoundLbl;
 
+    /**
+     * Activate the relevant query and sends massage to the server.
+     * @param event JAVAFX event.
+     */
     @FXML
     void showTable(ActionEvent event) {
     	String LecturerId = getid();
+    	notFoundLbl.setText("");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("HOD");
@@ -61,14 +75,24 @@ public class HODviewQuestionBankController extends AbstractController {
 		arr2.add(LecturerId);
 		msg.put("param", arr2);
 		sendMsgToServer(msg);
-		try {
-			this.loadQuestions(ConnectionServer.rs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		initTableView(qArr);
+		 try {
+	            ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
+	            if (rs == null || rs.isEmpty()) {
+	                notFoundLbl.setText("Lecturer not found");
+	                QuestionTable.setItems(null);
+	            } else {
+	                loadQuestions(rs);
+	                initTableView(qArr);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
     }
     
+	/**
+	 * Load the data from the result set.
+	 * @param rs the data from the DB.
+	 */
     private void loadQuestions(ArrayList<HashMap<String, Object>> rs) {
 		qArr= new ArrayList<>();
 		if(rs == null) {
@@ -89,13 +113,6 @@ public class HODviewQuestionBankController extends AbstractController {
                 if (i < integerQuestionList.size() - 1)
                 	courseNames1.append(", ");
             }
-//            for (Integer courseCode : integerQuestionList) {
-//                if (getCourseid_courseName.get(courseCode).length() > 0) {
-//                    courseNames1.append(", ");
-//                }
-//                courseNames1.append(getCourseid_courseName.get(courseCode));
-//            }
-            System.out.println(courseNames1.toString());
 		    qArr.add(new QuestionBankView((String)tmp.get("details"),
 		    		(String)tmp.get("subject"),(String)tmp.get("lastName"),
 		    		(String)tmp.get("firstName"),courseNames1.toString()));
@@ -104,11 +121,19 @@ public class HODviewQuestionBankController extends AbstractController {
     
     
     
-
+	
+	/**
+	 * Get the id that the user insert.
+	 * @return the lecturer id.
+	 */
 	private String getid() {
     	return LecturerIdText.getText();
     }
-    
+	
+    /**
+     * Initialize the table with the data we need.
+     * @param arr ArrayList of exams.
+     */
     private void initTableView(ArrayList<QuestionBankView> arr) {
     	ObservableList<QuestionBankView> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<QuestionBankView, String> pvfDetails = new PropertyValueFactory<>("details");

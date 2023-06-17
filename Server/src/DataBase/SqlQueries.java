@@ -422,7 +422,11 @@ public class SqlQueries {
 	public static String InsertExamToDB() {
 		return "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked, examFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
-  
+	
+	public static String getExamFileByExamId(Integer examId) {
+		return "SELECT examFile FROM exam WHERE examId ='"+ examId + "';";
+	}
+
 //	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
 //	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
 //			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";

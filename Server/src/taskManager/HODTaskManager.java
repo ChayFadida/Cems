@@ -2,7 +2,9 @@ package taskManager;
 
 import java.util.ArrayList;
 
+
 import java.util.HashMap;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -104,9 +106,13 @@ public class HODTaskManager implements TaskHandler{
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<String> param) throws SQLException {
 		ArrayList<HashMap<String, Object>> res = new ArrayList<>();
 		DBController dbController = DBController.getInstance(); 
-		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0))).get(0);
-		String lecturerId = (String) rs.get("firstName");
-		String jsonQuestionArray = (String) rs.get("questions");
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById(param.get(0)));
+		if(rs.isEmpty()) {
+			return rs;
+		}
+		HashMap<String, Object> row = rs.get(0);
+		String lecturerId = (String) row.get("firstName");
+		String jsonQuestionArray = (String) row.get("questions");
 		HashMap<String,ArrayList<Double>> HashMapQuestion = JsonHandler.convertJsonToHashMap(jsonQuestionArray, String.class, ArrayList.class);
 		ArrayList<Double> questionIdArr =  (ArrayList<Double>) HashMapQuestion.get("questions");
         ArrayList<Integer> integerQuestionList = new ArrayList<>();
@@ -114,7 +120,6 @@ public class HODTaskManager implements TaskHandler{
         	integerQuestionList.add(d.intValue());
         }
 		ArrayList<HashMap<String, Object>> rs1 = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
-		
 		return rs1; 
 	} 
 	
