@@ -27,11 +27,75 @@ public class StudentTaskManager implements TaskHandler{
 					return getExamsByStudentId((String)hm.get("studentId").get(0));
 				case "UploadTestsToDB":
 					return UploadTestsToDB(hm.get("param").get(0));
+				case "getExamresultByExamAndUserId":
+					return getExamresultByExamAndUserId(hm.get("param"));
+				case "checkIsLockedByExamId":
+					return checkIsLockedByExamId(hm.get("param"));
+				case "insertToExamresults":
+					return insertToExamresults(hm.get("param"));
+				case "updateExamresults":
+					return updateExamresults(hm.get("param"));
+				case "checkCountInProgressByExamId":
+					return checkCountInProgressByExamId(hm.get("param"));
+				case "lockExamById":
+					return lockExamById(hm.get("param"));
+				case "getExamresultsOfOtherStudentsByExamId":
+					return getExamresultsOfOtherStudentsByExamId(hm.get("param"));
+				case "getLecturerEmailByExamId":
+					return getLecturerEmailByExamId(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for Student");
 				}
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+
+	private ArrayList<HashMap<String, Object>> getLecturerEmailByExamId(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLecturerEmailByExamId(param.get(0)));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> getExamresultsOfOtherStudentsByExamId(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamresultsOfOtherStudentsByExamId(param));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> lockExamById(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.lockExamByExamId(param.get(0)));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> checkCountInProgressByExamId(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.checkCountInProgressByExamId(param.get(0)));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> updateExamresults(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamresults(param));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> insertToExamresults(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.insertToExamresults(param));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> checkIsLockedByExamId(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.checkIsLockedByExamId(param));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> getExamresultByExamAndUserId(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamresultByExamAndUserId(param));
+	    return rs;
 	}
 
 	private ArrayList<HashMap<String, Object>> UploadTestsToDB(Object param){

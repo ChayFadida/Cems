@@ -72,4 +72,9 @@ public class Clock implements CountDownObserver {
         lblHour.setText(secondsToString(mode.getHours()));
         progressBar.setProgress(1);
     }
+
+	public ProgressBar getProgressBar() {
+		return progressBar;
+	}
+    
 }
