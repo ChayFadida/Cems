@@ -217,8 +217,6 @@ public class TakeExamController extends AbstractController{
 		return rs;
 	}
 	
-}
-
 	@FXML
     void getManual(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader();
@@ -247,10 +245,6 @@ public class TakeExamController extends AbstractController{
 		}
 
     }
-    
-    private boolean checkID(String text) {
-		return (ConnectionServer.user.getId()+"")==text;
-  	}
 	
     @FXML
     void getSubmitBtn(ActionEvent event) {
