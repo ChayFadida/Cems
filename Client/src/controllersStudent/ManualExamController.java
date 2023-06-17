@@ -124,7 +124,7 @@ public class ManualExamController extends AbstractController {
         
         if (saveFile != null) {
             try (FileOutputStream outputStream = new FileOutputStream(saveFile)) {
-               // outputStream.write(fileBytes);
+                //outputStream.write(fileBytes);
                 System.out.println("File saved successfully.");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -172,8 +172,7 @@ public class ManualExamController extends AbstractController {
     }
     
     public void setExamInfo(int ExamId) {
-    	
-    	examInfo.put("examId", btnBrowse);
+    	examInfo.put("examId", ExamId);
     	examInfo.put("startTime", timerHandler.GetCurrentTimestamp());
     }
 }
