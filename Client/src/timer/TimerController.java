@@ -45,8 +45,8 @@ public class TimerController extends AbstractController{
     	}
     	else {
     		this.Mexam=(ManualExamController) exam;
-    		//this.rs=((ManualExamController) exam).getRs();
-    		//stage = Mexam.getStage();
+    		this.rs=((ManualExamController) exam).getRs();
+    		stage = Mexam.getStage();
     	}
     	countdown = new CountDown(timeMode,clock);
     	activate();

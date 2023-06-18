@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" styleClass="rootAYS" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersStudent.ExtendTimePopupController">
    <children>
-      <Button fx:id="btnExit" layoutX="454.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
+      <Button fx:id="btnExit" layoutX="440.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -18,12 +18,12 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text layoutX="10.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textAYS" text="The lecturer decided to extend time of this exam" wrappingWidth="334.90234375">
+      <Text layoutX="14.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textAYS" text="The lecturer decided to change the durationof this exam." wrappingWidth="334.90234375">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <Text layoutX="10.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textAYS" text="Good Luck.">
+      <Text layoutX="14.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textAYS" text="Good Luck!">
          <font>
             <Font size="26.0" />
          </font>
