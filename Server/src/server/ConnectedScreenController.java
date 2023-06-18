@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Client;
@@ -49,7 +50,10 @@ public class ConnectedScreenController {
     private Button btnDisconnect;
 
     @FXML
-    private Label lblServerConnected;
+    private Button btnMinimize;
+    
+    @FXML
+    private Text lblServer;
 
 	/**
 	 * this method stop listening to the port 
@@ -134,4 +138,9 @@ public class ConnectedScreenController {
 	}
 	
 
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
 }

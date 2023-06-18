@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-#btnConnect, #btnExit {
+#btnConnect{
     -fx-background-color: #490a50; /* Purple background color */
     -fx-text-fill: #ffffff;
     -fx-font-size: 15px;
@@ -24,13 +24,23 @@
     -fx-border-radius: 4px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Motion effect */
 }
-
-#btnConnect:hover, #btnExit:hover {
+#btnExit {
+	-fx-background-color: transparent; 
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+ #btnExit:hover{
+ 	-fx-cursor: hand;
+ }
+#btnConnect:hover {
     -fx-background-color: #766078; /* Darker color on hover */
     -fx-cursor: hand; /* Change cursor on hover */
 }
 
-#btnConnect:pressed, #btnExit:pressed {
+#btnConnect:pressed {
     -fx-background-color: #766078; /* Darker color on press */
     -fx-effect: none; /* Remove motion effect on press */
 }
