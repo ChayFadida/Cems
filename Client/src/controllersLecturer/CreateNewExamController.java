@@ -1,6 +1,7 @@
 package controllersLecturer;
 import java.math.BigInteger;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +30,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import thirdPart.JsonHandler;
+
+/**
+ * 
+ * Controller class for the lecturer.
+ * In this controller the lecturer can create new exam and add it to the exam bank.
+ */
 public class CreateNewExamController extends AbstractController implements Initializable{
 	private ArrayList<Course> courses;
 	private ArrayList<QuestionForExam> qArr;
@@ -105,6 +112,11 @@ public class CreateNewExamController extends AbstractController implements Initi
     @FXML
     private Label lblErrorSubject;
     
+    /**
+     * By activate, the lecturer finish to create the exam.
+     * Checking that the lecturer insert all the neccery data.
+     * @param event Action event
+     */
     @FXML
     void getFinish(ActionEvent event) {
     	lblError.setText(" ");
@@ -156,33 +168,42 @@ public class CreateNewExamController extends AbstractController implements Initi
     	createExam(code,duration,lecNotes,studNotes,name,subject);
     }
     
+    /**
+     * Activate necessary methodes and send relevant message to the DB.
+     * @param code exam code
+     * @param duration exam duration 
+     * @param lecNotes exam lecturer notes
+     * @param studNotes exam student notes
+     * @param name exam name 
+     * @param subject exam subject
+     */
 	private void createExam(String code, String duration, String lecNotes, String studNotes,String name, String subject) {
 		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-		ArrayList<Object> arr = new ArrayList<>();
+		ArrayList<Object> user = new ArrayList<>();
 		HashMap<String, Object> bank=getExamBank();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<Object> arr1 = new ArrayList<>();
-		arr1.add("insertExam");
-		msg.put("task",arr1);
-		ArrayList<Object> arr2 = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<Object> query = new ArrayList<>();
+		query.add("insertExam");
+		msg.put("task",query);
+		ArrayList<Object> parameter = new ArrayList<>();
 		HashMap<Object, Object> arr2Param = new HashMap<>();
-		arr2.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
-		arr2.add(subject);
-		arr2.add(duration);
-		arr2.add(lecNotes);
-		arr2.add(studNotes);
-		arr2.add(ConnectionServer.user.getId()+"");
-		arr2.add(code);
-		arr2.add((getLecturerExamCount()+1)+"");
-		arr2.add((Integer)bank.get("bankId")+"");
-		arr2.add(name);
+		parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(code);
+		parameter.add((getLecturerExamCount()+1)+"");
+		parameter.add((Integer)bank.get("bankId")+"");
+		parameter.add(name);
 		msg.put("questions", qSelected);
-		msg.put("param", arr2);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not load data from DB.");
 		}
 		BigInteger lastId=  (BigInteger)rs.get(0).get("id");
 		Integer examId = lastId.intValue();
@@ -190,7 +211,10 @@ public class CreateNewExamController extends AbstractController implements Initi
 		addQuestionsAndScore(examId);
 	}
 	
-
+	/**
+	 * Add question and score to the lecturer exam.
+	 * @param examId exam id
+	 */
 	private void addQuestionsAndScore(Integer examId) {
 		HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
 		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
@@ -205,21 +229,21 @@ public class CreateNewExamController extends AbstractController implements Initi
 		String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
 		String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
 		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-		ArrayList<Object> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<Object> arr1 = new ArrayList<>();
-		arr1.add("insertQuestionsForExam");
-		msg.put("task",arr1);
-		ArrayList<Object> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		arr2.add(qIdsStr);
-		arr2.add(qScoresStr);
-		msg.put("param", arr2);
+		ArrayList<Object> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<Object> query = new ArrayList<>();
+		query.add("insertQuestionsForExam");
+		msg.put("task",query);
+		ArrayList<Object> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		parameter.add(qIdsStr);
+		parameter.add(qScoresStr);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not get data from server.");
 		}
 		if((int)rs.get(0).get("affectedRows")==1) {
 			resetAll();
@@ -229,7 +253,12 @@ public class CreateNewExamController extends AbstractController implements Initi
 			lblError.setText("Problam at exam upload");
 		}
 	}
-
+	
+	/**
+	 * After creating new exam, Add it to the lecturer exam bank.
+	 * @param bank lecturer exam bank.
+	 * @param examId lecturer exam id.
+	 */
 	private void addToExamBank(HashMap<String, Object> bank, Integer examId) {
 		String exams = (String) bank.get("exams");
 		HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class,Integer.class);
@@ -238,20 +267,20 @@ public class CreateNewExamController extends AbstractController implements Initi
 		jsonHM.put("exams",examsInBank);
 		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("updateExamBankById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(bank.get("bankId")+"");
-		arr2.add(jsonString);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("updateExamBankById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(bank.get("bankId")+"");
+		parameter.add(jsonString);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from server.");
 		}
 		if((int)rs.get(0).get("affectedRows")==1) {
 			resetAll();
@@ -262,7 +291,10 @@ public class CreateNewExamController extends AbstractController implements Initi
 		}
 		
 	}
-
+	
+	/**
+	 * Reset and initialize the text fields.
+	 */
 	private void resetAll() {
 		lblError.setText(" ");
 		lblErrorCode.setText(" ");
@@ -277,73 +309,86 @@ public class CreateNewExamController extends AbstractController implements Initi
 		lblScore.setText("0/100");
 		loadQuestions(CourseComboBox.getSelectionModel().getSelectedItem());
 	}
-
+	
+	/**
+	 * Get the exam bank.
+	 * @return the exam bank in an hash map form 
+	 */
 	private HashMap<String, Object> getExamBank() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamBankByLecId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamBankByLecId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not get data from DB.");
 		}
 		if(rs.get(0)==null) {
 			System.out.println("Empty table from Sql");
 		}
 		return rs.get(0);
 	}
-
-	//need to check lecturer's exam count in order to put in exam number
+	
+	/**
+	 * Get how many students did the exam.
+	 * @return number of students did the exam.
+	 */
 	private Integer getLecturerExamCount() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamCountByLecId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamCountByLecId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not load data from server.");
 		}
 		return ((Long) rs.get(0).get("count")).intValue();
 	}
-
+	
+	/**
+	 * Initialize course filter.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setCoursesComboBox();
 	}
-
+	
+	/**
+	 * Sets course filter with relevant courses.
+	 */
 	private void setCoursesComboBox() {
 		ConnectionServer.getInstance();
 		Lecturer lecturer = (Lecturer) ConnectionServer.user;
 		ArrayList<Integer> coursesId = (ArrayList<Integer>) lecturer.getCoursesIdHM().get("courses");
 		for(Integer id: coursesId) {
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("Lecturer");
-			msg.put("client", arr);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("getCoursesByCourseId");
-			msg.put("task",arr1);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(id+"");
-			msg.put("param", arr2);
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getCoursesByCourseId");
+			msg.put("task",query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(id+"");
+			msg.put("param", parameter);
 			super.sendMsgToServer(msg);
 			ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
 			if(rs==null) {
-				System.out.println("RS is null");
+				System.out.println("Could not load data from server.");
 				return;
 			}
 			courses=new ArrayList<>();
@@ -360,23 +405,27 @@ public class CreateNewExamController extends AbstractController implements Initi
 	      });
 	}
 	
+	/**
+	 * Loads the question accourding to the course the lecturer choose.
+	 * @param selectedItem the selected courses by the lecturer.
+	 */
 	private void loadQuestions(Course selectedItem) {
 		qArr=new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsByIdAndCourse");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		arr2.add(selectedItem.getCourseId()+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsByIdAndCourse");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(selectedItem.getCourseId()+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not load data from the server.");
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
@@ -389,7 +438,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		loadTable();
 	}
 	
-
+	/**
+	 * Loading the table with the relevant questions.
+	 */
     private void loadTable() {
     	ObservableList<QuestionForExam> list = FXCollections.observableArrayList(qArr);
 		PropertyValueFactory<QuestionForExam, String> pvfQuestion = new PropertyValueFactory<>("details");
@@ -402,12 +453,8 @@ public class CreateNewExamController extends AbstractController implements Initi
 		    Question question = cellData.getValue();
 		    String courseId = question.getCourses();
 		    HashMap<String,ArrayList<String>> json = JsonHandler.convertJsonToHashMap(courseId, String.class, ArrayList.class, String.class);
-		    // Split the course IDs into an array
 		    ArrayList<String> courseIds = json.get("courses");
-
-		    // Create a list to store the course names
-		    List<String> courseNames = new ArrayList<>();
-		    // Retrieve the course name for each course ID
+		    List<String> courseNames = new ArrayList<>();	   
 		    for (String id : courseIds) {
 		        int courseIdInt = Integer.parseInt(id.trim());
 		        String courseName = HmCourseIdName.get(courseIdInt);
@@ -415,8 +462,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		            courseNames.add(courseName);
 		        }
 		    }
-
-		    // Join the course names into a single string
 		    String joinedNames = String.join(", ", courseNames);
 
 		    return new SimpleStringProperty(joinedNames);
@@ -427,7 +472,10 @@ public class CreateNewExamController extends AbstractController implements Initi
 
 	}
 
-
+    /**
+     * Get the selected questions and update the score lable accourding to the question score.
+     * @param event
+     */
     @FXML
     void getSelected(ActionEvent event) {
     	qSelected = new ArrayList<>();

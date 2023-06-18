@@ -48,7 +48,7 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     NumberAxis yAxis = new NumberAxis();
 
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private TextField LecturerAvaregeTxt;
@@ -108,15 +108,15 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     void showStats(ActionEvent event) {
        	String StudentId = getid();
     		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-    		ArrayList<String> arr = new ArrayList<>();
-    		arr.add("HOD");
-    		msg.put("client", arr);
-    		ArrayList<String> arr1 = new ArrayList<>();
-    		arr1.add("getInfoForLecturerStats");
-    		msg.put("task",arr1);
-    		ArrayList<String> arr2 = new ArrayList<>();
-    		arr2.add(StudentId);
-    		msg.put("param", arr2);
+    		ArrayList<String> user = new ArrayList<>();
+    		user.add("HOD");
+    		msg.put("client", user);
+    		ArrayList<String> query = new ArrayList<>();
+    		query.add("getInfoForLecturerStats");
+    		msg.put("task",query);
+    		ArrayList<String> parameter = new ArrayList<>();
+    		parameter.add(StudentId);
+    		msg.put("param", parameter);
     		sendMsgToServer(msg);
     		try {
     	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
@@ -135,16 +135,16 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
-	 * @param rs result set of data from the DB. 
+	 * @param StatisticResultSet result set of data from the DB. 
 	 */
-    private void loadStats(ArrayList<HashMap<String, Object>> rs) {
-        if (rs.isEmpty()) {
-        	System.out.println("rs is null");
+    private void loadStats(ArrayList<HashMap<String, Object>> StatisticResultSet) {
+        if (StatisticResultSet.isEmpty()) {
+        	System.out.println("Could not get statistic data.");
             return;
         }
         LecturerBarChart.getData().clear();
-        setAvg(rs);
-        setName(rs.get(0));
+        setAvg(StatisticResultSet);
+        setName(StatisticResultSet.get(0));
         setMedian();
         setBarChart();
         gradesArr.clear();
@@ -157,10 +157,10 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
      * Function that calculate the average of the grades.
      * @param rs result set of data from the DB.
      */
-    private void setAvg(ArrayList<HashMap<String, Object>> rs) {
+    private void setAvg(ArrayList<HashMap<String, Object>> StatisticResultSet) {
     	double total = 0;
         int count = 0;
-        for (HashMap<String, Object> row : rs) {
+        for (HashMap<String, Object> row : StatisticResultSet) {
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
                 Object avgObj = row.get("avgGrade");
@@ -179,6 +179,7 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
             double average = total / count;
             LecturerAvaregeTxt.setText(String.format("%.2f", average));
         } else {
+        	LecturerAvaregeTxt.setText("No grades!");
             System.out.println("No grades!");
         }
     }
@@ -224,10 +225,10 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
 	
     /**
      * Sets for the LecturerNameTxt the lecturer first and last name.
-     * @param rs result set of information from the DB. 
+     * @param StatisticResultSet result set of information from the DB. 
      */
-    private void setName(HashMap<String, Object> rs) {
-    	LecturerNameTxt.setText(rs.get("firstName") + " " + rs.get("lastName"));
+    private void setName(HashMap<String, Object> StatisticResultSet) {
+    	LecturerNameTxt.setText(StatisticResultSet.get("firstName") + " " + StatisticResultSet.get("lastName"));
     }
 
     /**

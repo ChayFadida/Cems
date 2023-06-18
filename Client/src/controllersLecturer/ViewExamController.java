@@ -19,7 +19,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import thirdPart.JsonHandler;
 
-
+/**
+ * Controller class for the lecturer.
+ * in this controller the lecturer can watch a chosen exam.
+ */
 public class ViewExamController extends AbstractController {
     private ArrayList<HashMap<String, Object>> rs = new ArrayList<>();
     private ArrayList<QuestionForExam> questions = new ArrayList<>();
@@ -73,13 +76,20 @@ public class ViewExamController extends AbstractController {
     @FXML
     private TextField txtfieldQuestion;
 
+    /**
+     * move back and watch preview question.
+     * @param event Action event.
+     */
     @FXML
     void getBackwardBtn(ActionEvent event) {
         currIndex--;
         currQ = questions.get(currIndex);
         loadQuestion(currQ, currIndex);
     }
-
+    /**
+     * move forward and watch next question.
+     * @param event Action event.
+     */
     @FXML
     void getForwardBtn(ActionEvent event) {
         currIndex++;
@@ -87,27 +97,42 @@ public class ViewExamController extends AbstractController {
         loadQuestion(currQ, currIndex);
     }
 
+    /**
+     * close current window.
+     * @param event Action event.
+     */
     @FXML
     void getExitBtn(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
+    /**
+     * Minimize current window.
+     * @param event Action event.
+     */
     @FXML
     void getMinimizeBtn(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-
+    /**
+     * setter for the exam.
+     * @param exam
+     */
     public void setExam(Exam exam) {
         this.exam = exam;
         
     }
-
+    /**
+     * Setter for the Questions.
+     * @param questions
+     */
     public void setQuestion(ArrayList<QuestionForExam> questions) {
         this.questions = questions;
     }
-
+    /**
+     * Load the exam and sends relevant messages to the server.
+     */
     public void loadExam() {
     	int flagCode = exam.getExamId();
     	String studNote = exam.getStudentNote();
@@ -117,19 +142,19 @@ public class ViewExamController extends AbstractController {
 			examNotes.setText(studNote);
     	questions = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsAndScoresByExamId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(flagCode+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsAndScoresByExamId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(flagCode+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from server.");
 			return;
 		}
 		if(rs.isEmpty()) {
@@ -144,19 +169,19 @@ public class ViewExamController extends AbstractController {
 		ArrayList<Integer> scoresForQuestions = SjsonHM.get("scores");
         for (int i = 0; i < questionsInExam.size(); i++) {
         	HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
-			ArrayList<String> Arr = new ArrayList<>();
-			Arr.add("Student");
-			msg1.put("client", Arr);
-			ArrayList<String> Arr1 = new ArrayList<>();
-			Arr1.add("getQuestionById");
-			msg1.put("task",Arr1);
-			ArrayList<String> Arr2 = new ArrayList<>();
-			Arr2.add(questionsInExam.get(i)+"");
-			msg1.put("param", Arr2);
+			ArrayList<String> user1 = new ArrayList<>();
+			user1.add("Student");
+			msg1.put("client", user1);
+			ArrayList<String> query1 = new ArrayList<>();
+			query1.add("getQuestionById");
+			msg1.put("task",query1);
+			ArrayList<String> parameter1 = new ArrayList<>();
+			parameter1.add(questionsInExam.get(i)+"");
+			msg1.put("param", parameter1);
 			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
             if (rs1 == null) {
-                System.out.println("RS is null");
+                System.out.println("Could not load data from server.");
                 return;
             }
             if (rs1.isEmpty()) {
@@ -175,7 +200,12 @@ public class ViewExamController extends AbstractController {
             loadQuestion(currQ, 0);
         }
     }
-
+    
+    /**
+     * Loads the question to show.
+     * @param q question for the exam.
+     * @param currIndex current index.
+     */
     private void loadQuestion(QuestionForExam q, Integer currIndex) {
         if (currIndex == 0) {
             btnBackward.setDisable(true);
