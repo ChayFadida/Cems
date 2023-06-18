@@ -62,9 +62,6 @@ public class VirtualExamController extends AbstractController implements Initial
     private Button btnBackward;
 
     @FXML
-    private Button btnExit;
-
-    @FXML
     private Button btnForward;
 
     @FXML
@@ -138,10 +135,6 @@ public class VirtualExamController extends AbstractController implements Initial
     	currIndex++;
 		currQ=questions.get(currIndex);
 		loadQuestion(currQ,currIndex);
-    }
-    @FXML
-    void getExitBtn(ActionEvent event) {
-    	//need to be set
     }
 
     @FXML

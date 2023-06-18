@@ -69,6 +69,9 @@ public class ManualExamController extends AbstractController {
 
     @FXML
     private Button btnUpload;
+    
+    @FXML
+    private Button btnMinimize;
 
     @FXML
     private Label lblHour;
@@ -242,5 +245,11 @@ public class ManualExamController extends AbstractController {
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
+	
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
     
 }
