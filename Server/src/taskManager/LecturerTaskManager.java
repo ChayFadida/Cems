@@ -85,9 +85,9 @@ public class LecturerTaskManager implements TaskHandler {
 				case "getExamsResults":
 					return getExamsByLecturerId((String)hm.get("lecturerId").get(0));
 				case "updateExamResultStatus":
-					return updateExamResultByExamId((String)hm.get("examId").get(0),(String)hm.get("status").get(0));
+					return updateExamResultStatus(hm.get("param"));
 				case "updateExamResultGradeNotes":
-					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<Object>)hm.get("params"));
+					return updateGradeNotesExamResult(hm.get("param"));
 				case "getInfoForExamStats":
 					return getInfoForExamStats(hm.get("param"));
 				case "updateQuestionInExamInDB":
@@ -102,6 +102,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getRightAnswerForQuestion((String) hm.get("questionId").get(0));
 				case "getAllExams":
 					return getAllExams();
+				case "getStudentEmail":
+					return getStudentEmail(hm.get("param"));
 				default: 
 		    		System.out.println("no such method for lecturer");
 				}
@@ -110,6 +112,12 @@ public class LecturerTaskManager implements TaskHandler {
 		return null;
 	}
 	
+	private ArrayList<HashMap<String, Object>> getStudentEmail(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentEmail(param));
+	    return rs;
+	}
+
 	private ArrayList<HashMap<String, Object>> getAllExams() throws SQLException {
 		DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewAllExams());
@@ -144,15 +152,15 @@ public class LecturerTaskManager implements TaskHandler {
 	    return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> updateExamResultByExamId(String examId , String status) throws SQLException {
+	private ArrayList<HashMap<String, Object>> updateExamResultStatus(ArrayList<Object> param) throws SQLException {
 	    DBController dbController = DBController.getInstance();
-	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamStatusByExamId(examId,status));
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultStatus(param));
 	    return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResultByExamId(String examId , ArrayList<Object> arrayList) throws SQLException {
+	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResult(ArrayList<Object> param) throws SQLException {
 	    DBController dbController = DBController.getInstance();
-	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,arrayList));
+	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotes(param));
 	    return rs;
 	}
 

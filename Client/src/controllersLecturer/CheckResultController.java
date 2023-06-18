@@ -7,9 +7,13 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
+import controllersLecturer.SimulationPopUpController;
 import entities.ExamResult;
 import entities.Lecturer;
+import entities.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
@@ -224,8 +229,6 @@ public class CheckResultController extends AbstractController implements Initial
 		HashMap<String,ArrayList<Integer>> stdAnswers = JsonHandler.convertJsonToHashMap(answersChosen, String.class, ArrayList.class, Integer.class);
 		return stdAnswers.get("answers");
     }
-//	@FXML
-//	  void getViewBtn(ActionEvent event) {return;} // temp func for not crushing while not implemented.
 
     @FXML
     void getApproveBtn(ActionEvent event) {
@@ -240,18 +243,19 @@ public class CheckResultController extends AbstractController implements Initial
 			ArrayList<String> arr = new ArrayList<>();
 			arr.add("Lecturer");
 			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(""+selectedId.get(0).getExamId());
-			msg.put("examId",arr2);
-			ArrayList<String> arr3 = new ArrayList<>();
-			arr3.add("Done");
-			msg.put("status",arr3);
 			ArrayList<String> arr1 = new ArrayList<>();
 			arr1.add("updateExamResultStatus");
 			msg.put("task",arr1);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(selectedId.get(0).getExamId() + "");
+			arr2.add(selectedId.get(0).getStudentId() + "");
+			msg.put("param",arr2);
+
 			sendMsgToServer(msg);
+			System.out.println(ConnectionServer.rs);
 			if(ConnectionServer.rs != null) {
 				System.out.println("status changed to Done successfuly!");
+				simulatePopUp();
 				showTable();
 			}
 		}
@@ -270,31 +274,86 @@ public class CheckResultController extends AbstractController implements Initial
 			ArrayList<String> arr = new ArrayList<>();
 			arr.add("Lecturer");
 			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(""+selectedId.get(0).getExamId());
-			msg.put("examId",arr2);
-			ArrayList<String> arr3 = new ArrayList<>();
-			arr3.add("Done");
-			msg.put("status",arr3);
-			ArrayList<String> arr4 = new ArrayList<>();
-			if(txtNotes.getLength() == 0 ||txtNotes.getLength() == 0) {
-				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
-				return;
-			}
-			lblNonSelected.setText("");
-			arr4.add(txtNotes.getText());
-			arr4.add(txtNewGrade.getText());
-			msg.put("params",arr4);
 			ArrayList<String> arr1 = new ArrayList<>();
 			arr1.add("updateExamResultGradeNotes");
 			msg.put("task",arr1);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(selectedId.get(0).getExamId() + "");
+			arr2.add(selectedId.get(0).getStudentId() + "");
+
+			if(txtNewGrade.getLength() == 0 || txtNotes.getLength() == 0) {
+				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
+				return;
+			}
+			
+			try {
+				if(Integer.parseInt(txtNewGrade.getText()) < 0 ||  Integer.parseInt(txtNewGrade.getText()) > 100 ) {
+					lblNonSelected.setText("Invalid Grade, try again!");
+					return;
+				}
+			}catch(Exception e) {
+				lblNonSelected.setText("Invalid Grade, try again!");
+				return;
+			}
+			
+			lblNonSelected.setText("");
+			arr2.add(txtNotes.getText());
+			arr2.add(txtNewGrade.getText());
+			msg.put("param",arr2);
 			sendMsgToServer(msg);
+			
 			if(ConnectionServer.rs != null) {
 				System.out.println("Grade and Notes changed to Done successfuly!");
 				txtNotes.setText("");
 				txtNewGrade.setText("");
+				simulatePopUp();
 				showTable();
 			}
+		}
+    }
+    
+    private void simulatePopUp() {
+    	ArrayList<ExamResult> selectedId = new ArrayList<>();
+		selectedId.add(resultTable.getSelectionModel().getSelectedItem());
+		if(selectedId.isEmpty()) {
+			lblNonSelected.setText("No entry was selected!");
+		}
+		else {
+			lblNonSelected.setText("");
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("Lecturer");
+			msg.put("client", arr);
+			ArrayList<String> arr1 = new ArrayList<>();
+			arr1.add("getStudentEmail");
+			msg.put("task",arr1);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(selectedId.get(0).getStudentId() + "");
+			msg.put("param",arr2);
+			sendMsgToServer(msg);
+			
+			if(ConnectionServer.rs != null) {
+				String email = (String)ConnectionServer.rs.get(0).get("email");
+				Stage seconderyStage = new Stage();
+		        try {
+		        	FXMLLoader loader = new FXMLLoader();
+					Parent root = loader.load(getClass().getResource("/guiLecturer/SimulationPopUp.fxml").openStream());
+					Scene scene = new Scene(root);
+					SimulationPopUpController simulationPopUpController=loader.getController();
+					simulationPopUpController.viewEmail(email);
+					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+					seconderyStage.initStyle(StageStyle.UNDECORATED);
+					seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+					seconderyStage.setScene(scene);
+					seconderyStage.show();
+			        super.setPrimaryStage(seconderyStage);
+			        PressHandler<MouseEvent> press = new PressHandler<>();
+			        DragHandler<MouseEvent> drag = new DragHandler<>();
+			        root.setOnMousePressed(press);
+			        root.setOnMouseDragged(drag);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}			}
 		}
     }
     
