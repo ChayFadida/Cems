@@ -6,6 +6,7 @@ package client;
 
 import ocsf.client.*;
 import timer.CountDown;
+import timer.TimeMode;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -142,7 +143,7 @@ public class ConnectionServer extends AbstractClient{
 	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showExtendTimePage();
-	            	
+	            	CountDown.extendExam(new TimeMode(examIdToExtend));
 	        	});
 	    	}
 

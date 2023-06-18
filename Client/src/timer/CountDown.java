@@ -16,7 +16,7 @@ public final class CountDown {
         isRunning = false;
     }
 
-    public void start() {
+    public static void start() {
         if (!isRunning && secondsRemaining != 0) {
             isRunning = true;
             timer = new Timer();
@@ -24,7 +24,7 @@ public final class CountDown {
         }
     }
 
-    private void startCountDown() {
+    private static void startCountDown() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -93,9 +93,10 @@ public final class CountDown {
     public static void extendExam(TimeMode newTime) {
     	int currMins = getMode().getMinutes();
     	int newMins = newTime.getMinutes();
-    	if(newMins-currMins>0) {
-    		TimeMode remainingTime = new TimeMode(newMins-currMins);
+    	if((newMins-currMins+(secondsRemaining/60))>0) {
+    		TimeMode remainingTime = new TimeMode(newMins-currMins + (secondsRemaining/60));
     		setMode(remainingTime);
+    		start();
     	}
     	else
     		timeIsUp();

@@ -51,6 +51,8 @@ public class ManualExamController extends AbstractController {
     private List<File> fileList = new ArrayList<>();
 	private HashMap<String, Object> examInfo = new HashMap<>();
 	private boolean filesDragged = false;
+	private Stage thisStage;
+	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
 
 	TimeMode timeMode;
 	TimerController timerController;
@@ -209,13 +211,23 @@ public class ManualExamController extends AbstractController {
         }        
     }
     
-    public void setExamInfo(ArrayList<HashMap<String,Object>> rs) {
+    public void setExamInfo(ArrayList<HashMap<String,Object>> rs,Stage stage) {
+    	this.rs=rs;
+    	thisStage=stage;
     	examInfo.put("examId", (int)rs.get(0).get("examId"));
     	examInfo.put("startTime", TimerHandler.GetCurrentTimestamp());
     	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
         timerController = new TimerController();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
-		//timerController.start(clock, timeMode);
+		timerController.start(clock, timeMode,"Manual",this);
     }
 
+	public Stage getStage() {
+		return thisStage;
+	}
+
+	public ArrayList<HashMap<String, Object>> getRs() {
+		return rs;
+	}
+    
 }
