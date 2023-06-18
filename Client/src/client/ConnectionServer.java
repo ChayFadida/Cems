@@ -135,5 +135,19 @@ public class ConnectionServer extends AbstractClient{
 	        	});
 	    	}
 	    }
+	    else if (message.equals("EXTENDS_TIME")) {
+	    	ArrayList<Integer> idToExtend = (ArrayList<Integer>) msg.get("idToExtend");
+	        int userId = ConnectionServer.instance.getUser().getId();
+	    	if(idToExtend.contains(userId)){
+	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
+	    		Platform.runLater(() -> {
+	            	TakeExamController.showExtendTimePage();
+	            	
+	        	});
+	    	}
+
+	    	
+	    }
+
 	}
 }
