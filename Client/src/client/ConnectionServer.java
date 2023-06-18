@@ -57,7 +57,6 @@ public class ConnectionServer extends AbstractClient{
 	 *@param Object message
 	 * */
     public void handleMessageFromClientUI(Object message){
-	  
     	try
         {
         	openConnection();//in order to send more than one message
@@ -84,7 +83,6 @@ public class ConnectionServer extends AbstractClient{
 	 *this method close the connection and terminate the process
 	 * */
     public void quit(){
-	  
         try{
             closeConnection();
            } catch(IOException e) {
@@ -103,6 +101,7 @@ public class ConnectionServer extends AbstractClient{
 				instance = new ConnectionServer(host, port);
 		} catch (Exception exception) {
 			System.out.println("could not create instance of Connection Server");
+			return null;
 		}
 		return instance;
 	}
@@ -116,6 +115,9 @@ public class ConnectionServer extends AbstractClient{
 			return null;
 		}
 		return instance;
+	}
+	public static void resetInstance() {
+		instance=null;
 	}
 	
 	public User getUser() {
@@ -155,8 +157,6 @@ public class ConnectionServer extends AbstractClient{
 	    		((Clock)examSession).extendExam(examIdToExtend);
 	    		
 	    	}
-
-	    	
 	    }
 
 	}

@@ -50,6 +50,8 @@ public class HODTaskManager implements TaskHandler{
 					return updateRequestStatus(hm.get("param"));
 				case "getUser":
 					return getUserById((String)hm.get("lecturerId").get(0));
+				case "updateExamDurationById":
+					return updateExamDurationById(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
@@ -58,6 +60,12 @@ public class HODTaskManager implements TaskHandler{
 		return null;
 	}
   
+	private ArrayList<HashMap<String, Object>> updateExamDurationById(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamDurationById(param));
+		return rs;
+	}
+
 	private ArrayList<HashMap<String, Object>> getInfoForLecturerStats(ArrayList<Object> arrayList) throws SQLException {
 		 DBController dbController = DBController.getInstance();
 		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForLecturerStats((String) arrayList.get(0)));

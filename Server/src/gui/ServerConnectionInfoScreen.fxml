@@ -105,10 +105,9 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="400.0" prefWidth="59.0" />
-            <AnchorPane prefHeight="400.0" prefWidth="407.0">
+            <AnchorPane prefHeight="400.0" prefWidth="332.0">
                <children>
-                  <Button fx:id="btnExit" contentDisplay="CENTER" layoutX="295.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickExitBtn" prefHeight="30.0" prefWidth="50.0" textAlignment="CENTER">
+                  <Button fx:id="btnExit" contentDisplay="CENTER" layoutX="280.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#clickExitBtn" prefHeight="30.0" prefWidth="50.0" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>

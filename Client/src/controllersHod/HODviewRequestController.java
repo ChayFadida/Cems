@@ -220,10 +220,9 @@ public class HODviewRequestController extends AbstractController implements Init
 			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 			ArrayList<Object> arr = new ArrayList<>();
 			arr.add("HOD");
-			msg.put("client", arr);
-			
+			msg.put("client", arr);		
 			ArrayList<Object> param = new ArrayList<>();
-			param.add(	selectedId.get(0).getRequestId());
+			param.add(selectedId.get(0).getRequestId());
 			param.add(selectedId.get(0).getExamId());
 			param.add(selectedId.get(0).getLecturerId());
 			param.add(selectedId.get(0).getCourseId());
@@ -238,13 +237,29 @@ public class HODviewRequestController extends AbstractController implements Init
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request approved successfuly!");
+				updateDuration(selectedId.get(0).getExamId(),selectedId.get(0).getNewDuration());
 				simulatePopUp();
 				showTable();
 			}
 		}
 	}
     
-    /**
+    private void updateDuration(int examId, int newDuration) {
+    	HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add("HOD");
+		msg.put("client", arr);		
+		ArrayList<Object> param = new ArrayList<>();
+		param.add(examId+"");
+		param.add(newDuration+"");
+		msg.put("param", param);
+		ArrayList<Object> task = new ArrayList<>();
+		task.add("updateExamDurationById");
+		msg.put("task",task);
+		sendMsgToServer(msg);
+	}
+
+	/**
      * HOD watch the full reason for the time change request in a pop up window 
      */
     private void simulatePopUp() {
