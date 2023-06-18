@@ -16,7 +16,7 @@ public final class CountDown{
         isRunning = false;
     }
 
-    public void start() {
+    public  void start() {
         if (!isRunning && secondsRemaining != 0) {
             isRunning = true;
             timer = new Timer();
@@ -24,7 +24,7 @@ public final class CountDown{
         }
     }
 
-    private void startCountDown() {
+    private  void startCountDown() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

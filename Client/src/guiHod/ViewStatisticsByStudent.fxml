@@ -32,7 +32,7 @@
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text layoutX="143.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Avarege:" wrappingWidth="192.0810546875">
+      <Text layoutX="143.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Average:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>

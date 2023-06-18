@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 public abstract class AbstractController {	
 	static ConnectionServer connectionServer;
 	static HashMap<Integer, String> courseid_courseName = new HashMap<Integer, String>();
-	Stage primaryStage;
+	protected Stage primaryStage;
 	double xOffset = 0; 
 	double yOffset = 0;
 	/**
