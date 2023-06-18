@@ -7,11 +7,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class BlockedPopupController {
-    private StudentMenuController sharedController;
-
-    public void setSharedController(StudentMenuController sharedController) {
-        this.sharedController = sharedController;
-    }
     
     @FXML
     private Button btnExit;

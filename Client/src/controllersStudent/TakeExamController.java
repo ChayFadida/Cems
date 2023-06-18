@@ -268,5 +268,21 @@ public class TakeExamController extends AbstractController{
         }
     }
     
+    public static void showExtendTimePage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/ExtendTimePopupScreen.fxml"));
+            BlockedPopupController blockedPopupController = loader.getController();
+    		Stage primaryStage = new Stage();
+            Parent root = loader.load();
+    		Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
 }
