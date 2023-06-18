@@ -526,9 +526,15 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String updateExamDurationById(ArrayList<Object> param) {
+		String query = "UPDATE exam SET duration = '"+param.get(1)+"' WHERE examId = '"+param.get(0)+"' ;";
+    return query
+  }
+
 	public static String getStudentEmail(ArrayList<Object> param) {
 		String query = "SELECT u.email FROM users AS u "
 				+ "WHERE u.id = " + param.get(0) + ";";
+
 		return query;
 	}
 	

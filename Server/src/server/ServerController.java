@@ -105,7 +105,7 @@ public class ServerController  {
 			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
-			put("port", "8000");
+			put("port", "5555");
 		}};
 
 //		startServer(db_info);

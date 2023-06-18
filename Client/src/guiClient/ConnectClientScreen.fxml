@@ -56,6 +56,7 @@
                   </GridPane>
                   <VBox alignment="BOTTOM_CENTER" prefHeight="128.0" prefWidth="300.0">
                      <children>
+                        <Label fx:id="lblError" alignment="CENTER" prefHeight="17.0" prefWidth="190.0" textAlignment="CENTER" />
                         <Button fx:id="btnConnect" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
                      </children>
                   </VBox>

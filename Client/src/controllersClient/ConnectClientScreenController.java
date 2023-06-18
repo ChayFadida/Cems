@@ -37,7 +37,7 @@ public class ConnectClientScreenController extends AbstractController{
     @FXML
     private TextField txtPort;
     @FXML
-    
+    private Label lblError;
     /**
 	 *port getter
 	 *@return int the number of the port
@@ -60,7 +60,10 @@ public class ConnectClientScreenController extends AbstractController{
 	 * */
 	public void getConnectBtn(ActionEvent event) throws Exception {
 		try {
-			ConnectionServer.getInstance(getIP(), getPort());
+			if(ConnectionServer.getInstance(getIP(), getPort())==null) {
+				lblError.setText("Could not connect server");
+				return;
+			}
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			LogInController logInController = new LogInController();
