@@ -97,12 +97,12 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-	public static String updateExamStatusByExamId(String examId,String status) {
-		String query = "UPDATE examresults SET status = '"+ status +"' WHERE examId = "+ examId +";";
+	public static String updateExamResultStatus(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET status = 'Done' WHERE examId = " + param.get(0) + " And studentId = " + param.get(1) + ";";
 		return query;
 	}
-	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<Object> arrayList) {
-		String query = "UPDATE examresults SET notes = '"+ arrayList.get(0) +"' , status = 'Done' ,grade = "+ arrayList.get(1) +" WHERE examId = "+ examId +";";
+	public static String updateExamResultGradeNotes(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET notes = '"+ param.get(2) +"' , status = 'Done' ,grade = "+ param.get(3) +" WHERE examId = " + param.get(0) + " AND studentId = " + param.get(1) + ";";
 		return query;
 	}
 
@@ -512,17 +512,15 @@ public class SqlQueries {
 	}
 
 	public static String getViewAllExams() {
-		String quert = "SELECT e.*, c.courseName FROM exam AS e "
+		String query = "SELECT e.*, c.courseName FROM exam AS e "
 				+ "JOIN courses AS c ON c.courseID = e.courseID ;" ;
-		return quert;
+		return query;
 	}
-//	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-//	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
-//			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
-//String select = "SELECT LAST_INSERT_ID();";
-//ArrayList<String> queries = new ArrayList<>();
-//queries.add(insert);
-//queries.add(select);
-//return queries;
+
+	public static String getStudentEmail(ArrayList<Object> param) {
+		String query = "SELECT u.email FROM users AS u "
+				+ "WHERE u.id = " + param.get(0) + ";";
+		return query;
+	}
 	
 }
