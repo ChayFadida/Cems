@@ -519,7 +519,6 @@ public class SqlQueries {
 	    return queryBuilder.toString();
 	}
 
-
 	public static String getViewAllExams() {
 		String quert = "SELECT e.*, c.courseName FROM exam AS e "
 				+ "JOIN courses AS c ON c.courseID = e.courseID ;" ;

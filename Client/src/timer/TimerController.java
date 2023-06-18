@@ -76,6 +76,7 @@ public class TimerController extends AbstractController{
     private void start() {
         countdown.start();
     }
+    
     public void timeIsUp() {
     	String endTime= TimerHandler.GetCurrentTimestamp();
     	String jsonString="";
@@ -173,5 +174,10 @@ public class TimerController extends AbstractController{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void blockExam() {
+		this.countdown.stop();
+		stage.close();
 	}
 }

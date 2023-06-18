@@ -5,6 +5,8 @@
 package client;
 
 import ocsf.client.*;
+import timer.CountDown;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,6 +131,7 @@ public class ConnectionServer extends AbstractClient{
 	    	if(idToLock.contains(userId)){
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showBlockedPage();
+	            	CountDown.blockExam();
 	        	});
 	    	}
 	    }

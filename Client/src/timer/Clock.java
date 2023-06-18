@@ -76,5 +76,10 @@ public class Clock implements CountDownObserver {
 	public ProgressBar getProgressBar() {
 		return progressBar;
 	}
+
+	@Override
+	public void blockExam() {
+		Platform.runLater(controller::blockExam);
+	}
     
 }

@@ -3,15 +3,15 @@ package timer;
 import java.util.*;
 
 public final class CountDown {
-    private CountDownObserver observer;
-    private TimeMode mode;
-    private Timer timer;
-    private int secondsRemaining;
-    private boolean isRunning;
+    private static CountDownObserver observer;
+    private static TimeMode mode;
+    private static Timer timer;
+    private static int secondsRemaining;
+    private static boolean isRunning;
 
     public CountDown(TimeMode mode, CountDownObserver observer) {
-        this.observer = Objects.requireNonNull(observer);
-        this.mode = mode;
+        CountDown.observer = Objects.requireNonNull(observer);
+        CountDown.mode = mode;
         secondsRemaining = mode.getSeconds();
         isRunning = false;
     }
@@ -36,31 +36,31 @@ public final class CountDown {
         }, 1000, 1000);
     }
 
-    private void timeIsUp() {
+    private static void timeIsUp() {
         isRunning = false;
         timer.cancel();
         observer.timeIsUp();
     }
 
-    public void stop() {
+    public static void stop() {
         if (isRunning) {
             isRunning = false;
             timer.cancel();
         }
     }
 
-    public void reset() {
+    public static void reset() {
         secondsRemaining = mode.getSeconds();
         observer.update(secondsRemaining);
     }
 
-    public TimeMode getMode() {
+    public static TimeMode getMode() {
         return mode;
     }
 
-    public void setMode(TimeMode mode) {
+    public static void setMode(TimeMode newMode) {
         stop();
-        this.mode = mode;
+        mode = newMode;
         reset();
     }
 
@@ -68,8 +68,8 @@ public final class CountDown {
         return observer;
     }
 
-    public void setObserver(CountDownObserver observer) {
-        this.observer = observer;
+    public void setObserver(CountDownObserver newObserver) {
+        observer = newObserver;
     }
 
     public int getSecondsRemaining() {
@@ -82,5 +82,22 @@ public final class CountDown {
 
     public boolean isTimeUp() {
         return secondsRemaining == 0;
+    }
+    
+    public static void blockExam() {
+        isRunning = false;
+        timer.cancel();
+        observer.blockExam();
+    }
+    
+    public static void extendExam(TimeMode newTime) {
+    	int currMins = getMode().getMinutes();
+    	int newMins = newTime.getMinutes();
+    	if(newMins-currMins>0) {
+    		TimeMode remainingTime = new TimeMode(newMins-currMins);
+    		setMode(remainingTime);
+    	}
+    	else
+    		timeIsUp();
     }
 }
