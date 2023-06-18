@@ -102,7 +102,7 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info_temp = new HashMap<>() {{
 			put("ip","localhost");
-			put("password", "Yoni46001021");
+			put("password", "EyalMySql");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");
@@ -147,7 +147,7 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb(this);
-		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer(this);
 		
 	}
 	
