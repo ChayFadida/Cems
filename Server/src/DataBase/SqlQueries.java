@@ -249,8 +249,8 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String updateDurationRequest(String status,String id) {
-		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
+	public static String updateDurationRequest(ArrayList<Object> param) {
+		String query = "update durationrequest set status = '"+ param.get(7) +"'  WHERE requestId = " + param.get(0) +";";
 		return query;
 	}
 
@@ -510,6 +510,15 @@ public class SqlQueries {
 		queryBuilder.append(") AND status = 'inProgress';");
 		return queryBuilder.toString();
 	}
+	
+	public static String getStudentWithExamIdAndInProgress(Integer examId) {
+	    StringBuilder queryBuilder = new StringBuilder();
+	    queryBuilder.append("SELECT * FROM examresults WHERE examId = '")
+	            .append(examId)
+	            .append("' AND status = 'inProgress';");
+	    return queryBuilder.toString();
+	}
+
 
 	public static String getViewAllExams() {
 		String quert = "SELECT e.*, c.courseName FROM exam AS e "
