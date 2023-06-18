@@ -30,6 +30,7 @@ import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 import java.util.LinkedHashMap;
 
+
 public class AddNewQuestionController extends AbstractController implements Initializable{
 	List<String> coursesSelected = new ArrayList<>();
 	HashMap<Integer,String> courses;
@@ -142,14 +143,13 @@ public class AddNewQuestionController extends AbstractController implements Init
     		msg.put("task",arr1);
     		
     		ArrayList<String> arr2 = new ArrayList<>();
-    		HashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
+    		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
     		HmQuestions.put("answer1", getAnswer1());
     		HmQuestions.put("answer2", getAnswer2());
     		HmQuestions.put("answer3", getAnswer3());
     		HmQuestions.put("answer4", getAnswer4());
     		
     		arr2.add(getQuestionField());
-
     		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
     		arr2.add(getSubject());

@@ -141,7 +141,7 @@ public class EditQuestionController extends AbstractController {
 		msg.put("task",arr1);
 		
 		ArrayList<String> arr2 = new ArrayList<>();
-		HashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
+		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>();
 		HmQuestions.put("answer1", getAnswer1());
 		HmQuestions.put("answer2", getAnswer2());
 		HmQuestions.put("answer3", getAnswer3());
