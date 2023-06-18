@@ -109,10 +109,10 @@ public class StudentTaskManager implements TaskHandler{
 		HashMap<String, Object> argument = (HashMap<String, Object>) param;
 		DBController dbController = DBController.getInstance();
 		List<Object[]> parameterValuesList = new ArrayList<>();
-		Object[] valuesRow = { argument.get("examId"), argument.get("studentId"), argument.get("startTime"),
-				argument.get("endTime"), argument.get("byte") };
+		Object[] valuesRow = {argument.get("endTime"), argument.get("byte"), argument.get("status"),
+				argument.get("examId"), argument.get("studentId")};
 		parameterValuesList.add(valuesRow);
-		return dbController.insertQueries(SqlQueries.uploadExamResultFromManualTakeExam(), parameterValuesList);
+		return dbController.updateQueries(SqlQueries.uploadExamResultFromManualTakeExam(), parameterValuesList);
 	}
 	
     private ArrayList<HashMap<String, Object>> getQuestionById(ArrayList<Object> param) throws SQLException {

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class ClientHandler extends AbstractServer {
     private ArrayList<ConnectionToClient> connectedClients;
 	private static ClientHandler instance;
-	private int port = 8000;
+	private int port;
 	
 
 //	/**
@@ -38,10 +38,11 @@ public class ClientHandler extends AbstractServer {
 	/**
 	 *let server to start listening to this.port
 	 * */
-	public void runServer() {
+	public void runServer(ServerController sc) {
 		try {
 			listen();
 		} catch (Exception ex) {
+			sc.setErrorLbl("Cannot Connect to that port!");
 			System.out.println("ERROR - Could not listen for clients!");
 		}
 	}

@@ -5,11 +5,17 @@
 package client;
 
 import ocsf.client.*;
+import timer.Clock;
+import timer.CountDown;
+import timer.ExamSessionIF;
+import timer.TimeMode;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import controllersStudent.TakeExamController;
+import entities.Student;
 import entities.User;
 import javafx.application.Platform;
  
@@ -125,12 +131,33 @@ public class ConnectionServer extends AbstractClient{
 	    String message = (String) msg.get("Special Method");
 	    if (message.equals("EXAM_BLOCKED")) {
 	    	ArrayList<Integer> idToLock = (ArrayList<Integer>) msg.get("idToLock");
-	        int userId = ConnectionServer.instance.getUser().getId();
+	    	User user = ConnectionServer.instance.getUser();
+	        int userId = user.getId();
 	    	if(idToLock.contains(userId)){
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showBlockedPage();
 	        	});
+	    		ExamSessionIF examSession = ((Student)user).getExamSession();
+            	((Clock)examSession).blockExam();
+	    		
 	    	}
 	    }
+	    else if (message.equals("EXTENDS_TIME")) {
+	    	ArrayList<Integer> idToExtend = (ArrayList<Integer>) msg.get("idToExtend");
+	    	User user = ConnectionServer.instance.getUser();
+	        int userId = user.getId();
+	    	if(idToExtend.contains(userId)){
+	    		Platform.runLater(() -> {
+	            	TakeExamController.showExtendTimePage();
+	        	});
+	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
+	    		ExamSessionIF examSession = ((Student)user).getExamSession();
+	    		((Clock)examSession).extendExam(examIdToExtend);
+	    		
+	    	}
+
+	    	
+	    }
+
 	}
 }

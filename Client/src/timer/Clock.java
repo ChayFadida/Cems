@@ -9,7 +9,7 @@ import javafx.scene.control.ProgressBar;
  * Takes care of displaying progress
  * through Label and ProgressBar
  */
-public class Clock implements CountDownObserver {
+public class Clock implements CountDownObserver, ExamSessionIF {
     private final TimerController controller;
     private final Label lblHour,lblMin,lblSec;
     private final ProgressBar progressBar;
@@ -75,6 +75,23 @@ public class Clock implements CountDownObserver {
 
 	public ProgressBar getProgressBar() {
 		return progressBar;
+	}
+	
+	@Override
+	public void blockExam() {
+		Platform.runLater(controller::blockExam);
+	}
+
+	@Override
+	public void extendExam(int newTime) {
+		int currMins = mode.getMinutes();
+    	if((newTime-currMins+(controller.countdown.getSecondsRemaining()/60))>0) {
+    		TimeMode remainingTime = new TimeMode(newTime-currMins + (controller.countdown.getSecondsRemaining()/60));
+    		setMode(remainingTime);
+    		controller.countdown.start();
+    	}
+    	else
+    		timeIsUp();
 	}
     
 }
