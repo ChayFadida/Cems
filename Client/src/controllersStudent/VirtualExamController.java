@@ -11,6 +11,7 @@ import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import entities.QuestionForVirtualExam;
+import entities.Student;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -155,7 +156,9 @@ public class VirtualExamController extends AbstractController implements Initial
 		thisStage = stage;
 		timeMode= new TimeMode(time);
 		timerController = new TimerController();
+		Student student = (Student) ConnectionServer.getInstance().getUser();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
+		student.setExamSession(clock);
 		timerController.start(clock, timeMode,"Virtual",this);
 		if(!questions.isEmpty()) {
 			QuestionForVirtualExam q = questions.get(0);
@@ -265,60 +268,10 @@ public class VirtualExamController extends AbstractController implements Initial
 		thisStage.close();
 		checkCheating(questions,(int)rs.get(0).get("examId"));
     	//check if there are any other student in 'inProgess' status on the same exam, if not -> LockExam!
-    	if(checkInProgressStudents((int)rs.get(0).get("examId"))==0)
-    		lockExam((int)rs.get(0).get("examId"));
+    	if(TakeExamController.checkInProgressStudents((int)rs.get(0).get("examId"))==0)
+    		TakeExamController.lockExam((int)rs.get(0).get("examId"));
     	//close window
     }
-	
-	private void lockExam(int examId) {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("lockExamById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-		if(rs == null){
-			System.out.println("RS is null");
-			return;
-		}
-		if(rs.isEmpty()) {
-			System.out.println("RS is empty");
-			return;
-		}
-		if((int)rs.get(0).get("affectedRows")==1) {
-			System.out.println("No student in progress, Exam successfully locked");
-		}
-	}
-
-	private long checkInProgressStudents(int examId) {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("checkCountInProgressByExamId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		msg.put("param", arr2);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-		if(rs == null){
-			System.out.println("RS is null");
-			return -1;
-		}
-		if(rs.isEmpty()) {
-			System.out.println("RS is empty");
-			return -1;
-		}
-		return (long)rs.get(0).get("count");
-	}
 	
 	 public void checkCheating(ArrayList<QuestionForVirtualExam> q, int examId) {
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();

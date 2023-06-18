@@ -226,8 +226,8 @@ public class TakeExamController extends AbstractController{
 		try {
 			Parent root = loader.load(getClass().getResource("/guiStudent/ManualExamScreen.fxml").openStream());
 			ManualExamController manualExamController = loader.getController();
-			manualExamController.setExamInfo(rs);
-    		Stage primaryStage = new Stage();
+			Stage primaryStage = new Stage();
+			manualExamController.setExamInfo(rs,primaryStage);
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -418,11 +418,27 @@ public class TakeExamController extends AbstractController{
 			System.out.println("No student in progress, Exam successfully locked");
 		}
 	}
-
+    
     public static void showBlockedPage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
             BlockedPopupController blockedPopupController = loader.getController();
+    		Stage primaryStage = new Stage();
+            Parent root = loader.load();
+    		Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void showExtendTimePage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/ExtendTimePopupScreen.fxml"));
+            ExtendTimePopupController extendTimePopupController = loader.getController();
     		Stage primaryStage = new Stage();
             Parent root = loader.load();
     		Scene scene = new Scene(root);

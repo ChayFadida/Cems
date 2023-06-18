@@ -2,7 +2,7 @@ package timer;
 
 import java.util.*;
 
-public final class CountDown {
+public final class CountDown{
     private CountDownObserver observer;
     private TimeMode mode;
     private Timer timer;
@@ -16,7 +16,7 @@ public final class CountDown {
         isRunning = false;
     }
 
-    public void start() {
+    public  void start() {
         if (!isRunning && secondsRemaining != 0) {
             isRunning = true;
             timer = new Timer();
@@ -24,7 +24,7 @@ public final class CountDown {
         }
     }
 
-    private void startCountDown() {
+    private  void startCountDown() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -58,9 +58,9 @@ public final class CountDown {
         return mode;
     }
 
-    public void setMode(TimeMode mode) {
+    public void setMode(TimeMode newMode) {
         stop();
-        this.mode = mode;
+        mode = newMode;
         reset();
     }
 
@@ -68,8 +68,8 @@ public final class CountDown {
         return observer;
     }
 
-    public void setObserver(CountDownObserver observer) {
-        this.observer = observer;
+    public void setObserver(CountDownObserver newObserver) {
+        observer = newObserver;
     }
 
     public int getSecondsRemaining() {
@@ -83,4 +83,16 @@ public final class CountDown {
     public boolean isTimeUp() {
         return secondsRemaining == 0;
     }
+
+	public void extendExam(int newTime) {
+		int currMins = getMode().getMinutes();
+    	if((newTime-currMins+(secondsRemaining/60))>0) {
+    		TimeMode remainingTime = new TimeMode(newTime-currMins + (secondsRemaining/60));
+    		setMode(remainingTime);
+    		start();
+    	}
+    	else
+    		timeIsUp();
+		
+	}
 }
