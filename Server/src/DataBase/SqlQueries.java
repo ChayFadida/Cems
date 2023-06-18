@@ -97,12 +97,12 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-	public static String updateExamStatusByExamId(String examId,String status) {
-		String query = "UPDATE examresults SET status = '"+ status +"' WHERE examId = "+ examId +";";
+	public static String updateExamResultStatus(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET status = 'Done' WHERE examId = " + param.get(0) + " And studentId = " + param.get(1) + ";";
 		return query;
 	}
-	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<Object> arrayList) {
-		String query = "UPDATE examresults SET notes = '"+ arrayList.get(0) +"' , status = 'Done' ,grade = "+ arrayList.get(1) +" WHERE examId = "+ examId +";";
+	public static String updateExamResultGradeNotes(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET notes = '"+ param.get(2) +"' , status = 'Done' ,grade = "+ param.get(3) +" WHERE examId = " + param.get(0) + " AND studentId = " + param.get(1) + ";";
 		return query;
 	}
 
@@ -528,6 +528,13 @@ public class SqlQueries {
 
 	public static String updateExamDurationById(ArrayList<Object> param) {
 		String query = "UPDATE exam SET duration = '"+param.get(1)+"' WHERE examId = '"+param.get(0)+"' ;";
+    return query
+  }
+
+	public static String getStudentEmail(ArrayList<Object> param) {
+		String query = "SELECT u.email FROM users AS u "
+				+ "WHERE u.id = " + param.get(0) + ";";
+
 		return query;
 	}
 	
