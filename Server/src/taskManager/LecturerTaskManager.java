@@ -366,7 +366,8 @@ public class LecturerTaskManager implements TaskHandler {
 		DBController dbController = DBController.getInstance();
 		HashMap<String, Object> msgToClient = new HashMap<String, Object>();
 		msgToClient.put("Special Method", "EXAM_BLOCKED");
-;		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentWithExamIdAndInProgress(arrayList));
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentWithExamIdAndInProgress(arrayList));
+		ArrayList<HashMap<String, Object>> lockExam = dbController.updateQueries(SqlQueries.lockExamByExamId(arrayList.get(0)));
 		ArrayList<HashMap<String, Object>> lockedExam = dbController.updateQueries(SqlQueries.LockExamById(arrayList));
         ArrayList<Integer> idToLock = new ArrayList<Integer>();
 		for (Map<String, Object> dict : rs) {

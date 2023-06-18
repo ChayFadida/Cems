@@ -11,6 +11,7 @@ import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import entities.QuestionForVirtualExam;
+import entities.Student;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -155,7 +156,9 @@ public class VirtualExamController extends AbstractController implements Initial
 		thisStage = stage;
 		timeMode= new TimeMode(time);
 		timerController = new TimerController();
+		Student student = (Student) ConnectionServer.getInstance().getUser();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
+		student.setExamSession(clock);
 		timerController.start(clock, timeMode,"Virtual",this);
 		if(!questions.isEmpty()) {
 			QuestionForVirtualExam q = questions.get(0);

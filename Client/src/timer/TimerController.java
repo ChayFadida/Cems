@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 
-public class TimerController extends AbstractController{
+public class TimerController extends AbstractController {
 	public  CountDown countdown;
     private Clock clock;
     private TimeMode timeMode;
@@ -180,4 +180,5 @@ public class TimerController extends AbstractController{
 		this.countdown.stop();
 		stage.close();
 	}
+
 }

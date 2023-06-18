@@ -393,7 +393,7 @@ public class SqlQueries {
 	public static String LockExamById(ArrayList<Object> arrayList) {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
-	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
+	               "SET examresults.status = 'Locked' " +
 	               "WHERE exam.examId = " + arrayList.get(0)+ " AND examresults.status = 'inProgress'; ";
 		return query;
 	}
@@ -409,7 +409,7 @@ public class SqlQueries {
 	}
 
 	public static String getExamByCode(String code) {
-		String query = "SELECT * FROM exam WHERE code='"+code+"';";
+		String query = "SELECT * FROM exam WHERE BINARY code = '"+code+"';";
 		return query;
 	}
 
@@ -463,7 +463,7 @@ public class SqlQueries {
 	}
 
 	public static String lockExamByExamId(Object id) {
-		String query = "UPDATE exam SET isLocked = '1' WHERE examId='"+id+"' ;";
+		String query = "UPDATE exam SET isLocked = '1' WHERE examId = '"+id+"' ;";
 		return query;
 	}
 

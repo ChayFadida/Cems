@@ -21,6 +21,7 @@ import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
+import entities.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -222,7 +223,9 @@ public class ManualExamController extends AbstractController {
     	startTime =TimerHandler.GetCurrentTimestamp();
     	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
         timerController = new TimerController();
+        Student student = (Student) ConnectionServer.getInstance().getUser();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
+		student.setExamSession(clock);
 		timerController.start(clock, timeMode,"Manual",this);
 		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"),ConnectionServer.user.getId(),"Manual",startTime);
 		if(inserted!=1) {
@@ -232,10 +235,6 @@ public class ManualExamController extends AbstractController {
 			return;
 		}
     }
-	public Stage getStage() {
-		return thisStage;
-	}
-
 	public Stage getStage() {
 		return thisStage;
 	}
