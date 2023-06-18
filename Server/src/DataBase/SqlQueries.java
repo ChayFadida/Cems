@@ -424,7 +424,8 @@ public class SqlQueries {
 	}
 	
 	public static String uploadExamResultFromManualTakeExam() {
-		return "INSERT INTO examresults (examId, studentId, startTime, endTime, pdfBytes) VALUES (?, ?, ?, ?, ?)";
+		String query = "UPDATE examresults SET endTime = ? , pdfBytes = ? , status = ? WHERE examId = ? AND studentId = ?";
+		return query;
 	}
 	
 	public static String InsertExamToDB() {
