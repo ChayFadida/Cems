@@ -132,7 +132,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     
     // to be implemented later (need to change loggedIn flag to 0 and exit the system)
     @FXML
-    void LogOut(MouseEvent event) {
+    void LogOut(MouseEvent event) throws IOException {
     	if(s!=null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	

@@ -17,14 +17,15 @@ public class ClientHandler extends AbstractServer {
 	private static ClientHandler instance;
 	private int port = 8000;
 	
-	/**
-	 *constructor for default port for server
-	 * */
-	private ClientHandler() {
-		super(8000);
-		this.port = 8000;
-        connectedClients = new ArrayList<>();
-	}
+
+//	/**
+//	 *constructor for default port for server
+//	 * */
+//	private ClientHandler() {
+//		super(8000);
+//		this.port = 8000;
+//	}
+
 
 	/**
 	 *constructor for user to set server port
@@ -51,7 +52,7 @@ public class ClientHandler extends AbstractServer {
 	 * */
 	public static ClientHandler getInstance() {
 		if (instance == null) {
-			instance = new ClientHandler();
+			return null;
 		}
 		return instance;
 	}

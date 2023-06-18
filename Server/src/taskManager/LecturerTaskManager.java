@@ -68,6 +68,8 @@ public class LecturerTaskManager implements TaskHandler {
 					return getExamCountByLecId(hm.get("param"));
 				case "insertExam":
 					return insertExam(hm.get("param"), hm.get("questions"));
+				case "updateExam":
+					return updateExam(hm.get("param"), hm.get("questions"));
 				case "updateExamBankById":
 					return updateExamBankById(hm.get("param"));
 				case "getDepartmentNameById":
@@ -88,12 +90,52 @@ public class LecturerTaskManager implements TaskHandler {
 					return updateGradeNotesExamResultByExamId((String)hm.get("examId").get(0),(ArrayList<Object>)hm.get("params"));
 				case "getInfoForExamStats":
 					return getInfoForExamStats(hm.get("param"));
-		    	default: 
+				case "updateQuestionInExamInDB":
+					return updateQuestionInExamInDB(hm.get("param"));
+				case "getQuestionsInExam":
+					return getQuestionsInExam(hm.get("param"));
+				case "getExamResultChosenAnswers":
+					return getExamResultChosenAnswers((String) hm.get("examId").get(0));
+				case "getExamQuestions":
+					return getExamQuestions((String) hm.get("examId").get(0));
+				case "getRightAnswerForQuestion":
+					return getRightAnswerForQuestion((String) hm.get("questionId").get(0));
+				case "getAllExams":
+					return getAllExams();
+				default: 
 		    		System.out.println("no such method for lecturer");
 				}
 				
 		} catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+	
+	private ArrayList<HashMap<String, Object>> getAllExams() throws SQLException {
+		DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewAllExams());
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> getQuestionsInExam(ArrayList<Object> arrayList) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionsInExam(arrayList));
+	    return rs;
+	}
+
+	private ArrayList<HashMap<String, Object>> getExamQuestions(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamQuestionsById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getRightAnswerForQuestion(String questionId) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getRightAnswerAndDetailsForQuestionById(questionId));
+	    return rs;
+	}
+	private ArrayList<HashMap<String, Object>> getExamResultChosenAnswers(String id) throws SQLException {
+	    DBController dbController = DBController.getInstance();
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamResultChosenAnswersByExamId(id));
+	    return rs;
 	}
 
 	private ArrayList<HashMap<String, Object>> getExamsByLecturerId(String id) throws SQLException {
@@ -101,11 +143,13 @@ public class LecturerTaskManager implements TaskHandler {
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamsByComposerId(id));
 	    return rs;
 	}
+	
 	private ArrayList<HashMap<String, Object>> updateExamResultByExamId(String examId , String status) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamStatusByExamId(examId,status));
 	    return rs;
 	}
+	
 	private ArrayList<HashMap<String, Object>> updateGradeNotesExamResultByExamId(String examId , ArrayList<Object> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamResultGradeNotesByExamId(examId,arrayList));
@@ -130,15 +174,15 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 	
-	private ArrayList<HashMap<String, Object>> getQB(ArrayList<Object> arrayList) throws SQLException {
-		DBController dbController = DBController.getInstance();
-		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQBByLecId(arrayList.get(0)));
-		return rs;
-	}
-
 	private ArrayList<HashMap<String, Object>> insertQuestionToExam(ArrayList<Object> param) {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertQuestionToExamInDB(param));
+		return rs;
+	}
+	
+	private ArrayList<HashMap<String, Object>> updateQuestionInExamInDB(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateQuestionInExamInDB(param));
 		return rs;
 	}
 
@@ -180,6 +224,34 @@ public class LecturerTaskManager implements TaskHandler {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private ArrayList<HashMap<String, Object>> updateExam(ArrayList<Object> arrayList, ArrayList<Object> arrayList2) {
+	    DBController dbController = DBController.getInstance();
+	    try {
+	        Path tempDir = Files.createTempDirectory("my-temp-dir");
+	        String filePath = tempDir.resolve("wordFile.doc").toString();
+	        ExamGenerator examGenerator = new ExamGenerator();
+	        examGenerator.generateExamDoc(arrayList2, filePath, (String) arrayList.get(0), (String) arrayList.get(9), (String) arrayList.get(2));
+	        byte[] fileBytes = Files.readAllBytes(Path.of(filePath));
+
+	        List<Object[]> parameterValuesList = new ArrayList<>();
+	        Object[] valuesRow = {(String) arrayList.get(9), (String) arrayList.get(0), (String) arrayList.get(1),
+	                (String) arrayList.get(2), (String) arrayList.get(3), (String) arrayList.get(4), (String) arrayList.get(5), (String) arrayList.get(6),
+	                (String) arrayList.get(7), (String) arrayList.get(8), 0, fileBytes,(String) arrayList.get(10) };
+	        parameterValuesList.add(valuesRow);
+
+	        ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamInDB(), parameterValuesList);
+
+	        // Cleanup temporary files
+	        Files.deleteIfExists(Path.of(filePath));
+	        Files.deleteIfExists(tempDir);
+
+	        return rs;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 
 

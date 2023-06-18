@@ -47,15 +47,20 @@
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="ViewExamButton" layoutX="218.0" layoutY="469.0" mnemonicParsing="false" onAction="#ViewExam" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="View Exam" textAlignment="CENTER">
+      <Button fx:id="ViewExamButton" layoutX="218.0" layoutY="537.0" mnemonicParsing="false" onAction="#ViewAllExams" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="View All Exams" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="ChangeDurationButton" layoutX="218.0" layoutY="509.0" mnemonicParsing="false" onAction="#ChangeDuration" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Change Duration" textAlignment="CENTER">
+      <Button fx:id="ChangeDurationButton" layoutX="218.0" layoutY="470.0" mnemonicParsing="false" onAction="#ChangeDuration" prefHeight="25.0" prefWidth="364.0" style="-fx-background-radius: 90;" text="Change Duration" textAlignment="CENTER">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
+      <Text layoutX="244.0" layoutY="524.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Click below to view all lecturer's exams:" textAlignment="CENTER" wrappingWidth="312.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

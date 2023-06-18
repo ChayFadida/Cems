@@ -244,12 +244,12 @@ public class ManageExamsController extends AbstractController  {
     }
 
     @FXML
-    void ViewExam(ActionEvent event) {
+    void ViewAllExams(ActionEvent event) {
     	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
-		ViewExamController viewExamController = new ViewExamController();
+		ViewAllExamsController viewAllExamController = new ViewAllExamsController();
 		//need to implement start method in AddNewQuestionController and then -->
-		viewExamController.start(primaryStage);
+		viewAllExamController.start(primaryStage);
 
     }
 

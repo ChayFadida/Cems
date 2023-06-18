@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import server.ServerController;
+
 
 
 public class DBController {
-	private static Connection conn;
+	private static Connection conn = null;
 	private static HashMap<String, String> db_info = new HashMap<>() {{
 		put("ip", "localhost");
 		put("password", null);
@@ -83,7 +85,7 @@ public class DBController {
 	/**
 	 * connect to database with db_info parameters
 	 * */
-	public void connectToDb() {
+	public void connectToDb(ServerController sc) {
 		StringBuilder mysql = new StringBuilder();
 		mysql.append(mysql_cmd);
 		mysql.append(db_info.get("scheme"));
@@ -97,7 +99,13 @@ public class DBController {
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
 		}
-		System.out.println("coonected to db");
+		if(conn == null) {
+			sc.setErrorLbl("Wrong Parameters!");
+			System.out.println("NOT connected to db");
+			return;
+		}
+		sc.setErrorLbl("");
+		System.out.println("connected to db");
 	}
 	
 	
@@ -173,6 +181,8 @@ public class DBController {
 		return result;
 	}
 	
+
+	
 	public ArrayList<HashMap<String, Object>> insertQueries(String sqlQueries) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 	    try {
@@ -211,6 +221,30 @@ public class DBController {
 	                hm.put("id", generatedKeys.getObject(1));
 	            }
 
+	            result.add(hm);
+	        }
+
+	        statement.close();
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return result;
+	}
+	
+	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQuery, List<Object[]> parameterValuesList) {
+	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
+	    try {
+	        PreparedStatement statement = conn.prepareStatement(sqlQuery);
+
+	        for (Object[] parameterValues : parameterValuesList) {
+	            // Set values for each parameter
+	            for (int i = 0; i < parameterValues.length; i++) {
+	                statement.setObject(i + 1, parameterValues[i]);
+	            }
+
+	            int affectedRows = statement.executeUpdate();
+	            HashMap<String, Object> hm = new HashMap<>();
+	            hm.put("affectedRows", affectedRows);
 	            result.add(hm);
 	        }
 

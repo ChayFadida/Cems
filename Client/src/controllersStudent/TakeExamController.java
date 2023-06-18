@@ -61,6 +61,7 @@ public class TakeExamController extends AbstractController{
 
     @FXML
     void getBeginExam(ActionEvent event) {
+    	lblErrorBegin.setText(" ");
     	boolean  flagId = checkID(txtID.getText());
     	rs = checkCode(txtCode.getText());
     	int flagCode = (int)rs.get(0).get("examId");
@@ -76,8 +77,18 @@ public class TakeExamController extends AbstractController{
     		lblErrorBegin.setText("Wrong exam code, try again");
     		return;
     	}
+    	int isLocked = checkIfExamLocked(flagCode);
+    	if(isLocked==0) {
+    		lblErrorBegin.setText("This exam is locked.");
+    		return;
+    	}
+    	int tookExam = checkIfAlreadyStarted(flagCode,txtID.getText());
+    	if(tookExam==0) {
+    		lblErrorBegin.setText("You already took this exam before, try other code.");
+    		return;
+    	}
     	int res = retrieveQuestionsForExam(flagCode);
-    	if(res==1) {
+    	if(tookExam==1 && res==1 && isLocked==1) {
 	    	FadeTransition fadeA = new FadeTransition();  
 	    	fadeA.setNode(apA);
 	    	fadeA.setFromValue(0);
@@ -91,8 +102,63 @@ public class TakeExamController extends AbstractController{
 	    	fadeA.play();
 	    	fadeB.play();
     	}
+    	else {
+    		System.out.println("One of the queries returned null");
+    		return;
+    	}
 
     }
+
+	private int checkIfExamLocked(int examId) {
+		questions = new ArrayList<>();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("checkIsLockedByExamId");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		msg.put("param", arr2);
+		super.sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return -1;
+		}
+		if(rs.isEmpty()) {
+			return 1; //implies the exam is not locked
+		}
+		System.out.println("Exam locked");
+		return 0; //implies the exam is locked
+	}
+
+	private int checkIfAlreadyStarted(int examId, String studentId) {
+		questions = new ArrayList<>();
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getExamresultByExamAndUserId");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		arr2.add(studentId);
+		msg.put("param", arr2);
+		super.sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return -1;
+		}
+		if(rs.isEmpty()) {
+			return 1; //implies the student did not started this test before
+		}
+		System.out.println("Trying to start exam that alreasy been done");
+		return 0;
+	}
 
 	private int retrieveQuestionsForExam(int flagCode) {
 		questions = new ArrayList<>();
@@ -188,8 +254,8 @@ public class TakeExamController extends AbstractController{
     		FXMLLoader loader = new FXMLLoader();
     		Parent root = loader.load(getClass().getResource("/guiStudent/VirtualExamScreen.fxml").openStream());
     		VirtualExamController virtualExamController = loader.getController();
-    		virtualExamController.loadQuestionsAndTime(questions, (Integer)rs.get(0).get("duration"),rs);
     		Stage primaryStage = new Stage();
+    		virtualExamController.loadQuestionsAndTime(questions, (Integer)rs.get(0).get("duration"),rs,primaryStage);
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -245,9 +311,128 @@ public class TakeExamController extends AbstractController{
 		return rs;
 	}
 	
-    @FXML
-    void getSubmitBtn(ActionEvent event) {
+	
+	public static int insertToExamresults(Integer examId, Integer studentId, String type,String startTime) {
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("insertToExamresults");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		arr2.add(studentId+"");
+		arr2.add(type);
+		arr2.add(startTime);
+		arr2.add("inProgress");
+		msg.put("param", arr2);
+		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return -1;
+		}
+		if(rs.isEmpty()) {
+			System.out.println("Empty table from DB");
+			return -1; //implies the exam is not locked
+		}
+		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
+	}
 
+	public static int updateExamresults(int examId, int studentId, String endTime, String status, int grade, String answerChosen) {
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("updateExamresults");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		arr2.add(studentId+"");
+		arr2.add(endTime);
+		arr2.add(status);
+		arr2.add(grade+"");
+		arr2.add(answerChosen);
+		msg.put("param", arr2);
+		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return -1;
+		}
+		if(rs.isEmpty()) {
+			System.out.println("Empty table from DB");
+			return -1; //implies the exam is not locked
+		}
+		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
+	}
+
+	public static long checkInProgressStudents(int examId) {
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("checkCountInProgressByExamId");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		msg.put("param", arr2);
+		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return -1;
+		}
+		if(rs.isEmpty()) {
+			System.out.println("RS is empty");
+			return -1;
+		}
+		return (long)rs.get(0).get("count");
+	}
+
+	public static void lockExam(int examId) {
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Student");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("lockExamById");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId+"");
+		msg.put("param", arr2);
+		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null){
+			System.out.println("RS is null");
+			return;
+		}
+		if(rs.isEmpty()) {
+			System.out.println("RS is empty");
+			return;
+		}
+		if((int)rs.get(0).get("affectedRows")==1) {
+			System.out.println("No student in progress, Exam successfully locked");
+		}
+	}
+
+    public static void showBlockedPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
+            BlockedPopupController blockedPopupController = loader.getController();
+    		Stage primaryStage = new Stage();
+            Parent root = loader.load();
+    		Scene scene = new Scene(root);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     

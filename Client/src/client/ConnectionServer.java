@@ -107,7 +107,6 @@ public class ConnectionServer extends AbstractClient{
 	 * */
 	public static ConnectionServer getInstance(){
 		if (instance == null) {
-			System.out.println("you must fill the fields in the first connection");
 			return null;
 		}
 		return instance;

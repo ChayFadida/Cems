@@ -68,8 +68,20 @@ public class SqlQueries {
 		String query = "SELECT Q.* FROM questionbank AS B, lecturer AS L, questions AS Q WHERE L.userId ='" + object + "'AND B.lecturerId = L.userId AND Q.questionBankId = B.bankID;";
 		return query;
 	}
+	public static String getRightAnswerAndDetailsForQuestionById(Object object) {
+		String query = "SELECT details ,rightAnswer FROM questions WHERE questionId = " + (String)object + ";";
+		return query;
+	}
+	public static String getExamQuestionsById(Object object) {
+		String query = "SELECT qie.questions FROM questionsinexam as qie WHERE qie.examId = " + (String)object + " ;";
+		return query;
+	}
 	public static String getExamsByUserId(String id) {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
+		return query;
+	}
+	public static String getExamResultChosenAnswersByExamId(String id) {
+		String query = "SELECT DISTINCT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + id + ";";
 		return query;
 	}
 	public static String getExamsByComposerId(String id) {
@@ -308,6 +320,14 @@ public class SqlQueries {
 				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
 		return query;
 	}
+	
+	public static String updateQuestionInExamInDB(ArrayList<Object> param) {
+	    String query = "UPDATE questionsinexam SET "
+	            + "questions = '" + param.get(1) + "', "
+	            + "scores = '" + param.get(2) + "' "
+	            + "WHERE examId = '" + param.get(0) + "';";
+	    return query;
+	}
 
 	public static String insertQuestionBankForId(int id) {
 		String query = "INSERT INTO questionbank (lecturerId, questions) VALUES ("+id+","
@@ -374,7 +394,7 @@ public class SqlQueries {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
 	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
-	               "WHERE exam.examId = " + arrayList.get(0);
+	               "WHERE exam.examId = " + arrayList.get(0)+ " AND examresults.status = 'inProgress'; ";
 		return query;
 	}
 
@@ -410,7 +430,68 @@ public class SqlQueries {
 	public static String InsertExamToDB() {
 		return "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked, examFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
+
+	public static String getExamresultByExamAndUserId(ArrayList<Object> param) {
+		String query = "SELECT R.* FROM examresults AS R WHERE R.examId='"+param.get(0)+"' AND R.studentId='"+param.get(1)+"' ;";
+		return query;
+	}
+
+	public static String checkIsLockedByExamId(ArrayList<Object> param) {
+		String query = "SELECT * FROM exam WHERE examId='"+param.get(0)+"' AND isLocked='1' ;";
+		return query;
+	}
+
+	public static String insertToExamresults(ArrayList<Object> param) {
+		String query = "INSERT INTO examresults (examId, studentId, selected, startTime, status)"
+				+ " VALUES ('"+param.get(0)+"', '"+param.get(1)+"', '"+param.get(2)+"', '"+param.get(3)+"', '"+param.get(4)+"');";
+		return query;
+
+	}
+
+	public static String updateExamresults(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET endTime = '"+param.get(2)+"', status = '"+param.get(3)+"' ,"
+				+ " grade = '"+param.get(4)+"', answersChosen = '"+param.get(5)+"' "
+				+ "WHERE examId = '"+ param.get(0) +"'"
+				+ " AND studentId = '"+param.get(1)+"';";
+		return query;
+	}
+
+	public static String checkCountInProgressByExamId(Object id) {
+		String query = "SELECT COUNT(*) AS count FROM examresults WHERE examId='"+id+"' AND status='inProgress' ;";
+		return query;
+	}
+
+	public static String lockExamByExamId(Object id) {
+		String query = "UPDATE exam SET isLocked = '1' WHERE examId='"+id+"' ;";
+		return query;
+	}
+
+	public static String getExamresultsOfOtherStudentsByExamId(ArrayList<Object> param) {
+		String query = "SELECT * FROM examresults WHERE examId='"+param.get(0)+"' AND "
+				+ "status IN ('waiting for approve','Done') AND studentId != '"+param.get(1)+"' ;";
+		return query;
+	}
+
+	public static String getLecturerEmailByExamId(Object id) {
+		String query = "SELECT U.email FROM exam AS E "
+	            + "JOIN users AS U ON E.composerId = U.id "
+	            + "WHERE E.examId = " + id + ";";
+	    return query;
+	}
 	
+	public static String updateExamInDB() {
+	    return "UPDATE exam SET examName = ?, courseId = ?, subject = ?, duration = ?, lecturerNote = ?, studentNote = ?, composerId = ?, code = ?, examNum = ?, bankId = ?, isLocked = ?, examFile = ? WHERE examId = ?";
+	}
+	
+	
+	
+	public static String getQuestionsInExam(ArrayList<Object> arrayList) {
+		return "SELECT questions, scores\r\n"
+				+ "FROM questionsinexam\r\n"
+				+ "WHERE examId = " + arrayList.get(0) + ";";
+	}
+	
+
 	public static String getExamFileByExamId(Integer examId) {
 		return "SELECT examFile FROM exam WHERE examId ='"+ examId + "';";
 	}
@@ -438,6 +519,12 @@ public class SqlQueries {
 	    return queryBuilder.toString();
 	}
 
+
+	public static String getViewAllExams() {
+		String quert = "SELECT e.*, c.courseName FROM exam AS e "
+				+ "JOIN courses AS c ON c.courseID = e.courseID ;" ;
+		return quert;
+	}
 //	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
 //	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
 //			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
