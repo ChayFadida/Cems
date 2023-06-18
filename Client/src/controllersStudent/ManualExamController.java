@@ -236,6 +236,10 @@ public class ManualExamController extends AbstractController {
 		return thisStage;
 	}
 
+	public Stage getStage() {
+		return thisStage;
+	}
+
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
