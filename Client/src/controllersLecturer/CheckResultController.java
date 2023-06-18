@@ -7,9 +7,13 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
+import abstractControllers.AbstractController.DragHandler;
+import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
+import controllersLecturer.SimulationPopUpController;
 import entities.ExamResult;
 import entities.Lecturer;
+import entities.Request;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
@@ -295,9 +300,12 @@ public class CheckResultController extends AbstractController implements Initial
 			ArrayList<String> query = new ArrayList<>();
 			query.add("updateExamResultStatus");
 			msg.put("task",query);
+
 			sendMsgToServer(msg);
+			System.out.println(ConnectionServer.rs);
 			if(ConnectionServer.rs != null) {
 				System.out.println("status changed to Done successfuly!");
+				simulatePopUp();
 				showTable();
 			}
 		}
@@ -331,6 +339,17 @@ public class CheckResultController extends AbstractController implements Initial
 				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
 				return;
 			}
+			
+			try {
+				if(Integer.parseInt(txtNewGrade.getText()) < 0 ||  Integer.parseInt(txtNewGrade.getText()) > 100 ) {
+					lblNonSelected.setText("Invalid Grade, try again!");
+					return;
+				}
+			}catch(Exception e) {
+				lblNonSelected.setText("Invalid Grade, try again!");
+				return;
+			}
+			
 			lblNonSelected.setText("");
 			parameter1.add(txtNotes.getText());
 			parameter1.add(txtNewGrade.getText());
@@ -339,19 +358,68 @@ public class CheckResultController extends AbstractController implements Initial
 			query.add("updateExamResultGradeNotes");
 			msg.put("task",query);
 			sendMsgToServer(msg);
+			
 			if(ConnectionServer.rs != null) {
 				System.out.println("Grade and Notes changed to Done successfuly!");
 				txtNotes.setText("");
 				txtNewGrade.setText("");
+				simulatePopUp();
 				showTable();
 			}
 		}
     }
     
+
     /**
      * By activate , minimize current window.
      * @param event
      */
+
+    private void simulatePopUp() {
+    	ArrayList<ExamResult> selectedId = new ArrayList<>();
+		selectedId.add(resultTable.getSelectionModel().getSelectedItem());
+		if(selectedId.isEmpty()) {
+			lblNonSelected.setText("No entry was selected!");
+		}
+		else {
+			lblNonSelected.setText("");
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("Lecturer");
+			msg.put("client", arr);
+			ArrayList<String> arr1 = new ArrayList<>();
+			arr1.add("getStudentEmail");
+			msg.put("task",arr1);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(selectedId.get(0).getStudentId() + "");
+			msg.put("param",arr2);
+			sendMsgToServer(msg);
+			
+			if(ConnectionServer.rs != null) {
+				String email = (String)ConnectionServer.rs.get(0).get("email");
+				Stage seconderyStage = new Stage();
+		        try {
+		        	FXMLLoader loader = new FXMLLoader();
+					Parent root = loader.load(getClass().getResource("/guiLecturer/SimulationPopUp.fxml").openStream());
+					Scene scene = new Scene(root);
+					SimulationPopUpController simulationPopUpController=loader.getController();
+					simulationPopUpController.viewEmail(email);
+					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
+					seconderyStage.initStyle(StageStyle.UNDECORATED);
+					seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
+					seconderyStage.setScene(scene);
+					seconderyStage.show();
+			        super.setPrimaryStage(seconderyStage);
+			        PressHandler<MouseEvent> press = new PressHandler<>();
+			        DragHandler<MouseEvent> drag = new DragHandler<>();
+			        root.setOnMousePressed(press);
+			        root.setOnMouseDragged(drag);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}			}
+		}
+    }
+    
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

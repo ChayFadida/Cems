@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="414.0" styleClass="rootAYS" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.SimulationPopUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="414.0" styleClass="rootAYS" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersLecturer.SimulationPopUpController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
@@ -27,7 +27,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label id="txtReasons" alignment="TOP_LEFT" layoutX="17.0" layoutY="139.0" prefHeight="31.0" prefWidth="382.0" text="to notify them of your decision." textFill="WHITE">
+      <Label id="txtReasons" alignment="TOP_LEFT" layoutX="17.0" layoutY="139.0" prefHeight="31.0" prefWidth="382.0" text="to notify about the entry of a new grade" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>

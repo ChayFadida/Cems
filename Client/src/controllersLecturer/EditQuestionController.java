@@ -34,6 +34,7 @@ import thirdPart.JsonHandler;
 import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 /**
@@ -186,8 +187,10 @@ public class EditQuestionController extends AbstractController {
 		query.add("updateQuestion");
 		msg.put("task",query);
 		
+
 		ArrayList<String> parameter = new ArrayList<>();
 		HashMap<String,String> HmQuestions = new HashMap<>(); //create json of questions
+
 		HmQuestions.put("answer1", getAnswer1());
 		HmQuestions.put("answer2", getAnswer2());
 		HmQuestions.put("answer3", getAnswer3());

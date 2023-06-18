@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersClient.ConnectClientScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersClient.ConnectClientScreenController">
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -56,6 +56,7 @@
                   </GridPane>
                   <VBox alignment="BOTTOM_CENTER" prefHeight="128.0" prefWidth="300.0">
                      <children>
+                        <Label fx:id="lblError" alignment="CENTER" prefHeight="17.0" prefWidth="190.0" textAlignment="CENTER" />
                         <Button fx:id="btnConnect" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
                      </children>
                   </VBox>

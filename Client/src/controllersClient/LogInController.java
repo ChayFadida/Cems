@@ -124,7 +124,9 @@ public class LogInController extends AbstractController{
 	 *this method implements the back button and moves back to the client connection screen.
 	 *@param event
 	 * */
-	public void getBackBtn(ActionEvent event) throws Exception {			
+	public void getBackBtn(ActionEvent event) throws Exception {	
+			ConnectionServer.getInstance().quit();
+			ConnectionServer.resetInstance();
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			ConnectClientScreenController connectClientScreenController = new ConnectClientScreenController();

@@ -21,6 +21,7 @@ import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
+import entities.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +40,7 @@ import javafx.stage.StageStyle;
 import timer.TimerHandler;
 import thirdPart.ExamGenerator;
 import timer.Clock;
+import timer.CountDown;
 import timer.TimeMode;
 import timer.TimerController;
 import timer.TimerHandler;
@@ -53,6 +55,7 @@ public class ManualExamController extends AbstractController {
 	private boolean filesDragged = false;
 	private Stage thisStage;
 	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
+	private String startTime;
 
 	TimeMode timeMode;
 	TimerController timerController;
@@ -66,6 +69,9 @@ public class ManualExamController extends AbstractController {
 
     @FXML
     private Button btnUpload;
+    
+    @FXML
+    private Button btnMinimize;
 
     @FXML
     private Label lblHour;
@@ -197,7 +203,6 @@ public class ManualExamController extends AbstractController {
     		ArrayList<Object> param = new ArrayList<>();
     		HashMap<String, Object> info = new HashMap<String, Object>();
     		info.put("byte", fileBytesList.get(0));
-    		info.put("startTime", examInfo.get("startTime"));
     		info.put("endTime", TimerHandler.GetCurrentTimestamp());
     		info.put("examId", examInfo.get("examId"));
     		info.put("studentId", ConnectionServer.getInstance().getUser().getId());
@@ -208,6 +213,9 @@ public class ManualExamController extends AbstractController {
     		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
             fileBytesList.clear();
             timerController.countdown.stop();
+            thisStage.close();
+            if(TakeExamController.checkInProgressStudents((int) examInfo.get("examId"))==0)
+            	TakeExamController.lockExam((int) examInfo.get("examId"));
         }        
     }
     
@@ -215,13 +223,21 @@ public class ManualExamController extends AbstractController {
     	this.rs=rs;
     	thisStage=stage;
     	examInfo.put("examId", (int)rs.get(0).get("examId"));
-    	examInfo.put("startTime", TimerHandler.GetCurrentTimestamp());
+    	startTime =TimerHandler.GetCurrentTimestamp();
     	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
         timerController = new TimerController();
+        Student student = (Student) ConnectionServer.getInstance().getUser();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
+		student.setExamSession(clock);
 		timerController.start(clock, timeMode,"Manual",this);
+		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"),ConnectionServer.user.getId(),"Manual",startTime);
+		if(inserted!=1) {
+			System.out.println("Problem at inserting to examresults");
+			timerController.countdown.stop();
+			thisStage.close();
+			return;
+		}
     }
-
 	public Stage getStage() {
 		return thisStage;
 	}
@@ -229,5 +245,11 @@ public class ManualExamController extends AbstractController {
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
+	
+    @FXML
+    void getMinimizeBtn(ActionEvent event) {
+    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
     
 }

@@ -105,7 +105,7 @@ public class ServerController  {
 			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
-			put("port", "8000");
+			put("port", "5555");
 		}};
 
 //		startServer(db_info);
@@ -147,7 +147,7 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb(this);
-		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer();
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer(this);
 		
 	}
 	

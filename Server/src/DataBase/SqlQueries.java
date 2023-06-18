@@ -97,12 +97,12 @@ public class SqlQueries {
 		String query = "UPDATE users SET isLogged = "+loggedFlag+" WHERE username = '"+ userName +"' AND pass = '" + pass + "' ;";
 		return query;
 	}
-	public static String updateExamStatusByExamId(String examId,String status) {
-		String query = "UPDATE examresults SET status = '"+ status +"' WHERE examId = "+ examId +";";
+	public static String updateExamResultStatus(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET status = 'Done' WHERE examId = " + param.get(0) + " And studentId = " + param.get(1) + ";";
 		return query;
 	}
-	public static String updateExamResultGradeNotesByExamId(String examId,ArrayList<Object> arrayList) {
-		String query = "UPDATE examresults SET notes = '"+ arrayList.get(0) +"' , status = 'Done' ,grade = "+ arrayList.get(1) +" WHERE examId = "+ examId +";";
+	public static String updateExamResultGradeNotes(ArrayList<Object> param) {
+		String query = "UPDATE examresults SET notes = '"+ param.get(2) +"' , status = 'Done' ,grade = "+ param.get(3) +" WHERE examId = " + param.get(0) + " AND studentId = " + param.get(1) + ";";
 		return query;
 	}
 
@@ -393,7 +393,7 @@ public class SqlQueries {
 	public static String LockExamById(ArrayList<Object> arrayList) {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
-	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
+	               "SET examresults.status = 'Locked' " +
 	               "WHERE exam.examId = " + arrayList.get(0)+ " AND examresults.status = 'inProgress'; ";
 		return query;
 	}
@@ -409,7 +409,7 @@ public class SqlQueries {
 	}
 
 	public static String getExamByCode(String code) {
-		String query = "SELECT * FROM exam WHERE code='"+code+"';";
+		String query = "SELECT * FROM exam WHERE BINARY code = '"+code+"';";
 		return query;
 	}
 
@@ -424,7 +424,8 @@ public class SqlQueries {
 	}
 	
 	public static String uploadExamResultFromManualTakeExam() {
-		return "INSERT INTO examresults (examId, studentId, startTime, endTime, pdfBytes) VALUES (?, ?, ?, ?, ?)";
+		String query = "UPDATE examresults SET endTime = ? , pdfBytes = ? , status = ? WHERE examId = ? AND studentId = ?";
+		return query;
 	}
 	
 	public static String InsertExamToDB() {
@@ -462,7 +463,7 @@ public class SqlQueries {
 	}
 
 	public static String lockExamByExamId(Object id) {
-		String query = "UPDATE exam SET isLocked = '1' WHERE examId='"+id+"' ;";
+		String query = "UPDATE exam SET isLocked = '1' WHERE examId = '"+id+"' ;";
 		return query;
 	}
 
@@ -520,17 +521,21 @@ public class SqlQueries {
 	}
 
 	public static String getViewAllExams() {
-		String quert = "SELECT e.*, c.courseName FROM exam AS e "
+		String query = "SELECT e.*, c.courseName FROM exam AS e "
 				+ "JOIN courses AS c ON c.courseID = e.courseID ;" ;
-		return quert;
+		return query;
 	}
-//	String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-//	"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
-//			+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
-//String select = "SELECT LAST_INSERT_ID();";
-//ArrayList<String> queries = new ArrayList<>();
-//queries.add(insert);
-//queries.add(select);
-//return queries;
+
+	public static String updateExamDurationById(ArrayList<Object> param) {
+		String query = "UPDATE exam SET duration = '"+param.get(1)+"' WHERE examId = '"+param.get(0)+"' ;";
+    return query
+  }
+
+	public static String getStudentEmail(ArrayList<Object> param) {
+		String query = "SELECT u.email FROM users AS u "
+				+ "WHERE u.id = " + param.get(0) + ";";
+
+		return query;
+	}
 	
 }

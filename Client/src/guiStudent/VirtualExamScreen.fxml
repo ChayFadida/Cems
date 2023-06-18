@@ -87,19 +87,11 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="btnMinimize" layoutX="597.0" layoutY="14.0" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
+      <Button fx:id="btnMinimize" layoutX="672.0" layoutY="13.0" mnemonicParsing="false" onAction="#getMinimizeBtn" styleClass="toggle-btns">
          <graphic>
             <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/Images/minimize.png" />
-               </image></ImageView>
-         </graphic>
-      </Button>
-      <Button fx:id="btnExit" layoutX="668.0" layoutY="14.0" mnemonicParsing="false" onAction="#getExitBtn" styleClass="toggle-btns">
-         <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@/Images/exit.png" />
                </image></ImageView>
          </graphic>
       </Button>
@@ -180,7 +172,7 @@
             <Label fx:id="lblScore" layoutX="587.0" layoutY="36.0" prefHeight="27.0" prefWidth="68.0" textAlignment="CENTER" />
          </children>
       </AnchorPane>
-      <ProgressBar fx:id="progressBar" layoutX="65.0" layoutY="111.0" prefHeight="10.0" prefWidth="627.0" progress="1.0" styleClass="clock-progress-bar" />
+      <ProgressBar fx:id="progressBar" layoutX="50.0" layoutY="112.0" prefHeight="10.0" prefWidth="650.0" progress="1.0" styleClass="clock-progress-bar" />
       <Button fx:id="btnSubmit" layoutX="332.0" layoutY="804.0" mnemonicParsing="false" onAction="#getSubmitBtn" styleClass="button-view" text="Submit exam" />
       <Text layoutX="81.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Exam's notes:">
          <font>

@@ -5,7 +5,9 @@
 package client;
 
 import ocsf.client.*;
+import timer.Clock;
 import timer.CountDown;
+import timer.ExamSessionIF;
 import timer.TimeMode;
 
 import java.io.*;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import controllersStudent.TakeExamController;
+import entities.Student;
 import entities.User;
 import javafx.application.Platform;
  
@@ -54,7 +57,6 @@ public class ConnectionServer extends AbstractClient{
 	 *@param Object message
 	 * */
     public void handleMessageFromClientUI(Object message){
-	  
     	try
         {
         	openConnection();//in order to send more than one message
@@ -81,7 +83,6 @@ public class ConnectionServer extends AbstractClient{
 	 *this method close the connection and terminate the process
 	 * */
     public void quit(){
-	  
         try{
             closeConnection();
            } catch(IOException e) {
@@ -100,6 +101,7 @@ public class ConnectionServer extends AbstractClient{
 				instance = new ConnectionServer(host, port);
 		} catch (Exception exception) {
 			System.out.println("could not create instance of Connection Server");
+			return null;
 		}
 		return instance;
 	}
@@ -113,6 +115,9 @@ public class ConnectionServer extends AbstractClient{
 			return null;
 		}
 		return instance;
+	}
+	public static void resetInstance() {
+		instance=null;
 	}
 	
 	public User getUser() {
@@ -128,26 +133,30 @@ public class ConnectionServer extends AbstractClient{
 	    String message = (String) msg.get("Special Method");
 	    if (message.equals("EXAM_BLOCKED")) {
 	    	ArrayList<Integer> idToLock = (ArrayList<Integer>) msg.get("idToLock");
-	        int userId = ConnectionServer.instance.getUser().getId();
+	    	User user = ConnectionServer.instance.getUser();
+	        int userId = user.getId();
 	    	if(idToLock.contains(userId)){
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showBlockedPage();
-	            	CountDown.blockExam();
 	        	});
+	    		ExamSessionIF examSession = ((Student)user).getExamSession();
+            	((Clock)examSession).blockExam();
+	    		
 	    	}
 	    }
 	    else if (message.equals("EXTENDS_TIME")) {
 	    	ArrayList<Integer> idToExtend = (ArrayList<Integer>) msg.get("idToExtend");
-	        int userId = ConnectionServer.instance.getUser().getId();
+	    	User user = ConnectionServer.instance.getUser();
+	        int userId = user.getId();
 	    	if(idToExtend.contains(userId)){
-	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showExtendTimePage();
-	            	CountDown.extendExam(new TimeMode(examIdToExtend));
 	        	});
+	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
+	    		ExamSessionIF examSession = ((Student)user).getExamSession();
+	    		((Clock)examSession).extendExam(examIdToExtend);
+	    		
 	    	}
-
-	    	
 	    }
 
 	}
