@@ -148,6 +148,8 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 		CourseNameTxt.setText("");
 		CourseAvaregeTxt.setText("");
 		CourseMedianTxt.setText("");
+		ActionEvent actionEvent = new ActionEvent();
+		showStats(actionEvent);
 		
 		
 	}

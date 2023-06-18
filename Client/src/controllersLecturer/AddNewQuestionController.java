@@ -122,6 +122,22 @@ public class AddNewQuestionController extends AbstractController implements Init
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
+    public Integer getBankId(){
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getExamBankByLecId");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(ConnectionServer.user.getId() + "");
+		msg.put("param", arr2);
+		super.sendMsgToServer(msg);
+		Integer id = (Integer) ConnectionServer.rs.get(0).get("bankId");
+		return id;
+    }
 
     @FXML
     void getAddQuestion(ActionEvent event) {
@@ -152,6 +168,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     		arr2.add(getQuestionField());
     		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		arr2.add(getRightAnswer());
+    		arr2.add(getBankId() + "");
     		arr2.add(getSubject());
     		arr2.add(getNotesField());
     		

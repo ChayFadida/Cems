@@ -200,6 +200,7 @@ public class EditExamController extends AbstractController{
     	if(name==null)
     		name=" ";
     	updateExam(code,duration,lecNotes,studNotes,name);
+    	myExamBankController.CourseFilter(event);
     }
     
     
@@ -449,7 +450,7 @@ public class EditExamController extends AbstractController{
     	txtName.setText(exam.getExamName());
         lecNotesTxt.setText(exam.getLecturerNote());
         studNotesTxt.setText(exam.getStudentNote());
-        lblScore.setText("100/100");
+        lblScore.setText("0/100");
         
         
     	ConnectionServer.getInstance();
