@@ -48,7 +48,10 @@
     -fx-font-size: 22px;
     -fx-font-weight: bold;
 }
-
+#lblServer {
+	-fx-fill: #490a50;
+	-fx-font-family : Wingdings 3;
+}
 #btnRefresh, #btnDisconnect {
     -fx-background-color: #490a50; /* Purple background color */
     -fx-text-fill: #ffffff;
@@ -71,4 +74,13 @@
 #btnRefresh:disabled, #btnDisconnect:disabled {
     -fx-opacity: 0.5;
     -fx-cursor: not-allowed; /* Change cursor when disabled */
+}
+
+#btnMinimize {
+	-fx-background-color: transparent; 
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
 }

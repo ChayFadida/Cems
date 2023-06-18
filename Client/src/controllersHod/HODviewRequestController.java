@@ -217,29 +217,49 @@ public class HODviewRequestController extends AbstractController implements Init
 		}
 		else {
 			lblNonSelected.setText("");
-			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> arr = new ArrayList<>();
 			arr.add("HOD");
-			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(""+selectedId.get(0).getRequestId());
-			msg.put("requestId",arr2);
-			ArrayList<String> arr3 = new ArrayList<>();
-			arr3.add("approved");
-			msg.put("status",arr3);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("updateRequest");
-			msg.put("task",arr1);
+			msg.put("client", arr);		
+			ArrayList<Object> param = new ArrayList<>();
+			param.add(selectedId.get(0).getRequestId());
+			param.add(selectedId.get(0).getExamId());
+			param.add(selectedId.get(0).getLecturerId());
+			param.add(selectedId.get(0).getCourseId());
+			param.add(selectedId.get(0).getSubject());
+			param.add(selectedId.get(0).getOldDuration());
+			param.add(selectedId.get(0).getNewDuration());
+			param.add("approved");
+			msg.put("param", param);
+			ArrayList<Object> task = new ArrayList<>();
+			task.add("updateRequest");
+			msg.put("task",task);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request approved successfuly!");
+				updateDuration(selectedId.get(0).getExamId(),selectedId.get(0).getNewDuration());
 				simulatePopUp();
 				showTable();
 			}
 		}
 	}
     
-    /**
+    private void updateDuration(int examId, int newDuration) {
+    	HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+		ArrayList<Object> arr = new ArrayList<>();
+		arr.add("HOD");
+		msg.put("client", arr);		
+		ArrayList<Object> param = new ArrayList<>();
+		param.add(examId+"");
+		param.add(newDuration+"");
+		msg.put("param", param);
+		ArrayList<Object> task = new ArrayList<>();
+		task.add("updateExamDurationById");
+		msg.put("task",task);
+		sendMsgToServer(msg);
+	}
+
+	/**
      * HOD watch the full reason for the time change request in a pop up window 
      */
     private void simulatePopUp() {

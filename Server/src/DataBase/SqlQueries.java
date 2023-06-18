@@ -249,8 +249,8 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String updateDurationRequest(String status,String id) {
-		String query = "update durationrequest set status = '"+ status +"' WHERE requestId = " + id +";";
+	public static String updateDurationRequest(ArrayList<Object> param) {
+		String query = "update durationrequest set status = '"+ param.get(7) +"'  WHERE requestId = " + param.get(0) +";";
 		return query;
 	}
 
@@ -393,7 +393,7 @@ public class SqlQueries {
 	public static String LockExamById(ArrayList<Object> arrayList) {
 		String query = "UPDATE exam " +
 	               "JOIN examresults ON exam.examId = examresults.examId " +
-	               "SET exam.isLocked = 1, examresults.status = 'Locked' " +
+	               "SET examresults.status = 'Locked' " +
 	               "WHERE exam.examId = " + arrayList.get(0)+ " AND examresults.status = 'inProgress'; ";
 		return query;
 	}
@@ -409,7 +409,7 @@ public class SqlQueries {
 	}
 
 	public static String getExamByCode(String code) {
-		String query = "SELECT * FROM exam WHERE code='"+code+"';";
+		String query = "SELECT * FROM exam WHERE BINARY code = '"+code+"';";
 		return query;
 	}
 
@@ -424,7 +424,8 @@ public class SqlQueries {
 	}
 	
 	public static String uploadExamResultFromManualTakeExam() {
-		return "INSERT INTO examresults (examId, studentId, startTime, endTime, pdfBytes) VALUES (?, ?, ?, ?, ?)";
+		String query = "UPDATE examresults SET endTime = ? , pdfBytes = ? , status = ? WHERE examId = ? AND studentId = ?";
+		return query;
 	}
 	
 	public static String InsertExamToDB() {
@@ -462,7 +463,7 @@ public class SqlQueries {
 	}
 
 	public static String lockExamByExamId(Object id) {
-		String query = "UPDATE exam SET isLocked = '1' WHERE examId='"+id+"' ;";
+		String query = "UPDATE exam SET isLocked = '1' WHERE examId = '"+id+"' ;";
 		return query;
 	}
 
@@ -510,6 +511,14 @@ public class SqlQueries {
 		queryBuilder.append(") AND status = 'inProgress';");
 		return queryBuilder.toString();
 	}
+	
+	public static String getStudentWithExamIdAndInProgress(Integer examId) {
+	    StringBuilder queryBuilder = new StringBuilder();
+	    queryBuilder.append("SELECT * FROM examresults WHERE examId = '")
+	            .append(examId)
+	            .append("' AND status = 'inProgress';");
+	    return queryBuilder.toString();
+	}
 
 	public static String getViewAllExams() {
 		String query = "SELECT e.*, c.courseName FROM exam AS e "
@@ -517,9 +526,16 @@ public class SqlQueries {
 		return query;
 	}
 
+	public static String updateExamDurationById(ArrayList<Object> param) {
+		String query = "UPDATE exam SET duration = '"+param.get(1)+"' WHERE examId = '"+param.get(0)+"' ;";
+    return query;
+  }
+
 	public static String getStudentEmail(ArrayList<Object> param) {
 		String query = "SELECT u.email FROM users AS u "
 				+ "WHERE u.id = " + param.get(0) + ";";
+
+
 		return query;
 	}
 	

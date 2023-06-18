@@ -22,8 +22,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 
-public class TimerController extends AbstractController{
-	public CountDown countdown;
+public class TimerController extends AbstractController {
+	public  CountDown countdown;
     private Clock clock;
     private TimeMode timeMode;
     private VirtualExamController Vexam=null;
@@ -45,8 +45,8 @@ public class TimerController extends AbstractController{
     	}
     	else {
     		this.Mexam=(ManualExamController) exam;
-    		//this.rs=((ManualExamController) exam).getRs();
-    		//stage = Mexam.getStage();
+    		this.rs=((ManualExamController) exam).getRs();
+    		stage = Mexam.getStage();
     	}
     	countdown = new CountDown(timeMode,clock);
     	activate();
@@ -76,6 +76,7 @@ public class TimerController extends AbstractController{
     private void start() {
         countdown.start();
     }
+    
     public void timeIsUp() {
     	String endTime= TimerHandler.GetCurrentTimestamp();
     	String jsonString="";
@@ -174,4 +175,10 @@ public class TimerController extends AbstractController{
 			e.printStackTrace();
 		}
 	}
+	
+	public void blockExam() {
+		this.countdown.stop();
+		stage.close();
+	}
+
 }
