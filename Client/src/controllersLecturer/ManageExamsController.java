@@ -145,7 +145,10 @@ public class ManageExamsController extends AbstractController  {
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"), (String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"), (String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),(String)element.get("examNum"), (Integer)element.get("bankId"),(Integer)element.get("isLocked")));
+		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"),
+		    		(String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"),
+		    		(String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),
+		    		(String)element.get("examNum"), (Integer)element.get("bankId"),(Integer)element.get("isLocked")));
 		    HmCourseIdName.put((Integer)element.get("courseId"), (String)element.get("courseName"));
 		}
 	}

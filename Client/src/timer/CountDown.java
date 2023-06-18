@@ -2,21 +2,21 @@ package timer;
 
 import java.util.*;
 
-public final class CountDown {
-    private static CountDownObserver observer;
-    private static TimeMode mode;
-    private static Timer timer;
-    private static int secondsRemaining;
-    private static boolean isRunning;
+public final class CountDown{
+    private CountDownObserver observer;
+    private TimeMode mode;
+    private Timer timer;
+    private int secondsRemaining;
+    private boolean isRunning;
 
     public CountDown(TimeMode mode, CountDownObserver observer) {
-        CountDown.observer = Objects.requireNonNull(observer);
-        CountDown.mode = mode;
+        this.observer = Objects.requireNonNull(observer);
+        this.mode = mode;
         secondsRemaining = mode.getSeconds();
         isRunning = false;
     }
 
-    public static void start() {
+    public void start() {
         if (!isRunning && secondsRemaining != 0) {
             isRunning = true;
             timer = new Timer();
@@ -24,7 +24,7 @@ public final class CountDown {
         }
     }
 
-    private static void startCountDown() {
+    private void startCountDown() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -36,29 +36,29 @@ public final class CountDown {
         }, 1000, 1000);
     }
 
-    private static void timeIsUp() {
+    private void timeIsUp() {
         isRunning = false;
         timer.cancel();
         observer.timeIsUp();
     }
 
-    public static void stop() {
+    public void stop() {
         if (isRunning) {
             isRunning = false;
             timer.cancel();
         }
     }
 
-    public static void reset() {
+    public void reset() {
         secondsRemaining = mode.getSeconds();
         observer.update(secondsRemaining);
     }
 
-    public static TimeMode getMode() {
+    public TimeMode getMode() {
         return mode;
     }
 
-    public static void setMode(TimeMode newMode) {
+    public void setMode(TimeMode newMode) {
         stop();
         mode = newMode;
         reset();
@@ -83,22 +83,16 @@ public final class CountDown {
     public boolean isTimeUp() {
         return secondsRemaining == 0;
     }
-    
-    public static void blockExam() {
-        isRunning = false;
-        timer.cancel();
-        observer.blockExam();
-    }
-    
-    public static void extendExam(TimeMode newTime) {
-    	int currMins = getMode().getMinutes();
-    	int newMins = newTime.getMinutes();
-    	if((newMins-currMins+(secondsRemaining/60))>0) {
-    		TimeMode remainingTime = new TimeMode(newMins-currMins + (secondsRemaining/60));
+
+	public void extendExam(int newTime) {
+		int currMins = getMode().getMinutes();
+    	if((newTime-currMins+(secondsRemaining/60))>0) {
+    		TimeMode remainingTime = new TimeMode(newTime-currMins + (secondsRemaining/60));
     		setMode(remainingTime);
     		start();
     	}
     	else
     		timeIsUp();
-    }
+		
+	}
 }
