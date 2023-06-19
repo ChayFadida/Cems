@@ -24,14 +24,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class HODviewAllLecturersTableController extends AbstractController implements Initializable{
 	
 	private ArrayList<Lecturer> lecArr ;
+	
 	@FXML
     public TableColumn<Lecturer, Integer> id;
+	
     @FXML
     public TableColumn<Lecturer, String> firstName;
+    
     @FXML
     public TableColumn<Lecturer, String> lastName;
+    
     @FXML
     public TableColumn<Lecturer, String> email;
+    
     @FXML
     private TableView<Lecturer> AllLecturersTable;
     
@@ -46,7 +51,7 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 			System.out.println("No lecturers found");
 		}
 		for (int i = 0; i < AllLecurers.size(); i++) {
-		    lecArr.add(new Lecturer(AllLecurers.get(i),null,null));
+		    lecArr.add(new Lecturer(AllLecurers.get(i), null, null));
 		}
 	}
     
@@ -66,7 +71,7 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 		query.add("getAllbyPosition");
 		msg.put("task",query);
 		ArrayList<String> department = new ArrayList<>();
-		department.add(""+((Hod)ConnectionServer.user).getDepartment());
+		department.add("" + ((Hod) ConnectionServer.user).getDepartment());
 		msg.put("department",department);
 		sendMsgToServer(msg);
 		try {

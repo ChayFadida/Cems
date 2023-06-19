@@ -23,6 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * Implements Initializable.
  */
 public class MyExamController extends AbstractController implements Initializable{
+	
 	private ArrayList<ExamResult> examResArr ;
 
     @FXML
@@ -53,22 +54,23 @@ public class MyExamController extends AbstractController implements Initializabl
     	if(rs == null) {
 			System.out.println("rs is null");
 		}
-		for (int i = 0; i < rs.size(); i++) {
-			int examId = (int)rs.get(i).get("examId");
-			int courseId = (int)rs.get(i).get("courseId");
-			String subject = (String)rs.get(i).get("subject");
-			String examName = (String)rs.get(i).get("examName");
-			String status = (String)rs.get(i).get("status");
+		for (int i = 0 ; i < rs.size() ; i++) {
+			int examId = (int) rs.get(i).get("examId");
+			int courseId = (int) rs.get(i).get("courseId");
+			String subject = (String) rs.get(i).get("subject");
+			String examName = (String) rs.get(i).get("examName");
+			String status = (String) rs.get(i).get("status");
 			if(status.equals("waiting for approve")) {
 				Integer grade = null;
-				examResArr.add(new ExamResult(examId,courseId,ConnectionServer.user.getId(),grade,examName,status,subject));
+				examResArr.add(new ExamResult(examId, courseId, ConnectionServer.user.getId(), grade, examName, status, subject));
 			}
 			else {
 				Integer grade = (Integer)rs.get(i).get("grade");
-				examResArr.add(new ExamResult(examId,courseId,ConnectionServer.user.getId(),grade,examName,status,subject));		
+				examResArr.add(new ExamResult(examId, courseId, ConnectionServer.user.getId(), grade, examName, status, subject));		
 			}
 		}
 	}
+    
     /**
 	 * send to the server message for activate the relevant query and activate initTableView
 	 */
@@ -79,9 +81,9 @@ public class MyExamController extends AbstractController implements Initializabl
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExams");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(""+((Student) ConnectionServer.user).getId());
+		parameter.add("" + ((Student) ConnectionServer.user).getId());
 		msg.put("studentId",parameter);
 		sendMsgToServer(msg);
 		try {
@@ -110,6 +112,7 @@ public class MyExamController extends AbstractController implements Initializabl
 		ExamTable.setItems(list);
 		ExamTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
+    
     /**
 	 * Initialize the table
 	 */

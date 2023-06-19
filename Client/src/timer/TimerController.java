@@ -109,15 +109,15 @@ public class TimerController extends AbstractController {
 	 * @param non.
 	 */ 
     public void timeIsUp() {
-    	String endTime= TimerHandler.GetCurrentTimestamp();
-    	String jsonString="";
-    	int grade=0;
-    	if(type=="Virtual") {
+    	String endTime = TimerHandler.GetCurrentTimestamp();
+    	String jsonString = "";
+    	int grade = 0;
+    	if(type == "Virtual") {
     		questions = Vexam.getQuestions();
     		ArrayList<Integer> selection = new ArrayList<>();
         	for(QuestionForVirtualExam q: questions) {
-        		if(q.getSelection()==Integer.parseInt(q.getRightAnswer())) {
-        			grade+=q.getScore();
+        		if(q.getSelection() == Integer.parseInt(q.getRightAnswer())) {
+        			grade += q.getScore();
         		}
         		selection.add(q.getSelection());
         	}
@@ -125,8 +125,8 @@ public class TimerController extends AbstractController {
         	jsonHM.put("answers", selection);
         	jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
     	}
-    	int updated = TakeExamController.updateExamresults((int)rs.get(0).get("examId"),ConnectionServer.user.getId(),endTime,"not finished",grade,jsonString);
-    	if(updated!=1) {
+    	int updated = TakeExamController.updateExamresults((int) rs.get(0).get("examId"), ConnectionServer.user.getId(), endTime,"not finished", grade, jsonString);
+    	if(updated != 1) {
 			System.out.println("Problem at updating examresults");
 			return;
 		}	
@@ -167,17 +167,17 @@ public class TimerController extends AbstractController {
 			String answers = (String) row.get("answersChosen");
 			HashMap<String,ArrayList<Integer>> jsonHM = JsonHandler.convertJsonToHashMap(answers, String.class, ArrayList.class);
 			ArrayList<Integer> otherStudentAnswers = jsonHM.get("answers");
-			int wrongAnswers=0;
-			int matchingWrongAnswers=0;
-			for(int i=0;i<q.size();i++) {
+			int wrongAnswers = 0;
+			int matchingWrongAnswers = 0;
+			for(int i = 0 ; i<q.size() ; i++) {
 				QuestionForVirtualExam question = q.get(i);
-				if(question.getSelection()!=0 && Integer.parseInt(question.getRightAnswer())!=question.getSelection() ) {
+				if(question.getSelection()!=0 && Integer.parseInt(question.getRightAnswer()) != question.getSelection() ) {
 					wrongAnswers++;
-					if(question.getSelection()==otherStudentAnswers.get(i))
+					if(question.getSelection() == otherStudentAnswers.get(i))
 						matchingWrongAnswers++;
 				}
 			}
-			if(wrongAnswers==matchingWrongAnswers) {
+			if(wrongAnswers == matchingWrongAnswers) {
 				openPopUp();
 				break;
 			}
@@ -192,7 +192,7 @@ public class TimerController extends AbstractController {
 			FXMLLoader loader = new FXMLLoader();
 			Parent root = loader.load(getClass().getResource("/guiStudent/SimulationPopUp.fxml").openStream());
 			SimulationPopUpController simulationPopUpController = loader.getController();
-			simulationPopUpController.setLblMsg("Studnet id: "+ConnectionServer.user.getId()+" might cheated");
+			simulationPopUpController.setLblMsg("Studnet id: " + ConnectionServer.user.getId() + " might cheated");
     		Stage primaryStage = new Stage();
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);

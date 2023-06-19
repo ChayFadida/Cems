@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
  *
  */
 public class AddNewQuestionController extends AbstractController implements Initializable{
+	
 	List<String> coursesSelected = new ArrayList<>();
 	HashMap<Integer,String> courses;
     ArrayList<CheckMenuItem> coursesMenuItems;
@@ -179,7 +180,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getExamBankByLecId");
-		msg.put("task",arr1);
+		msg.put("task", arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
 		arr2.add(ConnectionServer.user.getId() + "");
 		msg.put("param", arr2);
@@ -188,7 +189,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		return id;
     }
 
-  /**
+    /**
      * By pressing add question button, send message to the server and add to the data base the relevant question.
      * @param event Action event
      */
@@ -196,12 +197,10 @@ public class AddNewQuestionController extends AbstractController implements Init
     void getAddQuestion(ActionEvent event) {
     	lblCourses.setText(" ");
     	lblError.setText(" ");
-    	if(getRightAnswer()==null || getAnswer1()==null || getAnswer2()==null || getAnswer3()==null|| getAnswer4()==null
-    			|| getQuestionField()==null || getNotesField()==null || getSubject()==null || coursesSelected.isEmpty()) {
+    	if(getRightAnswer() == null || getAnswer1() == null || getAnswer2() == null || getAnswer3() == null|| getAnswer4() == null
+    			|| getQuestionField() == null || getNotesField() == null || getSubject() == null || coursesSelected.isEmpty()) {
     		lblError.setText("One of the fields is empty, try again.");
     	}
-    	
-
     	else{
     		HashMap<String,ArrayList<String>> msg = new HashMap<>();
     		ArrayList<String> user = new ArrayList<>();
@@ -209,32 +208,26 @@ public class AddNewQuestionController extends AbstractController implements Init
     		msg.put("client", user);
     		ArrayList<String> query = new ArrayList<>();
     		query.add("addNewQuestion");
-    		msg.put("task",query);
-    		
-
+    		msg.put("task", query);
     		ArrayList<String> parameter = new ArrayList<>();
     		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
     		HmQuestions.put("answer1", getAnswer1());
     		HmQuestions.put("answer2", getAnswer2());
     		HmQuestions.put("answer3", getAnswer3());
     		HmQuestions.put("answer4", getAnswer4());
-    		
     		parameter.add(getQuestionField());
     		parameter.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
     		parameter.add(getRightAnswer());
     		parameter.add(getBankId() + "");
     		parameter.add(getSubject());
     		parameter.add(getNotesField());
-    		
     		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
     		ArrayList<Integer> doubleList = new ArrayList<>();
             for (String str : coursesSelected) {
                 doubleList.add(Integer.parseInt(str));
             }
-    		HmCourses.put("courses", doubleList);
-    		
+    		HmCourses.put("courses", doubleList);  		
     		parameter.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
-    	
     		msg.put("param", parameter);
     		super.sendMsgToServer(msg);
     		ArrayList<HashMap<String,Object>> questionResultSet = ConnectionServer.rs;
@@ -258,7 +251,7 @@ public class AddNewQuestionController extends AbstractController implements Init
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
     	HashMap<String,Object> bank = getQuestionBank(ConnectionServer.user.getId());
     	String questions = (String) bank.get("questions");
-    	HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(questions, String.class, ArrayList.class,Integer.class);
+    	HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(questions, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> questionsInBank = jsonHM.get("questions");
 		questionsInBank.add(id);
 		jsonHM.put("questions", questionsInBank);
@@ -290,7 +283,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 		query.add("getQuestionBank");
 		msg.put("task",query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(ConnectionServer.user.getId() + "");
 		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -308,35 +301,32 @@ public class AddNewQuestionController extends AbstractController implements Init
      */
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
-		cmbRightAnswer.getItems().addAll("1","2","3","4");
+		cmbRightAnswer.getItems().addAll("1", "2", "3", "4");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
 		user.add("Lecturer");
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getCoursesIdByLecturerId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId() + "");
-		msg.put("param",parameter);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
-		
 		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
 		ArrayList<String> user2 = new ArrayList<>();
 		user2.add("Lecturer");
 		msg1.put("client", user2);
 		ArrayList<String> query2 = new ArrayList<>();
 		query2.add("getCoursesNameById");
-		msg1.put("task",query2);
-		
+		msg1.put("task", query2);
 		ArrayList<String> parameter2 = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
+		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String) ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
 		parameter2.add(crsId.size() + "");
 		parameter2.addAll(crsId);
 		msg1.put("param",parameter2);
 		super.sendMsgToServer(msg1);
-		
 		try {
 			this.loadCourses(ConnectionServer.rs);
 		} catch (Exception e) {
@@ -355,7 +345,7 @@ public class AddNewQuestionController extends AbstractController implements Init
 			System.out.println("Could not load courses");
 			return;
 		}
-		for (int i = 0; i < courseResultSet.size(); i++) {
+		for (int i = 0 ; i < courseResultSet.size() ; i++) {
 		    HashMap<String, Object> element = courseResultSet.get(i);
 		    courses.put((Integer)element.get("courseID"), (String)element.get("courseName"));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem((String)element.get("courseName"));
@@ -365,7 +355,6 @@ public class AddNewQuestionController extends AbstractController implements Init
 		CoursesMenu.getItems().addAll(coursesMenuItems);
 		coursesMenuItems.forEach(menuItem -> menuItem.setOnAction(event -> updateSelectedCourses()));
         updateSelectedCourses();
-		
 	}
 	
 	/**
@@ -388,5 +377,3 @@ public class AddNewQuestionController extends AbstractController implements Init
         coursesSelected = selectedId;
     }
 }
-	
-	

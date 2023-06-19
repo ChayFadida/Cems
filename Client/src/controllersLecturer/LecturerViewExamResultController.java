@@ -25,6 +25,7 @@ public class LecturerViewExamResultController {
     public void viewResult(String result) {
     	lblExamInfo.setText(result);
     }
+    
     /**
      * close the current window.
      * @param event Action event.
@@ -34,5 +35,4 @@ public class LecturerViewExamResultController {
 		Stage currentStage = (Stage) btnExit.getScene().getWindow();
         currentStage.close();
 	}
-
 }

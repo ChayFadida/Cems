@@ -44,6 +44,7 @@ import timer.TimerHandler;
  *
  */
 public class VirtualExamController extends AbstractController implements Initializable{
+	
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
 	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
 	private QuestionForVirtualExam currQ =null;
@@ -74,6 +75,7 @@ public class VirtualExamController extends AbstractController implements Initial
     
     @FXML
     private Label lblSec;
+    
     @FXML
     private AnchorPane questionAP;
 
@@ -129,9 +131,10 @@ public class VirtualExamController extends AbstractController implements Initial
 	@FXML
     void getBackwardBtn(ActionEvent event) {
 		currIndex--;
-		currQ=questions.get(currIndex);
+		currQ = questions.get(currIndex);
 		loadQuestion(currQ,currIndex);
     }
+	
 	/**
 	 * This method provide the option to go to the next question.
 	 * @param event Action event.
@@ -139,9 +142,10 @@ public class VirtualExamController extends AbstractController implements Initial
 	@FXML
     void getForwardBtn(ActionEvent event) {
     	currIndex++;
-		currQ=questions.get(currIndex);
+		currQ = questions.get(currIndex);
 		loadQuestion(currQ,currIndex);
     }
+	
 	/**
 	 * This method provide the option to minimze current window.
 	 * @param event Action event.
@@ -151,6 +155,7 @@ public class VirtualExamController extends AbstractController implements Initial
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
     /**
      * This method loads the questions and the time for the viretual exam.
      * @param questions the question in the exam.
@@ -158,9 +163,9 @@ public class VirtualExamController extends AbstractController implements Initial
      * @param rs The result set we got back from the server.
      * @param stage The FXML page we load.
      */
-	void loadQuestionsAndTime(ArrayList<QuestionForVirtualExam> questions, Integer time, ArrayList<HashMap<String,Object>> rs,Stage stage) {
-		this.questions=questions;
-		this.rs=rs;
+	void loadQuestionsAndTime(ArrayList<QuestionForVirtualExam> questions, Integer time, ArrayList<HashMap<String,Object>> rs, Stage stage) {
+		this.questions = questions;
+		this.rs = rs;
 		thisStage = stage;
 		timeMode= new TimeMode(time);
 		timerController = new TimerController();
@@ -170,8 +175,8 @@ public class VirtualExamController extends AbstractController implements Initial
 		timerController.start(clock, timeMode,"Virtual",this);
 		if(!questions.isEmpty()) {
 			QuestionForVirtualExam q = questions.get(0);
-			currQ=q;
-			currIndex=0;
+			currQ = q;
+			currIndex = 0;
 			loadQuestion(currQ,currIndex);
 		}
 		else {
@@ -181,31 +186,32 @@ public class VirtualExamController extends AbstractController implements Initial
 			return;
 		}
 		String studNote = (String) rs.get(0).get("studentNote");
-		if(studNote==null || studNote== "" || studNote== " ")
+		if(studNote == null || studNote == "" || studNote == " ")
 			examNotes.setText("No specific instruction or notes for this exam.");
 		else
 			examNotes.setText(studNote);
-		startTime=TimerHandler.GetCurrentTimestamp();
-		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"),ConnectionServer.user.getId(),"Virtual",startTime);
-		if(inserted!=1) {
+		startTime = TimerHandler.GetCurrentTimestamp();
+		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"), ConnectionServer.user.getId(), "Virtual",startTime);
+		if(inserted != 1) {
 			System.out.println("Problem at inserting to examresults");
 			timerController.countdown.stop();
 			thisStage.close();
 			return;
 		}
 	}
+	
 	/**
 	 * This method loads the question every time the student go back and forward in his exam. 
 	 * @param q the question to load
 	 * @param currIndex index of the question.
 	 */
 	private void loadQuestion(QuestionForVirtualExam q, Integer currIndex) {
-		if(currIndex==0) {
+		if(currIndex == 0) {
 			btnBackward.setDisable(true);
 		}
 		else
 			btnBackward.setDisable(false);
-		if((currIndex+1)==questions.size()) {
+		if((currIndex+1) == questions.size()) {
 			btnForward.setDisable(true);
 		}
 		else
@@ -224,6 +230,7 @@ public class VirtualExamController extends AbstractController implements Initial
 		txtfieldAnswer4.setText(answersHM.get("answer4"));
 		lblScore.setText(q.getScore()+"");
 	}
+	
 	/**
 	 * This method is for making the student to be able to chose only one answer in the exam.
 	 * @param q the question.
@@ -233,15 +240,16 @@ public class VirtualExamController extends AbstractController implements Initial
 		radio2.setSelected(false);
 		radio3.setSelected(false);
 		radio4.setSelected(false);
-		if(q.getSelection()==1)
+		if(q.getSelection() == 1)
 			radio1.setSelected(true);
-		if(q.getSelection()==2)
+		if(q.getSelection() == 2)
 			radio2.setSelected(true);
-		if(q.getSelection()==3)
+		if(q.getSelection() == 3)
 			radio3.setSelected(true);
-		if(q.getSelection()==4)
+		if(q.getSelection() == 4)
 			radio4.setSelected(true);
 	}
+	
 	/**
 	 * getter for the question
 	 * @return the question.
@@ -249,6 +257,7 @@ public class VirtualExamController extends AbstractController implements Initial
     public ArrayList<QuestionForVirtualExam> getQuestions() {
 		return questions;
 	}
+    
     /**
      * getter for the result set from the DB.
      * @return the result set that came back from the DB.
@@ -256,6 +265,7 @@ public class VirtualExamController extends AbstractController implements Initial
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
+	
 	/**
 	 * Return the current stage.
 	 * @returnthe current stage.
@@ -263,6 +273,7 @@ public class VirtualExamController extends AbstractController implements Initial
 	public Stage getStage() {
 		return thisStage;
 	}
+	
 	/**
 	 * This method is called when the submit button is clicked.
 	 * It performs several actions to handle the submission of an exam.
@@ -271,20 +282,20 @@ public class VirtualExamController extends AbstractController implements Initial
 	 */
 	@FXML
     void getSubmitBtn(ActionEvent event) {
-		endTime= TimerHandler.GetCurrentTimestamp();
+		endTime = TimerHandler.GetCurrentTimestamp();
 		ArrayList<Integer> selection = new ArrayList<>();
-		int grade=0;
-    	for(QuestionForVirtualExam q: questions) {
-    		if(q.getSelection()==Integer.parseInt(q.getRightAnswer())) {
-    			grade+=q.getScore();
+		int grade = 0;
+    	for(QuestionForVirtualExam q : questions) {
+    		if(q.getSelection() == Integer.parseInt(q.getRightAnswer())) {
+    			grade += q.getScore();
     		}
     		selection.add(q.getSelection());
     	}
     	HashMap<String,ArrayList<Integer>> jsonHM = new HashMap<>();
     	jsonHM.put("answers", selection);
     	String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
-    	int updated = TakeExamController.updateExamresults((int)rs.get(0).get("examId"),ConnectionServer.user.getId(),endTime,"waiting for approve",grade,jsonString);
-    	if(updated!=1) {
+    	int updated = TakeExamController.updateExamresults((int)rs.get(0).get("examId"), ConnectionServer.user.getId(), endTime, "waiting for approve", grade, jsonString);
+    	if(updated != 1) {
 			System.out.println("Problem at updating examresults");
 			timerController.countdown.stop();
 			thisStage.close();
@@ -292,9 +303,9 @@ public class VirtualExamController extends AbstractController implements Initial
 		}	
     	timerController.countdown.stop();
 		thisStage.close();
-		checkCheating(questions,(int)rs.get(0).get("examId"));
-    	if(TakeExamController.checkInProgressStudents((int)rs.get(0).get("examId"))==0)
-    		TakeExamController.lockExam((int)rs.get(0).get("examId"));
+		checkCheating(questions, (int) rs.get(0).get("examId"));
+    	if(TakeExamController.checkInProgressStudents((int) rs.get(0).get("examId")) == 0)
+    		TakeExamController.lockExam((int) rs.get(0).get("examId"));
     }
 	
 	/**
@@ -309,9 +320,9 @@ public class VirtualExamController extends AbstractController implements Initial
 			msg.put("client", user);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("getExamresultsOfOtherStudentsByExamId");
-			msg.put("task",query);
+			msg.put("task", query);
 			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(examId+"");
+			parameter.add(examId + "");
 			parameter.add(ConnectionServer.user.getId()+"");
 			msg.put("param", parameter);
 			sendMsgToServer(msg);
@@ -329,17 +340,17 @@ public class VirtualExamController extends AbstractController implements Initial
 				HashMap<String,ArrayList<Integer>> jsonHM = JsonHandler.convertJsonToHashMap(answers, String.class, ArrayList.class,Integer.class);
 				ArrayList<Integer> otherStudentAnswers = jsonHM.get("answers");
 				System.out.println(otherStudentAnswers.toString());
-				int wrongAnswers=0;
-				int matchingWrongAnswers=0;
+				int wrongAnswers = 0;
+				int matchingWrongAnswers = 0;
 				for(int i=0;i<q.size();i++){
 					QuestionForVirtualExam question = q.get(i);
-					if(question.getSelection()!=0 && Integer.parseInt(question.getRightAnswer())!=question.getSelection() ) {
-						wrongAnswers+=1;
-						if(question.getSelection()==otherStudentAnswers.get(i))
-							matchingWrongAnswers+=1;
+					if(question.getSelection()!=0 && Integer.parseInt(question.getRightAnswer()) != question.getSelection() ) {
+						wrongAnswers += 1;
+						if(question.getSelection() == otherStudentAnswers.get(i))
+							matchingWrongAnswers += 1;
 					}
 				}
-				if(wrongAnswers==matchingWrongAnswers){
+				if(wrongAnswers == matchingWrongAnswers){
 					System.out.println("Cheat!");
 					String email = getLecturerEmail(examId);
 					openPopUp(email);
@@ -361,9 +372,9 @@ public class VirtualExamController extends AbstractController implements Initial
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getLecturerEmailByExamId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -403,6 +414,7 @@ public class VirtualExamController extends AbstractController implements Initial
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * This method initialize the controller.	
 	 * @param location  the location used to resolve relative paths for the root object, or null if the location is not known.
@@ -418,6 +430,7 @@ public class VirtualExamController extends AbstractController implements Initial
 		        }
 		    }
 		});
+		
 		radio2.selectedProperty().addListener(new ChangeListener<Boolean>() {
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
@@ -426,6 +439,7 @@ public class VirtualExamController extends AbstractController implements Initial
 		        }
 		    }
 		});
+		
 		radio3.selectedProperty().addListener(new ChangeListener<Boolean>() {
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
@@ -434,6 +448,7 @@ public class VirtualExamController extends AbstractController implements Initial
 		        }
 		    }
 		});
+		
 		radio4.selectedProperty().addListener(new ChangeListener<Boolean>() {
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {

@@ -139,7 +139,6 @@ public final class CountDown{
     		start();
     	}
     	else
-    		timeIsUp();
-		
+    		timeIsUp();	
 	}
 }
