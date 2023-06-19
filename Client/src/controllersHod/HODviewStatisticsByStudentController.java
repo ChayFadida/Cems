@@ -1,17 +1,13 @@
 package controllersHod;
 import java.net.URL;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.ExamBankView;
-import entities.ExamResults;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,13 +22,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.lang.Math;
-import javafx.scene.chart.XYChart;
 
 /**
  * Controller class for the HOD.
