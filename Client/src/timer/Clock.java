@@ -85,14 +85,6 @@ public class Clock implements CountDownObserver, ExamSessionIF {
 	@Override
 	public void extendExam(int newTime) {
 		this.controller.countdown.extendExam(newTime);
-//		int currMins = mode.getMinutes();
-//    	if((newTime-currMins+(controller.countdown.getSecondsRemaining()/60))>0) {
-//    		TimeMode remainingTime = new TimeMode(newTime-currMins + (controller.countdown.getSecondsRemaining()/60));
-//    		setMode(remainingTime);
-//    		controller.countdown.start();
-//    	}
-//    	else
-//    		timeIsUp();
 	}
     
 }

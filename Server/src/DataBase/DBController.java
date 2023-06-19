@@ -18,7 +18,12 @@ import server.ServerController;
 
 public class DBController {
 	private static Connection conn = null;
-	private static HashMap<String, String> db_info = new HashMap<>() {{
+	private static HashMap<String, String> db_info = new HashMap<>() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
 		put("ip", "localhost");
 		put("password", null);
 		put("username", null);

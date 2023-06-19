@@ -112,6 +112,7 @@ public class ConnectedScreenController {
         });
 	}    
 	
+	@SuppressWarnings("static-access")
 	@FXML
     void getRefreshBtn(MouseEvent event) throws UnknownHostException {
 			// this list save the details of all connected clients

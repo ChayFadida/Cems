@@ -175,10 +175,6 @@ public class LogInController extends AbstractController{
 				case "deny":
 					return (String) rsHM.get("response");
 			}
-//			ConnectionServer.setUser((User) ConnectionServer.rs.get(0).get("response"));
-//			if(ConnectionServer.getUser()==null)
-//				return "Already Logged in";
-//			return (String)ConnectionServer.rs.get(0).get("position");
 		}
 		return "No Such User";
 	}

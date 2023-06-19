@@ -534,8 +534,6 @@ public class SqlQueries {
 	public static String getStudentEmail(ArrayList<Object> param) {
 		String query = "SELECT u.email FROM users AS u "
 				+ "WHERE u.id = " + param.get(0) + ";";
-
-
 		return query;
 	}
 	

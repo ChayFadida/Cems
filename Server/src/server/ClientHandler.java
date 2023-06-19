@@ -4,19 +4,14 @@ package server;
 import java.util.ArrayList;
 
 import java.util.HashMap;
-import java.util.List;
-
 import DataBase.DBController;
 import ocsf.server.*;
 import taskManager.*;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 //echo server
 public class ClientHandler extends AbstractServer {
-    private ArrayList<ConnectionToClient> connectedClients;
 	private static ClientHandler instance;
+	@SuppressWarnings("unused")
 	private int port;
 	
 
@@ -25,7 +20,7 @@ public class ClientHandler extends AbstractServer {
 //	 * */
 //	private ClientHandler() {
 //		super(8000);
-//		this.port = 8000;
+//		this.poSrt = 8000;
 //	}
 
 
