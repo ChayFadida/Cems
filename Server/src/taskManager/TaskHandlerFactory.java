@@ -2,7 +2,9 @@ package taskManager;
 
 import java.util.HashMap;
 
-
+/**
+ * class that Represents Task Handler Factory for all users.
+ */
 public class TaskHandlerFactory {
 	private static TaskHandler ManagerHandler = new HODTaskManager();
 	private static TaskHandler LecturerHandler = new LecturerTaskManager();
