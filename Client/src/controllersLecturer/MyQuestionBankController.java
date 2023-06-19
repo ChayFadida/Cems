@@ -28,7 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
-import entities.Lecturer;
 import entities.Question;
 /**
  * Controller class for lecturer.
@@ -37,8 +36,6 @@ import entities.Question;
 public class MyQuestionBankController extends AbstractController implements Initializable{
 	
 	private ArrayList<Question> qArr ;
-	private LecturerMenuController lecturerMenuController;
-	private Lecturer lecturer;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
 	
     @FXML

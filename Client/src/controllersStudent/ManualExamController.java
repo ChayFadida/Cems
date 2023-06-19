@@ -10,49 +10,26 @@ import javafx.scene.layout.Pane;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.FileOutputStream;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import entities.Student;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import timer.TimerHandler;
-import thirdPart.ExamGenerator;
 import timer.Clock;
-import timer.CountDown;
 import timer.TimeMode;
 import timer.TimerController;
-import timer.TimerHandler;
 import javafx.stage.FileChooser;
-import java.io.File;
 
 
 public class ManualExamController extends AbstractController {
     private List<byte[]> fileBytesList = new ArrayList<>();
     private List<File> fileList = new ArrayList<>();
 	private HashMap<String, Object> examInfo = new HashMap<>();
-	private boolean filesDragged = false;
 	private Stage thisStage;
 	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
 	private String startTime;
@@ -61,6 +38,7 @@ public class ManualExamController extends AbstractController {
 	TimerController timerController;
 	Clock clock;
 	int time;
+	
     @FXML
     private Button btnBrowse;
 
@@ -186,7 +164,6 @@ public class ManualExamController extends AbstractController {
             event.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
         }
         event.consume();
-        filesDragged = true;
         pane.getStyleClass().add("dragged");
     }
 

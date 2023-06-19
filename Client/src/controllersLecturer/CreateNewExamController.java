@@ -2,7 +2,6 @@ package controllersLecturer;
 import java.math.BigInteger;
 
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -168,8 +166,6 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lecNotes=" ";
     	if(studNotes==null)
     		studNotes=" ";
-    	if(name==null)
-    		name=" ";
     	createExam(code,duration,lecNotes,studNotes,name,subject);
     }
     
@@ -192,7 +188,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		query.add("insertExam");
 		msg.put("task",query);
 		ArrayList<Object> parameter = new ArrayList<>();
-		HashMap<Object, Object> arr2Param = new HashMap<>();
 		parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
 		parameter.add(subject);
 		parameter.add(duration);

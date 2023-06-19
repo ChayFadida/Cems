@@ -6,10 +6,7 @@ package client;
 
 import ocsf.client.*;
 import timer.Clock;
-import timer.CountDown;
 import timer.ExamSessionIF;
-import timer.TimeMode;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +35,8 @@ public class ConnectionServer extends AbstractClient{
 	 *this method handle with command from the server
 	 *@param msg from the server
 	 * */
-    public void handleMessageFromServer(Object msg) {
+    @SuppressWarnings("unchecked")
+	public void handleMessageFromServer(Object msg) {
     	if (msg instanceof ArrayList) {
         	awaitResponse = false;
         	rs = (ArrayList<HashMap<String,Object>>) msg;
@@ -129,6 +127,7 @@ public class ConnectionServer extends AbstractClient{
 		ConnectionServer.user = user;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void specialMethod(HashMap<String, Object> msg) {
 	    String message = (String) msg.get("Special Method");
 	    if (message.equals("EXAM_BLOCKED")) {
