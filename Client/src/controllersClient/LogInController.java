@@ -135,20 +135,22 @@ public class LogInController extends AbstractController{
 	}
 	
 	
-	
-	//validation func of details and premmisions.- to be implemented here.
+	/**
+	 *this method checks if the client has a valid permission listed in the DB.
+	 *@param event
+	 * */
 	public String isValidPermission(String userName , String password) throws Exception {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("User");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("loginAttempt");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(password);
-		arr2.add(userName);
-		msg.put("details",arr2);
+		ArrayList<String> userInfo = new ArrayList<>();
+		userInfo.add("User");
+		msg.put("client", userInfo);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("loginAttempt");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(password);
+		parameter.add(userName);
+		msg.put("details",parameter);
 		super.sendMsgToServer(msg);
 		if(!ConnectionServer.rs.isEmpty()) {
 			HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
@@ -175,10 +177,6 @@ public class LogInController extends AbstractController{
 				case "deny":
 					return (String) rsHM.get("response");
 			}
-//			ConnectionServer.setUser((User) ConnectionServer.rs.get(0).get("response"));
-//			if(ConnectionServer.getUser()==null)
-//				return "Already Logged in";
-//			return (String)ConnectionServer.rs.get(0).get("position");
 		}
 		return "No Such User";
 	}
@@ -204,14 +202,20 @@ public class LogInController extends AbstractController{
 			e.printStackTrace();
 		}
 	}
-    
+    /**
+	 *this method exits the buttons the screen
+	 *@param ActionEvent event
+	 * */
     @FXML
     void getExitBtn(ActionEvent event) {
     	ConnectionServer.getInstance().quit();
 		System.out.println("exit Academic Tool");
 		System.exit(0);
     }
-    
+    /**
+	 *this method minimizes the buttons the screen
+	 *@param ActionEvent event
+	 * */
     @FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

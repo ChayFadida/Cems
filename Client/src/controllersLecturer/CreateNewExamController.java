@@ -341,7 +341,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		}
 		return rs.get(0);
 	}
-	
+
 	/**
 	 * Get how many students did the exam.
 	 * @return number of students did the exam.
