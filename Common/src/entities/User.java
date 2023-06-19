@@ -3,10 +3,12 @@ package entities;
 import java.io.Serializable;
 import java.util.HashMap;
 
+@SuppressWarnings("serial")
 public class User implements Serializable{
 	private int id;
 	public String firstName, lastName, email, position, username;
 	private boolean isLogged;
+	@SuppressWarnings("unused")
 	private String pass;
 	
 	public int getId() {

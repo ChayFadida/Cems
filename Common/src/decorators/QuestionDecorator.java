@@ -3,7 +3,6 @@ package decorators;
 import java.util.HashMap;
 
 import interfaces.QuestionIF;
-import javafx.scene.control.TextField;
 
 public abstract class QuestionDecorator implements QuestionIF{
 	public QuestionIF questionDecorator;

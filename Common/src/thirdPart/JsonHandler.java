@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 public class JsonHandler {
+	@SuppressWarnings("serial")
 	private static HashMap<Class<?>, TypeToken<?>> class_token = new HashMap<>(){{
 		put(String.class,  new TypeToken<ArrayList<String>>() {});
 		put(Integer.class, new TypeToken<ArrayList<Integer>>() {});

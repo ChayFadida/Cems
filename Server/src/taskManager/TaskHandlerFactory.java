@@ -2,8 +2,6 @@ package taskManager;
 
 import java.util.HashMap;
 
-import DataBase.DBController;
-
 
 public class TaskHandlerFactory {
 	private static TaskHandler ManagerHandler = new HODTaskManager();

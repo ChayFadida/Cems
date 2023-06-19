@@ -5,16 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
-import entities.Course;
-import entities.Lecturer;
-import entities.QuestionForExam;
 import entities.QuestionForVirtualExam;
-import entities.Student;
 import javafx.animation.FadeTransition;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -498,7 +490,8 @@ public class TakeExamController extends AbstractController{
 	 * Displays the blocked page FXML.
 	 * This method loads the BlockedPopupScreen.
 	 */
-    public static void showBlockedPage() {
+    @SuppressWarnings("unused")
+	public static void showBlockedPage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
             BlockedPopupController blockedPopupController = loader.getController();
@@ -518,7 +511,8 @@ public class TakeExamController extends AbstractController{
      * Displays the extend time page FXML.
      * This method loads the ExtendTimePopupScreen.
      */
-    public static void showExtendTimePage() {
+    @SuppressWarnings("unused")
+	public static void showExtendTimePage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/ExtendTimePopupScreen.fxml"));
             ExtendTimePopupController extendTimePopupController = loader.getController();

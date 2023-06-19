@@ -15,6 +15,7 @@ import thirdPart.JsonHandler;
 
 public class UserTaskManager implements TaskHandler{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
@@ -37,40 +38,31 @@ public class UserTaskManager implements TaskHandler{
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
-private ArrayList<HashMap<String, Object>> initializeCourses() throws SQLException {
-	DBController dbController = DBController.getInstance();
-	ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllCourses());
-	return rs;
-}
-private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
-		HashMap<String,Object> res = new HashMap<>();
-		String id = hm.get("details").get(0);
-		try {
-			boolean isUpdated = updateUserByIdLogout(id);
-			if(isUpdated) {
-				res.put("access","approved");
-				res.put("response",id);
-				return res;
-			}
-			res.put("access", "denied");
-			res.put("response",id);
-		} catch (SQLException e) {
-			res.put("access","denied");
-			res.put("response",-1);
-			e.printStackTrace();
-		}
-		return res;
+	private ArrayList<HashMap<String, Object>> initializeCourses() throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllCourses());
+		return rs;
 	}
-//	/**
-//	 *execute get all questions query
-//	 *@return ArrayList of the result of the query
-//	 * */
-//	public ArrayList<HashMap<String, Object>> getAllUsers() throws SQLException {
-//		DBController dbController = DBController.getInstance();
-//		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllTable(dbController.getUsersTable()));
-//		return rs;
-//	}
-	//[{'permission' : 'student'}]
+	private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
+			HashMap<String,Object> res = new HashMap<>();
+			String id = hm.get("details").get(0);
+			try {
+				boolean isUpdated = updateUserByIdLogout(id);
+				if(isUpdated) {
+					res.put("access","approved");
+					res.put("response",id);
+					return res;
+				}
+				res.put("access", "denied");
+				res.put("response",id);
+			} catch (SQLException e) {
+				res.put("access","denied");
+				res.put("response",-1);
+				e.printStackTrace();
+			}
+			return res;
+		}
+
 	public HashMap<String,Object> loginAttempt(HashMap<String,ArrayList<String>> hm) throws SQLException{
 		boolean loginFlag;
 		HashMap<String,Object> res = new HashMap<>();
@@ -81,14 +73,13 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		if(userArr.isEmpty()) {
 			res.put("access","deny");
 			res.put("response", "not exist");
-			return res; //need to handle no permission this later
+			return res; 
 		}
-		//check if logged in
-		//if(logged in
+		
 		if(userQ.isEmpty()) {
 			res.put("access","deny");
 			res.put("response", "wrong credentials");
-			return res; //need to handle no permission this later
+			return res; 
 		}
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {

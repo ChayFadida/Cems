@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import controllersStudent.TakeExamController;
 import controllersStudent.VirtualExamController;
@@ -24,8 +22,10 @@ import thirdPart.JsonHandler;
 
 public class TimerController extends AbstractController {
 	public  CountDown countdown;
-    private Clock clock;
-    private TimeMode timeMode;
+    @SuppressWarnings("unused")
+	private Clock clock;
+    @SuppressWarnings("unused")
+	private TimeMode timeMode;
     private VirtualExamController Vexam=null;
     private ManualExamController Mexam=null;
     private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();

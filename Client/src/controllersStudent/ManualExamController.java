@@ -219,7 +219,6 @@ public class ManualExamController extends AbstractController {
     		param.add(info);
     		msg.put("param", param);
     		super.sendMsgToServer(msg);
-    		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
             fileBytesList.clear();
             timerController.countdown.stop();
             thisStage.close();
