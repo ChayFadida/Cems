@@ -15,7 +15,7 @@
       <TableView fx:id="RequestsTable" layoutX="22.0" layoutY="124.0" prefHeight="302.0" prefWidth="731.0">
          <columns>
             <TableColumn id="requestId" fx:id="requestId" prefWidth="64.0" text="Request ID" />
-            <TableColumn id="examId" fx:id="examId" prefWidth="82.4000244140625" text="Exam ID" />
+            <TableColumn id="examId" fx:id="examName" prefWidth="82.4000244140625" text="Exam Name" />
             <TableColumn id="lecturerId" fx:id="lecturerId" prefWidth="80.79998779296875" text="Lecturer" />
             <TableColumn id="courseId" fx:id="courseId" text="Course" />
             <TableColumn id="subject" fx:id="subject" prefWidth="225.5999755859375" text="Subject" />

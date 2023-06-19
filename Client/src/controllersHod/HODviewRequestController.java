@@ -38,7 +38,7 @@ public class HODviewRequestController extends AbstractController implements Init
 	private ArrayList<Request> examArr ;
 	ArrayList<CheckMenuItem> requestsSelected;
     @FXML
-    public TableColumn<Request, Integer> examId;
+    public TableColumn<Request, String> examName;
     @FXML
     public TableColumn<Request, String> lecturerId;
     @FXML
@@ -78,6 +78,7 @@ public class HODviewRequestController extends AbstractController implements Init
 		}
 		for (int i = 0; i < requestResultSet.size(); i++) {
 			int requestId = (int)requestResultSet.get(i).get("requestId");
+			String examName = (String)requestResultSet.get(i).get("examName");
 			int examId = (int)requestResultSet.get(i).get("examId");
 			int lecturerId = (int)requestResultSet.get(i).get("lecturerId");
 			int courseId = (int)requestResultSet.get(i).get("courseId");
@@ -86,7 +87,7 @@ public class HODviewRequestController extends AbstractController implements Init
 			int newDuration = (int)requestResultSet.get(i).get("newDuration");
 			String status = (String)requestResultSet.get(i).get("status");
 			String reasons = (String)requestResultSet.get(i).get("reasons");
-		    examArr.add(new Request(requestId,examId,lecturerId,courseId,subject,oldDuration,newDuration,status,reasons));
+		    examArr.add(new Request(requestId,examName,examId,lecturerId,courseId,subject,oldDuration,newDuration,status,reasons));
 		}
 	}
 	
@@ -123,14 +124,14 @@ public class HODviewRequestController extends AbstractController implements Init
 	private void initTableView(ArrayList<Request> RequestArr) {
 		ObservableList<Request> list = FXCollections.observableArrayList(RequestArr);
 		PropertyValueFactory<Request, Integer> pvfrequestId = new PropertyValueFactory<Request, Integer>("requestId");
-		PropertyValueFactory<Request, Integer> pvfexamId = new PropertyValueFactory<Request, Integer>("examId");
+		PropertyValueFactory<Request, String> pvfeExamName = new PropertyValueFactory<Request, String>("examName");
 		PropertyValueFactory<Request, String> pvfLecturer = new PropertyValueFactory<Request, String>("lecturerId");
 		PropertyValueFactory<Request, String> pvfCourse = new PropertyValueFactory<Request, String>("courseId");
 		PropertyValueFactory<Request, String> pvfSSubject = new PropertyValueFactory<Request, String>("subject");
 		PropertyValueFactory<Request, Integer> pvfSOldDuration = new PropertyValueFactory<Request, Integer>("oldDuration");
 		PropertyValueFactory<Request, Integer> pvfSNewDuration = new PropertyValueFactory<Request, Integer>("newDuration");
 		requestId.setCellValueFactory(pvfrequestId);
-		examId.setCellValueFactory(pvfexamId);
+		examName.setCellValueFactory(pvfeExamName);
 		lecturerId.setCellValueFactory(pvfLecturer);
 		courseId.setCellValueFactory(pvfCourse);
 		subject.setCellValueFactory(pvfSSubject);
