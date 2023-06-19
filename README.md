@@ -42,7 +42,8 @@ The CEMS system offers a range of features to facilitate test-related tasks, inc
 
 Students can view their test scores and access reviewed copies of their tests. They only have access to their own results and cannot view other students' information.
 
-![Student Menu](student_menu.png)
+![Student Menu](https://github.com/ChayFadida/Cems/assets/122904042/81836bf6-7067-43b6-9e4d-47eb6737f5f0")
+
 
 ### Lecturers
 
