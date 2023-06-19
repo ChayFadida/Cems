@@ -29,6 +29,7 @@ import javafx.beans.property.SimpleStringProperty;
  * Throw this controller the lecturer can preform actions on his exams.
  */
 public class ManageExamsController extends AbstractController  {
+	
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
 
@@ -67,6 +68,7 @@ public class ManageExamsController extends AbstractController  {
 
     @FXML
     private Button minimizeButton;
+    
     /**
      * Minimize current window.
      * @param event Action event
@@ -76,6 +78,7 @@ public class ManageExamsController extends AbstractController  {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
     /**
      * By activate, the current window is closed.
      * @param event Action event
@@ -96,7 +99,7 @@ public class ManageExamsController extends AbstractController  {
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getLecturerExams");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> paramter = new ArrayList<>();
 		paramter.add(LecturerId);
 		msg.put("param", paramter);
@@ -107,7 +110,6 @@ public class ManageExamsController extends AbstractController  {
 			e.printStackTrace();
 		}
 		initTableView(eArr);
-    	
     }
     
     /**
@@ -136,7 +138,6 @@ public class ManageExamsController extends AbstractController  {
             return new SimpleStringProperty(lockedStatus);
         });
         examTable.setItems(list);
-
 	}
 
     /**
@@ -148,11 +149,11 @@ public class ManageExamsController extends AbstractController  {
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"),
-		    		(String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"),
-		    		(String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),
-		    		(String)element.get("examNum"), (Integer)element.get("bankId"),(Integer)element.get("isLocked")));
-		    HmCourseIdName.put((Integer)element.get("courseId"), (String)element.get("courseName"));
+		    eArr.add(new Exam((Integer) element.get("examId"), (String) element.get("examName"), (Integer) element.get("courseId"),
+		    		(String) element.get("subject"), (Integer)element.get("duration"), (String) element.get("lecturerNote"),
+		    		(String) element.get("studentNote"), (Integer) element.get("composerId"),(String) element.get("code"),
+		    		(String) element.get("examNum"), (Integer) element.get("bankId"),(Integer) element.get("isLocked")));
+		    HmCourseIdName.put((Integer) element.get("courseId"), (String) element.get("courseName"));
 		}
 	}
     
@@ -240,7 +241,7 @@ public class ManageExamsController extends AbstractController  {
 		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
     	Exam selectedExam = selectionModel.getSelectedItem();
     	if(!(selectedExam == null)) {
-        	if(selectedExam.isLocked()==1) {
+        	if(selectedExam.isLocked() == 1) {
         		return;
         	}
     		FXMLLoader loader = new FXMLLoader();
@@ -266,6 +267,7 @@ public class ManageExamsController extends AbstractController  {
     	    }
     	}
     }
+    
     /**
      * Activate ViewAllExams FXML page.
      * @param event Action event.
@@ -275,7 +277,5 @@ public class ManageExamsController extends AbstractController  {
 		Stage primaryStage = new Stage();
 		ViewAllExamsController viewAllExamController = new ViewAllExamsController();
 		viewAllExamController.start(primaryStage);
-
     }
-
 }

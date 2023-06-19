@@ -59,5 +59,4 @@ public class HODviewStatisticsController extends AbstractController{
     	HODviewStatisticsByStudentController hODviewStatisticsByStudentController = new HODviewStatisticsByStudentController();
    		hODviewStatisticsByStudentController.start(primaryStage);
     }
-
 }

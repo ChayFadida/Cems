@@ -22,5 +22,4 @@ public class ExtendTimePopupController {
     	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
     	
     }
-
 }

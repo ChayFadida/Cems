@@ -33,6 +33,7 @@ import client.ConnectionServer;
  * In this class the lecturer can watch her exam bank.
  */
 public class MyExamBankController extends AbstractController implements Initializable{
+	
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
 	
@@ -92,6 +93,7 @@ public class MyExamBankController extends AbstractController implements Initiali
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
     /**
      * close current window.
      * @param event Action event.
@@ -100,6 +102,7 @@ public class MyExamBankController extends AbstractController implements Initiali
     void Close(ActionEvent event) {
     	System.exit(0);
     }
+    
     /**
      * acvitate course filter for the lecturer
      * @param event Action event.
@@ -112,8 +115,8 @@ public class MyExamBankController extends AbstractController implements Initiali
         } else {
             showTableWithFilters(selectedCourse);
         }
-
 	}
+    
     /**
      * Delete the exam from the lecturer exam bank.
      * @param event Action event.
@@ -128,7 +131,7 @@ public class MyExamBankController extends AbstractController implements Initiali
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("deleteExam");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(selectedItem.getExamId() + "");
 		msg.put("param",parameter);
@@ -136,6 +139,7 @@ public class MyExamBankController extends AbstractController implements Initiali
 		deleteFromEB(selectedItem.getExamId());
 		showTable();
     }
+    
     /**
      * update the table after lecturer choose filter.
      * @param selectedCourse the courses the lecturer choose.
@@ -147,7 +151,7 @@ public class MyExamBankController extends AbstractController implements Initiali
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getLecturerExamsByCourse");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		parameter.add(selectedCourse);
@@ -206,20 +210,21 @@ public class MyExamBankController extends AbstractController implements Initiali
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamBankByLecId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(ConnectionServer.user.getId()+"");
-		msg.put("param",parameter);
+		parameter.add(ConnectionServer.user.getId() + "");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
 			System.out.println("Could not get info from the DB.");
 		}
-		if(rs.get(0)==null) {
+		if(rs.get(0) == null) {
 			System.out.println("Empty table from Sql");
 		}
 		return rs.get(0);
 	}
+	
 	/**
 	 * send message to server and get relevant information for the table.
 	 */
@@ -230,7 +235,7 @@ public class MyExamBankController extends AbstractController implements Initiali
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getLecturerExams");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		msg.put("param", parameter);
@@ -241,29 +246,30 @@ public class MyExamBankController extends AbstractController implements Initiali
 			e.printStackTrace();
 		}
 		initTableView(eArr);
-    	
     }
+    
     /**
      * loads the relevant information for the exam.
      * @param rs result set from the server.
      * @throws Exception
      */
 	public void loadExams(ArrayList<HashMap<String, Object>> rs) throws Exception {
-		eArr= new ArrayList<>();
+		eArr = new ArrayList<>();
 		if(rs == null) {
 			System.out.println("rs is null");
 			return;
 		}
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    eArr.add(new Exam((Integer)element.get("examId"), (String)element.get("examName"), (Integer)element.get("courseId"),
-                              (String)element.get("subject"), (Integer)element.get("duration"), (String)element.get("lecturerNote"),
-                              (String)element.get("studentNote"), (Integer)element.get("composerId"), (String)element.get("code"),
-                              (String)element.get("examNum"), (Integer)element.get("bankId"), (Integer)element.get("isLocked")));
-		    HmCourseIdName.put((Integer)element.get("courseId"), (String)element.get("courseName"));
+		    eArr.add(new Exam((Integer) element.get("examId"), (String) element.get("examName"), (Integer) element.get("courseId"),
+                              (String) element.get("subject"), (Integer) element.get("duration"), (String) element.get("lecturerNote"),
+                              (String) element.get("studentNote"), (Integer) element.get("composerId"), (String) element.get("code"),
+                              (String) element.get("examNum"), (Integer) element.get("bankId"), (Integer) element.get("isLocked")));
+		    HmCourseIdName.put((Integer) element.get("courseId"), (String) element.get("courseName"));
 		}
 		
 	}
+	
 	/**
 	 * Initialize the table columns with relrvant information.
 	 * @param ExamArr ArrayList of exams.
@@ -286,10 +292,9 @@ public class MyExamBankController extends AbstractController implements Initiali
 
             return new SimpleStringProperty(courseName);
         });
-		
 		tblExams.setItems(list);
-		
 	}
+    
     /**
      * Initialize the controller.
      * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
@@ -303,6 +308,7 @@ public class MyExamBankController extends AbstractController implements Initiali
 		courseItems.addAll(HmCourseIdName.values());
 		CourseComboBox.getSelectionModel().selectFirst();
 	}
+	
 	/**
 	 * when activate, runs the EditExam FXML page
 	 * @param event Action event.

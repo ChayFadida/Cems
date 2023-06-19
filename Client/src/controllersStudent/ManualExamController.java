@@ -33,13 +33,13 @@ import javafx.stage.FileChooser;
  *
  */
 public class ManualExamController extends AbstractController {
+	
     private List<byte[]> fileBytesList = new ArrayList<>();
     private List<File> fileList = new ArrayList<>();
 	private HashMap<String, Object> examInfo = new HashMap<>();
 	private Stage thisStage;
 	private ArrayList<HashMap<String,Object>> rs= new ArrayList<>();
 	private String startTime;
-
 	TimeMode timeMode;
 	TimerController timerController;
 	Clock clock;
@@ -89,12 +89,11 @@ public class ManualExamController extends AbstractController {
                 try {
 					byte[] fileBytes = Files.readAllBytes(file.toPath());
                     fileBytesList.add(fileBytes);
-                    
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
             }
+            
             // Display a visual element or text inside the Pane to indicate the dragged files
             Label fileLabel = new Label("Files Dropped");
             fileLabel.setStyle("-fx-font-size: 18px;");
@@ -117,7 +116,6 @@ public class ManualExamController extends AbstractController {
         FileChooser fileChooser = new FileChooser();
         Stage stage = new Stage();
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
-
         if (selectedFiles != null) {
             for (File file : selectedFiles) {
                 System.out.println("Dropped file: " + file.getAbsolutePath());
@@ -125,7 +123,6 @@ public class ManualExamController extends AbstractController {
                 try {
 					byte[] fileBytes = Files.readAllBytes(file.toPath());
                     fileBytesList.add(fileBytes);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -148,7 +145,7 @@ public class ManualExamController extends AbstractController {
     	msg.put("client", user);
     	ArrayList<Object> task = new ArrayList<>();
 		task.add("getExamFile");
-		msg.put("task",task);
+		msg.put("task", task);
 		ArrayList<Object> param = new ArrayList<>();
 		param.add(examInfo.get("examId"));
 		msg.put("param", param);
@@ -167,7 +164,6 @@ public class ManualExamController extends AbstractController {
             if (!saveFile.getName().toLowerCase().endsWith(".doc")) {
                 saveFile = new File(saveFile.getParentFile(), saveFile.getName() + ".doc");
             }
-
             try (FileOutputStream outputStream = new FileOutputStream(saveFile)) {
                 outputStream.write(fileBytes);
                 outputStream.close();
@@ -208,7 +204,7 @@ public class ManualExamController extends AbstractController {
     		msg.put("client", arr);
     		ArrayList<Object> task = new ArrayList<>();
     		task.add("UploadTestsToDB");
-    		msg.put("task",task);
+    		msg.put("task", task);
     		ArrayList<Object> param = new ArrayList<>();
     		HashMap<String, Object> info = new HashMap<String, Object>();
     		info.put("byte", fileBytesList.get(0));
@@ -222,10 +218,11 @@ public class ManualExamController extends AbstractController {
             fileBytesList.clear();
             timerController.countdown.stop();
             thisStage.close();
-            if(TakeExamController.checkInProgressStudents((int) examInfo.get("examId"))==0)
+            if(TakeExamController.checkInProgressStudents((int) examInfo.get("examId")) == 0)
             	TakeExamController.lockExam((int) examInfo.get("examId"));
         }        
     }
+    
     /**
      * Sets the exam information and initializes the exam session.
      * It receives the server response containing the exam details,
@@ -234,24 +231,25 @@ public class ManualExamController extends AbstractController {
      * @param stage The stage of the current window
      */
     public void setExamInfo(ArrayList<HashMap<String,Object>> rs,Stage stage) {
-    	this.rs=rs;
-    	thisStage=stage;
+    	this.rs = rs;
+    	thisStage = stage;
     	examInfo.put("examId", (int)rs.get(0).get("examId"));
-    	startTime =TimerHandler.GetCurrentTimestamp();
+    	startTime = TimerHandler.GetCurrentTimestamp();
     	timeMode = new TimeMode((int)rs.get(0).get("duration") + 1);
         timerController = new TimerController();
         Student student = (Student) ConnectionServer.getInstance().getUser();
 		clock = new Clock(timerController,lblHour,lblMin,lblSec,progressBar,timeMode);
 		student.setExamSession(clock);
 		timerController.start(clock, timeMode,"Manual",this);
-		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"),ConnectionServer.user.getId(),"Manual",startTime);
-		if(inserted!=1) {
+		int inserted = TakeExamController.insertToExamresults((Integer) rs.get(0).get("examId"), ConnectionServer.user.getId(), "Manual", startTime);
+		if(inserted != 1) {
 			System.out.println("Problem at inserting to examresults");
 			timerController.countdown.stop();
 			thisStage.close();
 			return;
 		}
     }
+    
     /**
      * retrun current stage.
      * @return current stage
@@ -259,6 +257,7 @@ public class ManualExamController extends AbstractController {
 	public Stage getStage() {
 		return thisStage;
 	}
+	
 	/**
 	 * return the result set from the data base.
 	 * @return result set from the db.
@@ -266,6 +265,7 @@ public class ManualExamController extends AbstractController {
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
+	
 	/**
 	 * minimize current window.
 	 * @param event ActionEvent
@@ -275,5 +275,4 @@ public class ManualExamController extends AbstractController {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
 }

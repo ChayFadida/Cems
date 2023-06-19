@@ -34,34 +34,42 @@ import javafx.stage.StageStyle;
  *
  */
 public class HODmenuController extends AbstractController implements Initializable {
+	
 	/**
 	 * Controller for the HOD to view all the students that belongs to his department.
 	 */
 	private HODviewAllStudentsController hODviewAllStudentsController;
+	
 	/**
 	 * Controller for the HOD to view all the lecturers that belongs to his department.
 	 */
 	private HODviewAllLecturersTableController hODviewAllLecturersTableController;
+	
 	/**
 	 * Controller for the HOD to view the bank exam of each lecturer.
 	 */
 	private HODviewExamBankController hODviewExamBankController;
+	
 	/**
 	 * Controller for the HOD to view the requests he have for changing the exam time duration.
 	 */
 	private HODviewRequestController hODviewRequestController;
+	
 	/**
 	 * Controller for the HOD to view statistic reports about student / course / lecturer.
 	 */
 	private HODviewStatisticsController hODviewStatisticsController;
+	
 	/**
 	 * Controller for the HOD to view the question exam of each lecturer.
 	 */
 	private HODviewQuestionBankController hODviewQuestionBankController;
+	
 	/**
 	 * HOD object that refers to HOD entity.
 	 */
 	private Hod hod;
+	
 	/**
 	 * Super object that refers to the Super entity. "Super" is for HOD's that are also lecturers.
 	 */
@@ -109,7 +117,7 @@ public class HODmenuController extends AbstractController implements Initializab
     public HODmenuController() {
     	User user = ConnectionServer.getInstance().getUser();
 		if(user instanceof Super) {
-			this.HODandLecturer = (Super)user;
+			this.HODandLecturer = (Super) user;
 			this.hod=HODandLecturer.getHod();
 		}
 		else {
@@ -148,7 +156,7 @@ public class HODmenuController extends AbstractController implements Initializab
      */
     public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/guiHod/HODmenu.fxml"));
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiHod/HODmenu.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -173,7 +181,7 @@ public class HODmenuController extends AbstractController implements Initializab
      */
     @FXML
     void LogOut(MouseEvent event) throws IOException {
-    	if(HODandLecturer!=null) {
+    	if(HODandLecturer != null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
@@ -188,13 +196,12 @@ public class HODmenuController extends AbstractController implements Initializab
 					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 					LogInController logInController = new LogInController();	
 					logInController.start(new Stage());
-					System.out.println("User id: "+id + " Logout successfully");
+					System.out.println("User id: " + id + " Logout successfully");
 				}
 				else {
 					System.out.println("Problem at logout, requester id is different in rs->aborting");
 					ConnectionServer.getInstance().quit();
 					System.out.println("exit Academic Tool");
-					
 				}
     		} catch (IOException e) {
 				System.out.println("Problem at quit connection server");
@@ -203,6 +210,7 @@ public class HODmenuController extends AbstractController implements Initializab
 			}
     	}
     }
+    
     /**
      * Loads the ViewExamBank FXML page
      * @param event mouse event that triggered by clicking the button.
@@ -210,9 +218,10 @@ public class HODmenuController extends AbstractController implements Initializab
     @FXML
     void ViewExamBank(MouseEvent event) {
     	loadPage("ViewExamBank");
-    	if(hODviewExamBankController==null)
+    	if(hODviewExamBankController == null)
     		hODviewExamBankController = new HODviewExamBankController();
     }
+    
     /**
      * Loads the ViewQuestionBank FXML page
      * @param event mouse event that triggered by clicking the button.
@@ -223,6 +232,7 @@ public class HODmenuController extends AbstractController implements Initializab
     	if(hODviewQuestionBankController==null)
     		hODviewQuestionBankController = new HODviewQuestionBankController();
     }
+    
     /**
      * Loads the ViewRequest FXML page
      * @param event mouse event that triggered by clicking the button.
@@ -233,6 +243,7 @@ public class HODmenuController extends AbstractController implements Initializab
     	if(hODviewRequestController==null)
     		hODviewRequestController = new HODviewRequestController();
     }
+    
     /**
      * Loads the ViewStatistics FXML page
      * @param event mouse event that triggered by clicking the button.
@@ -254,6 +265,7 @@ public class HODmenuController extends AbstractController implements Initializab
     	if(hODviewAllStudentsController==null)
     		hODviewAllStudentsController= new HODviewAllStudentsController();
     }
+    
     /**
      * Loads the ViewAllLecturers FXML page
      * @param event mouse event that triggered by clicking the button.
@@ -265,6 +277,7 @@ public class HODmenuController extends AbstractController implements Initializab
     		hODviewAllLecturersTableController = new HODviewAllLecturersTableController();
     	
     }
+    
     /**
      * Initializes the HOD menu GUI components and the associated event handlers.
      */
@@ -300,8 +313,6 @@ public class HODmenuController extends AbstractController implements Initializab
         
         ViewAllStudentsButton.setOnMousePressed(this::applyButtonPressEffect);
         ViewAllStudentsButton.setOnMouseReleased(this::removeButtonPressEffect);
-        
-        
     }
 
     /**
@@ -329,7 +340,7 @@ public class HODmenuController extends AbstractController implements Initializab
     private void loadPage(String page) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/guiHod/"+ page + ".fxml"));
+            root = FXMLLoader.load(getClass().getResource("/guiHod/" + page + ".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -343,10 +354,7 @@ public class HODmenuController extends AbstractController implements Initializab
      */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		lblHello.setText("Hello, "+hod.getFirstName()+ "!");
-		
+		lblHello.setText("Hello, " +hod.getFirstName()+ "!");
 	}
-	
-	
 }
 

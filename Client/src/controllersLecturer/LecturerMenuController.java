@@ -36,15 +36,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class LecturerMenuController extends AbstractController implements Initializable{
-	private MyQuestionBankController myQuestionBankController=null;
-	private MyExamBankController myExamBankController=null;
-	private CreateNewExamController createNewExamController=null;
-	private ManageExamsController manageExamsController=null;
-	private CheckResultController checkResultController=null;
-	private Lecturer lecturer=null ;
-	private Super LecturerAndHOD;
 	
+	private MyQuestionBankController myQuestionBankController = null;
+	private MyExamBankController myExamBankController = null;
+	private CreateNewExamController createNewExamController = null;
+	private ManageExamsController manageExamsController = null;
+	private CheckResultController checkResultController = null;
+	private Lecturer lecturer = null ;
+	private Super LecturerAndHOD;
 	private final Glow buttonPressEffect = new Glow(0.5);
+	
     @FXML
     private Button CheckResultButton;
 
@@ -145,8 +146,8 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void CheckResult(MouseEvent event) {
     	loadPage("CheckResult");
-    	if(checkResultController==null)
-    		checkResultController= new CheckResultController();
+    	if(checkResultController == null)
+    		checkResultController = new CheckResultController();
     }
 
     /**
@@ -156,8 +157,8 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void CreateNewExam(MouseEvent event) {
     	loadPage("CreateNewExam");
-    	if(createNewExamController==null)
-    		createNewExamController= new CreateNewExamController();
+    	if(createNewExamController == null)
+    		createNewExamController = new CreateNewExamController();
     }
     
     /**
@@ -167,7 +168,7 @@ public class LecturerMenuController extends AbstractController implements Initia
      */
     @FXML
     void LogOut(MouseEvent event) throws IOException {
-    	if(LecturerAndHOD!=null) {
+    	if(LecturerAndHOD != null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
@@ -177,12 +178,12 @@ public class LecturerMenuController extends AbstractController implements Initia
 				boolean res = super.logoutRequest(lecturer);
 				int id = lecturer.getId();
 				if (res) {
-					lecturer=null;
-					LecturerAndHOD=null;
+					lecturer = null;
+					LecturerAndHOD = null;
 					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 					LogInController logInController = new LogInController();	
 					logInController.start(new Stage());
-					System.out.println("User id: "+id + " Logout successfully");
+					System.out.println("User id: " + id + " Logout successfully");
 				}
 				else {
 					System.out.println("Problem at logout, requester id is different in rs->aborting");
@@ -219,7 +220,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void MyExambank(MouseEvent event) {
     	loadPage("MyExambank");
-    	if(myExamBankController==null)
+    	if(myExamBankController == null)
     		myExamBankController = new MyExamBankController();
     }
     
@@ -230,7 +231,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     @FXML
     void MyQuestionbank(MouseEvent event) {
     	loadPage("MyQuestionbank");
-    	if(myQuestionBankController==null)
+    	if(myQuestionBankController == null)
     		myQuestionBankController = new MyQuestionBankController();
     }
     
@@ -245,7 +246,7 @@ public class LecturerMenuController extends AbstractController implements Initia
         buttonPressEffect.setInput(ManageExamsButton.getEffect());
         buttonPressEffect.setInput(MyExambankButton.getEffect());
         buttonPressEffect.setInput(MyQuestionbankButton.getEffect());
-
+        
         LogOutButton.setOnMousePressed(this::applyButtonPressEffect);
         LogOutButton.setOnMouseReleased(this::removeButtonPressEffect);
 
@@ -290,7 +291,7 @@ public class LecturerMenuController extends AbstractController implements Initia
     public void loadPage(String page) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/guiLecturer/"+page + ".fxml"));
+            root = FXMLLoader.load(getClass().getResource("/guiLecturer/" + page + ".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -304,9 +305,6 @@ public class LecturerMenuController extends AbstractController implements Initia
      */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		lblHello.setText("Hello, "+lecturer.getFirstName()+ "!");
+		lblHello.setText("Hello, " + lecturer.getFirstName() + "!");
 	}
-    
-
- 
 }

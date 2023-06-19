@@ -17,6 +17,7 @@ import javafx.stage.Stage;
  * In this controller the lecturer can ask the HOD to approve his request to change exam duration.  
  */
 public class ChangeDurationController extends AbstractController{
+	
 	Exam exam;
 
 	@FXML
@@ -77,7 +78,7 @@ public class ChangeDurationController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("AddDurationRequest");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(exam.getExamId() + "");
 		parameter.add(ConnectionServer.user.getId() + "");
@@ -89,7 +90,6 @@ public class ChangeDurationController extends AbstractController{
 		parameter.add(txtRequestDetails.getText());
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
-
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     }
     
