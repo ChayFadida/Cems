@@ -54,12 +54,27 @@ public class HODTaskManager implements TaskHandler{
 					return getUserById((String)hm.get("lecturerId").get(0));
 				case "updateExamDurationById":
 					return updateExamDurationById(hm.get("param"));
+				case "updateRequestDenied":
+					return updateRequestDenied(hm.get("param"));
 				default: 
 			    	System.out.println("no such method for HOD");
 		    		return msgBack;
 				}
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
+	}
+	
+	/**
+	 * Updates the duration of an exam in the database based on the provided parameters.
+	 *
+	 * @param param an ArrayList containing the necessary parameters
+	 * @return an ArrayList of HashMaps containing the updated exam information
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
+	private ArrayList<HashMap<String, Object>> updateRequestDenied(ArrayList<Object> param) throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateDurationRequest(param));
+		return rs;
 	}
 	/**
 	 * Updates the duration of an exam in the database based on the provided parameters.
