@@ -19,8 +19,9 @@ import javafx.stage.Stage;
  */
 public class LockAreYouSureController extends AbstractController{
 	Exam exam;
+	ManageExamsController manageExamsController;
 
-    @FXML
+	@FXML
     private Button btnNo;
 
     @FXML
@@ -32,7 +33,15 @@ public class LockAreYouSureController extends AbstractController{
 	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
+  
 	/**
+	 * Setter for ManageExamController field
+	 * @param event Action event
+	 */
+    public void setManageExamsController(ManageExamsController manageExamsController) {
+		this.manageExamsController = manageExamsController;
+	}
+  /**
 	 * If lecturer press no -> nothing happens and the window is closed.
 	 * @param event Action event
 	 */
@@ -57,6 +66,7 @@ public class LockAreYouSureController extends AbstractController{
 		parameter.add(exam.getExamId() + "");
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
+		manageExamsController.showTable();
 		((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
     }
 

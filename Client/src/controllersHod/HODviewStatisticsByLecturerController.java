@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
+import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import abstractControllers.AbstractController.DragHandler;
 import abstractControllers.AbstractController.PressHandler;
@@ -106,30 +106,33 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
      */
     @FXML
     void showStats(ActionEvent event) {
+		LecturerNameTxt.setText("");
+		LecturerAvaregeTxt.setText("");
+		LecturerMedianTxtbox.setText("");
        	String StudentId = getid();
-    		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-    		ArrayList<String> user = new ArrayList<>();
-    		user.add("HOD");
-    		msg.put("client", user);
-    		ArrayList<String> query = new ArrayList<>();
-    		query.add("getInfoForLecturerStats");
-    		msg.put("task",query);
-    		ArrayList<String> parameter = new ArrayList<>();
-    		parameter.add(StudentId);
-    		msg.put("param", parameter);
-    		sendMsgToServer(msg);
-    		try {
-    	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
-    	        if (rs.isEmpty()) {
-    	            notFoundLbl.setText("Lecturer has not found");
-    	            LecturerBarChart.getData().clear();
-    	        } else {
-    	        	notFoundLbl.setText("");
-    	        	this.loadStats(ConnectionServer.rs);
-    	        }
-    		} catch (Exception e) {
-    			e.printStackTrace();
-    		}
+    	HashMap<String,ArrayList<String>> msg = new HashMap<>();
+    	ArrayList<String> arr = new ArrayList<>();
+    	arr.add("HOD");
+    	msg.put("client", arr);
+    	ArrayList<String> arr1 = new ArrayList<>();
+    	arr1.add("getInfoForLecturerStats");
+    	msg.put("task",arr1);
+    	ArrayList<String> arr2 = new ArrayList<>();
+    	arr2.add(StudentId);
+    	msg.put("param", arr2);
+    	sendMsgToServer(msg);
+    	try {
+    	    ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
+    	    if (rs.isEmpty()) {
+    	        notFoundLbl.setText("Lecturer has not found or there is no exams to show");
+    	        LecturerBarChart.getData().clear();
+    	    } else {
+    	    	notFoundLbl.setText("");
+    	        this.loadStats(ConnectionServer.rs);
+    	    }
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
     
     
@@ -177,7 +180,7 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
         }
         if (count > 0) {
             double average = total / count;
-            LecturerAvaregeTxt.setText(String.format("%.2f", average));
+            LecturerAvaregeTxt.setText(String.format("%.1f", average));
         } else {
         	LecturerAvaregeTxt.setText("No grades!");
             System.out.println("No grades!");
@@ -207,12 +210,16 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
         if (length % 2 == 0) {
             int middleIndex1 = length / 2 - 1;
             int middleIndex2 = length / 2;
-            LecturerMedianTxtbox.setText(String.valueOf((gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0));
+            double median = (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
+
+            // Format median to one digit after the decimal point
+            DecimalFormat decimalFormat = new DecimalFormat("#.0");
+            String formattedMedian = decimalFormat.format(median);
+            LecturerMedianTxtbox.setText(formattedMedian);
         } else {
             int middleIndex = length / 2;
             LecturerMedianTxtbox.setText(String.valueOf(gradesArr.get(middleIndex)));
         }
-        
     }
 
 	/**
@@ -239,7 +246,6 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
 		LecturerNameTxt.setText("");
 		LecturerAvaregeTxt.setText("");
 		LecturerMedianTxtbox.setText("");
-
 	}
 	
     /**

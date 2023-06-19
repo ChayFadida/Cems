@@ -75,8 +75,8 @@ public class HODviewExamBankController extends AbstractController {
 		sendMsgToServer(msg);
 		try {
 			this.loadExam(ConnectionServer.rs);
-			if(examArr.isEmpty()) {
-				notFoundLbl.setText("Lecturer has not found");
+			if(eArr.isEmpty()) {
+				notFoundLbl.setText("The ID is not valid or the exam bank is empty");
 				ExamsTable.setItems(null);
 			}else {
 				notFoundLbl.setText("");

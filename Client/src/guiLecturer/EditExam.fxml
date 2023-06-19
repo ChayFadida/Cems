@@ -38,38 +38,38 @@
             <Font name="Arial Rounded MT Bold" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="90.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Code:" wrappingWidth="148.0810546875">
+      <Text layoutX="91.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Code:" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="91.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Duration:" wrappingWidth="148.0810546875">
+      <Text layoutX="91.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Duration:" wrappingWidth="148.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="337.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for lecturers:" wrappingWidth="175.0810546875">
+      <Text layoutX="337.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for lecturers:" wrappingWidth="175.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="337.0" layoutY="465.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for students:" wrappingWidth="175.0810546875">
+      <Text layoutX="337.0" layoutY="517.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Notes for students:" wrappingWidth="175.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="170.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits &amp; letters)" />
-      <TextField fx:id="DurationTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="446.0" prefHeight="25.0" prefWidth="148.0" promptText="Duration (minutes)" />
-      <TextField fx:id="lecNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="362.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
-      <TextField fx:id="studNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="451.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
-      <Button fx:id="btnSaveChanges" layoutX="292.0" layoutY="555.0" mnemonicParsing="false" onAction="#getSaveChanges" prefHeight="33.0" prefWidth="217.0" style="-fx-background-radius: 0;" text="Save the changes">
+      <TextField fx:id="codetXT" alignment="TOP_LEFT" layoutX="166.0" layoutY="348.0" prefHeight="25.0" prefWidth="148.0" promptText="code (4 digits &amp; letters)" />
+      <TextField fx:id="DurationTxt" alignment="TOP_LEFT" layoutX="171.0" layoutY="426.0" prefHeight="25.0" prefWidth="148.0" promptText="Duration (minutes)" />
+      <TextField fx:id="lecNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="423.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
+      <TextField fx:id="studNotesTxt" alignment="TOP_LEFT" layoutX="522.0" layoutY="496.0" prefHeight="61.0" prefWidth="217.0" promptText="Notes" />
+      <Button fx:id="btnSaveChanges" layoutX="291.0" layoutY="568.0" mnemonicParsing="false" onAction="#getSaveChanges" prefHeight="33.0" prefWidth="217.0" style="-fx-background-radius: 0;" text="Save the changes">
          <font>
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
       <Label fx:id="lblErrorCode" alignment="TOP_LEFT" layoutX="90.0" layoutY="388.0" prefHeight="51.0" prefWidth="198.0" wrapText="true" />
       <Label fx:id="lblErrorDuration" alignment="TOP_LEFT" layoutX="91.0" layoutY="467.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
-      <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="549.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
+      <Label fx:id="lblError" alignment="TOP_LEFT" layoutX="522.0" layoutY="578.0" prefHeight="44.0" prefWidth="217.0" wrapText="true" />
       <Label fx:id="lblScore" alignment="CENTER" contentDisplay="CENTER" layoutX="692.0" layoutY="183.0" prefHeight="25.0" prefWidth="76.0" text="0/100" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="17.0" />
@@ -81,30 +81,35 @@
          </font>
       </Button>
       <Label fx:id="lblErrorSelected" alignment="TOP_CENTER" layoutX="667.0" layoutY="246.0" prefHeight="71.0" prefWidth="127.0" wrapText="true" />
-      <Text layoutX="91.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Name:">
+      <Text layoutX="91.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Name:">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="txtName" layoutX="171.0" layoutY="514.0" prefHeight="25.0" prefWidth="148.0" promptText="Algebra1 winter term A" />
+      <TextField fx:id="txtName" layoutX="171.0" layoutY="501.0" prefHeight="25.0" prefWidth="148.0" promptText="Algebra1 winter term A" />
       <Label fx:id="lblErrorName" alignment="TOP_LEFT" layoutX="90.0" layoutY="541.0" prefHeight="44.0" prefWidth="198.0" wrapText="true" />
-      <Button fx:id="CloseBtn" layoutX="733.0" layoutY="-4.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
+      <Button fx:id="CloseBtn" layoutX="736.0" layoutY="7.0" mnemonicParsing="false" onAction="#Close" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
          <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/Images/exit.png" />
-               </image>
-            </ImageView>
+               </image></ImageView>
          </graphic>
       </Button>
-      <Button fx:id="MinimizeBtn" layoutX="682.0" layoutY="-4.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
+      <Button fx:id="MinimizeBtn" layoutX="667.0" layoutY="7.0" mnemonicParsing="false" onAction="#Minimize" prefHeight="47.0" prefWidth="51.0" styleClass="toggle-btns">
          <graphic>
-            <ImageView fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/Images/minimize.png" />
-               </image>
-            </ImageView>
+               </image></ImageView>
          </graphic>
       </Button>
+      <Text layoutX="434.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Subject:" wrappingWidth="148.0810546875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtSubject" alignment="TOP_LEFT" layoutX="522.0" layoutY="350.0" prefHeight="25.0" prefWidth="148.0" promptText="subject of exam" />
+      <Label fx:id="lblErrorSubject" alignment="TOP_LEFT" layoutX="434.0" layoutY="382.0" prefHeight="44.0" prefWidth="229.0" wrapText="true" />
    </children>
 </AnchorPane>

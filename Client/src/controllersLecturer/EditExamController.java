@@ -62,6 +62,12 @@ public class EditExamController extends AbstractController{
 	}
     
     @FXML
+    private TextField txtSubject;
+    
+    @FXML
+    private Label lblErrorSubject;
+    
+    @FXML
     private ComboBox<Course> CourseComboBox;
 
     @FXML
@@ -176,19 +182,24 @@ public class EditExamController extends AbstractController{
      */
     @FXML
     void getSaveChanges(ActionEvent event) {
+    	lblErrorSubject.setText(" ");
     	lblError.setText(" ");
     	lblErrorCode.setText(" ");
     	lblErrorDuration.setText(" ");
     	lblErrorSelected.setText(" ");
+    	String subject = txtSubject.getText();
     	String code = codetXT.getText();
     	String duration = DurationTxt.getText();
     	String lecNotes = lecNotesTxt.getText();
     	String studNotes = studNotesTxt.getText();
     	String name = txtName.getText();
     	boolean flag=false;
-    	Integer durationMins;
     	if(qArr.isEmpty()) {
     		lblError.setText("You must select atleast one question");
+    		flag=true;
+    	}
+    	if(subject.equals("")) {
+    		lblErrorSubject.setText("You must enter a subject");
     		flag=true;
     	}
     	if(code==null || duration==null) {
@@ -214,7 +225,6 @@ public class EditExamController extends AbstractController{
     		lblError.setText("Please fix all error and try again later.");
     		return;
     	}
-    	durationMins = Integer.parseInt(duration);
     	if(lecNotes==null)
     		lecNotes=" ";
     	if(studNotes==null)
@@ -222,6 +232,7 @@ public class EditExamController extends AbstractController{
     	if(name==null)
     		name=" ";
     	updateExam(code,duration,lecNotes,studNotes,name);
+    	myExamBankController.CourseFilter(event);
     }
     
     /**
@@ -500,7 +511,8 @@ public class EditExamController extends AbstractController{
     	txtName.setText(exam.getExamName());
         lecNotesTxt.setText(exam.getLecturerNote());
         studNotesTxt.setText(exam.getStudentNote());
-        lblScore.setText("100/100");
+        txtSubject.setText(exam.getSubject());
+        lblScore.setText("0/100");
         
         
     	ConnectionServer.getInstance();

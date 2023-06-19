@@ -173,7 +173,27 @@ public class EditQuestionController extends AbstractController {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+
     /**
+     * Return Bank Id by Lecturer Id
+     */  
+    public Integer getBankId(){
+		HashMap<String,ArrayList<String>> msg = new HashMap<>();
+		ArrayList<String> arr = new ArrayList<>();
+		arr.add("Lecturer");
+		msg.put("client", arr);
+		ArrayList<String> arr1 = new ArrayList<>();
+		arr1.add("getExamBankByLecId");
+		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(ConnectionServer.user.getId() + "");
+		msg.put("param", arr2);
+		super.sendMsgToServer(msg);
+		Integer id = (Integer) ConnectionServer.rs.get(0).get("bankId");
+		return id;
+    }
+    
+  /**
      * Saving the question that were changed.
      * @param event Action event
      */
@@ -195,12 +215,13 @@ public class EditQuestionController extends AbstractController {
 		HmQuestions.put("answer2", getAnswer2());
 		HmQuestions.put("answer3", getAnswer3());
 		HmQuestions.put("answer4", getAnswer4());
-		
-		parameter.add(getQuestionField());
-		parameter.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
-		parameter.add(getRightAnswer());
-		parameter.add(getSubject());
-		parameter.add(getNotesField());
+
+		arr2.add(getQuestionField());
+		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
+		arr2.add(getRightAnswer());
+		arr2.add(getBankId() + "");
+		arr2.add(getSubject());
+		arr2.add(getNotesField());
 		
 		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
 		ArrayList<Integer> IntegerList = new ArrayList<>();

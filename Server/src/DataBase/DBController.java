@@ -9,7 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import server.ServerController;
 
 
@@ -281,5 +283,36 @@ public class DBController {
 	    return result;
 	}
 	
+	
+	public static boolean importData(String sqlFilePath) {
+	    if (conn == null) {
+	        return false;
+	    }
+
+	    try (BufferedReader reader = new BufferedReader(new FileReader(sqlFilePath));
+	         Statement stmt = conn.createStatement()) {
+
+	        StringBuilder sqlStatements = new StringBuilder();
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	            sqlStatements.append(line);
+	            sqlStatements.append(System.lineSeparator());
+	        }
+
+	        String[] queries = sqlStatements.toString().split(";");
+
+	        for (String query : queries) {
+	            if (!query.trim().isEmpty()) {
+	                stmt.executeUpdate(query);
+	            }
+	        }
+
+	    } catch (IOException | SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+
+	    return true;
+	}
 }
 

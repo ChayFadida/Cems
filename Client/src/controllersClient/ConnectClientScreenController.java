@@ -19,7 +19,7 @@ import client.ConnectionServer;
 
 
 public class ConnectClientScreenController extends AbstractController{
-
+	
     @FXML
     private Button btnConnect;
 
@@ -36,7 +36,7 @@ public class ConnectClientScreenController extends AbstractController{
     private TextField txtServerIP;
     @FXML
     private TextField txtPort;
-    @FXML
+
     private Label lblError;
     /**
 	 *port getter
@@ -53,7 +53,7 @@ public class ConnectClientScreenController extends AbstractController{
     private String getIP() {
 		return txtServerIP.getText();
 	}
-    
+        
     /**
 	 *this method implements the connection button and connect to the server
 	 *@param event

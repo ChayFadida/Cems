@@ -141,7 +141,7 @@ public class ManageExamsController extends AbstractController  {
         });
         clmIsLocked.setCellValueFactory(cellData -> {
             Integer isLocked = cellData.getValue().isLocked();
-            String lockedStatus = isLocked != null ? "Yes" : "No";
+            String lockedStatus = isLocked != 0 ? "Yes" : "No";
             return new SimpleStringProperty(lockedStatus);
         });
         examTable.setItems(list);
@@ -249,10 +249,14 @@ public class ManageExamsController extends AbstractController  {
 		SelectionModel<Exam> selectionModel = examTable.getSelectionModel();
     	Exam selectedExam = selectionModel.getSelectedItem();
     	if(!(selectedExam == null)) {
+        	if(selectedExam.isLocked()==1) {
+        		return;
+        	}
     		FXMLLoader loader = new FXMLLoader();
     		Pane root = loader.load(getClass().getResource("/guiLecturer/LockAreYouSure.fxml").openStream());
     		lockAreYouSureController = loader.getController();
     		lockAreYouSureController.setExam(selectedExam);
+    		lockAreYouSureController.setManageExamsController(this);
     		try {
     	        Scene scene = new Scene(root);
     	        scene.getStylesheets().add("/gui/GenericStyleSheet.css");

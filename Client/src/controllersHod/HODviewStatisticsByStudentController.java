@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
+import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.ExamBankView;
@@ -42,7 +42,6 @@ import javafx.scene.chart.XYChart;
  */
 
 public class HODviewStatisticsByStudentController extends AbstractController implements Initializable {
-	private ArrayList<ExamResults> erArr ;
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
 	private HashMap<Integer, String> examId_ExamName = new HashMap<>();
 	CategoryAxis xAxis = new CategoryAxis();
@@ -111,6 +110,9 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
      */
     @FXML
     void showStats(ActionEvent event) {
+		StudentAvaregeTxt.setText("");
+		StudentNameTxt.setText("");
+		StudentMedianTxt.setText("");
     	String StudentId = getid();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
@@ -124,9 +126,9 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		try {
-	        ArrayList<HashMap<String, Object>> StatisticResultSet = ConnectionServer.rs;
-	        if (StatisticResultSet.isEmpty()) {
-	            notFoundLbl.setText("Student has not found");
+	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
+	        if (rs.isEmpty()) {
+	            notFoundLbl.setText("Student has not found or there is no exams to show");
 	            StudentBarChart.getData().clear();
 	        } else {
 	        	notFoundLbl.setText("");
@@ -190,7 +192,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
         }
         if (count > 0) {
             double average = total / count;
-            StudentAvaregeTxt.setText(String.format("%.2f", average));
+            StudentAvaregeTxt.setText(String.format("%.1f", average));
         } else {
             // Handle the case when no grades were found in the result set
             // You can display an error message or perform any other necessary action
@@ -210,18 +212,23 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
      * Function that calculate the median.
      */
     private void setMedian() {
-            Collections.sort(gradesArr);
-            int length = gradesArr.size();
-            if (length % 2 == 0) {
-                int middleIndex1 = length / 2 - 1;
-                int middleIndex2 = length / 2;
-                StudentMedianTxt.setText(String.valueOf((gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0));
-            } else {
-                int middleIndex = length / 2;
-                StudentMedianTxt.setText(String.valueOf(gradesArr.get(middleIndex)));
-            }
-            
+        // Sort the grades array in ascending order
+        Collections.sort(gradesArr);
+
+        int length = gradesArr.size();
+        if (length % 2 == 0) {
+            int middleIndex1 = length / 2 - 1;
+            int middleIndex2 = length / 2;
+            double median = (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.0");
+            String formattedMedian = decimalFormat.format(median);
+            StudentMedianTxt.setText(formattedMedian);
+        } else {
+            int middleIndex = length / 2;
+            StudentMedianTxt.setText(String.valueOf(gradesArr.get(middleIndex)));
         }
+    }
     
 
     /**

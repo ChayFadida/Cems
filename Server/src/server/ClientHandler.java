@@ -4,7 +4,9 @@ package server;
 import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.List;
 
+import DataBase.DBController;
 import ocsf.server.*;
 import taskManager.*;
 import java.io.IOException;
@@ -131,6 +133,14 @@ public class ClientHandler extends AbstractServer {
 	 */
 	public void sendToAllClients(Object msg) {
 		super.sendToAllClients(msg);
+	}
+	
+	/**
+	* Calls Utility import method.
+	* @return return true of import successed, else return false;
+	*/
+	protected boolean importData(String sqlFilePath) {
+		return DBController.importData(sqlFilePath);
 	}
 	
 }

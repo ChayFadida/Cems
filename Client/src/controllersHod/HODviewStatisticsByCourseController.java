@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
+import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.ExamResults;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,8 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -106,30 +109,34 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
      */
     @FXML
     void showStats(ActionEvent event) {
+		CourseNameTxt.setText("");
+		CourseAvaregeTxt.setText("");
+		CourseMedianTxt.setText("");
        	String StudentId = getid();
-    		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-    		ArrayList<String> user = new ArrayList<>();
-    		user.add("HOD");
-    		msg.put("client", user);
-    		ArrayList<String> query = new ArrayList<>();
-    		query.add("getInfoForCourseStats");
-    		msg.put("task",query);
-    		ArrayList<String> parameter = new ArrayList<>();
-    		parameter.add(StudentId);
-    		msg.put("param", parameter);
-    		sendMsgToServer(msg);
-    		try {
-    	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
-    	        if (rs.isEmpty()) {
-    	            notFoundLbl.setText("Course not found");
-    	            CourseBarChart.getData().clear();
-    	        } else {
-    	        	notFoundLbl.setText("");
-    	        	this.loadStats(ConnectionServer.rs);
-    	        }
-    		} catch (Exception e) {
-    			e.printStackTrace();
-    		}
+    	HashMap<String,ArrayList<String>> msg = new HashMap<>();
+    	ArrayList<String> arr = new ArrayList<>();
+    	arr.add("HOD");
+    	msg.put("client", arr);
+    	ArrayList<String> arr1 = new ArrayList<>();
+    	arr1.add("getInfoForCourseStats");
+    	msg.put("task",arr1);
+    	ArrayList<String> arr2 = new ArrayList<>();
+    	arr2.add(StudentId);
+    	msg.put("param", arr2);
+    	sendMsgToServer(msg);
+    	try {
+    	    ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
+    	    if (rs.isEmpty()) {
+    	        notFoundLbl.setText("Course not found or there is no exams to show");
+    	        CourseBarChart.getData().clear();
+    	    } else {
+    	        notFoundLbl.setText("");
+    	        this.loadStats(ConnectionServer.rs);
+    	    }
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    		
     }
     
     /**
@@ -148,8 +155,6 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 		CourseNameTxt.setText("");
 		CourseAvaregeTxt.setText("");
 		CourseMedianTxt.setText("");
-		
-		
 	}
     
 	/**
@@ -196,7 +201,7 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
         }
         if (count > 0) {
             double average = total / count;
-            CourseAvaregeTxt.setText(String.format("%.2f", average));
+            CourseAvaregeTxt.setText(String.format("%.1f", average));
         } else {
         		CourseAvaregeTxt.setText("No grades found");
             	System.out.println("No grades");
@@ -220,16 +225,21 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
      */
     private void setMedian() {
         Collections.sort(gradesArr);
+
         int length = gradesArr.size();
         if (length % 2 == 0) {
             int middleIndex1 = length / 2 - 1;
             int middleIndex2 = length / 2;
-            CourseMedianTxt.setText(String.valueOf((gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0));
+            double median = (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
+
+            // Format median to one digit after the decimal point
+            DecimalFormat decimalFormat = new DecimalFormat("#.0");
+            String formattedMedian = decimalFormat.format(median);
+            CourseMedianTxt.setText(formattedMedian);
         } else {
             int middleIndex = length / 2;
             CourseMedianTxt.setText(String.valueOf(gradesArr.get(middleIndex)));
         }
-        
     }
     
     /**

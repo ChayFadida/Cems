@@ -26,7 +26,8 @@
                         <ImageView fx:id="imgLogo" fitHeight="138.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@/Images/Cems.png" />
-                           </image></ImageView>
+                           </image>
+                        </ImageView>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="72.0" prefWidth="300.0">
@@ -57,7 +58,7 @@
                   <VBox alignment="BOTTOM_CENTER" prefHeight="128.0" prefWidth="300.0">
                      <children>
                         <Label fx:id="lblError" alignment="CENTER" prefHeight="17.0" prefWidth="190.0" textAlignment="CENTER" />
-                        <Button fx:id="btnConnect" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
+                        <Button fx:id="btnConnect" alignment="BASELINE_CENTER" mnemonicParsing="false" onAction="#getConnectBtn" prefHeight="42.0" prefWidth="103.0" text="Connect" />
                      </children>
                   </VBox>
                   <HBox alignment="TOP_CENTER" prefHeight="70.0" prefWidth="300.0" />

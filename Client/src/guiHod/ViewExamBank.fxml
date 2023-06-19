@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewExamBankController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@/gui/GenericStyleSheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersHod.HODviewExamBankController">
    <children>
       <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-headline" text="View exam bank" wrappingWidth="334.13671875">
          <font>
@@ -31,7 +31,8 @@
          </font>
       </Text>
       <TextField fx:id="LecturerIdText" layoutX="257.0" layoutY="103.0" prefHeight="25.0" prefWidth="156.0" />
-      <Button fx:id="Apply" layoutX="430.0" layoutY="100.0" mnemonicParsing="false" onAction="#showTable" prefHeight="16.0" prefWidth="91.0" text="Apply" />
-      <Label fx:id="notFoundLbl" layoutX="544.0" layoutY="108.0" prefHeight="16.0" prefWidth="181.0" />
+      <Button fx:id="ApplyTemp" layoutX="430.0" layoutY="100.0" mnemonicParsing="false" onAction="#showTable" prefHeight="16.0" prefWidth="91.0" text="Apply" />
+      <Label fx:id="notFoundLbl" layoutX="544.0" layoutY="100.0" prefHeight="26.0" prefWidth="182.0" />
+      <Label fx:id="notFoundLbl1" layoutX="554.0" layoutY="95.0" prefHeight="41.0" prefWidth="182.0" />
    </children>
 </AnchorPane>

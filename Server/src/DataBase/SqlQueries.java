@@ -80,12 +80,12 @@ public class SqlQueries {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
 		return query;
 	}
-	public static String getExamResultChosenAnswersByExamId(String id) {
-		String query = "SELECT DISTINCT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + id + ";";
+	public static String getExamResultChosenAnswersByExamId(ArrayList<Object> param) {
+		String query = "SELECT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + param.get(0) + " AND er.studentId = " + param.get(1) + ";";
 		return query;
 	}
 	public static String getExamsByComposerId(String id) {
-		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status != 'Done';";
+		String query = "SELECT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status = 'waiting for approve';";
 		return query;
 	}
 	
@@ -228,7 +228,7 @@ public class SqlQueries {
 	}
 
 	public static ArrayList<String> InsertQuestionToDB(ArrayList<Object> param) {
-		String insert = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "', '1', '" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "');";
+		String insert = "INSERT INTO questions (details, answers, rightAnswer, questionBankId, subject, notes, courses)\r\n" + "VALUES ('" + param.get(0)+ "','" + param.get(1)+ "','" + param.get(2)+ "','" +  param.get(3)+ "','" + param.get(4)+ "','" + param.get(5) + "','" + param.get(6) +  "');";
 		String select = "SELECT LAST_INSERT_ID();";
 		ArrayList<String> queries = new ArrayList<>();
 		queries.add(insert);
@@ -241,11 +241,11 @@ public class SqlQueries {
 	            + "SET details = '" + param.get(0) + "', "
 	            + "answers = '" + param.get(1) + "', "
 	            + "rightAnswer = '" + param.get(2) + "', "
-	            + "questionBankId = 1, "
-	            + "subject = '" + param.get(3) + "', "
-	            + "notes = '" + param.get(4) + "', "
-	            + "courses = '" + param.get(5) + "' "
-	            + "WHERE questionId = " + param.get(6) + ";";
+	            + "questionBankId = '" + param.get(3) + "', "
+	            + "subject = '" + param.get(4) + "', "
+	            + "notes = '" + param.get(5) + "', "
+	            + "courses = '" + param.get(6) + "' "
+	            + "WHERE questionId = " + param.get(7) + ";";
 		return query;
 	}
 
@@ -528,12 +528,13 @@ public class SqlQueries {
 
 	public static String updateExamDurationById(ArrayList<Object> param) {
 		String query = "UPDATE exam SET duration = '"+param.get(1)+"' WHERE examId = '"+param.get(0)+"' ;";
-    return query
+    return query;
   }
 
 	public static String getStudentEmail(ArrayList<Object> param) {
 		String query = "SELECT u.email FROM users AS u "
 				+ "WHERE u.id = " + param.get(0) + ";";
+
 
 		return query;
 	}
