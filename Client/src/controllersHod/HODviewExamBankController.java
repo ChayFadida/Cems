@@ -25,7 +25,6 @@ import thirdPart.JsonHandler;
  */
 public class HODviewExamBankController extends AbstractController {
 	private ArrayList<ExamBankView> examArr ;
-	private HODmenuController hODmenuController;
 
     @FXML
     private Button Apply;
@@ -75,7 +74,7 @@ public class HODviewExamBankController extends AbstractController {
 		sendMsgToServer(msg);
 		try {
 			this.loadExam(ConnectionServer.rs);
-			if(eArr.isEmpty()) {
+			if(examArr.isEmpty()) {
 				notFoundLbl.setText("The ID is not valid or the exam bank is empty");
 				ExamsTable.setItems(null);
 			}else {
@@ -104,7 +103,6 @@ public class HODviewExamBankController extends AbstractController {
 			clmLecturerLastName.setCellValueFactory(pvfLecturerLastName);
 			clmSubject.setCellValueFactory(pvfSubject);
 			ExamsTable.setItems(Examlist);
-		
 	}
 	
 	/**

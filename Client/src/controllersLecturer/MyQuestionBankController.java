@@ -120,14 +120,14 @@ public class MyQuestionBankController extends AbstractController implements Init
      */
     void showTableWithFilters(String selectedCourse) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsByIdByCourse");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(getBankId()+"");
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsByIdByCourse");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(getBankId()+"");
 		ArrayList<Integer> crsIds = new ArrayList<>();
 		for(Integer id: HmCourseIdName.keySet()) {
 			if(HmCourseIdName.get(id).equals(selectedCourse)) {
