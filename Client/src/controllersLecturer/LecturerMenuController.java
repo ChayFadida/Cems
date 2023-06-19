@@ -205,8 +205,6 @@ public class LecturerMenuController extends AbstractController implements Initia
      */
     @FXML
     void ManageExams(MouseEvent event) throws IOException {
-		Stage primaryStage = new Stage();
-		ManageExamsController manageExamsController;
 		FXMLLoader loader = new FXMLLoader();
 		Pane root = loader.load(getClass().getResource("/guiLecturer/ManageExams.fxml").openStream());
 		manageExamsController = loader.getController();

@@ -6,20 +6,12 @@ import java.util.HashMap;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Exam;
-import entities.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import thirdPart.JsonHandler;
 /**
  * Controller class for the lecturer.
  * In this controller the lecturer can ask the HOD to approve his request to change exam duration.  

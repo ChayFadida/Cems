@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
-import entities.Course;
 import entities.Exam;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

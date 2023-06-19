@@ -7,7 +7,6 @@ import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import entities.Exam;
 import entities.QuestionForExam;
-import entities.QuestionForVirtualExam;
 import entities.Question;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +23,6 @@ import thirdPart.JsonHandler;
  * in this controller the lecturer can watch a chosen exam.
  */
 public class ViewExamController extends AbstractController {
-    private ArrayList<HashMap<String, Object>> rs = new ArrayList<>();
     private ArrayList<QuestionForExam> questions = new ArrayList<>();
     Exam exam;
 
