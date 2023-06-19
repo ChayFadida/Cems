@@ -31,6 +31,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 
+/**
+ * Controller class for the lecturer.
+ * This controller is the screen for the student where he choose how to preform an exam, manual or virtual.
+ */
 public class TakeExamController extends AbstractController{
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
 	private ArrayList<HashMap<String,Object>> rs = new ArrayList<>();
@@ -58,7 +62,12 @@ public class TakeExamController extends AbstractController{
 
     @FXML
     private TextField txtID;
-
+    
+    /**
+     * This method is activated when clicked the Begin exam button.
+     * Preform checks based on the id that was insert by the student.
+     * @param event Action event after clicking Begin Exam.
+     */
     @FXML
     void getBeginExam(ActionEvent event) {
     	lblErrorBegin.setText(" ");
@@ -108,23 +117,28 @@ public class TakeExamController extends AbstractController{
     	}
 
     }
-
+    
+    /**
+     * This method checks with the server if a specific exam is locked.
+     * @param examId the exam id to check.
+     * @return 0 if the exam is locked, 1 if the exam isnt locked, -1 if there was an error while checking.
+     */
 	private int checkIfExamLocked(int examId) {
 		questions = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("checkIsLockedByExamId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("checkIsLockedByExamId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
@@ -133,24 +147,31 @@ public class TakeExamController extends AbstractController{
 		System.out.println("Exam locked");
 		return 0; //implies the exam is locked
 	}
-
+	
+	/**
+	 * This method checks with the server if an exam as already begun.
+	 * checks by the exam id and student id.
+	 * @param examId the exam id 
+	 * @param studentId the student id
+	 * @return 0 if the exam as already begun and done, 1 if the student didnt preform the exam yes, -1 if an error ocurred.
+	 */
 	private int checkIfAlreadyStarted(int examId, String studentId) {
 		questions = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamresultByExamAndUserId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		arr2.add(studentId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamresultByExamAndUserId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		parameter.add(studentId);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
@@ -159,23 +180,29 @@ public class TakeExamController extends AbstractController{
 		System.out.println("Trying to start exam that alreasy been done");
 		return 0;
 	}
-
+	
+	/**
+	 * Retrieves the questions for the specified exam from the server.
+	 *
+	 * @param flagCode  the code of the exam to retrieve questions for.
+	 * @return 1 if the questions were successfully retrieved, -1 if an error occurred while retrieving the questions.
+	 */
 	private int retrieveQuestionsForExam(int flagCode) {
 		questions = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsAndScoresByExamId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(flagCode+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsAndScoresByExamId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(flagCode+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("could not load data from server.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
@@ -190,19 +217,19 @@ public class TakeExamController extends AbstractController{
 		ArrayList<Integer> scoresForQuestions = SjsonHM.get("scores");
 		for(int i=0;i<questionsInExam.size();i++) {
 			HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
-			ArrayList<String> Arr = new ArrayList<>();
-			Arr.add("Student");
-			msg1.put("client", Arr);
-			ArrayList<String> Arr1 = new ArrayList<>();
-			Arr1.add("getQuestionById");
-			msg1.put("task",Arr1);
-			ArrayList<String> Arr2 = new ArrayList<>();
-			Arr2.add(questionsInExam.get(i)+"");
-			msg1.put("param", Arr2);
+			ArrayList<String> user1 = new ArrayList<>();
+			user1.add("Student");
+			msg1.put("client", user1);
+			ArrayList<String> query1 = new ArrayList<>();
+			query1.add("getQuestionById");
+			msg1.put("task",query1);
+			ArrayList<String> parameter1 = new ArrayList<>();
+			parameter1.add(questionsInExam.get(i)+"");
+			msg1.put("param", parameter1);
 			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
 			if(rs1==null) {
-				System.out.println("RS is null");
+				System.out.println("could not load data from server.");
 				return -1;
 			}
 			if(rs1.isEmpty()) {
@@ -219,7 +246,11 @@ public class TakeExamController extends AbstractController{
 		return 1;
 		
 	}
-
+	
+	/**
+	 * This method opens the menual exam FXML page.
+	 * @param event Action event to activate the screen.
+	 */
 	@FXML
     void getManual(ActionEvent event) {
 		FXMLLoader loader = new FXMLLoader();
@@ -247,7 +278,11 @@ public class TakeExamController extends AbstractController{
 			e.printStackTrace();
 		}
     }
-  
+	
+	/**
+	 * This method opens the virtual exam FXML page.
+	 * @param event Action event to activate the screen.
+	 */
     @FXML
     void getVirtual(ActionEvent event) {
     	try {
@@ -276,26 +311,36 @@ public class TakeExamController extends AbstractController{
     		e.printStackTrace();
     	}
     }
-    
+    /**
+     * Checks if the id given is the same as the user id.
+     * @param text the id provided.
+     * @return true if there is a match, flase otherwise.
+     */
     private boolean checkID(String text) {
 		return (ConnectionServer.user.getId()+"")==text;
   	}
     
+    /**
+     * This method checks if the exam code provided by the student is matching to the code from the DB. 
+     * @param text the exam code
+     * @return ArrayList with the exam information if the code is matching or 
+     * returns an ArrayList with single HashMap with key value -1 in the examId. 
+     */
 	private ArrayList<HashMap<String,Object>> checkCode(String text) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamByCode");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(text);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamByCode");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(text);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("could not load data from the server.");
 			rs= new ArrayList<>();
 			HashMap<String,Object> hm = new HashMap<>();
 			hm.put("examId",-1);
@@ -311,26 +356,34 @@ public class TakeExamController extends AbstractController{
 		return rs;
 	}
 	
-	
+	/**
+	 * Inserts a new record into the exam results table with the provided information.
+	 *
+	 * @param examId     the ID of the exam.
+	 * @param studentId  the ID of the student.
+	 * @param type       the type of the exam result.
+	 * @param startTime  the start time of the exam.
+	 * @return 1 if the record was inserted successfully, 0 if the record was not inserted, or -1 if there was an error.
+	 */
 	public static int insertToExamresults(Integer examId, Integer studentId, String type,String startTime) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("insertToExamresults");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		arr2.add(studentId+"");
-		arr2.add(type);
-		arr2.add(startTime);
-		arr2.add("inProgress");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("insertToExamresults");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		parameter.add(studentId+"");
+		parameter.add(type);
+		parameter.add(startTime);
+		parameter.add("inProgress");
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from server.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
@@ -339,27 +392,38 @@ public class TakeExamController extends AbstractController{
 		}
 		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
 	}
-
+	
+	/**
+	 * Updates the exam results for a specific exam and student with the provided information.
+	 *
+	 * @param examId        the ID of the exam.
+	 * @param studentId     the ID of the student.
+	 * @param endTime       the end time of the exam.
+	 * @param status        the status of the exam result.
+	 * @param grade         the grade of the exam.
+	 * @param answerChosen  the chosen answer for the exam.
+	 * @return 1 if the exam results were updated successfully, 0 if the exam results were not updated, or -1 if there was an error.
+	 */
 	public static int updateExamresults(int examId, int studentId, String endTime, String status, int grade, String answerChosen) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("updateExamresults");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		arr2.add(studentId+"");
-		arr2.add(endTime);
-		arr2.add(status);
-		arr2.add(grade+"");
-		arr2.add(answerChosen);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("updateExamresults");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		parameter.add(studentId+"");
+		parameter.add(endTime);
+		parameter.add(status);
+		parameter.add(grade+"");
+		parameter.add(answerChosen);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from the server.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
@@ -368,50 +432,61 @@ public class TakeExamController extends AbstractController{
 		}
 		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
 	}
-
+	/**
+	 * Retrieves the number of students who are currently in progress for a specific exam.
+	 *
+	 * @param examId The identifier of the exam for which the in-progress students need to be checked.
+	 * @return The count of students who are in progress for the specified exam. Returns -1 if there was an error retrieving the data or if no data was available.
+	 */
 	public static long checkInProgressStudents(int examId) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("checkCountInProgressByExamId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("checkCountInProgressByExamId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from the server.");
 			return -1;
 		}
 		if(rs.isEmpty()) {
-			System.out.println("RS is empty");
+			System.out.println("No data from the server");
 			return -1;
 		}
 		return (long)rs.get(0).get("count");
 	}
-
+	
+	/**
+	 * Locks an exam by the given examId.
+	 * This function prevents any further changes or submissions to the exam.
+	 *
+	 * @param examId The identifier of the exam to be locked.
+	 */
 	public static void lockExam(int examId) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("lockExamById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("lockExamById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId+"");
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
-			System.out.println("RS is null");
+			System.out.println("Could not load data from the server.");
 			return;
 		}
 		if(rs.isEmpty()) {
-			System.out.println("RS is empty");
+			System.out.println("No data from server.");
 			return;
 		}
 		if((int)rs.get(0).get("affectedRows")==1) {
@@ -419,6 +494,10 @@ public class TakeExamController extends AbstractController{
 		}
 	}
     
+	/**
+	 * Displays the blocked page FXML.
+	 * This method loads the BlockedPopupScreen.
+	 */
     public static void showBlockedPage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
@@ -435,6 +514,10 @@ public class TakeExamController extends AbstractController{
         }
     }
     
+    /**
+     * Displays the extend time page FXML.
+     * This method loads the ExtendTimePopupScreen.
+     */
     public static void showExtendTimePage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/ExtendTimePopupScreen.fxml"));
