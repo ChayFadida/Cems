@@ -47,7 +47,13 @@ import timer.TimerHandler;
 import javafx.stage.FileChooser;
 import java.io.File;
 
-
+/**
+ * Controller class for the student.
+ * In this controller the student can preform manual exam.
+ * extends AbstractController.
+ * @author pisto
+ *
+ */
 public class ManualExamController extends AbstractController {
     private List<byte[]> fileBytesList = new ArrayList<>();
     private List<File> fileList = new ArrayList<>();
@@ -87,7 +93,11 @@ public class ManualExamController extends AbstractController {
 
     @FXML
     private ProgressBar progressBar;
-
+    
+    /**
+     * Handles the event when files are dropped onto the associated control during a drag and drop operation.
+     * @param event The DragEvent object representing the drag and drop event.
+     */
     @FXML
     void gerDragDropped(DragEvent event) {
         boolean success = false;
@@ -118,7 +128,12 @@ public class ManualExamController extends AbstractController {
         event.setDropCompleted(success);
         event.consume();
     }
-
+    
+    /**
+     * Handles the event when the browse button is clicked.
+     * It opens a file chooser dialog to allow the user to select multiple files.
+     * @param event The ActionEvent object representing the browse button click event.
+     */
     @FXML
     void getBrowseBtn(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -138,14 +153,21 @@ public class ManualExamController extends AbstractController {
 				}
             }
         }
-    }
-
+    }	
+    
+    /**
+     * This method handles the event when the download button is clicked.
+     * It sends a request to the server to retrieve the exam file and saves it to the local filesystem.
+     * The file is saved with a .doc extension and displayed in the file save dialog.
+     *
+     * @param event The ActionEvent object representing the download button click event.
+     */
     @FXML
     void getDownloadBtn(ActionEvent event) {
     	HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-    	ArrayList<Object> arr = new ArrayList<>();
-    	arr.add("Student");
-    	msg.put("client", arr);
+    	ArrayList<Object> user = new ArrayList<>();
+    	user.add("Student");
+    	msg.put("client", user);
     	ArrayList<Object> task = new ArrayList<>();
 		task.add("getExamFile");
 		msg.put("task",task);
@@ -179,7 +201,12 @@ public class ManualExamController extends AbstractController {
             System.out.println("File save cancelled by the user.");
         }
     }
-
+    
+    /**
+     * Handles the drag over event when files are dragged over the designated area.
+     * If the drag event contains files, it accepts the transfer mode as COPY.
+     * @param event DragEvent 
+     */
     @FXML
     void getDragOver(DragEvent event) {
         if (event.getDragboard().hasFiles()) {
@@ -190,6 +217,11 @@ public class ManualExamController extends AbstractController {
         pane.getStyleClass().add("dragged");
     }
 
+    /**
+     * Handles the upload button click event.
+     * If the `fileBytesList` is not empty, it prepares the necessary information to upload the tests to the database.
+     * @param event ActionEvent 
+     */
     @FXML
     void getUploadBtn(ActionEvent event) {
         if (!fileBytesList.isEmpty()) {
@@ -218,7 +250,13 @@ public class ManualExamController extends AbstractController {
             	TakeExamController.lockExam((int) examInfo.get("examId"));
         }        
     }
-    
+    /**
+     * Sets the exam information and initializes the exam session.
+     * It receives the server response containing the exam details,
+     * as well as the stage of the current window.
+     * @param rs    The server response containing the exam details
+     * @param stage The stage of the current window
+     */
     public void setExamInfo(ArrayList<HashMap<String,Object>> rs,Stage stage) {
     	this.rs=rs;
     	thisStage=stage;
@@ -238,14 +276,24 @@ public class ManualExamController extends AbstractController {
 			return;
 		}
     }
+    /**
+     * retrun current stage.
+     * @return current stage
+     */
 	public Stage getStage() {
 		return thisStage;
 	}
-
+	/**
+	 * return the result set from the data base.
+	 * @return result set from the db.
+	 */
 	public ArrayList<HashMap<String, Object>> getRs() {
 		return rs;
 	}
-	
+	/**
+	 * minimize current window.
+	 * @param event ActionEvent
+	 */
     @FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

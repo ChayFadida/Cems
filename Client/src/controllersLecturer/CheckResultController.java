@@ -319,10 +319,14 @@ public class CheckResultController extends AbstractController implements Initial
 			}
 		}
     }
-
+    
     /**
-     * By activate the edit button, the lecturer can edit the grade and add notes.
-     * @param event Action event
+     * Handles the event when the edit button is clicked.
+     * It retrieves the selected exam result from the table, validates the input fields,
+     * and sends a request to update the exam result grade and notes.
+     * If the update is successful, the table is refreshed.
+     *
+     * @param event The ActionEvent object representing the edit button click event.
      */
     @FXML
     void getEditBtn(ActionEvent event) {
@@ -375,12 +379,11 @@ public class CheckResultController extends AbstractController implements Initial
 		}
     }
     
-
     /**
-     * By activate , minimize current window.
-     * @param event
+     * Simulates a pop-up window by displaying the email of the selected student in a separate stage.
+     * It retrieves the selected exam result from the table, sends a request to get the student's email,
+     * and opens a new stage to display the email using the SimulationPopUp fxml.
      */
-
     private void simulatePopUp() {
     	ArrayList<ExamResult> selectedId = new ArrayList<>();
 		selectedId.add(resultTable.getSelectionModel().getSelectedItem());
@@ -390,15 +393,15 @@ public class CheckResultController extends AbstractController implements Initial
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("Lecturer");
-			msg.put("client", arr);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("getStudentEmail");
-			msg.put("task",arr1);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(selectedId.get(0).getStudentId() + "");
-			msg.put("param",arr2);
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getStudentEmail");
+			msg.put("task",query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(selectedId.get(0).getStudentId() + "");
+			msg.put("param",parameter);
 			sendMsgToServer(msg);
 			
 			if(ConnectionServer.rs != null) {
@@ -425,15 +428,18 @@ public class CheckResultController extends AbstractController implements Initial
 				}			}
 		}
     }
-    
+    /**
+     * by activate it minimize the current window. 
+     * @param event Action event 
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
     /**
-     * close the program.
-     * @param event
+     * by activate it close the current window. 
+     * @param event Action event 
      */
     @FXML
     void Close(ActionEvent event) {

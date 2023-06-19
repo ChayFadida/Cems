@@ -32,7 +32,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-//remove Application after Login implementation
+/**
+ * Controller class for the student.
+ * This is the main window with the menu of operations for the student.
+ */
 public class StudentMenuController extends AbstractController implements Initializable{
 	private MyExamController myExamController;
 	private TakeExamController takeExamController;
@@ -63,16 +66,25 @@ public class StudentMenuController extends AbstractController implements Initial
     
     @FXML
     private Button btnChay;
-    
+    /**
+     * Gets the id of the user who is logged to the system.
+     */
     public StudentMenuController() {
     	student = (Student) ConnectionServer.getInstance().getUser();
     }
+    /**
+     * By activate it closed the current window.
+     * @param event Action event triggerd when clicked exit button.
+     */
     @FXML
     void getExitBtn(ActionEvent event) {
     	AreYouSureController areYouSureController = new AreYouSureController();
     	areYouSureController.start(new Stage());
     }
-
+    /**
+     * By activate it minimze the current window.
+     * @param event Action event triggerd when clicked minimize button.
+     */
     @FXML
     void getMinimizeBtn(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -81,7 +93,10 @@ public class StudentMenuController extends AbstractController implements Initial
     
     private final Glow buttonPressEffect = new Glow(0.5);
 
-   
+   /**
+    * This method loads the student menu FXML page.
+    * @param primaryStage the stage to load.
+    */
 	public void start(Stage primaryStage) {
 	    try {
 	        BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/guiStudent/StudentMenu.fxml"));
@@ -99,7 +114,10 @@ public class StudentMenuController extends AbstractController implements Initial
 	        e.printStackTrace();
 	    }
 	}
-
+	/**
+	 * By activate this method, the user is log out from the program.
+	 * @param event Mouse event triggered when pressing log out button.
+	 */
     @FXML
     void LogOut(MouseEvent event) {
     	try {
@@ -124,14 +142,20 @@ public class StudentMenuController extends AbstractController implements Initial
 			System.out.println("Exception at invoking logout");
 		}
     }
-
+    /**
+     * This method loads the MyExam fxml page.
+     * @param event Mouse event triggerd when click my exam button.
+     */
     @FXML
     void MyExam(MouseEvent event) {
         loadPage("MyExam");
         if(myExamController==null)
         	myExamController = new MyExamController();
     }
-
+    /**
+     * This method loads the TakeExam fxml page.
+     * @param event Mouse event triggerd when click TakeExam button.
+     */
     @FXML
     void TakeExam(MouseEvent event) {
         loadPage("TakeExam");
@@ -139,33 +163,10 @@ public class StudentMenuController extends AbstractController implements Initial
         	takeExamController = new TakeExamController();
     }
 
-    @FXML
-    public void initialize() {
-        buttonPressEffect.setInput(LogOutButton.getEffect());
-        buttonPressEffect.setInput(MyExamsButton.getEffect());
-        buttonPressEffect.setInput(TTakeExamButton.getEffect());
-
-        LogOutButton.setOnMousePressed(this::applyButtonPressEffect);
-        LogOutButton.setOnMouseReleased(this::removeButtonPressEffect);
-
-        MyExamsButton.setOnMousePressed(this::applyButtonPressEffect);
-        MyExamsButton.setOnMouseReleased(this::removeButtonPressEffect);
-
-        TTakeExamButton.setOnMousePressed(this::applyButtonPressEffect);
-        TTakeExamButton.setOnMouseReleased(this::removeButtonPressEffect);
-    }
-
-    private void applyButtonPressEffect(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setEffect(buttonPressEffect);
-    }
-
-    private void removeButtonPressEffect(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setEffect(null);
-    }
-    
-
+    /**
+     * this method is for load a specific fxml page.
+     * @param page the page we want to load.
+     */
     private void loadPage(String page) {
         Parent root = null;
         try {
@@ -175,11 +176,14 @@ public class StudentMenuController extends AbstractController implements Initial
         }
         bp.setCenter(root);
     }
+    /**
+     * Sets the name of the user who is logged in in the menu screen.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		lblHello.setText("Hello, "+student.getFirstName()+ "!");
 		
 	}
-	
+
 
 }
