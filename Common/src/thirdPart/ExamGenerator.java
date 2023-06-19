@@ -2,7 +2,9 @@ package thirdPart;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.io.FileOutputStream;
 import org.apache.poi.xwpf.usermodel.*;
@@ -63,11 +65,13 @@ public class ExamGenerator {
                     questionRun.setBold(true);
                     questionRun.setText("Question " + (questionIndex + 1) + ":");
                     XWPFRun questionRun1 = questionParagraph.createRun();
-                    questionRun.setText(question.getDetails());
+                    questionRun1.setText(question.getDetails());
 
-                    HashMap<Object, Object> choices = JsonHandler.convertJsonToHashMap(question.getAnswers(), String.class, String.class);
-
-                    for (Object key : choices.keySet()) {
+                    HashMap<String, String> choices =  JsonHandler.convertJsonToHashMap(question.getAnswers(), String.class, String.class);
+                    List<String> sortedKeys = new ArrayList<>(choices.keySet());
+                    Collections.sort(sortedKeys);
+                    
+                    for (Object key : sortedKeys) {
                         XWPFParagraph choiceParagraph = document.createParagraph();
                         choiceParagraph.setAlignment(ParagraphAlignment.LEFT);
                         XWPFRun choiceRun = choiceParagraph.createRun();

@@ -171,7 +171,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		arr1.add("insertExam");
 		msg.put("task",arr1);
 		ArrayList<Object> arr2 = new ArrayList<>();
-		HashMap<Object, Object> arr2Param = new HashMap<>();
 		arr2.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
 		arr2.add(subject);
 		arr2.add(duration);
@@ -306,7 +305,6 @@ public class CreateNewExamController extends AbstractController implements Initi
 		return rs.get(0);
 	}
 
-	//need to check lecturer's exam count in order to put in exam number
 	private Integer getLecturerExamCount() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
