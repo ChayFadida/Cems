@@ -33,8 +33,6 @@ public class ServerController  {
     @FXML
     private Button btnConnect;
     
-    @FXML
-    private Button btnImportData;
 
     @FXML
     private Button btnExit;
@@ -120,7 +118,7 @@ public class ServerController  {
 //		startServer(db_info);
 		startServer(db_info_temp);
     	if(lblError.getText().length() == 0) {
-//    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		Stage primaryStage = new Stage();
     		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
     		try {
@@ -189,22 +187,5 @@ public class ServerController  {
         });
 	}
 	
-	
-	/**
-	* Performs server back end Utility import.
-	* @param event ActionEvent that triggers the action
-	*/
-	@FXML
-	public void ImportData(ActionEvent event) {
-		String sqlFilePath = "C:\\Users\\USER\\OneDrive\\שולחן העבודה\\DataImportCems.sql";
-		if(clientHandler != null) {
-			if(clientHandler.importData(sqlFilePath)) 
-				setErrorLbl("Users has been imported successfuly.");
-			else
-				setErrorLbl("Import has failed.");
-		}
-		else
-			setErrorLbl("Import has failed. Before importing users, connect to Database");
-	}
 	
 }
