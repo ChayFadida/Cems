@@ -35,6 +35,7 @@ import thirdPart.JsonHandler;
  * In this controller the lecturer can check the automatic results of the exams and approve them or change the result.
  */
 public class CheckResultController extends AbstractController implements Initializable{
+	
 	private ArrayList<ExamResult> examResArr ;
     @FXML
     private Button ApproveGradeButton;
@@ -44,11 +45,13 @@ public class CheckResultController extends AbstractController implements Initial
     
     @FXML
     private Button closeButton;
+    
     @FXML
     private Button btnViewExam;
     
     @FXML
     private Button minimizeButton;
+    
     @FXML
     private Label lblNonSelected;
     
@@ -87,14 +90,14 @@ public class CheckResultController extends AbstractController implements Initial
 			System.out.println("could not load exams.");
 		}
 		for (int i = 0; i < ExamResultSet.size(); i++) {
-			int examId = (int)ExamResultSet.get(i).get("examId");
-			int courseId = (int)ExamResultSet.get(i).get("courseId");
-			int studentId = (int)ExamResultSet.get(i).get("studentId");
-			String subject = (String)ExamResultSet.get(i).get("subject");
-			String examName = (String)ExamResultSet.get(i).get("examName");
-			String status = (String)ExamResultSet.get(i).get("status");
-			Integer grade = (Integer)ExamResultSet.get(i).get("grade");
-			examResArr.add(new ExamResult(examId,courseId,studentId,grade,examName,status,subject));
+			int examId = (int) ExamResultSet.get(i).get("examId");
+			int courseId = (int) ExamResultSet.get(i).get("courseId");
+			int studentId = (int) ExamResultSet.get(i).get("studentId");
+			String subject = (String) ExamResultSet.get(i).get("subject");
+			String examName = (String) ExamResultSet.get(i).get("examName");
+			String status = (String) ExamResultSet.get(i).get("status");
+			Integer grade = (Integer) ExamResultSet.get(i).get("grade");
+			examResArr.add(new ExamResult(examId, courseId, studentId, grade, examName, status, subject));
 		}
 	}
     
@@ -188,7 +191,7 @@ public class CheckResultController extends AbstractController implements Initial
 			        	FXMLLoader loader = new FXMLLoader();
 						Parent root = loader.load(getClass().getResource("/guiLecturer/viewExamResult.fxml").openStream());
 						Scene scene = new Scene(root);
-						LecturerViewExamResultController lecturerViewExamResultController=loader.getController();
+						LecturerViewExamResultController lecturerViewExamResultController = loader.getController();
 						lecturerViewExamResultController.viewResult(examString.toString());
 						scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 						seconderyStage.initStyle(StageStyle.UNDECORATED);
@@ -222,9 +225,9 @@ public class CheckResultController extends AbstractController implements Initial
 		msg.put("questionId",parameter);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getRightAnswerForQuestion");
-		msg.put("task",query);
+		msg.put("task", query);
 		sendMsgToServer(msg);
-    	return (String)ConnectionServer.rs.get(0).get("rightAnswer");
+    	return (String) ConnectionServer.rs.get(0).get("rightAnswer");
     }
     
     /**
@@ -239,12 +242,12 @@ public class CheckResultController extends AbstractController implements Initial
 		msg.put("client", user);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(examId);
-		msg.put("examId",parameter);
+		msg.put("examId", parameter);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamQuestions");
-		msg.put("task",query);
+		msg.put("task", query);
 		sendMsgToServer(msg);
-    	String questionsColumn = (String)ConnectionServer.rs.get(0).get("questions");
+    	String questionsColumn = (String) ConnectionServer.rs.get(0).get("questions");
 		HashMap<String,ArrayList<Integer>> examQuestions = JsonHandler.convertJsonToHashMap(questionsColumn, String.class, ArrayList.class ,Integer.class);
 		return examQuestions.get("questions");
     }
@@ -261,7 +264,7 @@ public class CheckResultController extends AbstractController implements Initial
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getExamResultChosenAnswers");
-		msg.put("task",arr1);
+		msg.put("task", arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
 		arr2.add(examId + "");
 		arr2.add(StdId + "");
@@ -299,7 +302,7 @@ public class CheckResultController extends AbstractController implements Initial
 			msg.put("client", user);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("updateExamResultStatus");
-			msg.put("task",query);
+			msg.put("task", query);
 			ArrayList<String> parameter = new ArrayList<>();
 			parameter.add(selectedId.getExamId() + "");
 			parameter.add(selectedId.getStudentId() + "");
@@ -341,12 +344,10 @@ public class CheckResultController extends AbstractController implements Initial
 			ArrayList<String> arr2 = new ArrayList<>();
 			arr2.add(selectedId.get(0).getExamId() + "");
 			arr2.add(selectedId.get(0).getStudentId() + "");
-
 			if(txtNewGrade.getLength() == 0 || txtNotes.getLength() == 0) {
 				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
 				return;
 			}
-			
 			try {
 				if(Integer.parseInt(txtNewGrade.getText()) < 0 ||  Integer.parseInt(txtNewGrade.getText()) > 100 ) {
 					lblNonSelected.setText("Invalid Grade, try again!");
@@ -356,13 +357,11 @@ public class CheckResultController extends AbstractController implements Initial
 				lblNonSelected.setText("Invalid Grade, try again!");
 				return;
 			}
-			
 			lblNonSelected.setText("");
 			arr2.add(txtNotes.getText());
 			arr2.add(txtNewGrade.getText());
 			msg.put("param",arr2);
 			sendMsgToServer(msg);
-			
 			if(ConnectionServer.rs != null) {
 				System.out.println("Grade and Notes changed to Done successfuly!");
 				txtNotes.setText("");
@@ -392,10 +391,10 @@ public class CheckResultController extends AbstractController implements Initial
 			msg.put("client", user);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("getStudentEmail");
-			msg.put("task",query);
+			msg.put("task", query);
 			ArrayList<String> parameter = new ArrayList<>();
 			parameter.add(selectedId.get(0).getStudentId() + "");
-			msg.put("param",parameter);
+			msg.put("param", parameter);
 			sendMsgToServer(msg);
 			
 			if(ConnectionServer.rs != null) {
@@ -419,9 +418,11 @@ public class CheckResultController extends AbstractController implements Initial
 			        root.setOnMouseDragged(drag);
 				} catch (IOException e) {
 					e.printStackTrace();
-				}			}
+				}			
+		     }
 		}
     }
+    
     /**
      * by activate it minimize the current window. 
      * @param event Action event 
@@ -431,6 +432,7 @@ public class CheckResultController extends AbstractController implements Initial
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
     /**
      * by activate it close the current window. 
      * @param event Action event 
@@ -439,5 +441,4 @@ public class CheckResultController extends AbstractController implements Initial
     void Close(ActionEvent event) {
     	System.exit(0);
     }
-
 }

@@ -102,7 +102,8 @@ public class HODviewQuestionBankController extends AbstractController {
 		HashMap<Integer, String> getCourseid_courseName = getCourseid_courseName();
         StringBuilder courseNames = new StringBuilder();
         for (HashMap<String, Object> tmpHashMap : QuestionResultSet) {
-        	ArrayList<Double> courseLstJson =(ArrayList<Double>) JsonHandler.convertJsonToHashMap((String)tmpHashMap.get("courses"), String.class, ArrayList.class).get("courses");
+        	ArrayList<Double> courseLstJson =(ArrayList<Double>) JsonHandler.convertJsonToHashMap((String) tmpHashMap.get("courses"), 
+        			String.class, ArrayList.class).get("courses");
             StringBuilder courseNames1 = new StringBuilder();
             ArrayList<Integer> integerQuestionList = new ArrayList<>();
             for (Double d : courseLstJson) {
@@ -113,15 +114,12 @@ public class HODviewQuestionBankController extends AbstractController {
                 if (i < integerQuestionList.size() - 1)
                 	courseNames1.append(", ");
             }
-            questionArr.add(new QuestionBankView((String)tmpHashMap.get("details"),
-		    		(String)tmpHashMap.get("subject"),(String)tmpHashMap.get("lastName"),
+            questionArr.add(new QuestionBankView((String) tmpHashMap.get("details"),
+		    		(String)tmpHashMap.get("subject"),(String) tmpHashMap.get("lastName"),
 		    		(String)tmpHashMap.get("firstName"),courseNames1.toString()));
         }
 	}
     
-    
-    
-	
 	/**
 	 * Get the id that the user insert.
 	 * @return the lecturer id.
@@ -148,9 +146,4 @@ public class HODviewQuestionBankController extends AbstractController {
 		clmCourse.setCellValueFactory(pvfCourse);
 		QuestionTable.setItems(Questionlist);
 	}
-    
-    
-    
-    
-    
 }

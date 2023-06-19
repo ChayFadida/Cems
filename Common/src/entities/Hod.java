@@ -1,9 +1,11 @@
 package entities;
 
 import java.util.HashMap;
+
 /**
  * Represents a Hod entity.
  */
+@SuppressWarnings("serial")
 public class Hod extends User{
 	private Integer departmentId;
 	/**

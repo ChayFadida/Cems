@@ -15,13 +15,13 @@ public class ClientHandler extends AbstractServer {
 	private int port;
 	
 
-//	/**
-//	 *constructor for default port for server
-//	 * */
-//	private ClientHandler() {
-//		super(8000);
-//		this.poSrt = 8000;
-//	}
+	/**
+	 *constructor for default port for server
+	 * */
+	private ClientHandler() {
+		super(8000);
+		this.port = 8000;
+	}
 
 
 	/**
@@ -97,6 +97,7 @@ public class ClientHandler extends AbstractServer {
 	 *@param msg message from the user to executer server command
 	 *@param client client object of who sent the request
 	 * */
+	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		

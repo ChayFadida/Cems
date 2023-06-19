@@ -3,13 +3,17 @@ package entities;
 import java.io.Serializable;
 
 import javafx.scene.control.TextField;
+
 /**
  * Represents a QuestionForExam entity.
  */
+@SuppressWarnings("serial")
 public class QuestionForExam extends Question implements Serializable{
     private transient TextField score;
-    private transient TextField textField;
-    /**
+    @SuppressWarnings("unused")
+	private transient TextField textField;
+
+/**
      * Constructs a QuestionForExam object based on a Question object and a score.
      *
      * @param question the original question
@@ -37,5 +41,6 @@ public class QuestionForExam extends Question implements Serializable{
 	public void setScore(TextField score) {
 		this.score = score;
 	}
+
 }
 

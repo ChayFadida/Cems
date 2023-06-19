@@ -128,7 +128,6 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     	}
     }
     
-    
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
 	 * @param StatisticResultSet result set of data from the DB. 
@@ -145,10 +144,9 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
         setBarChart();
         gradesArr.clear();
         examId_ExamName.clear();
-        examAvg_ExamName.clear();
-		
+        examAvg_ExamName.clear();	
 	}
-    
+
     /**
      * Function that calculate the average of the grades.
      * @param rs result set of data from the DB.
@@ -163,8 +161,8 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
                 if (gradeObj instanceof Integer) {
                 	Integer grade = (Integer) gradeObj;
                 	Double avg = ((BigDecimal) avgObj).doubleValue();
-                	examId_ExamName.put(grade,(String)row.get("examName"));
-                	examAvg_ExamName.put(avg,(String)row.get("examName"));
+                	examId_ExamName.put(grade, (String) row.get("examName"));
+                	examAvg_ExamName.put(avg, (String) row.get("examName"));
                 	gradesArr.add(grade);
                     total += grade;
                     count++;
@@ -262,8 +260,5 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
-		
 	}
-
-
 }

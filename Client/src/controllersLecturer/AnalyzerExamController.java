@@ -106,7 +106,6 @@ public class AnalyzerExamController extends AbstractController{
             int middleIndex1 = length / 2 - 1;
             int middleIndex2 = length / 2;
             double median = (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
-
             DecimalFormat decimalFormat = new DecimalFormat("#.0");
             String formattedMedian = decimalFormat.format(median);
             ExamMedianTxt.setText(formattedMedian);
@@ -176,7 +175,7 @@ public class AnalyzerExamController extends AbstractController{
      * Retrieves the statistics for the exam
      */
     void showStats() {
-    	String ExamId = ""+exam.getExamId();
+    	String ExamId = "" + exam.getExamId();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
 		user.add("Lecturer");
@@ -206,5 +205,4 @@ public class AnalyzerExamController extends AbstractController{
 		ExamMedianTxt.setText("");
 		showStats();
     }
-	
 }

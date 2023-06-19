@@ -12,9 +12,17 @@ import entities.Student;
 import entities.Super;
 import entities.User;
 import thirdPart.JsonHandler;
-
+/**
+ * Represents the User Task Manager class.
+ */
 public class UserTaskManager implements TaskHandler{
-
+	/**
+     * Executes the user command based on the provided message.
+     *
+     * @param msg the user command message
+     * @return an ArrayList of HashMaps containing the response message
+     */
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<String>> hm = (HashMap<String,ArrayList<String>>)msg;
@@ -37,40 +45,49 @@ public class UserTaskManager implements TaskHandler{
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
-private ArrayList<HashMap<String, Object>> initializeCourses() throws SQLException {
-	DBController dbController = DBController.getInstance();
-	ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllCourses());
-	return rs;
-}
-private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
-		HashMap<String,Object> res = new HashMap<>();
-		String id = hm.get("details").get(0);
-		try {
-			boolean isUpdated = updateUserByIdLogout(id);
-			if(isUpdated) {
-				res.put("access","approved");
-				res.put("response",id);
-				return res;
-			}
-			res.put("access", "denied");
-			res.put("response",id);
-		} catch (SQLException e) {
-			res.put("access","denied");
-			res.put("response",-1);
-			e.printStackTrace();
-		}
-		return res;
+	/**
+     * Initializes the courses by retrieving them from the database.
+     *
+     * @return an ArrayList of HashMaps containing the courses information
+     * @throws SQLException if there is an error executing the SQL query
+     */
+	private ArrayList<HashMap<String, Object>> initializeCourses() throws SQLException {
+		DBController dbController = DBController.getInstance();
+		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllCourses());
+		return rs;
 	}
-//	/**
-//	 *execute get all questions query
-//	 *@return ArrayList of the result of the query
-//	 * */
-//	public ArrayList<HashMap<String, Object>> getAllUsers() throws SQLException {
-//		DBController dbController = DBController.getInstance();
-//		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllTable(dbController.getUsersTable()));
-//		return rs;
-//	}
-	//[{'permission' : 'student'}]
+	/**
+     * Attempts to log out the user with the provided details.
+     *
+     * @param hm a HashMap containing the user details
+     * @return a HashMap containing the response message
+     */
+	private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>> hm) {
+			HashMap<String,Object> res = new HashMap<>();
+			String id = hm.get("details").get(0);
+			try {
+				boolean isUpdated = updateUserByIdLogout(id);
+				if(isUpdated) {
+					res.put("access","approved");
+					res.put("response",id);
+					return res;
+				}
+				res.put("access", "denied");
+				res.put("response",id);
+			} catch (SQLException e) {
+				res.put("access","denied");
+				res.put("response",-1);
+				e.printStackTrace();
+			}
+			return res;
+		}
+	/**
+     * Attempts to log in the user with the provided credentials.
+     *
+     * @param hm a HashMap containing the user credentials
+     * @return a HashMap containing the response message
+     * @throws SQLException if there is an error executing the SQL query
+     */
 	public HashMap<String,Object> loginAttempt(HashMap<String,ArrayList<String>> hm) throws SQLException{
 		boolean loginFlag;
 		HashMap<String,Object> res = new HashMap<>();
@@ -81,14 +98,13 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		if(userArr.isEmpty()) {
 			res.put("access","deny");
 			res.put("response", "not exist");
-			return res; //need to handle no permission this later
+			return res; 
 		}
-		//check if logged in
-		//if(logged in
+		
 		if(userQ.isEmpty()) {
 			res.put("access","deny");
 			res.put("response", "wrong credentials");
-			return res; //need to handle no permission this later
+			return res; 
 		}
 		loginFlag = updateUserByUserNameAndPassLoggedIn(password,username,1);
 		if(loginFlag) {
@@ -148,38 +164,86 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		res.put("response", "logged in");
 		return res;
 	}
-	
+	/**
+     * Inserts an exam bank for the specified ID.
+     *
+     * @param id the ID of the user
+     * @return true if the exam bank is inserted successfully, false otherwise
+     */
 	private boolean insertExamBank(int id) {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.insertExamBankForId(id));
 		return ((int)rs.get(0).get("affectedRows"))==1;
 	}
+	/**
+	 * Checks if the user with the specified ID has an exam bank.
+	 *
+	 * @param id the ID of the user
+	 * @return true if the user has an exam bank, false otherwise
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private boolean hasExamBank(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamBankByLecId(id + ""));
 		return !rs.isEmpty();
 	}
+	/**
+	 * Inserts a question bank for the specified ID.
+	 *
+	 * @param id the ID of the user
+	 * @return true if the question bank is inserted successfully, false otherwise
+	 */
 	private boolean insertQuestionBank(int id) {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.insertQuestionBankForId(id));
 		return ((int)rs.get(0).get("affectedRows"))==1;
 	}
+	/**
+	 * Checks if the user with the specified ID has a question bank.
+	 *
+	 * @param id the ID of the user
+	 * @return true if the user has a question bank, false otherwise
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private boolean hasQuestionBank(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getQuestionBank(id +""));
 		return !rs.isEmpty();
 	}
+	/**
+	 * Retrieves a user by the given username.
+	 *
+	 * @param username the username of the user
+	 * @return an ArrayList of HashMaps containing the user information
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private  ArrayList<HashMap<String, Object>> getUserByUserName(String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserName(username));
 		return rs;
 	}
-	
+	/**
+	 * Retrieves a user by the given username and password.
+	 *
+	 * @param pass     the password of the user
+	 * @param username the username of the user
+	 * @return an ArrayList of HashMaps containing the user information
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private ArrayList<HashMap<String, Object>> getUserByUserNameAndPass(String pass, String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByUserNameAndPass(pass,username));
 		return rs;
 	}
+	/**
+	 * Updates the login flag of a user with the given username and password.
+	 *
+	 * @param pass       the password of the user
+	 * @param username   the username of the user
+	 * @param loginFlag  the login flag value
+	 * @return true if the update is successful, false otherwise
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private boolean updateUserByUserNameAndPassLoggedIn(String pass , String username, int loginFlag) throws SQLException {
 		if(isLogged(username))
 			return false;
@@ -188,38 +252,76 @@ private HashMap<String, Object> lougoutAttempt(HashMap<String, ArrayList<String>
 		return ((int)rs.get(0).get("affectedRows"))==1;
 
 	}
-	
+	/**
+	 * Checks if the user with the given username is already logged in.
+	 *
+	 * @param username the username of the user
+	 * @return true if the user is logged in, false otherwise
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private boolean isLogged(String username) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getLoggedFlag(username,1));
 		return !rs.isEmpty();
 	}
-
+	/**
+	 * Retrieves the courses ID associated with a lecturer.
+	 *
+	 * @param id the ID of the lecturer
+	 * @return a HashMap containing the courses ID
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private HashMap<String, Object> getCoursesIdByLecturerId(int id) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getCoursesIdByLecturerId(id));
 		return rs.get(0);
 
 	}
+	/**
+	 * Retrieves the department ID associated with a student.
+	 *
+	 * @param id the ID of the student
+	 * @return the department ID
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private Integer getDepartmentByStudentId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByStudentId(id));
 		return (Integer) rs.get(0).get("departmentId");
 
 	}
+	/**
+	 * Retrieves the department ID associated with a HOD (Head of Department).
+	 *
+	 * @param id the ID of the HOD
+	 * @return the department ID
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private Integer getDepartmentByHodId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByHodId(id));
 		return (Integer) rs.get(0).get("departmentId");
 
 	}
-	
+	/**
+	 * Retrieves the department ID associated with a lecturer.
+	 *
+	 * @param id the ID of the lecturer
+	 * @return the department ID
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private Integer getDepartmentByLecturerId(int id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getDepartmentByLecturerId(id));
 		return (Integer) rs.get(0).get("departmentId");
 	}
-
+	/**
+	 * Updates the logout status of a user with the given ID.
+	 *
+	 * @param id the ID of the user
+	 * @return true if the update is successful, false otherwise
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private boolean updateUserByIdLogout(String id) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateUserByIdLogout(id));

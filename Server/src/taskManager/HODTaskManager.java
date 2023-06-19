@@ -1,23 +1,25 @@
 package taskManager;
 
 import java.util.ArrayList;
-
-
 import java.util.HashMap;
 import java.util.Map;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import DataBase.DBController;
 import DataBase.SqlQueries;
-import ocsf.server.ConnectionToClient;
 import server.ClientHandler;
 import thirdPart.*;
 
-
+/**
+ * HODTaskManager implements the TaskHandler interface and provides methods to handle various tasks for the HOD (Head of Department).
+ */
 public class HODTaskManager implements TaskHandler{
-
+	  /**
+     * Executes the user command based on the received message.
+     *
+     * @param msg the user command message
+     * @return an ArrayList of HashMaps containing the execution result
+     */
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<Object>> hm = (HashMap<String, ArrayList<Object>>)msg;
@@ -59,53 +61,111 @@ public class HODTaskManager implements TaskHandler{
 		}catch( Exception ex) { ex.printStackTrace(); }
 		return null;
 	}
-  
+	/**
+	 * Updates the duration of an exam in the database based on the provided parameters.
+	 *
+	 * @param param an ArrayList containing the necessary parameters
+	 * @return an ArrayList of HashMaps containing the updated exam information
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
 	private ArrayList<HashMap<String, Object>> updateExamDurationById(ArrayList<Object> param) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateExamDurationById(param));
 		return rs;
 	}
-
+	  /**
+     * Executes the user command based on the received message.
+     *
+     * @param msg the user command message
+     * @return an ArrayList of HashMaps containing the execution result
+     *  @throws SQLException if there is an error executing the SQL query
+     */
 	private ArrayList<HashMap<String, Object>> getInfoForLecturerStats(ArrayList<Object> arrayList) throws SQLException {
 		 DBController dbController = DBController.getInstance();
 		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForLecturerStats((String) arrayList.get(0)));
 		 return rs;
 	}
-
+	/**
+     * Retrieves information for course statistics based on the provided parameters.
+     *
+     * @param arrayList the list of parameters
+     * @return an ArrayList of HashMaps containing the information for course statistics
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getInfoForCourseStats(ArrayList<Object> arrayList) throws SQLException {
 		 DBController dbController = DBController.getInstance();
 		 ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForCourseStats((String) arrayList.get(0)));
 		 return rs;
 	}
-
+	/**
+     * Retrieves the grades of student done exams based on the provided parameters.
+     *
+     * @param arrayList the list of parameters
+     * @return an ArrayList of HashMaps containing the grades of student done exams
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsGradeByID(ArrayList<Object> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getInfoForStudentStats((String) arrayList.get(0)));
 	    return rs;
 	}
-
+	/**
+     * Retrieves the IDs and grades of student done exams based on the provided parameters.
+     *
+     * @param arrayList the list of parameters
+     * @return an ArrayList of HashMaps containing the IDs and grades of student done exams
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getStudentDoneExamsIdANDgradeByID(ArrayList<Object> arrayList) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getStudentDoneExamsIdANDgradeByID((String) arrayList.get(0)));
 	    return rs;
 	}
+	/**
+     * Retrieves user information by ID.
+     *
+     * @param id the ID of the user
+     * @return an ArrayList of HashMaps containing the user information
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getUserById(String id) throws SQLException {
 	    DBController dbController = DBController.getInstance();
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserById(id));
 	    return rs;
 	}
-
+	/**
+     * Retrieves all users with a specific position in the given department.
+     *
+     * @param position   the position of the users
+     * @param department the department of the users
+     * @return an ArrayList of HashMaps containing the users' information
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getAllPositionUsersInDepartment(String position,String department) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getUserByPositionAndDepartment(position,department));
 		return rs;
 	}
-
+	/**
+     * Retrieves all requests in a department with a specific status.
+     *
+     * @param department the department of the requests
+     * @param status     the status of the requests
+     * @return an ArrayList of HashMaps containing the requests' information
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> getAllRequestsInDepartment(String department,String status) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getAllRequestsInDepartmentOfStatus(department,status));
 		return rs;
 	}
+	/**
+     * Updates the status of a request based on the provided parameters.
+     *
+     * @param param the list of parameters
+     * @return an ArrayList of HashMaps containing the result of the update operation
+     * @throws SQLException if a SQL error occurs
+     */
 	private ArrayList<HashMap<String, Object>> updateRequestStatus(ArrayList<Object> param) throws SQLException{
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.updateQueries(SqlQueries.updateDurationRequest(param));
@@ -122,9 +182,15 @@ public class HODTaskManager implements TaskHandler{
 		ClientHandler.getInstance().sendToAllClients(msgToClient);
 		return rs;
   }
-	
+	/**
+     * Retrieves questions information by ID.
+     *
+     * @param arrayList the list of parameters
+     * @return an ArrayList of HashMaps containing the questions information
+     * @throws SQLException if a SQL error occurs
+     */
+	@SuppressWarnings("unused")
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<Object> arrayList) throws SQLException {
-		ArrayList<HashMap<String, Object>> res = new ArrayList<>();
 		DBController dbController = DBController.getInstance(); 
 		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById((String) arrayList.get(0))).get(0);
 		String lecturerId = (String) rs.get("firstName");
@@ -135,11 +201,17 @@ public class HODTaskManager implements TaskHandler{
         for (Double d : questionIdArr) { 
         	integerQuestionList.add(d.intValue());
         }
-		ArrayList<HashMap<String, Object>> rs1 = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
+		ArrayList<HashMap<String, Object>> questionList = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
 		
-		return rs1; 
+		return questionList; 
 	} 
-	
+	/**
+     * Retrieves exam information by ID.
+     *
+     * @param arrayList the list of parameters
+     * @return an ArrayList of HashMaps containing the exam information
+     * @throws SQLException if a SQL error occurs
+     */
 	public ArrayList<HashMap<String, Object>> getViewExamById(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getViewExamById((String) arrayList.get(0))); 

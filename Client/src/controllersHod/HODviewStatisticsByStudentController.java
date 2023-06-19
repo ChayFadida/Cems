@@ -35,6 +35,7 @@ import javafx.stage.StageStyle;
  */
 
 public class HODviewStatisticsByStudentController extends AbstractController implements Initializable {
+	
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
 	private HashMap<Integer, String> examId_ExamName = new HashMap<>();
 	CategoryAxis xAxis = new CategoryAxis();
@@ -113,7 +114,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getStudentDoneExamsGradeByID");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(StudentId);
 		msg.put("param", parameter);
@@ -132,7 +133,6 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		}
     }
     
-
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
 	 * @param StatisticResultSet result set of data from the DB. 
@@ -200,14 +200,12 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     	StudentNameTxt.setText(StatisticResultSet.get("firstName") + " " + StatisticResultSet.get("lastName"));
     }
     
-    
     /**
      * Function that calculate the median.
      */
     private void setMedian() {
         // Sort the grades array in ascending order
         Collections.sort(gradesArr);
-
         int length = gradesArr.size();
         if (length % 2 == 0) {
             int middleIndex1 = length / 2 - 1;
@@ -223,7 +221,6 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
         }
     }
     
-
     /**
      * Initialize Text Fields with empty strings.
      */
@@ -263,15 +260,5 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 	 */
 	private String getid() {
 		return StudentIDTxt.getText();
-	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }

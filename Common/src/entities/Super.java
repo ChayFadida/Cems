@@ -6,9 +6,11 @@ import java.util.HashMap;
  * Represents a Super entity.
  */
 
+@SuppressWarnings("serial")
 public class Super extends User{
 	private Lecturer lecturer;
 	private Hod hod;
+	@SuppressWarnings("unused")
 	private HashMap<String,ArrayList<Integer>> coursesIdHM = new HashMap<>();
 	/**
 	 * Constructs a Super User object with the specified user details, courses ID HashMap, and department.

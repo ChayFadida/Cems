@@ -34,6 +34,7 @@ import javafx.stage.StageStyle;
  * extends AbstractController implements Initializable
  */
 public class ViewAllExamsController extends AbstractController implements Initializable{
+	
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
 
@@ -75,7 +76,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
     	FXMLLoader loader = new FXMLLoader();
 		Pane root;
 		try {
-			root = loader.load(getClass().getResource("/guiLecturer/ViewAllExams.fxml").openStream());
+			 root = loader.load(getClass().getResource("/guiLecturer/ViewAllExams.fxml").openStream());
 			 Scene scene = new Scene(root);
 		     scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 		     primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -90,7 +91,6 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-       
     }
     
     /**
@@ -154,7 +154,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getAllExams");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(LecturerId);
 		msg.put("param", parameter);
@@ -205,8 +205,11 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    eArr.add(new Exam((Integer)element.get("examId"),(String)element.get("examName"),(Integer)element.get("courseId"), (String)element.get("subject"),(Integer)element.get("duration"), (String)element.get("lecturerNote"), (String)element.get("studentNote"), (Integer)element.get("composerId"),(String)element.get("code"),(String)element.get("examNum"), (Integer)element.get("bankId"),(Integer)element.get("isLocked")));
-		    HmCourseIdName.put((Integer)element.get("courseId"), (String)element.get("courseName"));
+		    eArr.add(new Exam((Integer) element.get("examId"), (String) element.get("examName"), (Integer) element.get("courseId"),
+		    		(String) element.get("subject"), (Integer) element.get("duration"), (String) element.get("lecturerNote"), (String) element.get("studentNote"),
+		    		(Integer) element.get("composerId"),(String) element.get("code"),(String) element.get("examNum"), (Integer) element.get("bankId"), 
+		    		(Integer) element.get("isLocked")));
+		    HmCourseIdName.put((Integer) element.get("courseId"), (String) element.get("courseName"));
 		}
 	}
 
@@ -217,6 +220,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
 	public void setHmCourseIdName(HashMap<Integer, String> hmCourseIdName) {
 		HmCourseIdName = hmCourseIdName;
 	}
+	
 	/**
 	 * 
 	 * @param event
@@ -229,8 +233,8 @@ public class ViewAllExamsController extends AbstractController implements Initia
         } else {
             showTableWithFilters(selectedCourse);
         }
-
 	}
+	
 	/**
 	 * sends message to the server to get relevant information.
 	 * @param selectedCourse 
@@ -242,7 +246,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getLecturerExamsByCourse");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		parameter.add(selectedCourse);
@@ -255,6 +259,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		}
 		initTableView(eArr);
     }
+	
 	/**
 	 * close current window 
 	 * @param event Action event.
@@ -264,6 +269,7 @@ public class ViewAllExamsController extends AbstractController implements Initia
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
+    
     /**
      * minimze current window
      * @param event Action event.

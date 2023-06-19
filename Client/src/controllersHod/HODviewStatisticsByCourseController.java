@@ -41,7 +41,6 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 	CategoryAxis xAxis = new CategoryAxis();
     NumberAxis yAxis = new NumberAxis();
 	
-
     @FXML
     private Button Apply;
 
@@ -130,8 +129,7 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
     	    }
     	} catch (Exception e) {
     		e.printStackTrace();
-    	}
-    		
+    	}		
     }
     
     /**
@@ -220,7 +218,6 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
      */
     private void setMedian() {
         Collections.sort(gradesArr);
-
         int length = gradesArr.size();
         if (length % 2 == 0) {
             int middleIndex1 = length / 2 - 1;
@@ -258,7 +255,6 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 	    } catch(Exception e) {
 	        e.printStackTrace();
 	    }
-		
 	}
 	
 	/**
@@ -268,6 +264,4 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 	private String getid() {
 		return CourseNumberTxt.getText();
 	}
-	
-	
 }

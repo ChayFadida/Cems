@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
  * Represents a JsonHandler class.
  */
 public class JsonHandler {
+	@SuppressWarnings("serial")
 	private static HashMap<Class<?>, TypeToken<?>> class_token = new HashMap<>(){{
 		put(String.class,  new TypeToken<ArrayList<String>>() {});
 		put(Integer.class, new TypeToken<ArrayList<Integer>>() {});

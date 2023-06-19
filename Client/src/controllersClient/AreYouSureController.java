@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
  *
  */
 public class AreYouSureController extends AbstractController{
+	
 	private User user;
     @FXML
     private Button btnNo;
@@ -36,7 +37,7 @@ public class AreYouSureController extends AbstractController{
      */
     @FXML
     void getNoBtn(ActionEvent event) {
-    	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
+    	((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
     
     /**
@@ -51,7 +52,7 @@ public class AreYouSureController extends AbstractController{
     		int id = user.getId();
     		if(res) {
     			user = null;
-				System.out.println("User id: "+id + " Logout successfully");
+				System.out.println("User id: " + id + " Logout successfully");
     			ConnectionServer.getInstance().quit();
     			System.out.println("exit Academic Tool");
     			System.exit(0);
@@ -66,7 +67,6 @@ public class AreYouSureController extends AbstractController{
 			System.out.println("Exception at invoking logout");
 			e.printStackTrace();
 		}
-		
     }
     
     /**

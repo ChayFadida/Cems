@@ -2,9 +2,11 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
  * Represents a Lecturer entity.
  */
+@SuppressWarnings("serial")
 public class Lecturer extends User{
 	private ArrayList<Integer> coursesId = new ArrayList<>();
 	private HashMap<String,ArrayList<Integer>> coursesIdHM = new HashMap<>();

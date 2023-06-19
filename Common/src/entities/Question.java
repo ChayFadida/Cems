@@ -3,9 +3,11 @@ package entities;
 import java.io.Serializable;
 import java.util.HashMap;
 import thirdPart.JsonHandler;
+
 /**
  * Represents a question entity.
  */
+@SuppressWarnings("serial")
 public class Question implements Serializable{
     private Integer questionID;
     private String details;

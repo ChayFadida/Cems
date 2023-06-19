@@ -5,16 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
-import entities.Course;
-import entities.Lecturer;
-import entities.QuestionForExam;
 import entities.QuestionForVirtualExam;
-import entities.Student;
 import javafx.animation.FadeTransition;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +28,7 @@ import thirdPart.JsonHandler;
  * This controller is the screen for the student where he choose how to preform an exam, manual or virtual.
  */
 public class TakeExamController extends AbstractController{
+	
 	private ArrayList<QuestionForVirtualExam> questions = new ArrayList<>();
 	private ArrayList<HashMap<String,Object>> rs = new ArrayList<>();
 	
@@ -71,10 +64,10 @@ public class TakeExamController extends AbstractController{
     @FXML
     void getBeginExam(ActionEvent event) {
     	lblErrorBegin.setText(" ");
-    	boolean  flagId = checkID(txtID.getText());
+    	boolean flagId = checkID(txtID.getText());
     	rs = checkCode(txtCode.getText());
     	int flagCode = (int)rs.get(0).get("examId");
-    	if(flagId && (flagCode==-1)) {
+    	if(flagId && (flagCode == -1)) {
     		lblErrorBegin.setText("Both ID and exam code are wrong, try again.");
     		return;
     	}
@@ -82,22 +75,22 @@ public class TakeExamController extends AbstractController{
     		lblErrorBegin.setText("Wrong ID, try again");
     		return;
     	}
-    	else if(flagCode==-1){
+    	else if(flagCode == -1){
     		lblErrorBegin.setText("Wrong exam code, try again");
     		return;
     	}
     	int isLocked = checkIfExamLocked(flagCode);
-    	if(isLocked==0) {
+    	if(isLocked == 0) {
     		lblErrorBegin.setText("This exam is locked.");
     		return;
     	}
     	int tookExam = checkIfAlreadyStarted(flagCode,txtID.getText());
-    	if(tookExam==0) {
+    	if(tookExam == 0) {
     		lblErrorBegin.setText("You already took this exam before, try other code.");
     		return;
     	}
     	int res = retrieveQuestionsForExam(flagCode);
-    	if(tookExam==1 && res==1 && isLocked==1) {
+    	if(tookExam ==1 && res == 1 && isLocked == 1) {
 	    	FadeTransition fadeA = new FadeTransition();  
 	    	fadeA.setNode(apA);
 	    	fadeA.setFromValue(0);
@@ -115,7 +108,6 @@ public class TakeExamController extends AbstractController{
     		System.out.println("One of the queries returned null");
     		return;
     	}
-
     }
     
     /**
@@ -131,9 +123,9 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("checkIsLockedByExamId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -163,7 +155,7 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamresultByExamAndUserId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(examId+"");
 		parameter.add(studentId);
@@ -195,9 +187,9 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getQuestionsAndScoresByExamId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(flagCode+"");
+		parameter.add(flagCode + "");
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -210,25 +202,25 @@ public class TakeExamController extends AbstractController{
 			return -1;
 		}
 		String questionsStr = (String) rs.get(0).get("questions");
-		HashMap<String,ArrayList<Integer>> QjsonHM= JsonHandler.convertJsonToHashMap(questionsStr, String.class, ArrayList.class,Integer.class);
+		HashMap<String,ArrayList<Integer>> QjsonHM = JsonHandler.convertJsonToHashMap(questionsStr, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> questionsInExam = QjsonHM.get("questions");
 		String scoresStr = (String) rs.get(0).get("scores");
-		HashMap<String,ArrayList<Integer>> SjsonHM= JsonHandler.convertJsonToHashMap(scoresStr, String.class, ArrayList.class,Integer.class);
+		HashMap<String,ArrayList<Integer>> SjsonHM = JsonHandler.convertJsonToHashMap(scoresStr, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> scoresForQuestions = SjsonHM.get("scores");
-		for(int i=0;i<questionsInExam.size();i++) {
+		for(int i = 0 ; i<questionsInExam.size() ; i++) {
 			HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
 			ArrayList<String> user1 = new ArrayList<>();
 			user1.add("Student");
 			msg1.put("client", user1);
 			ArrayList<String> query1 = new ArrayList<>();
 			query1.add("getQuestionById");
-			msg1.put("task",query1);
+			msg1.put("task", query1);
 			ArrayList<String> parameter1 = new ArrayList<>();
 			parameter1.add(questionsInExam.get(i)+"");
 			msg1.put("param", parameter1);
 			super.sendMsgToServer(msg1);
 			ArrayList<HashMap<String, Object>> rs1 = ConnectionServer.rs;
-			if(rs1==null) {
+			if(rs1 == null) {
 				System.out.println("could not load data from server.");
 				return -1;
 			}
@@ -238,13 +230,12 @@ public class TakeExamController extends AbstractController{
 				return -1;
 			}
 			QuestionForVirtualExam q = new QuestionForVirtualExam((Integer)rs1.get(0).get("questionId"),
-					(String)rs1.get(0).get("details"),(String)rs1.get(0).get("rightAnswer"),(Integer)rs1.get(0).get("questionBankId"),
-					(String)rs1.get(0).get("subject"),(String)rs1.get(0).get("answers"),(String)rs1.get(0).get("notes"),
-					(String)rs1.get(0).get("courses"),scoresForQuestions.get(i));
+					(String) rs1.get(0).get("details"), (String) rs1.get(0).get("rightAnswer"), (Integer) rs1.get(0).get("questionBankId"),
+					(String) rs1.get(0).get("subject"), (String) rs1.get(0).get("answers"), (String) rs1.get(0).get("notes"),
+					(String) rs1.get(0).get("courses"), scoresForQuestions.get(i));
 			questions.add(q);
 		}
 		return 1;
-		
 	}
 	
 	/**
@@ -290,7 +281,7 @@ public class TakeExamController extends AbstractController{
     		Parent root = loader.load(getClass().getResource("/guiStudent/VirtualExamScreen.fxml").openStream());
     		VirtualExamController virtualExamController = loader.getController();
     		Stage primaryStage = new Stage();
-    		virtualExamController.loadQuestionsAndTime(questions, (Integer)rs.get(0).get("duration"),rs,primaryStage);
+    		virtualExamController.loadQuestionsAndTime(questions, (Integer) rs.get(0).get("duration"),rs,primaryStage);
     		Scene scene = new Scene(root);
     		primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -306,18 +297,18 @@ public class TakeExamController extends AbstractController{
 	    	fadeC.setFromValue(0);
 	    	fadeC.setToValue(1);
 	    	fadeC.play();
-    		
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
     }
+    
     /**
      * Checks if the id given is the same as the user id.
      * @param text the id provided.
      * @return true if there is a match, flase otherwise.
      */
     private boolean checkID(String text) {
-		return (ConnectionServer.user.getId()+"")==text;
+		return (ConnectionServer.user.getId() + "") == text;
   	}
     
     /**
@@ -333,7 +324,7 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamByCode");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(text);
 		msg.put("param", parameter);
@@ -341,15 +332,15 @@ public class TakeExamController extends AbstractController{
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null){
 			System.out.println("could not load data from the server.");
-			rs= new ArrayList<>();
+			rs = new ArrayList<>();
 			HashMap<String,Object> hm = new HashMap<>();
-			hm.put("examId",-1);
+			hm.put("examId", -1);
 			rs.add(hm);
 			return rs;
 		}
 		if(rs.isEmpty()) {
 			HashMap<String,Object> hm = new HashMap<>();
-			hm.put("examId",-1);
+			hm.put("examId", -1);
 			rs.add(hm);
 			return rs;
 		}
@@ -372,10 +363,10 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("insertToExamresults");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(examId+"");
-		parameter.add(studentId+"");
+		parameter.add(examId + "");
+		parameter.add(studentId + "");
 		parameter.add(type);
 		parameter.add(startTime);
 		parameter.add("inProgress");
@@ -390,7 +381,7 @@ public class TakeExamController extends AbstractController{
 			System.out.println("Empty table from DB");
 			return -1; //implies the exam is not locked
 		}
-		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
+		return (int)rs.get(0).get("affectedRows") == 1 ? 1 : 0 ; //return 1 if rows was inserted
 	}
 	
 	/**
@@ -411,7 +402,7 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("updateExamresults");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(examId+"");
 		parameter.add(studentId+"");
@@ -430,8 +421,9 @@ public class TakeExamController extends AbstractController{
 			System.out.println("Empty table from DB");
 			return -1; //implies the exam is not locked
 		}
-		return (int)rs.get(0).get("affectedRows")==1 ? 1 : 0 ; //return 1 if rows was inserted
+		return (int)rs.get(0).get("affectedRows") == 1 ? 1 : 0 ; //return 1 if rows was inserted
 	}
+	
 	/**
 	 * Retrieves the number of students who are currently in progress for a specific exam.
 	 *
@@ -445,9 +437,9 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("checkCountInProgressByExamId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -459,7 +451,7 @@ public class TakeExamController extends AbstractController{
 			System.out.println("No data from the server");
 			return -1;
 		}
-		return (long)rs.get(0).get("count");
+		return (long) rs.get(0).get("count");
 	}
 	
 	/**
@@ -475,9 +467,9 @@ public class TakeExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("lockExamById");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
@@ -489,7 +481,7 @@ public class TakeExamController extends AbstractController{
 			System.out.println("No data from server.");
 			return;
 		}
-		if((int)rs.get(0).get("affectedRows")==1) {
+		if((int)rs.get(0).get("affectedRows") == 1) {
 			System.out.println("No student in progress, Exam successfully locked");
 		}
 	}
@@ -498,7 +490,8 @@ public class TakeExamController extends AbstractController{
 	 * Displays the blocked page FXML.
 	 * This method loads the BlockedPopupScreen.
 	 */
-    public static void showBlockedPage() {
+    @SuppressWarnings("unused")
+	public static void showBlockedPage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/BlockedPopupScreen.fxml"));
             BlockedPopupController blockedPopupController = loader.getController();
@@ -518,7 +511,8 @@ public class TakeExamController extends AbstractController{
      * Displays the extend time page FXML.
      * This method loads the ExtendTimePopupScreen.
      */
-    public static void showExtendTimePage() {
+    @SuppressWarnings("unused")
+	public static void showExtendTimePage() {
         try {
             FXMLLoader loader = new FXMLLoader(TakeExamController.class.getResource("/guiStudent/ExtendTimePopupScreen.fxml"));
             ExtendTimePopupController extendTimePopupController = loader.getController();
@@ -533,6 +527,4 @@ public class TakeExamController extends AbstractController{
             e.printStackTrace();
         }
     }
-    
-
 }

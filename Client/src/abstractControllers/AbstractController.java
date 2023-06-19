@@ -20,6 +20,7 @@ public abstract class AbstractController {
 	protected Stage primaryStage;
 	double xOffset = 0; 
 	double yOffset = 0;
+	
 	/**
 	 *this method sends message tot he server
 	 *@param Object msg
@@ -31,6 +32,7 @@ public abstract class AbstractController {
 			e.printStackTrace();
 		}
 	}
+  
 	/**
 	 * This method send message to server in order to logout from the server.
 	 * @param user the user that is logged in.
@@ -44,27 +46,28 @@ public abstract class AbstractController {
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("logoutAttempt");
-		msg.put("task",arr1);
+		msg.put("task", arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
 		arr2.add(user.getId()+"");
-		msg.put("details",arr2);
+		msg.put("details", arr2);
 		sendMsgToServer(msg);
 		ArrayList<HashMap<String, Object>> rs;
 		rs = ConnectionServer.rs;
 		if(!rs.isEmpty()) {
-			String access = (String)rs.get(0).get("access");
+			String access = (String) rs.get(0).get("access");
 			switch (access){
 				case "approved":
-					return Integer.parseInt((String)rs.get(0).get("response"))==(Integer)user.getId();
+					return Integer.parseInt((String) rs.get(0).get("response")) == (Integer)user.getId();
 				case "denied":
-					if(Integer.parseInt((String)rs.get(0).get("response"))==(Integer)user.getId()) {
-						return false;
+					if(Integer.parseInt((String) rs.get(0).get("response")) == (Integer)user.getId()) {
+						return false ;
 					}
 					throw new Exception();
 			}
 		}
 		return false;
 	}
+  
 	/**
 	 * this method sets the stage as primary stage. 
 	 * @param primaryStage
@@ -87,7 +90,8 @@ public abstract class AbstractController {
 			
 		}
 	}
-	/**
+
+  /**
 	 * 
 	 * This class sets xOffset and yOffset when dragging the screen. 
 	 * @param <T> press event. 
@@ -99,6 +103,7 @@ public abstract class AbstractController {
         	primaryStage.setY(((MouseEvent) event).getScreenY() - yOffset);
 		}
 	}
+  
 	/**
 	 * this method loads the courses from the db.
 	 */
@@ -110,18 +115,19 @@ public abstract class AbstractController {
 		msg.put("client", arr);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("initializeCourses");
-		msg.put("task",arr1);
+		msg.put("task", arr1);
 		ArrayList<String> arr2 = new ArrayList<>();
 		msg.put("param", arr2);
 		sendMsgToServer(msg);
 		try {
-			tmp =  ConnectionServer.rs;
+			tmp = ConnectionServer.rs;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		for (HashMap<String,Object> obj : tmp)
-			courseid_courseName.put((int)obj.get("courseID"),(String) obj.get("courseName"));
+			courseid_courseName.put((int)obj.get("courseID"), (String) obj.get("courseName"));
 	}
+
 	/**
 	 * getter for the course id and course name.
 	 * @return hash map of course id and course name.

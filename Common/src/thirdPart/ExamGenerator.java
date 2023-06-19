@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.io.FileOutputStream;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import entities.*;
-import thirdPart.JsonHandler;
-import java.io.FileInputStream;
 
 public class ExamGenerator {
 
@@ -26,7 +23,8 @@ public class ExamGenerator {
 	 * @param duration the duration of the exam in minutes
 	
 	 */
-    public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
+    @SuppressWarnings("resource")
+	public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
         try {
             XWPFDocument document = new XWPFDocument();
 

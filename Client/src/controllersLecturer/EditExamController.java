@@ -31,6 +31,7 @@ import thirdPart.JsonHandler;
  *Extends AbsractController.
  */
 public class EditExamController extends AbstractController{
+	
 	private ArrayList<QuestionForExam> qArr ;
 	private Exam exam;
     private MyExamBankController myExamBankController;
@@ -140,7 +141,7 @@ public class EditExamController extends AbstractController{
     	lblErrorSelected.setText(" ");
     	lblScore.setText("0/100");
     	qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
-    	for(Object q: qSelected) {
+    	for(Object q : qSelected) {
     		String scoreStr = ((QuestionForExam) q).getScore().getText();
     		if(!scoreStr.matches("\\d+")) {
     			lblErrorSelected.setText("One of the selected questions score is not number, try again.");
@@ -148,7 +149,7 @@ public class EditExamController extends AbstractController{
     			return;
     		}
     		int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
-    		if(score==0) {
+    		if(score == 0) {
     			lblErrorSelected.setText("One of the selected questions score is set to '0', try again.");
     			qSelected = new ArrayList<>();
     			return;
@@ -179,44 +180,44 @@ public class EditExamController extends AbstractController{
     	String lecNotes = lecNotesTxt.getText();
     	String studNotes = studNotesTxt.getText();
     	String name = txtName.getText();
-    	boolean flag=false;
+    	boolean flag = false;
     	if(qArr.isEmpty()) {
     		lblError.setText("You must select atleast one question");
-    		flag=true;
+    		flag = true;
     	}
     	if(subject.equals("")) {
     		lblErrorSubject.setText("You must enter a subject");
-    		flag=true;
+    		flag = true;
     	}
-    	if(code==null || duration==null) {
+    	if(code == null || duration == null) {
     		lblError.setText("You must define both code and duration");
-    		flag=true;
+    		flag = true;
     	}
     	if(code.length()!=4 || !code.matches("^[a-zA-Z0-9]+$")) {
     		lblErrorCode.setText("Code must be 4 digits and contains only letters and numbers.");
-    		flag=true;
+    		flag = true;
     	}
     	if(!duration.matches("\\d+")) {
     		lblErrorDuration.setText("Duration must contain only numbers (represents minutes).");
-    		flag=true;
+    		flag = true;
     	}
     	if(qSelected.isEmpty()) {
-    		if(sum==0)
+    		if(sum == 0)
     			lblErrorSelected.setText("Please select questions first.");
     		else
     			lblErrorSelected.setText("Total score must be '100'.");
-    		flag=true;
+    		flag = true;
     	}
     	if(flag) {
     		lblError.setText("Please fix all error and try again later.");
     		return;
     	}
-    	if(lecNotes==null)
-    		lecNotes=" ";
-    	if(studNotes==null)
-    		studNotes=" ";
-    	if(name==null)
-    		name=" ";
+    	if(lecNotes == null)
+    		lecNotes = " ";
+    	if(studNotes == null)
+    		studNotes = " ";
+    	if(name == null)
+    		name = " ";
     	updateExam(code,duration,lecNotes,studNotes,name);
     	myExamBankController.CourseFilter(event);
     }
@@ -237,17 +238,17 @@ public class EditExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<Object> query = new ArrayList<>();
 		query.add("updateExam");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<Object> parameter = new ArrayList<>();
 		parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
 		parameter.add(getDepartmentName());
 		parameter.add(duration);
 		parameter.add(lecNotes);
 		parameter.add(studNotes);
-		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(ConnectionServer.user.getId() + "");
 		parameter.add(code);
-		parameter.add((getLecturerExamCount()+1)+"");
-		parameter.add((Integer)bank.get("bankId")+"");
+		parameter.add((getLecturerExamCount()+1) + "");
+		parameter.add((Integer) bank.get("bankId") + "");
 		parameter.add(name);
 		parameter.add(exam.getExamId() + "");
 		msg.put("questions", qSelected);
@@ -259,7 +260,6 @@ public class EditExamController extends AbstractController{
 		}
 		updateQuestionsAndScore(exam.getExamId());
 		((Stage)btnSelected.getScene().getWindow()).close(); //hiding primary window
-
 	}
 	
 	/**
@@ -271,14 +271,14 @@ public class EditExamController extends AbstractController{
 		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
 		ArrayList<Integer> qIds= new ArrayList<>();
 		ArrayList<Integer> qScores= new ArrayList<>();
-		for(Object q: qSelected) {
+		for(Object q : qSelected) {
 			qIds.add(((QuestionForExam) q).getQuestionID());
 			qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
 		}
 		qIdsHm.put("questions", qIds);
 		qScoresHm.put("scores", qScores);
-		String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
-		String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+		String qIdsStr = JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
+		String qScoresStr = JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
 		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 		ArrayList<Object> user = new ArrayList<>();
 		user.add("Lecturer");
@@ -287,7 +287,7 @@ public class EditExamController extends AbstractController{
 		query.add("updateQuestionInExamInDB");
 		msg.put("task",query);
 		ArrayList<Object> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		parameter.add(qIdsStr);
 		parameter.add(qScoresStr);
 		msg.put("param", parameter);
@@ -296,7 +296,7 @@ public class EditExamController extends AbstractController{
 		if(rs == null){
 			System.out.println("Could not update question");
 		}
-		if((int)rs.get(0).get("affectedRows")==1) {
+		if((int)rs.get(0).get("affectedRows") == 1) {
 			lblError.setText("Exam uploaded successfully");
 		}
 		else {
@@ -338,7 +338,7 @@ public class EditExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getDepartmentNameById");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(((Lecturer)ConnectionServer.user).getDepartmentId()+"");
 		msg.put("param", parameter);
@@ -361,7 +361,7 @@ public class EditExamController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamBankByLecId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		msg.put("param", parameter);
@@ -391,14 +391,14 @@ public class EditExamController extends AbstractController{
      * @param selectedItem selected course.
      */
     void showTableWithFilters(Course selectedItem) {
-		qArr=new ArrayList<>();
+		qArr = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
 		user.add("Lecturer");
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getQuestionsByIdAndCourse");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		parameter.add(selectedItem.getCourseId()+"");
@@ -408,11 +408,11 @@ public class EditExamController extends AbstractController{
 		if(rs == null) {
 			System.out.println("Could not load information.");
 		}
-		for (int i = 0; i < rs.size(); i++) {
+		for (int i = 0; i < rs.size() ; i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"),
-		    		(String)element.get("rightAnswer"), (Integer)element.get("questionBank"), 
-		    		(String)element.get("subject"), (String)element.get("answers"),(String)element.get("notes"),(String)element.get("courses"));
+		    Question q = new Question((Integer) element.get("questionId"), (String) element.get("details"),
+		    		(String) element.get("rightAnswer"), (Integer) element.get("questionBank"), 
+		    		(String) element.get("subject"), (String) element.get("answers"), (String) element.get("notes"), (String) element.get("courses"));
 		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
 		    qArr.add(questionForExam);
 		}
@@ -448,10 +448,8 @@ public class EditExamController extends AbstractController{
 
 		    // Join the course names into a single string
 		    String joinedNames = String.join(", ", courseNames);
-
 		    return new SimpleStringProperty(joinedNames);
 		});
-
 		QuestionTable.setItems(list);
 		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			
@@ -474,12 +472,10 @@ public class EditExamController extends AbstractController{
         // Iterate over the questions in the QuestionTable
         for (QuestionForExam question : QuestionTable.getItems()) {
             int questionId = question.getQuestionID();
-            
             if (selectedQuestionIds.contains(questionId)) {
                 QuestionTable.getSelectionModel().select(question);
                 int questionIndex = selectedQuestionIds.indexOf(questionId);
                 int score = questionsScore.get(questionIndex);
-                
                 question.getScore().setText(String.valueOf(score));
             }
         }
@@ -499,8 +495,6 @@ public class EditExamController extends AbstractController{
         studNotesTxt.setText(exam.getStudentNote());
         txtSubject.setText(exam.getSubject());
         lblScore.setText("0/100");
-        
-        
     	ConnectionServer.getInstance();
 		Lecturer lecturer = (Lecturer) ConnectionServer.user;
 		ArrayList<Integer> coursesId = (ArrayList<Integer>) lecturer.getCoursesIdHM().get("courses");
@@ -511,20 +505,20 @@ public class EditExamController extends AbstractController{
 			msg.put("client", arr);
 			ArrayList<String> arr1 = new ArrayList<>();
 			arr1.add("getCoursesByCourseId");
-			msg.put("task",arr1);
+			msg.put("task", arr1);
 			ArrayList<String> arr2 = new ArrayList<>();
 			arr2.add(id+"");
 			msg.put("param", arr2);
 			super.sendMsgToServer(msg);
 			ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
-			if(rs==null) {
+			if(rs == null) {
 				System.out.println("RS is null");
 				return;
 			}
-			courses=new ArrayList<>();
+			courses = new ArrayList<>();
 			HashMap<String, Object> element = rs.get(0);
-			Course course= new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId"));
-		    HmCourseIdName.put((Integer)element.get("courseID"), (String)element.get("courseName"));
+			Course course= new Course((Integer)element.get("courseID"), (String) element.get("courseName"), (Integer) element.get("departmentId"));
+		    HmCourseIdName.put((Integer) element.get("courseID"), (String) element.get("courseName"));
 		    courses.add(course);
 		    CourseComboBox.getItems().add(course);
 	        if(exam.getCourseId().equals(course.getCourseId()))
@@ -533,6 +527,4 @@ public class EditExamController extends AbstractController{
         ActionEvent ae = new ActionEvent();
         cmbCourseFilter(ae);
     }
-    
-    
 }
