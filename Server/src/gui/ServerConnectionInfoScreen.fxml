@@ -120,7 +120,7 @@
                      </graphic>
                   </Button>
                   <Label fx:id="lblError" layoutX="14.0" layoutY="346.0" prefHeight="40.0" prefWidth="346.0" textAlignment="CENTER" />
-                  <ImageView fitHeight="191.0" fitWidth="219.0" layoutX="63.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="225.0" fitWidth="225.0" layoutX="68.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@/Images/Cems.png" />
                      </image>

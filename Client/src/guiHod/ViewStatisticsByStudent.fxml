@@ -63,13 +63,13 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="ApplyTemp" layoutX="525.0" layoutY="143.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
+      <Button fx:id="Apply" layoutX="525.0" layoutY="143.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
       <Text layoutX="143.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-view" text="Student Name:" wrappingWidth="192.0810546875">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
       <TextField fx:id="StudentNameTxt" alignment="CENTER" editable="false" layoutX="310.0" layoutY="187.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label fx:id="notFoundLbl" layoutX="526.0" layoutY="191.0" prefHeight="16.0" prefWidth="181.0" />
+      <Label fx:id="notFoundLbl" layoutX="525.0" layoutY="188.0" prefHeight="69.0" prefWidth="163.0" wrapText="true" />
    </children>
 </AnchorPane>

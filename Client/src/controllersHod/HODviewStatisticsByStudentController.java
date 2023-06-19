@@ -48,7 +48,7 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     NumberAxis yAxis = new NumberAxis();
 	
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private Text ExamMedianTxt;
@@ -115,15 +115,15 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 		StudentMedianTxt.setText("");
     	String StudentId = getid();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getStudentDoneExamsGradeByID");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(StudentId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getStudentDoneExamsGradeByID");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(StudentId);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		try {
 	        ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
@@ -142,18 +142,16 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
 
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
-	 * @param rs result set of data from the DB. 
+	 * @param StatisticResultSet result set of data from the DB. 
 	 */
-    private void loadStats(ArrayList<HashMap<String, Object>> rs) {
-        if (rs.isEmpty()) {
-        	System.out.println("rs is niill");
-            // Handle the case when the result set is empty
-            // You can display an error message or perform any other necessary action
+    private void loadStats(ArrayList<HashMap<String, Object>> StatisticResultSet) {
+        if (StatisticResultSet.isEmpty()) {
+        	System.out.println("Could not get statistic data.");
             return;
         }
         StudentBarChart.getData().clear();
-        setAvg(rs);
-        setName(rs.get(0));
+        setAvg(StatisticResultSet);
+        setName(StatisticResultSet.get(0));
         setMedian();
         setBarChart();
         gradesArr.clear();
@@ -174,12 +172,12 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     
     /**
      * Function that calculate the average of the grades.
-     * @param rs result set of data from the DB.
+     * @param StatisticResultSet result set of data from the DB.
      */
-    private void setAvg(ArrayList<HashMap<String, Object>> rs) {
+    private void setAvg(ArrayList<HashMap<String, Object>> StatisticResultSet) {
     	double total = 0;
         int count = 0;
-        for (HashMap<String, Object> row : rs) {
+        for (HashMap<String, Object> row : StatisticResultSet) {
             // Assuming the grade is stored in a key called "grade"
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
@@ -203,10 +201,10 @@ public class HODviewStatisticsByStudentController extends AbstractController imp
     
     /**
      * Sets for the StudentNameTxt the students first and last name.
-     * @param rs result set of information from the DB. 
+     * @param StatisticResultSet result set of information from the DB. 
      */
-    private void setName(HashMap<String, Object> rs) {
-    	StudentNameTxt.setText(rs.get("firstName") + " " + rs.get("lastName"));
+    private void setName(HashMap<String, Object> StatisticResultSet) {
+    	StudentNameTxt.setText(StatisticResultSet.get("firstName") + " " + StatisticResultSet.get("lastName"));
     }
     
     

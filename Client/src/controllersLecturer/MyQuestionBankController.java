@@ -38,6 +38,10 @@ import entities.Course;
 import entities.Exam;
 import entities.Lecturer;
 import entities.Question;
+/**
+ * Controller class for lecturer.
+ * In this controller the lecturer can watch the question bank, add new question, delete question and delete question.
+ */
 public class MyQuestionBankController extends AbstractController implements Initializable{
 	
 	private ArrayList<Question> qArr ;
@@ -75,6 +79,10 @@ public class MyQuestionBankController extends AbstractController implements Init
     @FXML
     private TableColumn<Question,String> clmSubject;
     
+    /**
+     * Course filter for the lecturer to display questions from specific course.
+     * @param event Action event.
+     */
     @FXML
     void CourseFilter(ActionEvent event) {
         String selectedCourse = CourseComboBox.getSelectionModel().getSelectedItem();
@@ -86,6 +94,10 @@ public class MyQuestionBankController extends AbstractController implements Init
 
 	}
     
+    /**
+     * Return bank Id by Lecturer Id
+     */
+
     public Integer getBankId(){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -101,17 +113,21 @@ public class MyQuestionBankController extends AbstractController implements Init
 		Integer id = (Integer) ConnectionServer.rs.get(0).get("bankId");
 		return id;
     }
-    
+  
+    /**
+     * send message to server to get relevant information for the table after filter apply.
+     * @param selectedCourse The courses the lecturer chose.
+     */
     void showTableWithFilters(String selectedCourse) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsByIdByCourse");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(getBankId()+"");
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsByIdByCourse");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(getBankId()+"");
 		ArrayList<Integer> crsIds = new ArrayList<>();
 		for(Integer id: HmCourseIdName.keySet()) {
 			if(HmCourseIdName.get(id).equals(selectedCourse)) {
@@ -119,9 +135,9 @@ public class MyQuestionBankController extends AbstractController implements Init
 			}
 		}
 		for(Integer id: crsIds) {
-			arr2.add(id + "");
+			parameter.add(id + "");
 		}
-		msg.put("param", arr2);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadQuestions(ConnectionServer.rs);
@@ -131,17 +147,20 @@ public class MyQuestionBankController extends AbstractController implements Init
 		initTableView(qArr);
     }
    
+    /**
+     * send message to the server in order to get relevant information. 
+     */
     void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionsById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionsById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadQuestions(ConnectionServer.rs);
@@ -152,7 +171,10 @@ public class MyQuestionBankController extends AbstractController implements Init
     	
     }
     
-    
+    /**
+     * Initialize the table with relevant information into the column.
+     * @param arr Array list of Questions.
+     */
     private void initTableView(ArrayList<Question> arr) {
     	ObservableList<Question> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<Question, String> pvfDetails = new PropertyValueFactory<>("details");
@@ -164,12 +186,8 @@ public class MyQuestionBankController extends AbstractController implements Init
 		    Question question = cellData.getValue();
 		    String courseId = question.getCourses();
 		    HashMap<String,ArrayList<String>> json = JsonHandler.convertJsonToHashMap(courseId, String.class, ArrayList.class, String.class);
-		    // Split the course IDs into an array
 		    ArrayList<String> courseIds = json.get("courses");
-
-		    // Create a list to store the course names
 		    List<String> courseNames = new ArrayList<>();
-		    // Retrieve the course name for each course ID
 		    for (String id : courseIds) {
 		        int courseIdInt = Integer.parseInt(id.trim());
 		        String courseName = HmCourseIdName.get(courseIdInt);
@@ -188,7 +206,11 @@ public class MyQuestionBankController extends AbstractController implements Init
 	}
 
 
-
+    /**
+     * Get all the relevant information for the question.
+     * @param rs result set from the DataBase.
+     * @throws Exception
+     */
 	public void loadQuestions(ArrayList<HashMap<String, Object>> rs) throws Exception {
 		qArr= new ArrayList<>();
 		if(rs == null) {
@@ -202,20 +224,31 @@ public class MyQuestionBankController extends AbstractController implements Init
                               (String)element.get("notes"), (String)element.get("courses")));
 		}
 	}
-
+	
+	/**
+	 * minimze current window.
+	 * @param event
+	 */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
     
+    /**
+     * close current window.
+     * @param event
+     */
     @FXML
     void Close(ActionEvent event) {
     	System.exit(0);
     }
-
+    /**
+     * Loads the AddNewQuestion FXML page.
+     * @param event Action event.
+     * @throws IOException
+     */
     @FXML
-
     void AddNewQuestion(ActionEvent event) throws IOException {	
 		Stage primaryStage = new Stage();
 		AddNewQuestionController addNewQuestionController;
@@ -241,6 +274,11 @@ public class MyQuestionBankController extends AbstractController implements Init
 	    }
 		
     }
+    /**
+     * loads the EditQuestion FXML page.
+     * @param event Action event.
+     * @throws IOException
+     */
     @FXML
     void EditQuestion(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
@@ -272,26 +310,32 @@ public class MyQuestionBankController extends AbstractController implements Init
     	}
     		
     }
-    
+    /**
+     * Sends message to the server in order to delete question.
+     * @param event
+     */
     @FXML
     void DeleteQuestion(ActionEvent event) {
     	SelectionModel<Question> selectionModel = QuestionBankLecTable.getSelectionModel();
     	Question selectedItem = selectionModel.getSelectedItem();
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("deleteQuestion");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(selectedItem.getQuestionID() + "");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("deleteQuestion");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(selectedItem.getQuestionID() + "");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);;
 		deleteFromQB(selectedItem.getQuestionID());
 		CourseFilter(event);
     }
-
+    /**
+     * Deleter the question ftom the DB.
+     * @param id question id.
+     */
 	private void deleteFromQB(Integer id) {
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
     	HashMap<String,Object> bank = getQuestionBank(ConnectionServer.user.getId());
@@ -308,34 +352,38 @@ public class MyQuestionBankController extends AbstractController implements Init
 		}
 		
 		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("updateQuestionBank");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(bank.get("bankID")+"");
-		arr2.add(jsonString);
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("updateQuestionBank");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(bank.get("bankID")+"");
+		parameter.add(jsonString);
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 	}
-	
+	/**
+	 * Get the question bank from the server.
+	 * @param id bank id
+	 * @return hash map of question bank
+	 */
 	private HashMap<String, Object> getQuestionBank(int id) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getQuestionBank");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getQuestionBank");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not load data from the server.");
 		}
 		if(rs.get(0)==null) {
 			System.out.println("Empty table from Sql");
@@ -343,36 +391,42 @@ public class MyQuestionBankController extends AbstractController implements Init
 		return rs.get(0);
 	}
 	
-
+	/**
+	 * Initializes the controller.
+	 * Retrieves the courses names of the lecturer and sets up the course filter.
+	 *
+	 * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//those queries return the courses names of the lecturer
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getCoursesIdByLecturerId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId() + "");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getCoursesIdByLecturerId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId() + "");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 		
 		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add("Lecturer");
-		msg1.put("client", arr3);
-		ArrayList<String> arr4 = new ArrayList<>();
-		arr4.add("getCoursesNameById");
-		msg1.put("task",arr4);
+		ArrayList<String> user1 = new ArrayList<>();
+		user1.add("Lecturer");
+		msg1.put("client", user1);
+		ArrayList<String> query1 = new ArrayList<>();
+		query1.add("getCoursesNameById");
+		msg1.put("task",query1);
 		
-		ArrayList<String> arr5 = new ArrayList<>();
+		ArrayList<String> parameter1 = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
-		arr5.add(crsId.size() + "");
-		arr5.addAll(crsId);
-		msg1.put("param",arr5);
+		parameter1.add(crsId.size() + "");
+		parameter1.addAll(crsId);
+		msg1.put("param",parameter1);
 		super.sendMsgToServer(msg1);
 		
 		//initiate the HM of courses

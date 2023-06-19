@@ -5,6 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * controller class for the lecturer.
+ * In this controller the lecturer can view the automatic system exam check result.
+ *
+ */
 public class LecturerViewExamResultController {
 
     @FXML
@@ -13,9 +18,17 @@ public class LecturerViewExamResultController {
     @FXML
     private Label lblExamInfo;
 
-    public void viewReason(String reasons) {
-    	lblExamInfo.setText(reasons);
+    /**
+     * set the result in the correct lable.
+     * @param result
+     */
+    public void viewResult(String result) {
+    	lblExamInfo.setText(result);
     }
+    /**
+     * close the current window.
+     * @param event Action event.
+     */
     @FXML
 	public void getExitBtn(ActionEvent event) {
 		Stage currentStage = (Stage) btnExit.getScene().getWindow();

@@ -26,11 +26,11 @@ import thirdPart.JsonHandler;
  */
 public class HODviewQuestionBankController extends AbstractController {
 	
-	private ArrayList<QuestionBankView> qArr ;
+	private ArrayList<QuestionBankView> questionArr ;
 	private HODmenuController hODmenuController;
 
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private TextField LecturerIdText;
@@ -65,24 +65,24 @@ public class HODviewQuestionBankController extends AbstractController {
     	String LecturerId = getid();
     	notFoundLbl.setText("");
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getViewQuestionsById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(LecturerId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getViewQuestionsById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(LecturerId);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		 try {
-	            ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
-	            if (rs == null || rs.isEmpty()) {
+	            ArrayList<HashMap<String, Object>> questionResultSet = ConnectionServer.rs;
+	            if (questionResultSet == null || questionResultSet.isEmpty()) {
 	                notFoundLbl.setText("Lecturer not found");
 	                QuestionTable.setItems(null);
 	            } else {
-	                loadQuestions(rs);
-	                initTableView(qArr);
+	                loadQuestions(questionResultSet);
+	                initTableView(questionArr);
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -91,18 +91,18 @@ public class HODviewQuestionBankController extends AbstractController {
     
 	/**
 	 * Load the data from the result set.
-	 * @param rs the data from the DB.
+	 * @param QuestionResultSet the data from the DB.
 	 */
-    private void loadQuestions(ArrayList<HashMap<String, Object>> rs) {
-		qArr= new ArrayList<>();
-		if(rs == null) {
-			System.out.println("rs is null");
+    private void loadQuestions(ArrayList<HashMap<String, Object>> QuestionResultSet) {
+    	questionArr= new ArrayList<>();
+		if(QuestionResultSet == null) {
+			System.out.println("Could not get questions.");
 			return;
 		}
 		HashMap<Integer, String> getCourseid_courseName = getCourseid_courseName();
         StringBuilder courseNames = new StringBuilder();
-        for (HashMap<String, Object> tmp : rs) {
-        	ArrayList<Double> courseLstJson =(ArrayList<Double>) JsonHandler.convertJsonToHashMap((String)tmp.get("courses"), String.class, ArrayList.class).get("courses");
+        for (HashMap<String, Object> tmpHashMap : QuestionResultSet) {
+        	ArrayList<Double> courseLstJson =(ArrayList<Double>) JsonHandler.convertJsonToHashMap((String)tmpHashMap.get("courses"), String.class, ArrayList.class).get("courses");
             StringBuilder courseNames1 = new StringBuilder();
             ArrayList<Integer> integerQuestionList = new ArrayList<>();
             for (Double d : courseLstJson) {
@@ -113,9 +113,9 @@ public class HODviewQuestionBankController extends AbstractController {
                 if (i < integerQuestionList.size() - 1)
                 	courseNames1.append(", ");
             }
-		    qArr.add(new QuestionBankView((String)tmp.get("details"),
-		    		(String)tmp.get("subject"),(String)tmp.get("lastName"),
-		    		(String)tmp.get("firstName"),courseNames1.toString()));
+            questionArr.add(new QuestionBankView((String)tmpHashMap.get("details"),
+		    		(String)tmpHashMap.get("subject"),(String)tmpHashMap.get("lastName"),
+		    		(String)tmpHashMap.get("firstName"),courseNames1.toString()));
         }
 	}
     
@@ -134,8 +134,8 @@ public class HODviewQuestionBankController extends AbstractController {
      * Initialize the table with the data we need.
      * @param arr ArrayList of exams.
      */
-    private void initTableView(ArrayList<QuestionBankView> arr) {
-    	ObservableList<QuestionBankView> list = FXCollections.observableArrayList(arr);
+    private void initTableView(ArrayList<QuestionBankView> ArrQuestion) {
+    	ObservableList<QuestionBankView> Questionlist = FXCollections.observableArrayList(ArrQuestion);
 		PropertyValueFactory<QuestionBankView, String> pvfDetails = new PropertyValueFactory<>("details");
 		PropertyValueFactory<QuestionBankView, String> pvfLecutrerFirstName = new PropertyValueFactory<>("firstName");
 		PropertyValueFactory<QuestionBankView, String> pvfLecutrerLasttName = new PropertyValueFactory<>("lastName");
@@ -146,7 +146,7 @@ public class HODviewQuestionBankController extends AbstractController {
 		clmDetails.setCellValueFactory(pvfDetails);
 		clmSubject.setCellValueFactory(pvfSubject);
 		clmCourse.setCellValueFactory(pvfCourse);
-		QuestionTable.setItems(list);
+		QuestionTable.setItems(Questionlist);
 	}
     
     

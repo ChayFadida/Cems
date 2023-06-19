@@ -37,7 +37,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
-
+/**
+ * Controller class for the lecturer.
+ * In this controller the lecturer can Edit the questions from its own question bank.
+ */
 public class EditQuestionController extends AbstractController {
 	Question question;
 	List<String> coursesSelected;
@@ -88,48 +91,92 @@ public class EditQuestionController extends AbstractController {
     @FXML
     private TextField txtSubject;
     
+    /**
+     * Create an instance of MyQuestionBankController
+     * @param myQuestionBankController instance 
+     */
     public void setMyQuestionBankController(MyQuestionBankController myQuestionBankController) {
 		this.myQuestionBankController = myQuestionBankController;
 	}
-
+    
+    /**
+     * get the right answer from the relevant text field.
+     * @return the right answer
+     */
     private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
     }
+    /**
+     * get the subject from the relevant text fields.
+     * @return the subject
+     */
     private String getSubject() {
     	return txtSubject.getText();
     }
-
+    /**
+     * get answer number one from the text field.
+     * @return answer number one.
+     */
     private String getAnswer1() {
     	return answer1Field.getText();
     }
+    /**
+     * get answer number two from the text field.
+     * @return answer number two.
+     */
     private String getAnswer2() {
     	return answer2Field.getText();
     }
+    /**
+     * get answer number three from the text field.
+     * @return answer number three.
+     */
     private String getAnswer3() {
     	return answer3Field.getText();
     }
+    /**
+     * get answer number four from the text field.
+     * @return answer number four.
+     */
     private String getAnswer4() {
     	return answer4Field.getText();
     }
+    /**
+     * get question id from the text field.
+     * @return question id.
+     */
     private String getQuestionField() {
     	return QuestionField.getText();
     }
+    /**
+     * get notes from the text field.
+     * @return the notes.
+     */
     private String getNotesField() {
     	return NotesField.getText();
     }
-    
+    /**
+     * By activate, close the current window
+     * @param event Action event.
+     */
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
+    /**
+     * By activate, minimize current window.
+     * @param event Action event.
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
+
+    /**
+     * Return Bank Id by Lecturer Id
+     */  
     public Integer getBankId(){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -146,29 +193,35 @@ public class EditQuestionController extends AbstractController {
 		return id;
     }
     
+  /**
+     * Saving the question that were changed.
+     * @param event Action event
+     */
     @FXML
     void SaveQuestionChanges(ActionEvent event) {		
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("updateQuestion");
-		msg.put("task",arr1);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("updateQuestion");
+		msg.put("task",query);
 		
-		ArrayList<String> arr2 = new ArrayList<>();
-		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>();
+
+		ArrayList<String> parameter = new ArrayList<>();
+		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
+
 		HmQuestions.put("answer1", getAnswer1());
 		HmQuestions.put("answer2", getAnswer2());
 		HmQuestions.put("answer3", getAnswer3());
 		HmQuestions.put("answer4", getAnswer4());
-		
-		arr2.add(getQuestionField());
-		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
-		arr2.add(getRightAnswer());
-		arr2.add(getBankId() + "");
-		arr2.add(getSubject());
-		arr2.add(getNotesField());
+
+		parameter.add(getQuestionField());
+		parameter.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
+		parameter.add(getRightAnswer());
+		parameter.add(getBankId() + "");
+		parameter.add(getSubject());
+		parameter.add(getNotesField());
 		
 		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
 		ArrayList<Integer> IntegerList = new ArrayList<>();
@@ -178,16 +231,20 @@ public class EditQuestionController extends AbstractController {
         }
 		HmCourses.put("courses", IntegerList);
 		
-		arr2.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
-		arr2.add(question.getQuestionID() + "");
+		parameter.add(JsonHandler.convertHashMapToJson(HmCourses, String.class, ArrayList.class));
+		parameter.add(question.getQuestionID() + "");
 	
-		msg.put("param", arr2);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     	myQuestionBankController.CourseFilter(event);
     }
     
+    /**
+     * Loads questions into the text fields.
+     * @param q the question 
+     */
     void LoadQuestion(Question q) {
     	this.question = q;
     	QuestionField.setText(question.getDetails());
@@ -203,31 +260,31 @@ public class EditQuestionController extends AbstractController {
         hm = JsonHandler.convertJsonToHashMap(question.getCourses(),String.class, ArrayList.class);
         
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getCoursesIdByLecturerId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId() + "");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getCoursesIdByLecturerId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId() + "");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 		
 		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add("Lecturer");
-		msg1.put("client", arr3);
-		ArrayList<String> arr4 = new ArrayList<>();
-		arr4.add("getCoursesNameById");
-		msg1.put("task",arr4);
+		ArrayList<String> user2 = new ArrayList<>();
+		user2.add("Lecturer");
+		msg1.put("client", user2);
+		ArrayList<String> query2 = new ArrayList<>();
+		query2.add("getCoursesNameById");
+		msg1.put("task",query2);
 		
-		ArrayList<String> arr5 = new ArrayList<>();
+		ArrayList<String> parameter2 = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
-		arr5.add(crsId.size() + "");
-		arr5.addAll(crsId);
-		msg1.put("param",arr5);
+		parameter2.add(crsId.size() + "");
+		parameter2.addAll(crsId);
+		msg1.put("param",parameter2);
 		super.sendMsgToServer(msg1);
 		
 		try {
@@ -237,15 +294,19 @@ public class EditQuestionController extends AbstractController {
 		}
     }
     
-    private void loadCourses(ArrayList<HashMap<String, Object>> rs) {
+    /**
+     * Loads relevent courses for the lecturer.
+     * @param coursesResultSet courses from the DB.
+     */
+    private void loadCourses(ArrayList<HashMap<String, Object>> coursesResultSet) {
 		courses= new ArrayList<>();
 		coursesMenuItems= new ArrayList<>();
-		if(rs==null) {
-			System.out.println("RS is null");
+		if(coursesResultSet==null) {
+			System.out.println("Could not load courses from db.");
 			return;
 		}
-		for (int i = 0; i < rs.size(); i++) {
-		    HashMap<String, Object> element = rs.get(i);
+		for (int i = 0; i < coursesResultSet.size(); i++) {
+		    HashMap<String, Object> element = coursesResultSet.get(i);
 		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"), null));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
 		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
@@ -260,7 +321,9 @@ public class EditQuestionController extends AbstractController {
 
         updateSelectedCourses();
     }	
-		
+	/**
+	 * update the selected courses by the lecturer.
+	 */
     private void updateSelectedCourses() {
         List<String> selected = coursesMenuItems.stream()
                 .filter(CheckMenuItem::isSelected)

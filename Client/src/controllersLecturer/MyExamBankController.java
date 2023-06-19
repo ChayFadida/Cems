@@ -33,16 +33,26 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 import client.ConnectionServer;
-
+/**
+ * Controller class for the lecturer.
+ * In this class the lecturer can watch her exam bank.
+ */
 public class MyExamBankController extends AbstractController implements Initializable{
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
-
+	
+	/**
+	 * Get the course id and name.
+	 * @return Hash map of the course id and its name.
+	 */
     public HashMap<Integer, String> getHmCourseIdName() {
     	return HmCourseIdName;
 		
 	}
-    
+    /**
+     * get course filter.
+     * @return course comboBox
+     */
     public ComboBox<String> getcombo() {
     	return CourseComboBox;
 		
@@ -78,17 +88,27 @@ public class MyExamBankController extends AbstractController implements Initiali
     @FXML
     private Button minimizeButton;
     
+    /**
+     * Minimze current window.
+     * @param event Action event.
+     */     
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
+    /**
+     * close current window.
+     * @param event Action event.
+     */
     @FXML
     void Close(ActionEvent event) {
     	System.exit(0);
     }
-    
+    /**
+     * acvitate course filter for the lecturer
+     * @param event Action event.
+     */
     @FXML
     void CourseFilter(ActionEvent event) {
         String selectedCourse = CourseComboBox.getSelectionModel().getSelectedItem();
@@ -99,38 +119,44 @@ public class MyExamBankController extends AbstractController implements Initiali
         }
 
 	}
-
+    /**
+     * Delete the exam from the lecturer exam bank.
+     * @param event Action event.
+     */
     @FXML
     void DeleteExam(ActionEvent event) {
     	SelectionModel<Exam> selectionModel = tblExams.getSelectionModel();
     	Exam selectedItem = selectionModel.getSelectedItem();
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("deleteExam");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(selectedItem.getExamId() + "");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("deleteExam");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(selectedItem.getExamId() + "");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);;
 		deleteFromEB(selectedItem.getExamId());
 		showTable();
     }
-    
+    /**
+     * update the table after lecturer choose filter.
+     * @param selectedCourse the courses the lecturer choose.
+     */
     void showTableWithFilters(String selectedCourse) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getLecturerExamsByCourse");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		arr2.add(selectedCourse);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getLecturerExamsByCourse");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(selectedCourse);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadExams(ConnectionServer.rs);
@@ -140,6 +166,10 @@ public class MyExamBankController extends AbstractController implements Initiali
 		initTableView(eArr);
     }
     
+    /**
+     * Delete the exam from the DB
+     * @param id exam id.
+     */
 	private void deleteFromEB(Integer id) {
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
     	HashMap<String,Object> bank = getExamBank(ConnectionServer.user.getId());
@@ -156,52 +186,59 @@ public class MyExamBankController extends AbstractController implements Initiali
 		}
 		
 		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("updateExamBankById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(bank.get("bankId")+ "");
-		arr2.add(jsonString);
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("updateExamBankById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(bank.get("bankId")+ "");
+		parameter.add(jsonString);
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 	}
 	
+	/**
+	 * Get the exam bank by insert user id.
+	 * @param id user id 
+	 * @return hashMap of the exam bank.
+	 */
 	private HashMap<String, Object> getExamBank(int id) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamBankByLecId");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param",arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamBankByLecId");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param",parameter);
 		super.sendMsgToServer(msg);
 		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
 		if(rs == null) {
-			System.out.println("RS is null");
+			System.out.println("Could not get info from the DB.");
 		}
 		if(rs.get(0)==null) {
 			System.out.println("Empty table from Sql");
 		}
 		return rs.get(0);
 	}
-	
+	/**
+	 * send message to server and get relevant information for the table.
+	 */
     void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getLecturerExams");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getLecturerExams");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadExams(ConnectionServer.rs);
@@ -211,7 +248,11 @@ public class MyExamBankController extends AbstractController implements Initiali
 		initTableView(eArr);
     	
     }
-    
+    /**
+     * loads the relevant information for the exam.
+     * @param rs result set from the server.
+     * @throws Exception
+     */
 	public void loadExams(ArrayList<HashMap<String, Object>> rs) throws Exception {
 		eArr= new ArrayList<>();
 		if(rs == null) {
@@ -228,9 +269,12 @@ public class MyExamBankController extends AbstractController implements Initiali
 		}
 		
 	}
-	
-    private void initTableView(ArrayList<Exam> arr) {
-    	ObservableList<Exam> list = FXCollections.observableArrayList(arr);
+	/**
+	 * Initialize the table columns with relrvant information.
+	 * @param ExamArr ArrayList of exams.
+	 */
+    private void initTableView(ArrayList<Exam> ExamArr) {
+    	ObservableList<Exam> list = FXCollections.observableArrayList(ExamArr);
 		PropertyValueFactory<Exam, String> pvfExamName = new PropertyValueFactory<>("examName");
 		PropertyValueFactory<Exam, String> pvfSubject = new PropertyValueFactory<>("subject");
 		PropertyValueFactory<Exam, Integer> pvfDuration = new PropertyValueFactory<>("duration");
@@ -251,7 +295,11 @@ public class MyExamBankController extends AbstractController implements Initiali
 		tblExams.setItems(list);
 		
 	}
-
+    /**
+     * Initialize the controller.
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized. 
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();
@@ -260,7 +308,11 @@ public class MyExamBankController extends AbstractController implements Initiali
 		courseItems.addAll(HmCourseIdName.values());
 		CourseComboBox.getSelectionModel().selectFirst();
 	}
-
+	/**
+	 * when activate, runs the EditExam FXML page
+	 * @param event Action event.
+	 * @throws IOException
+	 */
     @FXML
     void EditExam(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();

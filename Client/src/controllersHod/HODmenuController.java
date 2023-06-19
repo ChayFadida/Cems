@@ -74,7 +74,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	/**
 	 * Super object that refers to the Super entity. "Super" is for HOD's that are also lecturers.
 	 */
-	private Super s;
+	private Super HODandLecturer;
 
     @FXML
     private Button LogOutButton;
@@ -118,12 +118,12 @@ public class HODmenuController extends AbstractController implements Initializab
     public HODmenuController() {
     	User user = ConnectionServer.getInstance().getUser();
 		if(user instanceof Super) {
-			this.s = (Super)user;
-			this.hod=s.getHod();
+			this.HODandLecturer = (Super)user;
+			this.hod=HODandLecturer.getHod();
 		}
 		else {
 			this.hod=(Hod) ConnectionServer.getInstance().getUser();
-			this.s=null;
+			this.HODandLecturer=null;
 		}
     }
     /**
@@ -182,7 +182,7 @@ public class HODmenuController extends AbstractController implements Initializab
      */
     @FXML
     void LogOut(MouseEvent event) throws IOException {
-    	if(s!=null) {
+    	if(HODandLecturer!=null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
@@ -193,7 +193,7 @@ public class HODmenuController extends AbstractController implements Initializab
 				int id = hod.getId();
 				if (res) {
 					hod=null;
-					s=null;
+					HODandLecturer=null;
 					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 					LogInController logInController = new LogInController();	
 					logInController.start(new Stage());

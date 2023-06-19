@@ -31,7 +31,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * Controller class for lecturer.
+ * In this controller the lecturer can view the queation bank.
+ * extends AbstractController implements Initializable
+ */
 public class ViewAllExamsController extends AbstractController implements Initializable{
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
@@ -65,7 +69,11 @@ public class ViewAllExamsController extends AbstractController implements Initia
 
     @FXML
     private TableView<Exam> examTable;
-
+    
+    /**
+     * Loads the current FXML page.
+     * @param primaryStage 
+     */
     public void start(Stage primaryStage) {
     	FXMLLoader loader = new FXMLLoader();
 		Pane root;
@@ -83,12 +91,15 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		     root.setOnMousePressed(press);
 		     root.setOnMouseDragged(drag);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
        
     }
     
+    /**
+     * by activate, loads the ViewExam FXML page.
+     * @param event Action event.
+     */
     @FXML
     void ViewExam(ActionEvent event) {
     	Stage primaryStage = new Stage();
@@ -118,7 +129,14 @@ public class ViewAllExamsController extends AbstractController implements Initia
     	    }
     	}
     }
-
+    
+    /**
+     * Initializes the controller.
+     * Sets up the course filter with available course names.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();
@@ -128,18 +146,21 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		CourseComboBox.getSelectionModel().selectFirst();
 	}
 
+	/**
+	 * send message to the server to get relevant information for the table.
+	 */
 	private void showTable() {
 		String LecturerId = ConnectionServer.user.getId() + "";
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllExams");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(LecturerId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getAllExams");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(LecturerId);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadExams(ConnectionServer.rs);
@@ -149,6 +170,10 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		initTableView(eArr);
 	}
 
+	/**
+	 * Initialize the table column with the relevant information.
+	 * @param arr Exam Arr
+	 */
 	private void initTableView(ArrayList<Exam> arr) {
 		ObservableList<Exam> list = FXCollections.observableArrayList(arr);
 	     
@@ -175,6 +200,10 @@ public class ViewAllExamsController extends AbstractController implements Initia
         examTable.setItems(list);
 	}
 
+	/**
+	 * loads exam information from the DB.
+	 * @param rs
+	 */
 	private void loadExams(ArrayList<HashMap<String, Object>> rs) {
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
@@ -184,10 +213,17 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		}
 	}
 
+	/**
+	 * sets hash map of course id and name.
+	 * @param hmCourseIdName
+	 */
 	public void setHmCourseIdName(HashMap<Integer, String> hmCourseIdName) {
 		HmCourseIdName = hmCourseIdName;
 	}
-	
+	/**
+	 * 
+	 * @param event
+	 */
 	@FXML
     void CourseFilter(ActionEvent event) {
         String selectedCourse = CourseComboBox.getSelectionModel().getSelectedItem();
@@ -198,19 +234,22 @@ public class ViewAllExamsController extends AbstractController implements Initia
         }
 
 	}
-	
+	/**
+	 * sends message to the server to get relevant information.
+	 * @param selectedCourse 
+	 */
 	void showTableWithFilters(String selectedCourse) {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getLecturerExamsByCourse");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ConnectionServer.user.getId()+"");
-		arr2.add(selectedCourse);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getLecturerExamsByCourse");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(selectedCourse);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadExams(ConnectionServer.rs);
@@ -219,13 +258,19 @@ public class ViewAllExamsController extends AbstractController implements Initia
 		}
 		initTableView(eArr);
     }
-
+	/**
+	 * close current window 
+	 * @param event Action event.
+	 */
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
+    /**
+     * minimze current window
+     * @param event Action event.
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

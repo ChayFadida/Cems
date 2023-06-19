@@ -20,7 +20,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
-
+/**
+ * Controller class for the lecturer.
+ * In this controller the lecturer can ask the HOD to approve his request to change exam duration.  
+ */
 public class ChangeDurationController extends AbstractController{
 	Exam exam;
 
@@ -42,46 +45,66 @@ public class ChangeDurationController extends AbstractController{
 	@FXML
 	private TextField txtRequestDetails;
 	
+	/**
+	 * Setter for the exam.
+	 * @param exam to set.
+	 */
 	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
     
+	/**
+	 * Close the current window.
+	 * @param event Action event
+	 */
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
 
+    /**
+     * Minimize the current window.
+     * @param event Action event
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
     
+    /**
+     * By activate, the lecturer send to the HOD's from the same department the change duration request.
+     * @param event Action event
+     */
     @FXML
     void sendRequest(ActionEvent event) {
     	HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("AddDurationRequest");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(exam.getExamId() + "");
-		arr2.add(ConnectionServer.user.getId() + "");
-		arr2.add(exam.getCourseId() + "");
-		arr2.add(exam.getSubject());
-		arr2.add(exam.getDuration() + "");
-		arr2.add(txtNewDuration.getText());
-		arr2.add("inProgress");
-		arr2.add(txtRequestDetails.getText());
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("AddDurationRequest");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(exam.getExamId() + "");
+		parameter.add(ConnectionServer.user.getId() + "");
+		parameter.add(exam.getCourseId() + "");
+		parameter.add(exam.getSubject());
+		parameter.add(exam.getDuration() + "");
+		parameter.add(txtNewDuration.getText());
+		parameter.add("inProgress");
+		parameter.add(txtRequestDetails.getText());
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     }
     
+    /**
+     * Loads the old duration
+     * @param e exam.
+     */
     void LoadExamOldDuration(Exam e) {
     	txtOldDuration.setText(e.getDuration() + "");
     	txtOldDuration.setEditable(false);

@@ -32,9 +32,6 @@ public class ServerController  {
 
     @FXML
     private Button btnConnect;
-    
-    @FXML
-    private Button btnImportData;
 
     @FXML
     private Button btnExit;
@@ -111,7 +108,7 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info_temp = new HashMap<>() {{
 			put("ip","localhost");
-			put("password", "Yoni46001021");
+			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "5555");
@@ -188,23 +185,4 @@ public class ServerController  {
             }
         });
 	}
-	
-	
-	/**
-	* Performs server back end Utility import.
-	* @param event ActionEvent that triggers the action
-	*/
-	@FXML
-	public void ImportData(ActionEvent event) {
-		String sqlFilePath = "C:\\Users\\USER\\OneDrive\\שולחן העבודה\\DataImportCems.sql";
-		if(clientHandler != null) {
-			if(clientHandler.importData(sqlFilePath)) 
-				setErrorLbl("Users has been imported successfuly.");
-			else
-				setErrorLbl("Import has failed.");
-		}
-		else
-			setErrorLbl("Import has failed. Before importing users, connect to Database");
-	}
-	
 }

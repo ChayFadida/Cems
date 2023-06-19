@@ -68,24 +68,24 @@ public class HODviewRequestController extends AbstractController implements Init
 
 	/**
 	 * Loads the relevant information to get from the DB
-	 * @param rs Hash Map result set from the DB
+	 * @param requestResultSet Hash Map result set from the DB
 	 * @throws Exception in case of error while loading.
 	 */
-	public void loadRequests(ArrayList<HashMap<String, Object>> rs) throws Exception {
+	public void loadRequests(ArrayList<HashMap<String, Object>> requestResultSet) throws Exception {
     	examArr = new ArrayList<Request>();
-    	if(rs == null) {
-			System.out.println("rs is null");
+    	if(requestResultSet == null) {
+			System.out.println("Could not get requests.");
 		}
-		for (int i = 0; i < rs.size(); i++) {
-			int requestId = (int)rs.get(i).get("requestId");
-			int examId = (int)rs.get(i).get("examId");
-			int lecturerId = (int)rs.get(i).get("lecturerId");
-			int courseId = (int)rs.get(i).get("courseId");
-			String subject = (String)rs.get(i).get("subject");
-			int oldDuration = (int)rs.get(i).get("oldDuration");
-			int newDuration = (int)rs.get(i).get("newDuration");
-			String status = (String)rs.get(i).get("status");
-			String reasons = (String)rs.get(i).get("reasons");
+		for (int i = 0; i < requestResultSet.size(); i++) {
+			int requestId = (int)requestResultSet.get(i).get("requestId");
+			int examId = (int)requestResultSet.get(i).get("examId");
+			int lecturerId = (int)requestResultSet.get(i).get("lecturerId");
+			int courseId = (int)requestResultSet.get(i).get("courseId");
+			String subject = (String)requestResultSet.get(i).get("subject");
+			int oldDuration = (int)requestResultSet.get(i).get("oldDuration");
+			int newDuration = (int)requestResultSet.get(i).get("newDuration");
+			String status = (String)requestResultSet.get(i).get("status");
+			String reasons = (String)requestResultSet.get(i).get("reasons");
 		    examArr.add(new Request(requestId,examId,lecturerId,courseId,subject,oldDuration,newDuration,status,reasons));
 		}
 	}
@@ -95,18 +95,18 @@ public class HODviewRequestController extends AbstractController implements Init
 	 */
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add("inProgress");
-		msg.put("status",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllRequests");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(""+((Hod) ConnectionServer.user).getDepartment());
-		msg.put("department",arr3);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> status = new ArrayList<>();
+		status.add("inProgress");
+		msg.put("status",status);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getAllRequests");
+		msg.put("task",query);
+		ArrayList<String> department = new ArrayList<>();
+		department.add(""+((Hod) ConnectionServer.user).getDepartment());
+		msg.put("department",department);
 		sendMsgToServer(msg);
 		try {
 			this.loadRequests(ConnectionServer.rs);
@@ -120,8 +120,8 @@ public class HODviewRequestController extends AbstractController implements Init
 	 * Initialize the Table with the provided ArrayList of requests
 	 * @param arr ArrayList of requests to display.
 	 */
-	private void initTableView(ArrayList<Request> arr) {
-		ObservableList<Request> list = FXCollections.observableArrayList(arr);
+	private void initTableView(ArrayList<Request> RequestArr) {
+		ObservableList<Request> list = FXCollections.observableArrayList(RequestArr);
 		PropertyValueFactory<Request, Integer> pvfrequestId = new PropertyValueFactory<Request, Integer>("requestId");
 		PropertyValueFactory<Request, Integer> pvfexamId = new PropertyValueFactory<Request, Integer>("examId");
 		PropertyValueFactory<Request, String> pvfLecturer = new PropertyValueFactory<Request, String>("lecturerId");
@@ -164,18 +164,18 @@ public class HODviewRequestController extends AbstractController implements Init
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("HOD");
-			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add("inProgress");
-			msg.put("status",arr2);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("getAllRequests");
-			msg.put("task",arr1);
-			ArrayList<String> arr3 = new ArrayList<>();
-			arr3.add(""+((Hod) ConnectionServer.user).getDepartment());
-			msg.put("department",arr3);
+			ArrayList<String> user = new ArrayList<>();
+			user.add("HOD");
+			msg.put("client", user);
+			ArrayList<String> status = new ArrayList<>();
+			status.add("inProgress");
+			msg.put("status",status);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getAllRequests");
+			msg.put("task",query);
+			ArrayList<String> department = new ArrayList<>();
+			department.add(""+((Hod) ConnectionServer.user).getDepartment());
+			msg.put("department",department);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				Stage seconderyStage = new Stage();
@@ -218,9 +218,11 @@ public class HODviewRequestController extends AbstractController implements Init
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-			ArrayList<Object> arr = new ArrayList<>();
-			arr.add("HOD");
-			msg.put("client", arr);		
+
+			ArrayList<Object> user = new ArrayList<>();
+			user.add("HOD");
+			msg.put("client", user);
+			
 			ArrayList<Object> param = new ArrayList<>();
 			param.add(selectedId.get(0).getRequestId());
 			param.add(selectedId.get(0).getExamId());
@@ -271,15 +273,15 @@ public class HODviewRequestController extends AbstractController implements Init
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("HOD");
-			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(""+selectedId.get(0).getLecturerId());
-			msg.put("lecturerId",arr2);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("getUser");
-			msg.put("task",arr1);
+			ArrayList<String> user = new ArrayList<>();
+			user.add("HOD");
+			msg.put("client", user);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(""+selectedId.get(0).getLecturerId());
+			msg.put("lecturerId",parameter);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getUser");
+			msg.put("task",query);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				String email = (String)ConnectionServer.rs.get(0).get("email");
@@ -322,18 +324,18 @@ public class HODviewRequestController extends AbstractController implements Init
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("HOD");
-			msg.put("client", arr);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(""+selectedId.get(0).getRequestId());
-			msg.put("requestId",arr2);
-			ArrayList<String> arr3 = new ArrayList<>();
-			arr3.add("denied");
-			msg.put("status",arr3);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("updateRequest");
-			msg.put("task",arr1);
+			ArrayList<String> user = new ArrayList<>();
+			user.add("HOD");
+			msg.put("client", user);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(""+selectedId.get(0).getRequestId());
+			msg.put("requestId",parameter);
+			ArrayList<String> status = new ArrayList<>();
+			status.add("denied");
+			msg.put("status",status);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("updateRequest");
+			msg.put("task",query);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request denied successfuly!");
