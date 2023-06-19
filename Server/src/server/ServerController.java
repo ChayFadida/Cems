@@ -28,7 +28,6 @@ public class ServerController  {
 
     @FXML
     private Button btnConnect;
-    
 
     @FXML
     private Button btnExit;
@@ -108,7 +107,7 @@ public class ServerController  {
 			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
-			put("port", "5555");
+			put("port", "8000");
 		}};
 
 //		startServer(db_info);
@@ -182,6 +181,5 @@ public class ServerController  {
             }
         });
 	}
-	
-	
+
 }

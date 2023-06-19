@@ -15,7 +15,6 @@
       </Text>
       <TableView fx:id="ExamTable" layoutX="51.0" layoutY="119.0" prefHeight="362.0" prefWidth="731.0">
         <columns>
-            <TableColumn fx:id="examId" prefWidth="53.60003662109375" text="Exam id" />
           <TableColumn fx:id="examName" prefWidth="169.5999755859375" text="Exam name" />
             <TableColumn fx:id="status" prefWidth="177.60003662109375" text="Status" />
           <TableColumn fx:id="courseId" prefWidth="65.5999755859375" text="Course Id" />

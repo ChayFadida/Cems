@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 /**
  * Controller class for the HOD.
  * In this controller the HOD will see all of his reasons for changing the time duration.

@@ -293,9 +293,8 @@ public class CheckResultController extends AbstractController implements Initial
      */
     @FXML
     void getApproveBtn(ActionEvent event) {
-		ArrayList<ExamResult> selectedId = new ArrayList<>();
-		selectedId.addAll(resultTable.getSelectionModel().getSelectedItems());
-		if(selectedId.isEmpty()) {
+		ExamResult selectedId = resultTable.getSelectionModel().getSelectedItem();
+		if(selectedId==null) {
 			lblNonSelected.setText("No entry was selected!");
 		}
 		else {
@@ -304,16 +303,13 @@ public class CheckResultController extends AbstractController implements Initial
 			ArrayList<String> user = new ArrayList<>();
 			user.add("Lecturer");
 			msg.put("client", user);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(""+selectedId.get(0).getExamId());
-			msg.put("examId",parameter);
-			ArrayList<String> status = new ArrayList<>();
-			status.add("Done");
-			msg.put("status",status);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("updateExamResultStatus");
 			msg.put("task",query);
-
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(selectedId.getExamId() + "");
+			parameter.add(selectedId.getStudentId() + "");
+			msg.put("param", parameter);
 			sendMsgToServer(msg);
 			System.out.println(ConnectionServer.rs);
 			if(ConnectionServer.rs != null) {
@@ -338,17 +334,17 @@ public class CheckResultController extends AbstractController implements Initial
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> user = new ArrayList<>();
-			user.add("Lecturer");
-			msg.put("client", user);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(""+selectedId.get(0).getExamId());
-			msg.put("examId",parameter);
-			ArrayList<String> status = new ArrayList<>();
-			status.add("Done");
-			msg.put("status",status);
-			ArrayList<String> parameter1 = new ArrayList<>();
-			if(txtNotes.getLength() == 0 ||txtNotes.getLength() == 0) {
+			ArrayList<String> arr = new ArrayList<>();
+			arr.add("Lecturer");
+			msg.put("client", arr);
+			ArrayList<String> arr1 = new ArrayList<>();
+			arr1.add("updateExamResultGradeNotes");
+			msg.put("task",arr1);
+			ArrayList<String> arr2 = new ArrayList<>();
+			arr2.add(selectedId.get(0).getExamId() + "");
+			arr2.add(selectedId.get(0).getStudentId() + "");
+
+			if(txtNewGrade.getLength() == 0 || txtNotes.getLength() == 0) {
 				lblNonSelected.setText("No Grade or Notes,\nplease fill all fields!");
 				return;
 			}
@@ -364,12 +360,9 @@ public class CheckResultController extends AbstractController implements Initial
 			}
 			
 			lblNonSelected.setText("");
-			parameter1.add(txtNotes.getText());
-			parameter1.add(txtNewGrade.getText());
-			msg.put("params",parameter1);
-			ArrayList<String> query = new ArrayList<>();
-			query.add("updateExamResultGradeNotes");
-			msg.put("task",query);
+			arr2.add(txtNotes.getText());
+			arr2.add(txtNewGrade.getText());
+			msg.put("param",arr2);
 			sendMsgToServer(msg);
 			
 			if(ConnectionServer.rs != null) {

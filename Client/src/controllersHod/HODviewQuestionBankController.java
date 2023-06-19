@@ -27,7 +27,6 @@ import thirdPart.JsonHandler;
 public class HODviewQuestionBankController extends AbstractController {
 	
 	private ArrayList<QuestionBankView> questionArr ;
-	private HODmenuController hODmenuController;
 
     @FXML
     private Button Apply;
@@ -93,7 +92,8 @@ public class HODviewQuestionBankController extends AbstractController {
 	 * Load the data from the result set.
 	 * @param QuestionResultSet the data from the DB.
 	 */
-    private void loadQuestions(ArrayList<HashMap<String, Object>> QuestionResultSet) {
+    @SuppressWarnings({ "unchecked", "unused" })
+	private void loadQuestions(ArrayList<HashMap<String, Object>> QuestionResultSet) {
     	questionArr= new ArrayList<>();
 		if(QuestionResultSet == null) {
 			System.out.println("Could not get questions.");

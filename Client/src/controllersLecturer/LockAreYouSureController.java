@@ -41,6 +41,7 @@ public class LockAreYouSureController extends AbstractController{
     public void setManageExamsController(ManageExamsController manageExamsController) {
 		this.manageExamsController = manageExamsController;
 	}
+  
   /**
 	 * If lecturer press no -> nothing happens and the window is closed.
 	 * @param event Action event

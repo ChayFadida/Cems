@@ -11,11 +11,13 @@ public class Request {
     int newDuration;
     String status;
     String reasons;
+    String examName;
 
     
-	public Request(int requestId, int examId, int lecturerId,int courseId,String subject, int oldDuration, int newDuration,String status,String reasons) {
+	public Request(int requestId,String examName, int examId, int lecturerId,int courseId,String subject, int oldDuration, int newDuration,String status,String reasons) {
 		this.requestId = requestId;
 		this.examId = examId;
+		this.examName = examName;
 		this.lecturerId = lecturerId;
 		this.courseId = courseId;
 		this.subject = subject;
@@ -23,6 +25,14 @@ public class Request {
 		this.newDuration = newDuration;
 		this.status = status;
 		this.reasons = reasons;
+	}
+
+	public String getExamName() {
+		return examName;
+	}
+
+	public void setExamName(String examName) {
+		this.examName = examName;
 	}
 
 	public String getReasons() {

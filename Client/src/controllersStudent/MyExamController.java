@@ -16,7 +16,12 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+/**
+ * Controller class for the Student.
+ * In this controller the Student can view all of his taken exams.
+ * Extends AbstractController.
+ * Implements Initializable.
+ */
 public class MyExamController extends AbstractController implements Initializable{
 	private ArrayList<ExamResult> examResArr ;
 
@@ -25,8 +30,7 @@ public class MyExamController extends AbstractController implements Initializabl
 
     @FXML
     private TableColumn<ExamResult, Integer> courseId;
-    @FXML
-    private TableColumn<ExamResult, Integer> examId;
+
     @FXML
     private TableColumn<ExamResult, String> examName;
 
@@ -38,7 +42,12 @@ public class MyExamController extends AbstractController implements Initializabl
 
     @FXML
     private TableColumn<ExamResult, String> subject;
-
+    
+    /**
+	 * Loads the relevant information to get from the DB
+	 * @param ExamResult ResultSet Hash Map from the DB
+	 * @throws Exception in case of error while loading.
+	 */
     public void loadRequests(ArrayList<HashMap<String, Object>> rs) throws Exception {
     	examResArr = new ArrayList<ExamResult>();
     	if(rs == null) {
@@ -60,17 +69,20 @@ public class MyExamController extends AbstractController implements Initializabl
 			}
 		}
 	}
+    /**
+	 * send to the server message for activate the relevant query and activate initTableView
+	 */
     public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Student");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExams");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(""+((Student) ConnectionServer.user).getId());
-		msg.put("studentId",arr3);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Student");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExams");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(""+((Student) ConnectionServer.user).getId());
+		msg.put("studentId",parameter);
 		sendMsgToServer(msg);
 		try {
 			this.loadRequests(ConnectionServer.rs);
@@ -79,15 +91,17 @@ public class MyExamController extends AbstractController implements Initializabl
 		}
 		initTableView(examResArr);
 	}
+    /**
+	 * Initialize the Table with the provided ArrayList of ExamResult
+	 * @param arr ArrayList of ExamResult to display.
+	 */
     private void initTableView(ArrayList<ExamResult> arr) {
 		ObservableList<ExamResult> list = FXCollections.observableArrayList(arr);
-		PropertyValueFactory<ExamResult, Integer> pvfExamId = new PropertyValueFactory<ExamResult, Integer>("examId");
 		PropertyValueFactory<ExamResult, String> pvfExamName = new PropertyValueFactory<ExamResult, String>("examName");
 		PropertyValueFactory<ExamResult, String> pvfStatus = new PropertyValueFactory<ExamResult, String>("status");
 		PropertyValueFactory<ExamResult, Integer> pvfCourseId = new PropertyValueFactory<ExamResult, Integer>("courseId");
 		PropertyValueFactory<ExamResult, String> pvfSubject = new PropertyValueFactory<ExamResult, String>("subject");
 		PropertyValueFactory<ExamResult, Integer> pvfGrade = new PropertyValueFactory<ExamResult, Integer>("grade");
-		examId.setCellValueFactory(pvfExamId);
 		examName.setCellValueFactory(pvfExamName);
 		status.setCellValueFactory(pvfStatus);
 		courseId.setCellValueFactory(pvfCourseId);
@@ -96,12 +110,11 @@ public class MyExamController extends AbstractController implements Initializabl
 		ExamTable.setItems(list);
 		ExamTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
+    /**
+	 * Initialize the table
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();				
 	}
-    
-    
-    
-
 }

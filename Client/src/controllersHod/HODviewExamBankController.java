@@ -1,10 +1,8 @@
 package controllersHod;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.Exam;
 import entities.ExamBankView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import thirdPart.JsonHandler;
 
 /**
  * Controller class for the HOD 

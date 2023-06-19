@@ -223,7 +223,7 @@ public class SqlQueries {
 	}
 
 	public static String getAllRequestsInDepartmentOfStatus(String department,String status) {
-		String query = "SELECT dr.requestId, dr.examId,dr.lecturerId,dr.courseId,dr.subject,dr.oldDuration,dr.newDuration,dr.status,dr.reasons FROM durationrequest as dr, lecturer as lec  WHERE lec.departmentId =" + department +" AND lec.userId = dr.lecturerId AND dr.status = '" + status +"';";
+		String query = "SELECT dr.requestId, dr.examId,dr.lecturerId,dr.courseId,dr.subject,dr.oldDuration,dr.newDuration,dr.status,dr.reasons,e.examName FROM exam as e ,durationrequest as dr, lecturer as lec  WHERE lec.departmentId =" + department +" AND lec.userId = dr.lecturerId AND e.examId = dr.examId AND dr.status = '" + status +"';";
 		return query;
 	}
 
