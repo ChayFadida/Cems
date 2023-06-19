@@ -108,7 +108,7 @@ public class ServerController  {
 //		}
 		HashMap<String, String> db_info_temp = new HashMap<>() {{
 			put("ip","localhost");
-			put("password", "EyalMySql");
+			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
 			put("port", "8000");
