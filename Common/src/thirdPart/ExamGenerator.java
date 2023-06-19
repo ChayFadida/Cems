@@ -13,7 +13,16 @@ import entities.*;
 public class ExamGenerator {
 
     private final int maxQuestionsPerPage = 4;
-
+	/**
+	 * Generates an exam document based on the provided questions and saves it to the 
+	 * *
+	 * @param questions the list of questions for the exam
+	 *
+	 * @param filePath the file path to save the exam document
+	 * @param courseId the ID of the course for the exam
+	 * @param duration the duration of the exam in minutes
+	
+	 */
     @SuppressWarnings("resource")
 	public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
         try {

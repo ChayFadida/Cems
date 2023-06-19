@@ -17,6 +17,11 @@ public class ClientApplication extends Application {
 		connectClientScreenController.start(primaryStage);
 	}
 	
+
+	/**
+	 * loads main.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

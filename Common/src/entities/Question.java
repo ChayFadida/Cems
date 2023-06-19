@@ -51,35 +51,59 @@ public class Question implements Serializable{
 		answersHM = JsonHandler.convertJsonToHashMap(answers, String.class, String.class);
 		//input answers data into hashmap needs to be implemented!
 	}
+    /**
 
+    Returns the HashMap containing the courses.
+    @return the courses HashMap
+    */
     public HashMap<String, String> getCoursesHM() {
 		return coursesHM;
 	}
+    /**
 
+    Sets the HashMap containing the courses.
+    @param coursesHM the courses HashMap to set
+    */
 	public void setCoursesHM(HashMap<String, String> coursesHM) {
 		this.coursesHM = coursesHM;
 	}
+    /**
 
-  public String getNotes() {
+    Returns the notes.
+    @return the notes
+    */
+	public String getNotes() {
 		return notes;
 	}
 
-
+    /**
+    *Sets the notes.
+    @param notes the notes to set
+    */
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 
-
+    /**
+    *Returns the HashMap containing the answers.
+    *@return the answers HashMap
+    */
 	public HashMap<String, String> getAnswersHM() {
 		return answersHM;
 	}
 
-
+	/**
+    *Sets the HashMap containing the answers.
+    *@param answersHM the answers HashMap to set
+    */
 	public void setAnswersHM(HashMap<String, String> answersHM) {
 		this.answersHM = answersHM;
 	}
 
-
+    /**
+    *Sets the answers.
+    *@param answers the answers to set
+    */
 	public void setAnswers(String answers) {
 		this.answers = answers;
 	}

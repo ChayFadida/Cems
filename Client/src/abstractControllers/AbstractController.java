@@ -9,7 +9,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * Controller class.
+ * This class that all other controllers inherit from.
+ * Throw this class each controller can send message to the server, can get the unique connection. 
+ */
 public abstract class AbstractController {	
 	static ConnectionServer connectionServer;
 	static HashMap<Integer, String> courseid_courseName = new HashMap<Integer, String>();
@@ -28,7 +32,13 @@ public abstract class AbstractController {
 			e.printStackTrace();
 		}
 	}
-	
+  
+	/**
+	 * This method send message to server in order to logout from the server.
+	 * @param user the user that is logged in.
+	 * @return return true if the logout was succesfull, false if not.
+	 * @throws Exception if an error was occured.
+	 */
 	public boolean logoutRequest(User user) throws Exception {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -57,11 +67,18 @@ public abstract class AbstractController {
 		}
 		return false;
 	}
-	
+  
+	/**
+	 * this method sets the stage as primary stage. 
+	 * @param primaryStage
+	 */
 	public void setPrimaryStage(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-	
+	/**
+	 * This class sets xOffset and yOffset accourding to the real position in the screen. 
+	 * @param <T> press event. 
+	 */
 	public class PressHandler<T extends Event> implements EventHandler<T>{
 		public PressHandler() {
 			super();
@@ -73,7 +90,12 @@ public abstract class AbstractController {
 			
 		}
 	}
-	
+
+  /**
+	 * 
+	 * This class sets xOffset and yOffset when dragging the screen. 
+	 * @param <T> press event. 
+	 */
 	public class DragHandler<T extends Event> implements EventHandler<T>{
 		@Override
 		public void handle(T event) {
@@ -81,7 +103,10 @@ public abstract class AbstractController {
         	primaryStage.setY(((MouseEvent) event).getScreenY() - yOffset);
 		}
 	}
-	
+  
+	/**
+	 * this method loads the courses from the db.
+	 */
 	public void initializeCourses(){
 		ArrayList<HashMap<String,Object>> tmp = new ArrayList<>();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
@@ -102,7 +127,11 @@ public abstract class AbstractController {
 		for (HashMap<String,Object> obj : tmp)
 			courseid_courseName.put((int)obj.get("courseID"), (String) obj.get("courseName"));
 	}
-	
+
+	/**
+	 * getter for the course id and course name.
+	 * @return hash map of course id and course name.
+	 */
 	public HashMap<Integer, String> getCourseid_courseName() {
 		return courseid_courseName;
 	}
