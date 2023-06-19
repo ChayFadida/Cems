@@ -23,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -120,7 +121,11 @@ public class CreateNewExamController extends AbstractController implements Initi
     	String name = txtName.getText();
     	boolean flag=false;
     	
-    	if(qArr.isEmpty() || qArr.equals("")) {
+    	if(name.equals("")) {
+			lblErrorName.setText("You must enter an exam name");
+    		flag=true;
+    	}
+    	if(qArr == null || qArr.isEmpty()) {
     		lblError.setText("You must select atleast one question");
     		flag=true;
     	}
@@ -265,6 +270,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 
 	private void resetAll() {
 		lblError.setText(" ");
+		lblErrorName.setText(" ");
 		lblErrorCode.setText(" ");
 		lblErrorDuration.setText(" ");
 		lblErrorSelected.setText(" ");

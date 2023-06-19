@@ -95,7 +95,7 @@ public class LecturerTaskManager implements TaskHandler {
 				case "getQuestionsInExam":
 					return getQuestionsInExam(hm.get("param"));
 				case "getExamResultChosenAnswers":
-					return getExamResultChosenAnswers((String) hm.get("examId").get(0));
+					return getExamResultChosenAnswers(hm.get("param"));
 				case "getExamQuestions":
 					return getExamQuestions((String) hm.get("examId").get(0));
 				case "getRightAnswerForQuestion":
@@ -140,9 +140,9 @@ public class LecturerTaskManager implements TaskHandler {
 	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getRightAnswerAndDetailsForQuestionById(questionId));
 	    return rs;
 	}
-	private ArrayList<HashMap<String, Object>> getExamResultChosenAnswers(String id) throws SQLException {
+	private ArrayList<HashMap<String, Object>> getExamResultChosenAnswers(ArrayList<Object> param) throws SQLException {
 	    DBController dbController = DBController.getInstance();
-	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamResultChosenAnswersByExamId(id));
+	    ArrayList<HashMap<String, Object>> rs = dbController.executeQueries(SqlQueries.getExamResultChosenAnswersByExamId(param));
 	    return rs;
 	}
 

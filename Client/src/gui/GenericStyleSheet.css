@@ -169,3 +169,23 @@
 .file-upload-pane.dragged {
     -fx-background-color: #F2F2F2;
 }
+/*change the color of the barchart */
+.default-color0.chart-bar { -fx-bar-fill: #E6E6FA
+}
+.default-color1.chart-bar { -fx-bar-fill: #9370DB
+}
+.default-color2.chart-bar { -fx-bar-fill: #9932CC
+}
+.default-color3.chart-bar { -fx-bar-fill: #8A2BE2
+}
+.default-color4.chart-bar { -fx-bar-fill: #800080
+}
+.default-color5.chart-bar { -fx-bar-fill: #4B0082
+}
+.default-color6.chart-bar { -fx-bar-fill: #6A5ACD
+}
+.default-color7.chart-bar { -fx-bar-fill: #483D8B
+}
+.default-color8.chart-bar { -fx-bar-fill: #191970
+}
+

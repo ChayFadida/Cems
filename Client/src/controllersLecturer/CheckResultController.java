@@ -126,7 +126,6 @@ public class CheckResultController extends AbstractController implements Initial
 		subject.setCellValueFactory(pvfSubject);
 		grade.setCellValueFactory(pvfGrade);
 		resultTable.setItems(list);
-		resultTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -134,19 +133,23 @@ public class CheckResultController extends AbstractController implements Initial
 	}
     @FXML
     void getViewBtn(ActionEvent event) {
-    	ArrayList<ExamResult> selectedId = new ArrayList<>();
-		selectedId.addAll(resultTable.getSelectionModel().getSelectedItems());
-		if(selectedId.isEmpty()) {
+    	ExamResult selectedExamResult = resultTable.getSelectionModel().getSelectedItem();
+		if(selectedExamResult == null) {
 			lblNonSelected.setText("No entry was selected!");
+			return;
+		}
+		ArrayList<Integer> studentAnswers = getStdAnswers(selectedExamResult.getExamId(), selectedExamResult.getStudentId());
+		if(studentAnswers == null) {
+			System.out.println("The student dont have answers");
+			return;
 		}
 		else {
 			lblNonSelected.setText("");
-				ArrayList<Integer> studentAnswers = getStdAnswers(""+selectedId.get(0).getExamId());
-				ArrayList<Integer> questionsInExam = getExamQuestions(""+selectedId.get(0).getExamId());
+				ArrayList<Integer> questionsInExam = getExamQuestions(selectedExamResult.getExamId() + "");
 				ArrayList<String> rightAnswers = new ArrayList<String>();
 				ArrayList<String> questionDetails = new ArrayList<String>();
 				for(int i = 0 ; i < questionsInExam.size() ; i++) {
-					rightAnswers.add(getRightAnswerForQuestion(""+questionsInExam.get(i)));
+					rightAnswers.add(getRightAnswerForQuestion(questionsInExam.get(i) + ""));
 					questionDetails.add((String)ConnectionServer.rs.get(0).get("details"));
 				}
 				//build exam string here.
@@ -210,21 +213,32 @@ public class CheckResultController extends AbstractController implements Initial
 		msg.put("task",arr1);
 		sendMsgToServer(msg);
     	String questionsColumn = (String)ConnectionServer.rs.get(0).get("questions");
-		HashMap<String,ArrayList<Integer>> stdAnswers = JsonHandler.convertJsonToHashMap(questionsColumn, String.class, ArrayList.class ,Integer.class);
-		return stdAnswers.get("questions");
+		HashMap<String,ArrayList<Integer>> examQuestions = JsonHandler.convertJsonToHashMap(questionsColumn, String.class, ArrayList.class ,Integer.class);
+		return examQuestions.get("questions");
     }
-    private ArrayList<Integer> getStdAnswers(String examId){
+    
+    private ArrayList<Integer> getStdAnswers(Integer examId, Integer StdId){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add("Lecturer");
 		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId);
-		msg.put("examId",arr2);
 		ArrayList<String> arr1 = new ArrayList<>();
 		arr1.add("getExamResultChosenAnswers");
 		msg.put("task",arr1);
+		ArrayList<String> arr2 = new ArrayList<>();
+		arr2.add(examId + "");
+		arr2.add(StdId + "");
+		msg.put("param",arr2);
 		sendMsgToServer(msg);
+		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		if(rs == null) {
+			System.out.println("rs in null");
+			return null;
+		}
+		if(rs.isEmpty()) {
+			System.out.println("empty table from DB");
+			return new ArrayList<Integer>();
+		}
     	String answersChosen = (String)ConnectionServer.rs.get(0).get("answersChosen");
 		HashMap<String,ArrayList<Integer>> stdAnswers = JsonHandler.convertJsonToHashMap(answersChosen, String.class, ArrayList.class, Integer.class);
 		return stdAnswers.get("answers");

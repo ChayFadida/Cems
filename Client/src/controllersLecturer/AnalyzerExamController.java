@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import entities.Exam;
+import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
 import javafx.event.ActionEvent;
@@ -85,16 +86,20 @@ public class AnalyzerExamController extends AbstractController{
     
     private void setMedian() {
         Collections.sort(gradesArr);
+
         int length = gradesArr.size();
         if (length % 2 == 0) {
             int middleIndex1 = length / 2 - 1;
             int middleIndex2 = length / 2;
-            ExamMedianTxt.setText(String.valueOf((gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0));
+            double median = (gradesArr.get(middleIndex1) + gradesArr.get(middleIndex2)) / 2.0;
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.0");
+            String formattedMedian = decimalFormat.format(median);
+            ExamMedianTxt.setText(formattedMedian);
         } else {
             int middleIndex = length / 2;
             ExamMedianTxt.setText(String.valueOf(gradesArr.get(middleIndex)));
         }
-        
     }
     
     private void setAvg(ArrayList<HashMap<String, Object>> rs) {
@@ -115,7 +120,7 @@ public class AnalyzerExamController extends AbstractController{
         }
         if (count > 0) {
             double average = total / count;
-            ExamAvaregeTxt.setText(String.format("%.2f", average));
+            ExamAvaregeTxt.setText(String.format("%.1f", average));
         } else {
             System.out.println("no grades");
         }
