@@ -36,17 +36,17 @@ public class HODviewAllLecturersTableController extends AbstractController imple
     private TableView<Lecturer> AllLecturersTable;
     
     /**
-     * Loads ArrayList of lecturers according to the rs = result set. 
+     * Loads ArrayList of lecturers according to the result set. 
      * @param rs the data about the lecturers from the query.
      * @throws Exception in case there is an error while loads.
      */
-    public void loadLecturers(ArrayList<HashMap<String, Object>> rs) throws Exception {
+    public void loadLecturers(ArrayList<HashMap<String, Object>> AllLecurers) throws Exception {
     	lecArr = new ArrayList<Lecturer>();
-    	if(rs == null) {
-			System.out.println("rs is null");
+    	if(AllLecurers == null) {
+			System.out.println("No lecturers found");
 		}
-		for (int i = 0; i < rs.size(); i++) {
-		    lecArr.add(new Lecturer(rs.get(i),null,null));
+		for (int i = 0; i < AllLecurers.size(); i++) {
+		    lecArr.add(new Lecturer(AllLecurers.get(i),null,null));
 		}
 	}
     
@@ -56,18 +56,18 @@ public class HODviewAllLecturersTableController extends AbstractController imple
     @FXML
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add("Lecturer");
-		msg.put("position",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllbyPosition");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(""+((Hod)ConnectionServer.user).getDepartment());
-		msg.put("department",arr3);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> position = new ArrayList<>();
+		position.add("Lecturer");
+		msg.put("position",position);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getAllbyPosition");
+		msg.put("task",query);
+		ArrayList<String> department = new ArrayList<>();
+		department.add(""+((Hod)ConnectionServer.user).getDepartment());
+		msg.put("department",department);
 		sendMsgToServer(msg);
 		try {
 			this.loadLecturers(ConnectionServer.rs);
@@ -81,8 +81,8 @@ public class HODviewAllLecturersTableController extends AbstractController imple
      * Initialize the table and sets the columns with the wanted data
      * @param arr
      */
-	private void initTableView(ArrayList<Lecturer> arr) {
-		ObservableList<Lecturer> list = FXCollections.observableArrayList(arr);
+	private void initTableView(ArrayList<Lecturer> LecturerArr) {
+		ObservableList<Lecturer> Lecturerlist = FXCollections.observableArrayList(LecturerArr);
 		PropertyValueFactory<Lecturer, Integer> pvfId = new PropertyValueFactory<Lecturer, Integer>("id");
 		PropertyValueFactory<Lecturer, String> pvfFirstName = new PropertyValueFactory<Lecturer, String>("firstName");
 		PropertyValueFactory<Lecturer, String> pvfLastName = new PropertyValueFactory<Lecturer, String>("lastName");
@@ -91,7 +91,7 @@ public class HODviewAllLecturersTableController extends AbstractController imple
 		firstName.setCellValueFactory(pvfFirstName);
 		lastName.setCellValueFactory(pvfLastName);
 		email.setCellValueFactory(pvfEmail);
-		AllLecturersTable.setItems(list);
+		AllLecturersTable.setItems(Lecturerlist);
 	}
 	
 	/**

@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.ExamResults;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,13 +19,10 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -48,7 +43,7 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
 	
 
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private TextField CourseAvaregeTxt;
@@ -159,16 +154,16 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
     
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
-	 * @param rs result set of data from the DB. 
+	 * @param StatisticResultSet result set of data from the DB. 
 	 */
-    private void loadStats(ArrayList<HashMap<String, Object>> rs) {
-        if (rs.isEmpty()) {
-        	System.out.println("rs is null");
+    private void loadStats(ArrayList<HashMap<String, Object>> StatisticResultSet) {
+        if (StatisticResultSet.isEmpty()) {
+        	System.out.println("Could not get statistic data.");
             return;
         }
         CourseBarChart.getData().clear();
-        setAvg(rs);
-        setName(rs.get(0));
+        setAvg(StatisticResultSet);
+        setName(StatisticResultSet.get(0));
         setMedian();
         setBarChart();
         gradesArr.clear();
@@ -179,12 +174,12 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
     
     /**
      * Function that calculate the average of the grades.
-     * @param rs result set of data from the DB.
+     * @param StatisticResultSet result set of data from the DB.
      */
-    private void setAvg(ArrayList<HashMap<String, Object>> rs) {
+    private void setAvg(ArrayList<HashMap<String, Object>> StatisticResultSet) {
     	double total = 0;
         int count = 0;
-        for (HashMap<String, Object> row : rs) {
+        for (HashMap<String, Object> row : StatisticResultSet) {
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
                 Object avgObj = row.get("avgGrade");
@@ -203,6 +198,7 @@ public class HODviewStatisticsByCourseController extends AbstractController impl
             double average = total / count;
             CourseAvaregeTxt.setText(String.format("%.1f", average));
         } else {
+        		CourseAvaregeTxt.setText("No grades found");
             	System.out.println("No grades");
         }
     }

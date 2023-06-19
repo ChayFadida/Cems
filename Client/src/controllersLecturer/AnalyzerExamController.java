@@ -26,7 +26,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * Controller class for the lecturer.
+ * By choosing an exam the lecturer can get the statistic report about the chosen exam.
+ * Extends AbstractController
+ *
+ */
 public class AnalyzerExamController extends AbstractController{
 	
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
@@ -36,11 +41,18 @@ public class AnalyzerExamController extends AbstractController{
 	
 	private Exam exam;
 	
-	
+	/**
+	 * get the chosen exam
+	 * @return current exam
+	 */
     public Exam getExam() {
 		return exam;
 	}
 
+    /**
+     * sets the exam
+     * @param exam to set
+     */
 	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
@@ -72,18 +84,29 @@ public class AnalyzerExamController extends AbstractController{
     @FXML
     private Button MinimizeBtn;
     
+    /**
+     * By activate this event the program will close current window.
+     * @param event Action event 
+     */
     @FXML
     void Close(ActionEvent event) {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
+    
+    /**
+     * By activate this event the program will minimze the current window.
+     * @param event Action event.
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
     
+    /**
+     * calculate and sets the median in the ExamMedianTxt text box.
+     */
     private void setMedian() {
         Collections.sort(gradesArr);
 
@@ -102,11 +125,14 @@ public class AnalyzerExamController extends AbstractController{
         }
     }
     
-    private void setAvg(ArrayList<HashMap<String, Object>> rs) {
+    /**
+     * Calculate and sets the average in the ExamAvaregeTxt
+     * @param GradesResultSet result set from the DB.
+     */
+    private void setAvg(ArrayList<HashMap<String, Object>> GradesResultSet) {
     	double total = 0;
         int count = 0;
-        for (HashMap<String, Object> row : rs) {
-            // Assuming the grade is stored in a key called "grade"
+        for (HashMap<String, Object> row : GradesResultSet) {
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
                 if (gradeObj instanceof Integer) {
@@ -126,19 +152,26 @@ public class AnalyzerExamController extends AbstractController{
         }
     }
     
-    private void loadAverage(ArrayList<HashMap<String, Object>> rs) {
-        if (rs.isEmpty()) {
-        	System.out.println("rs is null");
+    /**
+     * Loads and activate all other methods.
+     * @param GradesResultSet result set from the DB.
+     */
+    private void loadStats(ArrayList<HashMap<String, Object>> GradesResultSet) {
+        if (GradesResultSet.isEmpty()) {
+        	System.out.println("could not load grades.");
             return;
         }
         ExamBarChart.getData().clear();
-        setAvg(rs);
+        setAvg(GradesResultSet);
         setMedian();
         setBarChart();
         gradesArr.clear();
         examGrade_StudentId.clear();
     }
     
+    /**
+     * Sets the bar chart with the relevant data.
+     */
     private void setBarChart() {
     	ExamBarChart.setTitle("Student's grades");
 		XYChart.Series<String,Number> dataSeries = new XYChart.Series<>();
@@ -148,28 +181,33 @@ public class AnalyzerExamController extends AbstractController{
 		ExamBarChart.getData().add(dataSeries);
     }
     
+    /**
+     * Retrieves the statistics for the exam
+     */
     void showStats() {
     	String ExamId = ""+exam.getExamId();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getInfoForExamStats");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(ExamId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getInfoForExamStats");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(ExamId);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		try {
-			this.loadAverage(ConnectionServer.rs);
+			this.loadStats(ConnectionServer.rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
-   
-
-	
+    
+    /**
+     * Loads the statistics of the exam 
+     * @param e the exam to load.
+     */
 	void LoadExamStats(Exam e) {
 		ExamNumberTxt.setText(e.getExamId() + "");
 		ExamNumberTxt.setEditable(false);

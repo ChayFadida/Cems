@@ -1,5 +1,6 @@
 package server;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+
 import DataBase.DBController;
 
  
@@ -23,6 +27,8 @@ public class ServerController  {
 	DBController dbController = DBController.getInstance();
 	private double xOffset = 0; 
 	private double yOffset = 0;
+	private ClientHandler clientHandler;
+
 
     @FXML
     private Button btnConnect;
@@ -105,13 +111,13 @@ public class ServerController  {
 			put("password", "Aa123456");
 			put("username", "root");
 			put("scheme", "sys");
-			put("port", "5555");
+			put("port", "8000");
 		}};
 
 //		startServer(db_info);
 		startServer(db_info_temp);
     	if(lblError.getText().length() == 0) {
-    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+//    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		Stage primaryStage = new Stage();
     		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
     		try {
@@ -147,8 +153,8 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb(this);
-		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer(this);
-		
+		clientHandler = ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port")));
+		clientHandler.runServer(this);
 	}
 	
 	/**
@@ -179,5 +185,4 @@ public class ServerController  {
             }
         });
 	}
-	
 }

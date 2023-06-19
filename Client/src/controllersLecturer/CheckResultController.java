@@ -36,6 +36,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import thirdPart.JsonHandler;
 
+/**
+ * Controller class for the lecturer.
+ * In this controller the lecturer can check the automatic results of the exams and approve them or change the result.
+ */
 public class CheckResultController extends AbstractController implements Initializable{
 	private ArrayList<ExamResult> examResArr ;
     @FXML
@@ -78,33 +82,42 @@ public class CheckResultController extends AbstractController implements Initial
     @FXML
     private TextField txtNotes;
 
-    public void loadRequests(ArrayList<HashMap<String, Object>> rs) throws Exception {
+    /**
+     * Loads from the DB the exam results.
+     * @param ExamResultSet data from the server with the exams results.
+     * @throws Exception
+     */
+    public void loadRequests(ArrayList<HashMap<String, Object>> ExamResultSet) throws Exception {
     	examResArr = new ArrayList<ExamResult>();
-    	if(rs == null) {
-			System.out.println("rs is null");
+    	if(ExamResultSet == null) {
+			System.out.println("could not load exams.");
 		}
-		for (int i = 0; i < rs.size(); i++) {
-			int examId = (int)rs.get(i).get("examId");
-			int courseId = (int)rs.get(i).get("courseId");
-			int studentId = (int)rs.get(i).get("studentId");
-			String subject = (String)rs.get(i).get("subject");
-			String examName = (String)rs.get(i).get("examName");
-			String status = (String)rs.get(i).get("status");
-			Integer grade = (Integer)rs.get(i).get("grade");
+		for (int i = 0; i < ExamResultSet.size(); i++) {
+			int examId = (int)ExamResultSet.get(i).get("examId");
+			int courseId = (int)ExamResultSet.get(i).get("courseId");
+			int studentId = (int)ExamResultSet.get(i).get("studentId");
+			String subject = (String)ExamResultSet.get(i).get("subject");
+			String examName = (String)ExamResultSet.get(i).get("examName");
+			String status = (String)ExamResultSet.get(i).get("status");
+			Integer grade = (Integer)ExamResultSet.get(i).get("grade");
 			examResArr.add(new ExamResult(examId,courseId,studentId,grade,examName,status,subject));
 		}
 	}
+    
+    /**
+     * Show the relevant exams on a table.
+     */
     public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamsResults");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(""+((Lecturer) ConnectionServer.user).getId());
-		msg.put("lecturerId",arr3);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamsResults");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(""+((Lecturer) ConnectionServer.user).getId());
+		msg.put("lecturerId",parameter);
 		sendMsgToServer(msg);
 		try {
 			this.loadRequests(ConnectionServer.rs);
@@ -113,6 +126,11 @@ public class CheckResultController extends AbstractController implements Initial
 		}
 		initTableView(examResArr);
 	}
+    
+    /**
+     * Initialize the exam table with the data from the DB.
+     * @param arr ArrayList of exams to show in the table.
+     */
     private void initTableView(ArrayList<ExamResult> arr) {
 		ObservableList<ExamResult> list = FXCollections.observableArrayList(arr);
 		PropertyValueFactory<ExamResult, Integer> pvfStudentId = new PropertyValueFactory<ExamResult, Integer>("studentId");
@@ -127,10 +145,19 @@ public class CheckResultController extends AbstractController implements Initial
 		grade.setCellValueFactory(pvfGrade);
 		resultTable.setItems(list);
 	}
+    
+    /**
+     * Initialize the table.
+     */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();				
 	}
+	
+	/**
+	 * By activate, the lecturer can view the exam after pressing the specific exam.
+	 * @param event
+	 */
     @FXML
     void getViewBtn(ActionEvent event) {
     	ExamResult selectedExamResult = resultTable.getSelectionModel().getSelectedItem();
@@ -168,7 +195,7 @@ public class CheckResultController extends AbstractController implements Initial
 						Parent root = loader.load(getClass().getResource("/guiLecturer/viewExamResult.fxml").openStream());
 						Scene scene = new Scene(root);
 						LecturerViewExamResultController lecturerViewExamResultController=loader.getController();
-						lecturerViewExamResultController.viewReason(examString.toString());
+						lecturerViewExamResultController.viewResult(examString.toString());
 						scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 						seconderyStage.initStyle(StageStyle.UNDECORATED);
 						seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -185,38 +212,54 @@ public class CheckResultController extends AbstractController implements Initial
 				System.out.println("view exam successfuly!");
 		}
 	}
+    
+    /**
+     * By insert the question id, gets the right answer to the question.
+     * @param questionId question id.
+     * @return question id.
+     */
     private String getRightAnswerForQuestion(String questionId){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(questionId);
-		msg.put("questionId",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getRightAnswerForQuestion");
-		msg.put("task",arr1);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(questionId);
+		msg.put("questionId",parameter);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getRightAnswerForQuestion");
+		msg.put("task",query);
 		sendMsgToServer(msg);
     	return (String)ConnectionServer.rs.get(0).get("rightAnswer");
     }
     
+    /**
+     * by insert the exam id, gets the exam questions.
+     * @param examId exam id.
+     * @return the exam id.
+     */
     private ArrayList<Integer> getExamQuestions(String examId){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(examId);
-		msg.put("examId",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getExamQuestions");
-		msg.put("task",arr1);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(examId);
+		msg.put("examId",parameter);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getExamQuestions");
+		msg.put("task",query);
 		sendMsgToServer(msg);
     	String questionsColumn = (String)ConnectionServer.rs.get(0).get("questions");
 		HashMap<String,ArrayList<Integer>> examQuestions = JsonHandler.convertJsonToHashMap(questionsColumn, String.class, ArrayList.class ,Integer.class);
 		return examQuestions.get("questions");
     }
     
+    /**
+     * By insert exam id, gets the student answers.
+     * @param examId 
+     * @return student answers
+     */
     private ArrayList<Integer> getStdAnswers(Integer examId, Integer StdId){
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> arr = new ArrayList<>();
@@ -244,27 +287,29 @@ public class CheckResultController extends AbstractController implements Initial
 		return stdAnswers.get("answers");
     }
 
+    /**
+     * By activate the approve button the lecturer approve student results and update the exam grade status to Done.
+     * @param event Action event
+     */
     @FXML
     void getApproveBtn(ActionEvent event) {
-		ArrayList<ExamResult> selectedId = new ArrayList<>();
-		selectedId.addAll(resultTable.getSelectionModel().getSelectedItems());
-		if(selectedId.isEmpty()) {
+		ExamResult selectedId = resultTable.getSelectionModel().getSelectedItem();
+		if(selectedId==null) {
 			lblNonSelected.setText("No entry was selected!");
 		}
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> arr = new ArrayList<>();
-			arr.add("Lecturer");
-			msg.put("client", arr);
-			ArrayList<String> arr1 = new ArrayList<>();
-			arr1.add("updateExamResultStatus");
-			msg.put("task",arr1);
-			ArrayList<String> arr2 = new ArrayList<>();
-			arr2.add(selectedId.get(0).getExamId() + "");
-			arr2.add(selectedId.get(0).getStudentId() + "");
-			msg.put("param",arr2);
-
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("updateExamResultStatus");
+			msg.put("task",query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(selectedId.getExamId() + "");
+			parameter.add(selectedId.getStudentId() + "");
+			msg.put("param", parameter);
 			sendMsgToServer(msg);
 			System.out.println(ConnectionServer.rs);
 			if(ConnectionServer.rs != null) {

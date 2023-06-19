@@ -221,9 +221,6 @@ public class LecturerTaskManager implements TaskHandler {
             		(String)arrayList.get(2), (String)arrayList.get(3), (String)arrayList.get(4), (String)arrayList.get(5),(String)arrayList.get(6),
             		(String)arrayList.get(7), (String)arrayList.get(8), 0, fileBytes };
             parameterValuesList.add(valuesRow);
-//		String insert = "INSERT INTO exam (examName, courseId, subject, duration,lecturerNote, studentNote, composerId, code, examNum, bankId, isLocked)\r\n" +
-//		"VALUES ('" + param.get(9)+ "','" + param.get(0)+ "','" + param.get(1)+ "', '"+param.get(2)+"', '" +  param.get(3)+ "','" + param.get(4)+ "', '"+param.get(5)+"', '"
-//				+param.get(6)+"', '"+param.get(7)+"','"+param.get(8)+"', '0');";
             ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertExamToDB(), parameterValuesList);
             Path fileToDelete = Paths.get(filePath);
             Files.delete(fileToDelete);

@@ -21,9 +21,6 @@ import client.ConnectionServer;
 public class ConnectClientScreenController extends AbstractController{
 	
     @FXML
-    private Button btnConnectWithApp;
-    
-    @FXML
     private Button btnConnect;
 
     @FXML
@@ -39,13 +36,6 @@ public class ConnectClientScreenController extends AbstractController{
     private TextField txtServerIP;
     @FXML
     private TextField txtPort;
-    
-    
-    
-    @FXML
-    void getConnectWithApp(ActionEvent event) {
-
-    }
 
     private Label lblError;
     /**

@@ -7,11 +7,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,9 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -38,8 +33,6 @@ import javafx.stage.StageStyle;
  * Implements Initializable.
  */
 public class HODviewStatisticsByLecturerController extends AbstractController implements Initializable {
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
 	private HashMap<Integer, String> examId_ExamName = new HashMap<>();
 	private HashMap<Double, String> examAvg_ExamName = new HashMap<>();
@@ -48,7 +41,7 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     NumberAxis yAxis = new NumberAxis();
 
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private TextField LecturerAvaregeTxt;
@@ -138,16 +131,16 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
     
 	/**
 	 * Function that loads the statistic and insert for the text field the correct data.
-	 * @param rs result set of data from the DB. 
+	 * @param StatisticResultSet result set of data from the DB. 
 	 */
-    private void loadStats(ArrayList<HashMap<String, Object>> rs) {
-        if (rs.isEmpty()) {
-        	System.out.println("rs is null");
+    private void loadStats(ArrayList<HashMap<String, Object>> StatisticResultSet) {
+        if (StatisticResultSet.isEmpty()) {
+        	System.out.println("Could not get statistic data.");
             return;
         }
         LecturerBarChart.getData().clear();
-        setAvg(rs);
-        setName(rs.get(0));
+        setAvg(StatisticResultSet);
+        setName(StatisticResultSet.get(0));
         setMedian();
         setBarChart();
         gradesArr.clear();
@@ -160,10 +153,10 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
      * Function that calculate the average of the grades.
      * @param rs result set of data from the DB.
      */
-    private void setAvg(ArrayList<HashMap<String, Object>> rs) {
+    private void setAvg(ArrayList<HashMap<String, Object>> StatisticResultSet) {
     	double total = 0;
         int count = 0;
-        for (HashMap<String, Object> row : rs) {
+        for (HashMap<String, Object> row : StatisticResultSet) {
             if (row.containsKey("grade")) {
                 Object gradeObj = row.get("grade");
                 Object avgObj = row.get("avgGrade");
@@ -182,6 +175,7 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
             double average = total / count;
             LecturerAvaregeTxt.setText(String.format("%.1f", average));
         } else {
+        	LecturerAvaregeTxt.setText("No grades!");
             System.out.println("No grades!");
         }
     }
@@ -231,10 +225,10 @@ public class HODviewStatisticsByLecturerController extends AbstractController im
 	
     /**
      * Sets for the LecturerNameTxt the lecturer first and last name.
-     * @param rs result set of information from the DB. 
+     * @param StatisticResultSet result set of information from the DB. 
      */
-    private void setName(HashMap<String, Object> rs) {
-    	LecturerNameTxt.setText(rs.get("firstName") + " " + rs.get("lastName"));
+    private void setName(HashMap<String, Object> StatisticResultSet) {
+    	LecturerNameTxt.setText(StatisticResultSet.get("firstName") + " " + StatisticResultSet.get("lastName"));
     }
 
     /**

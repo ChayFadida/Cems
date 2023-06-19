@@ -19,7 +19,7 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <BarChart fx:id="CourseBarChart" layoutX="94.0" layoutY="258.0" prefHeight="488.0" prefWidth="613.0">
+      <BarChart fx:id="CourseBarChart" animated="false" layoutX="94.0" layoutY="258.0" prefHeight="488.0" prefWidth="613.0">
          <xAxis>
             <CategoryAxis fx:id="ExamNameRow" side="BOTTOM" />
          </xAxis>
@@ -69,7 +69,7 @@
          </font>
       </Text>
       <TextField fx:id="CourseNameTxt" alignment="CENTER" editable="false" layoutX="309.0" layoutY="145.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="ApplyTemp" layoutX="531.0" layoutY="105.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
-      <Label fx:id="notFoundLbl" layoutX="525.0" layoutY="150.0" prefHeight="16.0" prefWidth="184.0" />
+      <Button fx:id="Apply" layoutX="531.0" layoutY="105.0" mnemonicParsing="false" onAction="#showStats" prefHeight="16.0" prefWidth="91.0" text="Apply" />
+      <Label fx:id="notFoundLbl" layoutX="525.0" layoutY="150.0" prefHeight="65.0" prefWidth="167.0" wrapText="true" />
    </children>
 </AnchorPane>

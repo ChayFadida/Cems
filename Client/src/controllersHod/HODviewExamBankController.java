@@ -1,10 +1,8 @@
 package controllersHod;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
-import entities.Exam;
 import entities.ExamBankView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import thirdPart.JsonHandler;
 
 /**
  * Controller class for the HOD 
@@ -24,11 +21,10 @@ import thirdPart.JsonHandler;
  * Extends AbstractController.
  */
 public class HODviewExamBankController extends AbstractController {
-	private ArrayList<ExamBankView> eArr ;
-	private HODmenuController hODmenuController;
+	private ArrayList<ExamBankView> examArr ;
 
     @FXML
-    private Button ApplyTemp;
+    private Button Apply;
 
     @FXML
     private TableView<ExamBankView> ExamsTable;
@@ -63,36 +59,36 @@ public class HODviewExamBankController extends AbstractController {
     void showTable(ActionEvent event) {
     	String LecturerId = getid();
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getViewExamById");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(LecturerId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getViewExamById");
+		msg.put("task",query);
+		ArrayList<String> parameter = new ArrayList<>();
+		parameter.add(LecturerId);
+		msg.put("param", parameter);
 		sendMsgToServer(msg);
 		try {
 			this.loadExam(ConnectionServer.rs);
-			if(eArr.isEmpty()) {
+			if(examArr.isEmpty()) {
 				notFoundLbl.setText("The ID is not valid or the exam bank is empty");
 				ExamsTable.setItems(null);
 			}else {
 				notFoundLbl.setText("");
-				initTableView(eArr);
+				initTableView(examArr);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		initTableView(eArr);
+		initTableView(examArr);
     }
      /**
       * Initialize the table with the data we need.
       * @param arr ArrayList of exams.
       */
-	private void initTableView(ArrayList<ExamBankView> arr) {
-	   	ObservableList<ExamBankView> list = FXCollections.observableArrayList(arr);
+	private void initTableView(ArrayList<ExamBankView> EXarr) {
+	   	ObservableList<ExamBankView> Examlist = FXCollections.observableArrayList(EXarr);
 			PropertyValueFactory<ExamBankView,String> pvfCourse = new PropertyValueFactory<>("courses");
 			PropertyValueFactory<ExamBankView,Integer> pvfExamId = new PropertyValueFactory<>("examName");
 			PropertyValueFactory<ExamBankView,String> pvfLecturerFirstName = new PropertyValueFactory<>("firstName");
@@ -103,24 +99,23 @@ public class HODviewExamBankController extends AbstractController {
 			clmLecturerFirstName.setCellValueFactory(pvfLecturerFirstName);
 			clmLecturerLastName.setCellValueFactory(pvfLecturerLastName);
 			clmSubject.setCellValueFactory(pvfSubject);
-			ExamsTable.setItems(list);
-		
+			ExamsTable.setItems(Examlist);
 	}
 	
 	/**
 	 * Load the data from the result set.
-	 * @param rs the data from the DB.
+	 * @param QuestionResultSet the data from the DB.
 	 */
-	private void loadExam(ArrayList<HashMap<String, Object>> rs) {
-		eArr= new ArrayList<>();
-		if(rs == null) {
-			System.out.println("rs is null");
+	private void loadExam(ArrayList<HashMap<String, Object>> ExamResultSet) {
+		examArr= new ArrayList<>();
+		if(ExamResultSet == null) {
+			System.out.println("Could not get exams.");
 			return;
 		}
-        for (HashMap<String, Object> tmp : rs) {
-		    eArr.add(new ExamBankView((Integer)tmp.get("examId"),
-		    		(String)tmp.get("firstName"),(String)tmp.get("lastName"),
-		    		(String)tmp.get("subject"), (String)tmp.get("courseName"), (String)tmp.get("examName")));
+        for (HashMap<String, Object> tmpHashMap : ExamResultSet) {
+        	examArr.add(new ExamBankView((Integer)tmpHashMap.get("examId"),
+		    		(String)tmpHashMap.get("firstName"),(String)tmpHashMap.get("lastName"),
+		    		(String)tmpHashMap.get("subject"), (String)tmpHashMap.get("courseName"), (String)tmpHashMap.get("examName")));
         }
 	
 	}

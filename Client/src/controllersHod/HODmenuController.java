@@ -3,10 +3,7 @@ package controllersHod;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import controllersClient.ChooseProfileController;
@@ -14,28 +11,22 @@ import controllersClient.LogInController;
 import entities.Hod;
 import entities.Super;
 import entities.User;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import ocsf.server.AbstractServer;
 
 /**
  * Controller class for the HOD menu screen.
@@ -74,7 +65,7 @@ public class HODmenuController extends AbstractController implements Initializab
 	/**
 	 * Super object that refers to the Super entity. "Super" is for HOD's that are also lecturers.
 	 */
-	private Super s;
+	private Super HODandLecturer;
 
     @FXML
     private Button LogOutButton;
@@ -118,12 +109,12 @@ public class HODmenuController extends AbstractController implements Initializab
     public HODmenuController() {
     	User user = ConnectionServer.getInstance().getUser();
 		if(user instanceof Super) {
-			this.s = (Super)user;
-			this.hod=s.getHod();
+			this.HODandLecturer = (Super)user;
+			this.hod=HODandLecturer.getHod();
 		}
 		else {
 			this.hod=(Hod) ConnectionServer.getInstance().getUser();
-			this.s=null;
+			this.HODandLecturer=null;
 		}
     }
     /**
@@ -182,7 +173,7 @@ public class HODmenuController extends AbstractController implements Initializab
      */
     @FXML
     void LogOut(MouseEvent event) throws IOException {
-    	if(s!=null) {
+    	if(HODandLecturer!=null) {
 			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			ChooseProfileController chooseProfileController = new ChooseProfileController();	
 			chooseProfileController.start(new Stage());
@@ -193,7 +184,7 @@ public class HODmenuController extends AbstractController implements Initializab
 				int id = hod.getId();
 				if (res) {
 					hod=null;
-					s=null;
+					HODandLecturer=null;
 					((Stage) ((Node)event.getSource()).getScene().getWindow()).close(); //hiding primary window
 					LogInController logInController = new LogInController();	
 					logInController.start(new Stage());
