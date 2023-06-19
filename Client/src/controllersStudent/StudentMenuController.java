@@ -5,15 +5,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import controllersClient.AreYouSureController;
 import controllersClient.LogInController;
 import entities.Student;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,13 +17,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -91,7 +84,6 @@ public class StudentMenuController extends AbstractController implements Initial
         stage.setIconified(true);
     }
     
-    private final Glow buttonPressEffect = new Glow(0.5);
 
    /**
     * This method loads the student menu FXML page.

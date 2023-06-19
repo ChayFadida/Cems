@@ -2,6 +2,7 @@ package entities;
 
 import java.util.HashMap;
 
+@SuppressWarnings("serial")
 public class Hod extends User{
 	private Integer departmentId;
 	

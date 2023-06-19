@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import timer.ExamSessionIF;
 
+@SuppressWarnings("serial")
 public class Student extends User{
 	private Integer department;
 	private ExamSessionIF examSession = null; 

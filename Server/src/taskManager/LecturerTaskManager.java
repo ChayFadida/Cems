@@ -12,8 +12,6 @@ import java.util.Map;
 
 import DataBase.DBController;
 import DataBase.SqlQueries;
-import entities.Question;
-import entities.QuestionForExam;
 import server.ClientHandler;
 import thirdPart.ExamGenerator;
 
@@ -367,6 +365,7 @@ public class LecturerTaskManager implements TaskHandler {
 		return rs;
 	}
 	
+	@SuppressWarnings("unused")
 	public ArrayList<HashMap<String, Object>> LockExamById(ArrayList<Object> arrayList) throws SQLException {
 		DBController dbController = DBController.getInstance();
 		HashMap<String, Object> msgToClient = new HashMap<String, Object>();

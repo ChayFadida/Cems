@@ -88,30 +88,23 @@ public class ServerController  {
 	 *@param event this is a mouse event and this method activate
 	 *when the user click on connect 
 	 * */
+	@SuppressWarnings("serial")
 	@FXML
 	void clickConnectBtn(MouseEvent event) {
 		
-//		HashMap<String, String> db_info = new HashMap<>() {{
-//			put("ip", getIP());
-//			put("password", getPass());
-//			put("username", getHost());
-//			put("scheme", getScheme());
-//			put("port", getPort());
-//		}};
-//		if(db_info.containsValue("")) {
-//			System.out.println("You must enter values");
-//			return;			
-//		}
-		HashMap<String, String> db_info_temp = new HashMap<>() {{
-			put("ip","localhost");
-			put("password", "Aa123456");
-			put("username", "root");
-			put("scheme", "sys");
-			put("port", "8000");
+		HashMap<String, String> db_info = new HashMap<>() {{
+			put("ip", getIP());
+			put("password", getPass());
+			put("username", getHost());
+			put("scheme", getScheme());
+			put("port", getPort());
 		}};
-
-//		startServer(db_info);
-		startServer(db_info_temp);
+		
+		if(db_info.containsValue("")) {
+			System.out.println("You must enter values");
+			return;			
+		}
+		startServer(db_info);
     	if(lblError.getText().length() == 0) {
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		Stage primaryStage = new Stage();

@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimerHandler {
+	@SuppressWarnings("unused")
 	public static String GetCurrentTimestamp() {
 	    LocalDateTime localDateTime = LocalDateTime.now();
 	    ZoneId zoneId = ZoneId.systemDefault();

@@ -3,9 +3,11 @@ package entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@SuppressWarnings("serial")
 public class Super extends User{
 	private Lecturer lecturer;
 	private Hod hod;
+	@SuppressWarnings("unused")
 	private HashMap<String,ArrayList<Integer>> coursesIdHM = new HashMap<>();
 	public Super(HashMap<String, Object> userHM,HashMap<String,ArrayList<Integer>> coursesIdHM,Integer department) {
 		super(userHM);

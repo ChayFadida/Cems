@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import entities.QuestionForVirtualExam;
 import entities.Student;
@@ -37,12 +35,6 @@ import timer.Clock;
 import timer.TimeMode;
 import timer.TimerController;
 import timer.TimerHandler;
-
-import java.time.format.DateTimeFormatter;  
-import java.time.LocalDateTime;    
-import timer.TimeMode;
-import timer.TimerController;
-import timer.Clock;
 
 /**
  * Controller class for the student.

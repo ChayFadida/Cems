@@ -10,10 +10,10 @@ import DataBase.SqlQueries;
 
 public class StudentTaskManager implements TaskHandler{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<Object>> hm = (HashMap<String,ArrayList<Object>>)msg;
-		ArrayList<HashMap<String, Object>> msgBack = new ArrayList<HashMap<String, Object>>();
 		String task = (String) hm.get("task").get(0);
 		try {
 			switch (task) {
@@ -105,6 +105,7 @@ public class StudentTaskManager implements TaskHandler{
 		return dbController.executeQueries(SqlQueries.getExamFileByExamId((Integer) examId));
 	}
 	
+	@SuppressWarnings("unchecked")
 	private ArrayList<HashMap<String, Object>> UploadTestsToDB(Object param){
 		HashMap<String, Object> argument = (HashMap<String, Object>) param;
 		DBController dbController = DBController.getInstance();

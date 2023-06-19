@@ -1,23 +1,18 @@
 package taskManager;
 
 import java.util.ArrayList;
-
-
 import java.util.HashMap;
 import java.util.Map;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import DataBase.DBController;
 import DataBase.SqlQueries;
-import ocsf.server.ConnectionToClient;
 import server.ClientHandler;
 import thirdPart.*;
 
 
 public class HODTaskManager implements TaskHandler{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<HashMap<String, Object>> executeUserCommand(Object msg) {
 		HashMap<String,ArrayList<Object>> hm = (HashMap<String, ArrayList<Object>>)msg;
@@ -123,8 +118,8 @@ public class HODTaskManager implements TaskHandler{
 		return rs;
   }
 	
+	@SuppressWarnings("unused")
 	public ArrayList<HashMap<String, Object>> getViewQuestionsById(ArrayList<Object> arrayList) throws SQLException {
-		ArrayList<HashMap<String, Object>> res = new ArrayList<>();
 		DBController dbController = DBController.getInstance(); 
 		HashMap<String, Object> rs = dbController.executeQueries(SqlQueries.getViewQuestionsById((String) arrayList.get(0))).get(0);
 		String lecturerId = (String) rs.get("firstName");
@@ -135,9 +130,9 @@ public class HODTaskManager implements TaskHandler{
         for (Double d : questionIdArr) { 
         	integerQuestionList.add(d.intValue());
         }
-		ArrayList<HashMap<String, Object>> rs1 = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
+		ArrayList<HashMap<String, Object>> questionList = dbController.executeQueries(SqlQueries.getQuestionByQyestionIdArray(integerQuestionList));
 		
-		return rs1; 
+		return questionList; 
 	} 
 	
 	public ArrayList<HashMap<String, Object>> getViewExamById(ArrayList<Object> arrayList) throws SQLException {

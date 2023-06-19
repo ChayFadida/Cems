@@ -1,5 +1,6 @@
 package entities;
 
+@SuppressWarnings("serial")
 public class QuestionForVirtualExam extends Question{
 	private Integer score;
 	private Integer selection=0;

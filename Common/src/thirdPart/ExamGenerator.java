@@ -4,20 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.io.FileOutputStream;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import entities.*;
-import thirdPart.JsonHandler;
-import java.io.FileInputStream;
 
 public class ExamGenerator {
 
     private final int maxQuestionsPerPage = 4;
 
-    public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
+    @SuppressWarnings("resource")
+	public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
         try {
             XWPFDocument document = new XWPFDocument();
 
@@ -104,32 +102,6 @@ public class ExamGenerator {
             e.printStackTrace();
         }
     }
-	public static void fillIDFieldInWordDoc(String filePath, int id) {
-	    try {
-	        XWPFDocument document = new XWPFDocument(new FileInputStream(filePath));
-
-	        // Get the second paragraph in the document (index 1)
-	        XWPFParagraph courseDurationParagraph = document.getParagraphArray(1);
-
-	        // Create a new run for the ID field
-	        XWPFRun idRun = courseDurationParagraph.createRun();
-	        idRun.setBold(true);
-	        idRun.setFontSize(12);
-	        idRun.setText(" | ID: " + id);
-
-	        FileOutputStream out = new FileOutputStream(new File(filePath));
-	        document.write(out);
-	        out.close();
-
-	        System.out.println("ID field filled successfully in the Word document: " + filePath);
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	public static void main(String[] args) {
-		ExamGenerator.fillIDFieldInWordDoc("/Users/chayfadida/Desktop/try1111.doc", 37);
-	}///Users/chayfadida/Desktop/ffaaddd.doc
-
 }
 
 
