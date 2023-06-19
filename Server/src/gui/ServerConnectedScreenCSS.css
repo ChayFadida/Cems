@@ -52,7 +52,7 @@
 	-fx-fill: #490a50;
 	-fx-font-family : Wingdings 3;
 }
-#btnRefresh, #btnDisconnect, #btnImportData {
+#btnRefresh, #btnDisconnect {
     -fx-background-color: #490a50; /* Purple background color */
     -fx-text-fill: #ffffff;
     -fx-font-size: 15px;
@@ -61,17 +61,17 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Motion effect */
 }
 
-#btnRefresh:hover, #btnDisconnect:hover, #btnImportData:hover {
+#btnRefresh:hover, #btnDisconnect:hover {
     -fx-background-color: #766078; /* Darker color on hover */
     -fx-cursor: hand; /* Change cursor on hover */
 }
 
-#btnRefresh:pressed, #btnDisconnect:pressed, #btnImportData:pressed {
+#btnRefresh:pressed, #btnDisconnect:pressed {
     -fx-background-color: #766078; /* Darker color on press */
     -fx-effect: none; /* Remove motion effect on press */
 }
 
-#btnRefresh:disabled, #btnDisconnect:disabled, #btnImportData:disabled {
+#btnRefresh:disabled, #btnDisconnect:disabled {
     -fx-opacity: 0.5;
     -fx-cursor: not-allowed; /* Change cursor when disabled */
 }

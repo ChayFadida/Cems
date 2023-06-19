@@ -2,6 +2,9 @@ package interfaces;
 
 import java.util.HashMap;
 
+/**
+ * Represents an QuestionIF interface that has all the methods of question.
+ */
 public interface QuestionIF {
 	public String getNotes();
 

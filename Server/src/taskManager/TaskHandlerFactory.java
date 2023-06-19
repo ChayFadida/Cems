@@ -2,7 +2,11 @@ package taskManager;
 
 import java.util.HashMap;
 
+import DataBase.DBController;
 
+/**
+ * class that Represents Task Handler Factory for all users.
+ */
 public class TaskHandlerFactory {
 	private static TaskHandler ManagerHandler = new HODTaskManager();
 	private static TaskHandler LecturerHandler = new LecturerTaskManager();

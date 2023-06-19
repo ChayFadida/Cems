@@ -1,16 +1,18 @@
 package logic;
 
+/**
+ * class that Represents the Client connection.
+ */
 public class Client {
-
-	// Instance variables **********************************************
 
 	private String ip;
 	private String hostName;
 	private ClientConnection status;
 
-	// Constructors ****************************************************
+	
 
 	/**
+	 * Constructs an client object with the specified parameters.
 	 * @param ip
 	 * @param hostName
 	 * @param status
@@ -21,9 +23,9 @@ public class Client {
 		this.status = status;
 	}
 
-	// Instance methods ************************************************
-
+	
 	/**
+	 * Returns the ip of the client.
 	 * @return the ip
 	 */
 	public String getIp() {
@@ -31,7 +33,7 @@ public class Client {
 	}
 
 	/**
-	 * setter
+	 * Sets the ip of the client.
 	 * @param String ip
 	 */
 	public void setIp(String ip) {
@@ -39,6 +41,7 @@ public class Client {
 	}
 
 	/**
+	 * Returns the hostName of the client.
 	 * @return the hostName
 	 */
 	public String getHostName() {
@@ -46,6 +49,7 @@ public class Client {
 	}
 
 	/**
+	 * Sets the host name of the client.
 	 * @param hostName The hostName to set
 	 */
 	public void setHostName(String hostName) {
@@ -53,6 +57,7 @@ public class Client {
 	}
 
 	/**
+	 * Returns the status connection of the client.
 	 * @return the status
 	 */
 	public ClientConnection getStatus() {
@@ -60,6 +65,7 @@ public class Client {
 	}
 
 	/**
+	 * Sets the status of the clients connection.
 	 * @param status The status to set
 	 */
 	public void setStatus(ClientConnection status) {

@@ -12,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.Client;
@@ -27,11 +26,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.text.Text;
 
-
+/**
+ * Controller class for the Connected Screen.
+ */
 public class ConnectedScreenController {
 	ClientHandler clientHandler= ClientHandler.getInstance();
-	
 	private double xOffset = 0; 
 	private double yOffset = 0;
     @FXML
@@ -47,31 +48,24 @@ public class ConnectedScreenController {
 
     @FXML
     private TableView<Client> tblClientConnections;
-    
     @FXML
     private Button btnDisconnect;
 
     @FXML
+    private Label lblServerConnected;
+    
+    @FXML
     private Button btnMinimize;
     
     @FXML
-    private Button btnImportData;
-    
-    @FXML
     private Text lblServer;
-    
-    @FXML
-    private Label lblError;
-    
-    public void setErrorLbl(String error) {
-		lblError.setText(error);
-	}
 
-	/**
-	 * this method stop listening to the port 
-	 * and then disconnect from the database
-	 * @return instance of the dbcontroller
-	 * */
+    /**
+     * Handles the action event when the Disconnect button is clicked.
+     *
+     * @param event the action event
+     * @return an instance of the DBController
+     */
     @FXML
     void getDisconnectBtn(ActionEvent event) {
     	((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -87,6 +81,12 @@ public class ConnectedScreenController {
 		DBController.getInstance().disconnect();
     }
     
+    /**
+     * Starts the Connected Screen stage.
+     *
+     * @param primaryStage the primary stage
+     * @throws Exception if an error occurs during stage start
+     */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerConnectedScreen.fxml"));
 		Scene scene = new Scene(root);
@@ -112,7 +112,12 @@ public class ConnectedScreenController {
         });
 	}    
 	
-	@SuppressWarnings("static-access")
+    /**
+     * Starts the Connected Screen stage.
+     *
+     * @param primaryStage the primary stage
+     * @throws Exception if an error occurs during stage start
+     */
 	@FXML
     void getRefreshBtn(MouseEvent event) throws UnknownHostException {
 			// this list save the details of all connected clients
@@ -139,6 +144,13 @@ public class ConnectedScreenController {
 		setTable(allClients);
 
 		}
+	
+    /**
+     * Sets the table with the provided list of clients.
+     *
+     * @param clients the list of clients to display in the table
+     */
+
 	public void setTable(ArrayList<Client> clients) {
 		ObservableList<Client> clientList = FXCollections.observableArrayList(clients);
 		PropertyValueFactory<Client, String> pvfIp = new PropertyValueFactory<>("ip");
@@ -149,28 +161,11 @@ public class ConnectedScreenController {
 		clmStatus.setCellValueFactory(pvfStatus);
 		tblClientConnections.setItems(clientList);
 	}
+	@FXML
+	void getMinimizeBtn(ActionEvent event) {
+	    Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+	    stage.setIconified(true);
+	}
 	
 
-    @FXML
-    void getMinimizeBtn(ActionEvent event) {
-    	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.setIconified(true);
-    }
-    
-    /**
-	* Performs server back end Utility import.
-	* @param event ActionEvent that triggers the action
-	*/
-	@FXML
-	public void ImportData(ActionEvent event) {
-		String sqlFilePath = "C:/DataImportCems.sql";
-		if(clientHandler != null) {
-			if(clientHandler.importData(sqlFilePath)) 
-				setErrorLbl("Users has been imported successfuly.");
-			else
-				setErrorLbl("Import has failed.");
-		}
-		else
-			setErrorLbl("Import has failed. Before importing users, connect to Database");
-	}
 }

@@ -2,6 +2,9 @@ package entities;
 
 import java.util.HashMap;
 
+/**
+ * Represents a QuestionBank entity.
+ */
 public class QuestionBank {
 	private String name;
 	private Integer lecturerId;

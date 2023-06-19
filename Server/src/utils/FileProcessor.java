@@ -4,10 +4,6 @@ import java.io.Serializable;
 
 public class FileProcessor implements Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private String Description=null;
 	private String fileName=null;	
 	private int size=0;

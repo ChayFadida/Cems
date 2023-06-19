@@ -4,24 +4,19 @@ package server;
 import java.util.ArrayList;
 
 import java.util.HashMap;
-import DataBase.DBController;
+
 import ocsf.server.*;
 import taskManager.*;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 //echo server
 public class ClientHandler extends AbstractServer {
+    private ArrayList<ConnectionToClient> connectedClients;
 	private static ClientHandler instance;
-	@SuppressWarnings("unused")
 	private int port;
 	
-
-	/**
-	 *constructor for default port for server
-	 * */
-	private ClientHandler() {
-		super(8000);
-		this.port = 8000;
-	}
 
 
 	/**
@@ -97,7 +92,6 @@ public class ClientHandler extends AbstractServer {
 	 *@param msg message from the user to executer server command
 	 *@param client client object of who sent the request
 	 * */
-	@SuppressWarnings({ "unchecked", "static-access" })
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		
@@ -129,14 +123,6 @@ public class ClientHandler extends AbstractServer {
 	 */
 	public void sendToAllClients(Object msg) {
 		super.sendToAllClients(msg);
-	}
-	
-	/**
-	* Calls Utility import method.
-	* @return return true of import successed, else return false;
-	*/
-	protected boolean importData(String sqlFilePath) {
-		return DBController.importData(sqlFilePath);
 	}
 	
 }

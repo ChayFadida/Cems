@@ -1,6 +1,8 @@
 package entities;
 
-//this class represents a duration request made for an exam by a lecturer and sent to hod.
+/**
+ * Represents a Request entity.
+ */
 public class Request {
 	int requestId;
 	int examId;
@@ -11,107 +13,200 @@ public class Request {
     int newDuration;
     String status;
     String reasons;
-    String examName;
 
     
-	public Request(int requestId,String examName, int examId, int lecturerId,int courseId,String subject, int oldDuration, int newDuration,String status,String reasons) {
-		this.requestId = requestId;
-		this.examId = examId;
-		this.examName = examName;
-		this.lecturerId = lecturerId;
-		this.courseId = courseId;
-		this.subject = subject;
-		this.oldDuration = oldDuration;
-		this.newDuration = newDuration;
-		this.status = status;
-		this.reasons = reasons;
-	}
+    /**
+     * Constructs a Request object with the specified parameters.
+     *
+     * @param requestId    the ID of the request
+     * @param examId       the ID of the exam
+     * @param lecturerId   the ID of the lecturer
+     * @param courseId     the ID of the course
+     * @param subject      the subject of the request
+     * @param oldDuration  the old duration of the exam
+     * @param newDuration  the new duration of the exam
+     * @param status       the status of the request
+     * @param reasons      the reasons for the request
+     */
+    public Request(int requestId, int examId, int lecturerId, int courseId, String subject, int oldDuration,
+            int newDuration, String status, String reasons) {
+        this.requestId = requestId;
+        this.examId = examId;
+        this.lecturerId = lecturerId;
+        this.courseId = courseId;
+        this.subject = subject;
+        this.oldDuration = oldDuration;
+        this.newDuration = newDuration;
+        this.status = status;
+        this.reasons = reasons;
+    }
 
-	public String getExamName() {
-		return examName;
-	}
+    /**
+     * Returns the reasons for the request.
+     *
+     * @return the reasons
+     */
+    public String getReasons() {
+        return reasons;
+    }
 
-	public void setExamName(String examName) {
-		this.examName = examName;
-	}
+    /**
+     * Sets the reasons for the request.
+     *
+     * @param reasons the reasons to set
+     */
+    public void setReasons(String reasons) {
+        this.reasons = reasons;
+    }
 
-	public String getReasons() {
-		return reasons;
-	}
+    /**
+     * Returns the ID of the request.
+     *
+     * @return the request ID
+     */
+    public int getRequestId() {
+        return requestId;
+    }
 
-	public void setReasons(String reasons) {
-		this.reasons = reasons;
-	}
+    /**
+     * Sets the ID of the request.
+     *
+     * @param requestId the request ID to set
+     */
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
 
-	public int getRequestId() {
-		return requestId;
-	}
+    /**
+     * Returns the ID of the exam.
+     *
+     * @return the exam ID
+     */
+    public int getExamId() {
+        return examId;
+    }
 
-	public void setRequestId(int requestId) {
-		this.requestId = requestId;
-	}
+    /**
+     * Sets the ID of the exam.
+     *
+     * @param examId the exam ID to set
+     */
+    public void setExamId(int examId) {
+        this.examId = examId;
+    }
 
-	public int getExamId() {
-		return examId;
-	}
+    /**
+     * Returns the ID of the lecturer.
+     *
+     * @return the lecturer ID
+     */
+    public int getLecturerId() {
+        return lecturerId;
+    }
 
-	public void setExamId(int examId) {
-		this.examId = examId;
-	}
+    /**
+     * Sets the ID of the lecturer.
+     *
+     * @param lecturerId the lecturer ID to set
+     */
+    public void setLecturerId(int lecturerId) {
+        this.lecturerId = lecturerId;
+    }
 
-	public int getLecturerId() {
-		return lecturerId;
-	}
+    /**
+     * Returns the ID of the course.
+     *
+     * @return the course ID
+     */
+    public int getCourseId() {
+        return courseId;
+    }
 
-	public void setLecturerId(int lecturerId) {
-		this.lecturerId = lecturerId;
-	}
+    /**
+     * Sets the ID of the course.
+     *
+     * @param courseId the course ID to set
+     */
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
-	public int getCourseId() {
-		return courseId;
-	}
+    /**
+     * Returns the subject of the request.
+     *
+     * @return the subject
+     */
+    public String getSubject() {
+        return subject;
+    }
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    /**
+     * Sets the subject of the request.
+     *
+     * @param subject the subject to set
+     */
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    /**
+     * Returns the old duration of the exam.
+     *
+     * @return the old duration
+     */
+    public int getOldDuration() {
+        return oldDuration;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    /**
+     * Sets the old duration of the exam.
+     *
+     * @param oldDuration the old duration to set
+     */
+    public void setOldDuration(int oldDuration) {
+        this.oldDuration = oldDuration;
+    }
 
-	public int getOldDuration() {
-		return oldDuration;
-	}
+    /**
+     * Returns the new duration of the exam.
+     *
+     * @return the new duration
+     */
+    public int getNewDuration() {
+        return newDuration;
+    }
 
-	public void setOldDuration(int oldDuration) {
-		this.oldDuration = oldDuration;
-	}
+    /**
+     * Sets the new duration of the exam.
+     *
+     * @param newDuration the new duration to set
+     */
+    public void setNewDuration(int newDuration) {
+        this.newDuration = newDuration;
+    }
 
-	public int getNewDuration() {
-		return newDuration;
-	}
+    /**
+     * Returns the status of the request.
+     *
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
 
-	public void setNewDuration(int newDuration) {
-		this.newDuration = newDuration;
-	}
+    /**
+     * Sets the status of the request.
+     *
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		return "Request [requestId=" + requestId + ", examId=" + examId + ", lecturerId=" + lecturerId + ", courseId="
-				+ courseId + ", subject=" + subject + ", oldDuration=" + oldDuration + ", newDuration=" + newDuration
-				+ ", status=" + status + ", reasons=" + reasons + "]";
-	}
+    @Override
+    public String toString() {
+        return "Request [requestId=" + requestId + ", examId=" + examId + ", lecturerId=" + lecturerId + ", courseId="
+                + courseId + ", subject=" + subject + ", oldDuration=" + oldDuration + ", newDuration=" + newDuration
+                + ", status=" + status + ", reasons=" + reasons + "]";
+    }
 }
-

@@ -18,13 +18,13 @@ import javafx.stage.StageStyle;
 import java.util.HashMap;
 import DataBase.DBController;
 
- 
+/**
+ * class that Represents the Server Controller.
+ */
 public class ServerController  {
 	DBController dbController = DBController.getInstance();
 	private double xOffset = 0; 
 	private double yOffset = 0;
-	private ClientHandler clientHandler;
-
 
     @FXML
     private Button btnConnect;
@@ -88,23 +88,17 @@ public class ServerController  {
 	 *@param event this is a mouse event and this method activate
 	 *when the user click on connect 
 	 * */
-	@SuppressWarnings("serial")
 	@FXML
 	void clickConnectBtn(MouseEvent event) {
-		
-		HashMap<String, String> db_info = new HashMap<>() {{
-			put("ip", getIP());
-			put("password", getPass());
-			put("username", getHost());
-			put("scheme", getScheme());
-			put("port", getPort());
+		HashMap<String, String> db_info_temp = new HashMap<>() {{
+			put("ip","localhost");
+			put("password", "Aa123456");
+			put("username", "root");
+			put("scheme", "sys");
+			put("port", "5555");
 		}};
-		
-		if(db_info.containsValue("")) {
-			System.out.println("You must enter values");
-			return;			
-		}
-		startServer(db_info);
+
+		startServer(db_info_temp);
     	if(lblError.getText().length() == 0) {
     		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		Stage primaryStage = new Stage();
@@ -142,8 +136,7 @@ public class ServerController  {
 		dbController.setDbDriver();
 		dbController.setDbInfo(db_info);
 		dbController.connectToDb(this);
-		clientHandler = ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port")));
-		clientHandler.runServer(this);
+		ClientHandler.getInstance(Integer.parseInt((String) db_info.get("port"))).runServer(this);
 	}
 	
 	/**
@@ -174,5 +167,5 @@ public class ServerController  {
             }
         });
 	}
-
+	
 }

@@ -9,21 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
 import server.ServerController;
 
 
-
+/**
+ * Represents a DBController class that defines the databaes connection.
+ */
 public class DBController {
 	private static Connection conn = null;
-	private static HashMap<String, String> db_info = new HashMap<>() {/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-	{
+	private static HashMap<String, String> db_info = new HashMap<>() {{
 		put("ip", "localhost");
 		put("password", null);
 		put("username", null);
@@ -39,6 +34,7 @@ public class DBController {
 	private static String usersTable = "users";
 	
 	/**
+	 * Returns the Users table
 	 *@return return the Users table
 	 * */
 
@@ -47,6 +43,7 @@ public class DBController {
 	}
 	
 	/**
+	 * Returns the question table
 	 *@return return the question table
 	 * */
 	public String getquestionsTable() {
@@ -90,7 +87,8 @@ public class DBController {
 	}
 	
 	/**
-	 * connect to database with db_info parameters
+	 * connect to database with db_info parameters.
+	 * @param ServerController sc
 	 * */
 	public void connectToDb(ServerController sc) {
 		StringBuilder mysql = new StringBuilder();
@@ -169,9 +167,6 @@ public class DBController {
 	 *@return return array list of the query result
 	 * */
 	
-	//this is the original method
-	//updated method get params and can handle with (?) statements.
-	
 	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQueries) throws SQLException {
 		Statement stmt = null;
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
@@ -189,6 +184,12 @@ public class DBController {
 	}
 	
 
+	/**
+	 * Executes the given SQL queries for inserting data into the database.
+	 *
+	 * @param sqlQueries the SQL queries to be executed
+	 * @return a list of hash maps containing the result of each query execution
+	 */
 	
 	public ArrayList<HashMap<String, Object>> insertQueries(String sqlQueries) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
@@ -207,6 +208,14 @@ public class DBController {
 	    return result;
 	}
 	
+	
+	/**
+	 * Executes the given SQL queries with parameter values for inserting data into the database.
+	 *
+	 * @param sqlQueries         the SQL query with placeholders for parameter values
+	 * @param parameterValuesList a list of arrays containing the parameter values for each query execution
+	 * @return a list of hash maps containing the result of each query execution, including the generated keys (if any)
+	 */
 	public ArrayList<HashMap<String, Object>> insertQueries(String sqlQueries, List<Object[]> parameterValuesList) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 	    try {
@@ -238,6 +247,13 @@ public class DBController {
 	    return result;
 	}
 	
+	/**
+	 * Executes the given SQL query with parameter values for updating data in the database.
+	 *
+	 * @param sqlQuery           the SQL query with placeholders for parameter values
+	 * @param parameterValuesList a list of arrays containing the parameter values for each query execution
+	 * @return a list of hash maps containing the result of each query execution
+	 */
 	public ArrayList<HashMap<String, Object>> updateQueries(String sqlQuery, List<Object[]> parameterValuesList) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 	    try {
@@ -262,6 +278,14 @@ public class DBController {
 	    return result;
 	}
 	
+	
+
+/**
+ * Executes the given SQL queries for inserting data into the database and retrieves the generated keys.
+ *
+ * @param sqlQueries a list of SQL queries for insertion and selection of generated keys
+ * @return a list of hash maps containing the generated keys (if any) for each query execution
+ */
 	public ArrayList<HashMap<String, Object>> insertAndGetKeysQueries(ArrayList<String> sqlQueries) {
 	    ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 	    try {
@@ -288,36 +312,28 @@ public class DBController {
 	    return result;
 	}
 	
-	
-	public static boolean importData(String sqlFilePath) {
-	    if (conn == null) {
-	        return false;
-	    }
+	/**
+	 * Imports user data from external text files into the corresponding database tables.
+	 *
+	 * @return true if the import operation is successful, false otherwise
+	 */
+	public static boolean importUsers() {
+		Statement stmt;
+		if(conn == null)
+			return false;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate("SET GLOBAL local_infile=1");
+			stmt.executeUpdate("load data local infile \"C:/users.txt\" into table users");
+			stmt.executeUpdate("load data local infile \"C:/customer.txt\" into table customer");
+			stmt.executeUpdate("load data local infile \"C:/region_employee.txt\" into table region_employee");
 
-	    try (BufferedReader reader = new BufferedReader(new FileReader(sqlFilePath));
-	         Statement stmt = conn.createStatement()) {
-
-	        StringBuilder sqlStatements = new StringBuilder();
-	        String line;
-	        while ((line = reader.readLine()) != null) {
-	            sqlStatements.append(line);
-	            sqlStatements.append(System.lineSeparator());
-	        }
-
-	        String[] queries = sqlStatements.toString().split(";");
-
-	        for (String query : queries) {
-	            if (!query.trim().isEmpty()) {
-	                stmt.executeUpdate(query);
-	            }
-	        }
-
-	    } catch (IOException | SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
-
-	    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
+	
 }
 
