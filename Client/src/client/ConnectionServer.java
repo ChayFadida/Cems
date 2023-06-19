@@ -30,7 +30,6 @@ public class ConnectionServer extends AbstractClient{
 		openConnection();
     }
 
-
     /**
 	 *this method handle with command from the server
 	 *@param msg from the server
@@ -57,10 +56,9 @@ public class ConnectionServer extends AbstractClient{
     public void handleMessageFromClientUI(Object message){
     	try
         {
-        	openConnection();//in order to send more than one message
+        	openConnection(); //in order to send more than one message
            	awaitResponse = true;
         	sendToServer(message);
-    		// wait for response
     		while (awaitResponse) {
     			try {
     				Thread.sleep(100);
@@ -114,8 +112,9 @@ public class ConnectionServer extends AbstractClient{
 		}
 		return instance;
 	}
+	
 	public static void resetInstance() {
-		instance=null;
+		instance = null;
 	}
 	
 	public User getUser() {
@@ -138,8 +137,8 @@ public class ConnectionServer extends AbstractClient{
 	    		Platform.runLater(() -> {
 	            	TakeExamController.showBlockedPage();
 	        	});
-	    		ExamSessionIF examSession = ((Student)user).getExamSession();
-            	((Clock)examSession).blockExam();
+	    		ExamSessionIF examSession = ((Student) user).getExamSession();
+            	((Clock) examSession).blockExam();
 	    		
 	    	}
 	    }
@@ -152,11 +151,10 @@ public class ConnectionServer extends AbstractClient{
 	            	TakeExamController.showExtendTimePage();
 	        	});
 	    		Integer examIdToExtend = (Integer) msg.get("Time To Extend");
-	    		ExamSessionIF examSession = ((Student)user).getExamSession();
-	    		((Clock)examSession).extendExam(examIdToExtend);
+	    		ExamSessionIF examSession = ((Student) user).getExamSession();
+	    		((Clock) examSession).extendExam(examIdToExtend);
 	    		
 	    	}
 	    }
-
 	}
 }

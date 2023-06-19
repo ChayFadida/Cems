@@ -26,6 +26,7 @@ public class LockAreYouSureController extends AbstractController{
 
     @FXML
     private Button btnYes;
+    
     /**
      *  Set the exam.
      * @param exam
@@ -42,13 +43,13 @@ public class LockAreYouSureController extends AbstractController{
 		this.manageExamsController = manageExamsController;
 	}
   
-  /**
+   /**
 	 * If lecturer press no -> nothing happens and the window is closed.
 	 * @param event Action event
 	 */
     @FXML
     void getNoBtn(ActionEvent event) {
-    	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
+    	((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
     /**
      * If lecturer press yes -> the exam is locked.
@@ -62,14 +63,12 @@ public class LockAreYouSureController extends AbstractController{
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("LockExamById");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(exam.getExamId() + "");
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
 		manageExamsController.showTable();
-		((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
-
-
 }

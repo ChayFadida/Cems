@@ -23,6 +23,7 @@ import thirdPart.JsonHandler;
  * in this controller the lecturer can watch a chosen exam.
  */
 public class ViewExamController extends AbstractController {
+	
     private ArrayList<QuestionForExam> questions = new ArrayList<>();
     Exam exam;
 
@@ -104,6 +105,7 @@ public class ViewExamController extends AbstractController {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
+    
     /**
      * Minimize current window.
      * @param event Action event.
@@ -113,6 +115,7 @@ public class ViewExamController extends AbstractController {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
     /**
      * setter for the exam.
      * @param exam
@@ -121,6 +124,7 @@ public class ViewExamController extends AbstractController {
         this.exam = exam;
         
     }
+    
     /**
      * Setter for the Questions.
      * @param questions
@@ -128,13 +132,14 @@ public class ViewExamController extends AbstractController {
     public void setQuestion(ArrayList<QuestionForExam> questions) {
         this.questions = questions;
     }
+    
     /**
      * Load the exam and sends relevant messages to the server.
      */
     public void loadExam() {
     	int flagCode = exam.getExamId();
     	String studNote = exam.getStudentNote();
-		if(studNote==null || studNote== "" || studNote== " ")
+		if(studNote == null || studNote == "" || studNote == " ")
 			examNotes.setText("No specific instruction or notes for this exam.");
 		else
 			examNotes.setText(studNote);
@@ -160,19 +165,19 @@ public class ViewExamController extends AbstractController {
 			return;
 		}
 		String questionsStr = (String) rs.get(0).get("questions");
-		HashMap<String,ArrayList<Integer>> QjsonHM= JsonHandler.convertJsonToHashMap(questionsStr, String.class, ArrayList.class,Integer.class);
+		HashMap<String,ArrayList<Integer>> QjsonHM = JsonHandler.convertJsonToHashMap(questionsStr, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> questionsInExam = QjsonHM.get("questions");
 		String scoresStr = (String) rs.get(0).get("scores");
-		HashMap<String,ArrayList<Integer>> SjsonHM= JsonHandler.convertJsonToHashMap(scoresStr, String.class, ArrayList.class,Integer.class);
+		HashMap<String,ArrayList<Integer>> SjsonHM= JsonHandler.convertJsonToHashMap(scoresStr, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> scoresForQuestions = SjsonHM.get("scores");
-        for (int i = 0; i < questionsInExam.size(); i++) {
+        for (int i = 0; i < questionsInExam.size() ; i++) {
         	HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
 			ArrayList<String> user1 = new ArrayList<>();
 			user1.add("Student");
 			msg1.put("client", user1);
 			ArrayList<String> query1 = new ArrayList<>();
 			query1.add("getQuestionById");
-			msg1.put("task",query1);
+			msg1.put("task", query1);
 			ArrayList<String> parameter1 = new ArrayList<>();
 			parameter1.add(questionsInExam.get(i)+"");
 			msg1.put("param", parameter1);
@@ -187,9 +192,9 @@ public class ViewExamController extends AbstractController {
                 return;              
             }
             Question qu = new Question((Integer)rs1.get(0).get("questionId"),
-					(String)rs1.get(0).get("details"),(String)rs1.get(0).get("rightAnswer"),(Integer)rs1.get(0).get("questionBankId"),
-					(String)rs1.get(0).get("subject"),(String)rs1.get(0).get("answers"),(String)rs1.get(0).get("notes"),
-					(String)rs1.get(0).get("courses"));
+					(String) rs1.get(0).get("details"), (String)rs1.get(0).get("rightAnswer"), (Integer) rs1.get(0).get("questionBankId"),
+					(String) rs1.get(0).get("subject"), (String)rs1.get(0).get("answers"), (String) rs1.get(0).get("notes"),
+					(String) rs1.get(0).get("courses"));
             QuestionForExam q = new QuestionForExam(qu, scoresForQuestions.get(i)+"");
             questions.add(q);
         }
@@ -231,11 +236,3 @@ public class ViewExamController extends AbstractController {
         lblScore.setText(q.getScore().getText());
     }
 }
-	
-	
-		
-	
-
-	
-	
-

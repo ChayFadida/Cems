@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
  * In this controller the lecturer can Edit the questions from its own question bank.
  */
 public class EditQuestionController extends AbstractController {
+	
 	Question question;
 	List<String> coursesSelected;
 	ArrayList<Course> courses;
@@ -94,6 +95,7 @@ public class EditQuestionController extends AbstractController {
     private String getRightAnswer() {
     	return cmbRightAnswer.getSelectionModel().getSelectedItem();
     }
+    
     /**
      * get the subject from the relevant text fields.
      * @return the subject
@@ -101,6 +103,7 @@ public class EditQuestionController extends AbstractController {
     private String getSubject() {
     	return txtSubject.getText();
     }
+    
     /**
      * get answer number one from the text field.
      * @return answer number one.
@@ -108,6 +111,7 @@ public class EditQuestionController extends AbstractController {
     private String getAnswer1() {
     	return answer1Field.getText();
     }
+    
     /**
      * get answer number two from the text field.
      * @return answer number two.
@@ -115,6 +119,7 @@ public class EditQuestionController extends AbstractController {
     private String getAnswer2() {
     	return answer2Field.getText();
     }
+    
     /**
      * get answer number three from the text field.
      * @return answer number three.
@@ -122,6 +127,7 @@ public class EditQuestionController extends AbstractController {
     private String getAnswer3() {
     	return answer3Field.getText();
     }
+    
     /**
      * get answer number four from the text field.
      * @return answer number four.
@@ -129,6 +135,7 @@ public class EditQuestionController extends AbstractController {
     private String getAnswer4() {
     	return answer4Field.getText();
     }
+    
     /**
      * get question id from the text field.
      * @return question id.
@@ -136,6 +143,7 @@ public class EditQuestionController extends AbstractController {
     private String getQuestionField() {
     	return QuestionField.getText();
     }
+    
     /**
      * get notes from the text field.
      * @return the notes.
@@ -143,6 +151,7 @@ public class EditQuestionController extends AbstractController {
     private String getNotesField() {
     	return NotesField.getText();
     }
+    
     /**
      * By activate, close the current window
      * @param event Action event.
@@ -152,6 +161,7 @@ public class EditQuestionController extends AbstractController {
         Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
+    
     /**
      * By activate, minimize current window.
      * @param event Action event.
@@ -181,7 +191,7 @@ public class EditQuestionController extends AbstractController {
 		return id;
     }
     
-  /**
+   /**
      * Saving the question that were changed.
      * @param event Action event
      */
@@ -243,22 +253,19 @@ public class EditQuestionController extends AbstractController {
         answer3Field.setText(question.getAnswersHM().get("answer3"));
         answer4Field.setText(question.getAnswersHM().get("answer4"));
         cmbRightAnswer.setValue(question.getRightAnswer());
-        cmbRightAnswer.getItems().addAll("1","2","3","4");
-        
+        cmbRightAnswer.getItems().addAll("1", "2", "3", "4");
         hm = JsonHandler.convertJsonToHashMap(question.getCourses(),String.class, ArrayList.class);
-        
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
 		user.add("Lecturer");
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getCoursesIdByLecturerId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId() + "");
-		msg.put("param",parameter);
+		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
-		
 		HashMap<String,ArrayList<String>> msg1 = new HashMap<>();
 		ArrayList<String> user2 = new ArrayList<>();
 		user2.add("Lecturer");
@@ -266,15 +273,13 @@ public class EditQuestionController extends AbstractController {
 		ArrayList<String> query2 = new ArrayList<>();
 		query2.add("getCoursesNameById");
 		msg1.put("task",query2);
-		
 		ArrayList<String> parameter2 = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String)ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
+		ArrayList<String> crsId = (ArrayList<String>) JsonHandler.convertJsonToHashMap((String) ConnectionServer.rs.get(0).get("courseId"), String.class, ArrayList.class, String.class).get("courses");
 		parameter2.add(crsId.size() + "");
 		parameter2.addAll(crsId);
 		msg1.put("param",parameter2);
 		super.sendMsgToServer(msg1);
-		
 		try {
 			this.loadCourses(ConnectionServer.rs);
 		} catch (Exception e) {
@@ -287,17 +292,17 @@ public class EditQuestionController extends AbstractController {
      * @param coursesResultSet courses from the DB.
      */
     private void loadCourses(ArrayList<HashMap<String, Object>> coursesResultSet) {
-		courses= new ArrayList<>();
-		coursesMenuItems= new ArrayList<>();
-		if(coursesResultSet==null) {
+		courses = new ArrayList<>();
+		coursesMenuItems = new ArrayList<>();
+		if(coursesResultSet == null) {
 			System.out.println("Could not load courses from db.");
 			return;
 		}
-		for (int i = 0; i < coursesResultSet.size(); i++) {
+		for (int i = 0 ; i < coursesResultSet.size() ; i++) {
 		    HashMap<String, Object> element = coursesResultSet.get(i);
-		    courses.add(new Course((Integer)element.get("courseID"), (String)element.get("courseName"), null));
+		    courses.add(new Course((Integer) element.get("courseID"), (String) element.get("courseName"), null));
 		    CheckMenuItem checkMenuItem = new CheckMenuItem(courses.get(i).getCourseName());
-		    checkMenuItem.setId((Integer)element.get("courseID")+ "");
+		    checkMenuItem.setId((Integer) element.get("courseID") + "");
 		    coursesMenuItems.add(checkMenuItem);
 		    Double id = Double.valueOf(checkMenuItem.getId());
 		    if (hm.get("courses").contains(id)) {
@@ -306,9 +311,9 @@ public class EditQuestionController extends AbstractController {
 		}
 		CoursesMenu.getItems().addAll(coursesMenuItems);
 		coursesMenuItems.forEach(menuItem -> menuItem.setOnAction(event -> updateSelectedCourses()));
-
         updateSelectedCourses();
-    }	
+    }
+    
 	/**
 	 * update the selected courses by the lecturer.
 	 */

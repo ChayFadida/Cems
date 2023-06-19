@@ -24,6 +24,7 @@ import javafx.stage.StageStyle;
  * and to navigate to the wanted menu
  */
 public class ChooseProfileController extends AbstractController{
+	
 	public Super s;
 
     @FXML
@@ -48,7 +49,6 @@ public class ChooseProfileController extends AbstractController{
     public ChooseProfileController() throws IOException {
 		super();
 		s = (Super) ConnectionServer.getInstance().getUser();
-
 	}
     
     /**
@@ -58,7 +58,7 @@ public class ChooseProfileController extends AbstractController{
 	@FXML
     void getHodBtn(ActionEvent event) {
     	System.out.println("HOD Login Successfuly.");
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		HODmenuController hodMenuController = new HODmenuController();	
 		hodMenuController.start(new Stage());
     }
@@ -70,7 +70,7 @@ public class ChooseProfileController extends AbstractController{
     @FXML
     void getLecBtn(ActionEvent event) {
     	System.out.println("Lecturer Login Successfuly.");
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		LecturerMenuController lecturerMenuController = new LecturerMenuController();	
 		lecturerMenuController.start(new Stage());
     }
@@ -95,7 +95,6 @@ public class ChooseProfileController extends AbstractController{
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -104,7 +103,6 @@ public class ChooseProfileController extends AbstractController{
      */
     @FXML
     void getLogoutBtn(ActionEvent event) {
-    	//need to implement log out
     	System.exit(0);
     }
     
@@ -127,5 +125,4 @@ public class ChooseProfileController extends AbstractController{
     	AreYouSureController areYouSureController = new AreYouSureController();
     	areYouSureController.start(new Stage());
     }
-
 }

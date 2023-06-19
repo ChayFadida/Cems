@@ -38,6 +38,7 @@ public class ConnectClientScreenController extends AbstractController{
     private TextField txtPort;
 
     private Label lblError;
+    
     /**
 	 *port getter
 	 *@return int the number of the port
@@ -60,11 +61,11 @@ public class ConnectClientScreenController extends AbstractController{
 	 * */
 	public void getConnectBtn(ActionEvent event) throws Exception {
 		try {
-			if(ConnectionServer.getInstance(getIP(), getPort())==null) {
+			if(ConnectionServer.getInstance(getIP(), getPort()) == null) {
 				lblError.setText("Could not connect server");
 				return;
 			}
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 			Stage primaryStage = new Stage();
 			LogInController logInController = new LogInController();
 			logInController.start(primaryStage);

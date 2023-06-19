@@ -27,12 +27,16 @@ public class HODviewAllStudentsController extends AbstractController implements 
 
 	@FXML
     private TableView<Student> AllStudentsTable;
+	
     @FXML
     public TableColumn<Student, Integer> id;
+    
     @FXML
     public TableColumn<Student, String> firstName;
+    
     @FXML
     public TableColumn<Student, String> lastName;
+ 
     @FXML
     public TableColumn<Student, String> email;
 
@@ -46,8 +50,8 @@ public class HODviewAllStudentsController extends AbstractController implements 
     	if(AllStudents == null) {
 			System.out.println("No students found.");
 		}
-		for (int i = 0; i < AllStudents.size(); i++) {
-		    stdArr.add(new Student(AllStudents.get(i),null));
+		for (int i = 0 ; i < AllStudents.size() ; i++) {
+		    stdArr.add(new Student(AllStudents.get(i), null));
 		}
 	}
     
@@ -62,13 +66,13 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		msg.put("client", user);
 		ArrayList<String> position = new ArrayList<>();
 		position.add("Student");
-		msg.put("position",position);
+		msg.put("position", position);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getAllbyPosition");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> department = new ArrayList<>();
-		department.add(""+((Hod) ConnectionServer.user).getDepartment());
-		msg.put("department",department);
+		department.add("" + ((Hod) ConnectionServer.user).getDepartment());
+		msg.put("department", department);
 		sendMsgToServer(msg);
 		try {
 			this.loadStudents(ConnectionServer.rs);
@@ -103,8 +107,4 @@ public class HODviewAllStudentsController extends AbstractController implements 
 	public void initialize(URL location, ResourceBundle resources) {
 		showTable();		
 	}
-
-
-
-
 }

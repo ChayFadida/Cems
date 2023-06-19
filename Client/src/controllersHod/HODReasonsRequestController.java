@@ -15,11 +15,15 @@ import javafx.stage.Stage;
  */
 
 public class HODReasonsRequestController extends AbstractController{
+	
 	Image img = new Image("Images/exit.png");
+	
     @FXML
     private Label txtReasons;
+    
     @FXML
     private Button btnExit;
+    
     @FXML
     private ImageView imgExit;
     
@@ -30,6 +34,7 @@ public class HODReasonsRequestController extends AbstractController{
     public void viewReason(String reasons) {
         txtReasons.setText(reasons);
     }
+    
     /**
      * exit image for the btnExit
      */

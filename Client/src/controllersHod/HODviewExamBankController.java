@@ -21,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * Extends AbstractController.
  */
 public class HODviewExamBankController extends AbstractController {
+	
 	private ArrayList<ExamBankView> examArr ;
 
     @FXML
@@ -64,7 +65,7 @@ public class HODviewExamBankController extends AbstractController {
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getViewExamById");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(LecturerId);
 		msg.put("param", parameter);
@@ -83,6 +84,7 @@ public class HODviewExamBankController extends AbstractController {
 		}
 		initTableView(examArr);
     }
+    
      /**
       * Initialize the table with the data we need.
       * @param arr ArrayList of exams.
@@ -107,17 +109,16 @@ public class HODviewExamBankController extends AbstractController {
 	 * @param QuestionResultSet the data from the DB.
 	 */
 	private void loadExam(ArrayList<HashMap<String, Object>> ExamResultSet) {
-		examArr= new ArrayList<>();
+		examArr = new ArrayList<>();
 		if(ExamResultSet == null) {
 			System.out.println("Could not get exams.");
 			return;
 		}
         for (HashMap<String, Object> tmpHashMap : ExamResultSet) {
         	examArr.add(new ExamBankView((Integer)tmpHashMap.get("examId"),
-		    		(String)tmpHashMap.get("firstName"),(String)tmpHashMap.get("lastName"),
-		    		(String)tmpHashMap.get("subject"), (String)tmpHashMap.get("courseName"), (String)tmpHashMap.get("examName")));
+		    		(String) tmpHashMap.get("firstName"),(String)tmpHashMap.get("lastName"),
+		    		(String) tmpHashMap.get("subject"), (String)tmpHashMap.get("courseName"), (String) tmpHashMap.get("examName")));
         }
-	
 	}
 	
 	/**
@@ -127,5 +128,4 @@ public class HODviewExamBankController extends AbstractController {
 	private String getid() {
 		return LecturerIdText.getText();
 	}
-    
 }

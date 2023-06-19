@@ -35,31 +35,40 @@ import javafx.stage.StageStyle;
  * Implements Initializable.
  */
 public class HODviewRequestController extends AbstractController implements Initializable{
-	private ArrayList<Request> examArr ;
+	
+	private ArrayList<Request> examArr;
 	ArrayList<CheckMenuItem> requestsSelected;
+	
     @FXML
     public TableColumn<Request, String> examName;
+    
     @FXML
     public TableColumn<Request, String> lecturerId;
+    
     @FXML
     public TableColumn<Request, String> courseId;
+    
     @FXML
     public TableColumn<Request, String> subject;
+    
     @FXML
     public TableColumn<Request, Integer> oldDuration;
+    
     @FXML
     public TableColumn<Request, Integer> newDuration;
+    
     @FXML
     public TableColumn<Request, Integer> requestId;
+    
     @FXML
     public TableColumn<Request, String> reasons;
 
     @FXML
     private Label lblNonSelected;
+    
     @FXML
     private Button ApproveButton;
 
-    
     @FXML
     private Button DenyButton;
 
@@ -76,7 +85,7 @@ public class HODviewRequestController extends AbstractController implements Init
     	if(requestResultSet == null) {
 			System.out.println("Could not get requests.");
 		}
-		for (int i = 0; i < requestResultSet.size(); i++) {
+		for (int i = 0 ; i < requestResultSet.size() ; i++) {
 			int requestId = (int)requestResultSet.get(i).get("requestId");
 			String examName = (String)requestResultSet.get(i).get("examName");
 			int examId = (int)requestResultSet.get(i).get("examId");
@@ -106,7 +115,7 @@ public class HODviewRequestController extends AbstractController implements Init
 		query.add("getAllRequests");
 		msg.put("task",query);
 		ArrayList<String> department = new ArrayList<>();
-		department.add(""+((Hod) ConnectionServer.user).getDepartment());
+		department.add("" + ((Hod) ConnectionServer.user).getDepartment());
 		msg.put("department",department);
 		sendMsgToServer(msg);
 		try {
@@ -170,13 +179,13 @@ public class HODviewRequestController extends AbstractController implements Init
 			msg.put("client", user);
 			ArrayList<String> status = new ArrayList<>();
 			status.add("inProgress");
-			msg.put("status",status);
+			msg.put("status", status);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("getAllRequests");
 			msg.put("task",query);
 			ArrayList<String> department = new ArrayList<>();
-			department.add(""+((Hod) ConnectionServer.user).getDepartment());
-			msg.put("department",department);
+			department.add("" + ((Hod) ConnectionServer.user).getDepartment());
+			msg.put("department", department);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				Stage seconderyStage = new Stage();
@@ -185,7 +194,7 @@ public class HODviewRequestController extends AbstractController implements Init
 					Parent root = loader.load(getClass().getResource("/guiHod/ReasonsRequestScreen.fxml").openStream());
 					Scene scene = new Scene(root);
 					HODReasonsRequestController hodReasonsRequestController=loader.getController();
-					hodReasonsRequestController.viewReason((String)ConnectionServer.rs.get(0).get("reasons"));
+					hodReasonsRequestController.viewReason((String) ConnectionServer.rs.get(0).get("reasons"));
 					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 					seconderyStage.initStyle(StageStyle.UNDECORATED);
 					seconderyStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
@@ -200,7 +209,6 @@ public class HODviewRequestController extends AbstractController implements Init
 					e.printStackTrace();
 				}
 				System.out.println("view reasons successfuly!");
-
 			}
 		}
 	}
@@ -219,11 +227,9 @@ public class HODviewRequestController extends AbstractController implements Init
 		else {
 			lblNonSelected.setText("");
 			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-
 			ArrayList<Object> user = new ArrayList<>();
 			user.add("HOD");
 			msg.put("client", user);
-			
 			ArrayList<Object> param = new ArrayList<>();
 			param.add(selectedId.get(0).getRequestId());
 			param.add(selectedId.get(0).getExamId());
@@ -247,6 +253,9 @@ public class HODviewRequestController extends AbstractController implements Init
 		}
 	}
     
+	/**
+     * HOD watch the full reason for the time change request in a pop up window 
+     */
     private void updateDuration(int examId, int newDuration) {
     	HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 		ArrayList<Object> arr = new ArrayList<>();
@@ -263,7 +272,7 @@ public class HODviewRequestController extends AbstractController implements Init
 	}
 
 	/**
-     * HOD watch the full reason for the time change request in a pop up window 
+     * Simulate pop of sending email to the lecturer when hod approve or deny a request
      */
     private void simulatePopUp() {
     	ArrayList<Request> selectedId = new ArrayList<>();
@@ -279,7 +288,7 @@ public class HODviewRequestController extends AbstractController implements Init
 			msg.put("client", user);
 			ArrayList<String> parameter = new ArrayList<>();
 			parameter.add(""+selectedId.get(0).getLecturerId());
-			msg.put("lecturerId",parameter);
+			msg.put("lecturerId", parameter);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("getUser");
 			msg.put("task",query);
@@ -291,7 +300,7 @@ public class HODviewRequestController extends AbstractController implements Init
 		        	FXMLLoader loader = new FXMLLoader();
 					Parent root = loader.load(getClass().getResource("/guiHod/SimulationPopUp.fxml").openStream());
 					Scene scene = new Scene(root);
-					SimulationPopUpController simulationPopUpController=loader.getController();
+					SimulationPopUpController simulationPopUpController = loader.getController();
 					simulationPopUpController.viewEmail(email);
 					scene.getStylesheets().add("/gui/GenericStyleSheet.css");
 					seconderyStage.initStyle(StageStyle.UNDECORATED);
@@ -344,6 +353,5 @@ public class HODviewRequestController extends AbstractController implements Init
 				showTable();
 			}
 		}
-		
 	}
 }

@@ -26,5 +26,4 @@ public class BlockedPopupController {
     	((Stage) ((Node)event.getSource()).getScene().getWindow()).close();
     	
     }
-
 }

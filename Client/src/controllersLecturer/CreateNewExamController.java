@@ -36,6 +36,7 @@ import thirdPart.JsonHandler;
  * In this controller the lecturer can create new exam and add it to the exam bank.
  */
 public class CreateNewExamController extends AbstractController implements Initializable{
+	
 	private ArrayList<Course> courses;
 	private ArrayList<QuestionForExam> qArr;
 	private ArrayList<Object> qSelected=new ArrayList<>();
@@ -129,7 +130,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     	String lecNotes = lecNotesTxt.getText();
     	String studNotes = studNotesText.getText();
     	String name = txtName.getText();
-    	boolean flag=false;
+    	boolean flag= false;
     	
     	if(name.equals("")) {
 			lblErrorName.setText("You must enter an exam name");
@@ -143,7 +144,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblErrorSubject.setText("You must enter a subject");
     		flag=true;
     	}
-    	if(code.length()!=4 || !code.matches("^[a-zA-Z0-9]+$")) {
+    	if(code.length() != 4 || !code.matches("^[a-zA-Z0-9]+$")) {
     		lblErrorCode.setText("Code must be 4 digits and contains only letters and numbers.");
     		flag=true;
     	}
@@ -162,10 +163,10 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblError.setText("Please fix all error and try again later.");
     		return;
     	}
-    	if(lecNotes==null)
-    		lecNotes=" ";
-    	if(studNotes==null)
-    		studNotes=" ";
+    	if(lecNotes == null)
+    		lecNotes = " ";
+    	if(studNotes == null)
+    		studNotes = " ";
     	createExam(code,duration,lecNotes,studNotes,name,subject);
     }
     
@@ -178,7 +179,7 @@ public class CreateNewExamController extends AbstractController implements Initi
      * @param name exam name 
      * @param subject exam subject
      */
-	private void createExam(String code, String duration, String lecNotes, String studNotes,String name, String subject) {
+	private void createExam(String code, String duration, String lecNotes, String studNotes, String name, String subject) {
 		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 		ArrayList<Object> user = new ArrayList<>();
 		HashMap<String, Object> bank=getExamBank();
@@ -186,7 +187,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<Object> query = new ArrayList<>();
 		query.add("insertExam");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<Object> parameter = new ArrayList<>();
 		parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
 		parameter.add(subject);
@@ -195,8 +196,8 @@ public class CreateNewExamController extends AbstractController implements Initi
 		parameter.add(studNotes);
 		parameter.add(ConnectionServer.user.getId()+"");
 		parameter.add(code);
-		parameter.add((getLecturerExamCount()+1)+"");
-		parameter.add((Integer)bank.get("bankId")+"");
+		parameter.add((getLecturerExamCount() + 1) + "");
+		parameter.add((Integer) bank.get("bankId")+"");
 		parameter.add(name);
 		msg.put("questions", qSelected);
 		msg.put("param", parameter);
@@ -205,7 +206,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		if(rs == null) {
 			System.out.println("Could not load data from DB.");
 		}
-		BigInteger lastId=  (BigInteger)rs.get(0).get("id");
+		BigInteger lastId = (BigInteger) rs.get(0).get("id");
 		Integer examId = lastId.intValue();
 		addToExamBank(bank,examId);
 		addQuestionsAndScore(examId);
@@ -234,9 +235,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<Object> query = new ArrayList<>();
 		query.add("insertQuestionsForExam");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<Object> parameter = new ArrayList<>();
-		parameter.add(examId+"");
+		parameter.add(examId + "");
 		parameter.add(qIdsStr);
 		parameter.add(qScoresStr);
 		msg.put("param", parameter);
@@ -261,10 +262,10 @@ public class CreateNewExamController extends AbstractController implements Initi
 	 */
 	private void addToExamBank(HashMap<String, Object> bank, Integer examId) {
 		String exams = (String) bank.get("exams");
-		HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class,Integer.class);
+		HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class, Integer.class);
 		ArrayList<Integer> examsInBank = jsonHM.get("exams");
 		examsInBank.add(examId);
-		jsonHM.put("exams",examsInBank);
+		jsonHM.put("exams", examsInBank);
 		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
 		ArrayList<String> user = new ArrayList<>();
@@ -272,9 +273,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("updateExamBankById");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(bank.get("bankId")+"");
+		parameter.add(bank.get("bankId") + "");
 		parameter.add(jsonString);
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
@@ -282,14 +283,13 @@ public class CreateNewExamController extends AbstractController implements Initi
 		if(rs == null){
 			System.out.println("Could not load data from server.");
 		}
-		if((int)rs.get(0).get("affectedRows")==1) {
+		if((int) rs.get(0).get("affectedRows")==1) {
 			resetAll();
 			lblError.setText("Exam uploaded successfully");
 		}
 		else {
 			lblError.setText("Problam at exam upload");
 		}
-		
 	}
 	
 	/**
@@ -322,7 +322,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamBankByLecId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		msg.put("param", parameter);
@@ -348,7 +348,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getExamCountByLecId");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
 		parameter.add(ConnectionServer.user.getId()+"");
 		msg.put("param", parameter);
@@ -375,26 +375,26 @@ public class CreateNewExamController extends AbstractController implements Initi
 		ConnectionServer.getInstance();
 		Lecturer lecturer = (Lecturer) ConnectionServer.user;
 		ArrayList<Integer> coursesId = (ArrayList<Integer>) lecturer.getCoursesIdHM().get("courses");
-		for(Integer id: coursesId) {
+		for(Integer id : coursesId) {
 			HashMap<String,ArrayList<String>> msg = new HashMap<>();
 			ArrayList<String> user = new ArrayList<>();
 			user.add("Lecturer");
 			msg.put("client", user);
 			ArrayList<String> query = new ArrayList<>();
 			query.add("getCoursesByCourseId");
-			msg.put("task",query);
+			msg.put("task", query);
 			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(id+"");
+			parameter.add(id + "");
 			msg.put("param", parameter);
 			super.sendMsgToServer(msg);
 			ArrayList<HashMap<String, Object>> rs = ConnectionServer.rs;
-			if(rs==null) {
+			if(rs == null) {
 				System.out.println("Could not load data from server.");
 				return;
 			}
 			courses=new ArrayList<>();
 			HashMap<String, Object> element = rs.get(0);
-			Course course= new Course((Integer)element.get("courseID"), (String)element.get("courseName"),(Integer)element.get("departmentId"));
+			Course course= new Course((Integer)element.get("courseID"), (String)element.get("courseName"), (Integer)element.get("departmentId"));
 		    HmCourseIdName.put((Integer)element.get("courseID"), (String)element.get("courseName"));
 		    courses.add(course);
 		    CourseComboBox.getItems().add(course);
@@ -403,7 +403,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	         public void handle(ActionEvent ae) {
 	            loadQuestions(CourseComboBox.getSelectionModel().getSelectedItem());
 	         }
-	      });
+	    });
 	}
 	
 	/**
@@ -418,9 +418,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		msg.put("client", user);
 		ArrayList<String> query = new ArrayList<>();
 		query.add("getQuestionsByIdAndCourse");
-		msg.put("task",query);
+		msg.put("task", query);
 		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(ConnectionServer.user.getId()+"");
+		parameter.add(ConnectionServer.user.getId() + "");
 		parameter.add(selectedItem.getCourseId()+"");
 		msg.put("param", parameter);
 		super.sendMsgToServer(msg);
@@ -428,11 +428,11 @@ public class CreateNewExamController extends AbstractController implements Initi
 		if(rs == null) {
 			System.out.println("Could not load data from the server.");
 		}
-		for (int i = 0; i < rs.size(); i++) {
+		for (int i = 0 ; i < rs.size() ; i++) {
 		    HashMap<String, Object> element = rs.get(i);
-		    Question q = new Question((Integer)element.get("questionId"), (String)element.get("details"),
-		    		(String)element.get("rightAnswer"), (Integer)element.get("questionBank"), 
-		    		(String)element.get("subject"), (String)element.get("answers"),(String)element.get("notes"),(String)element.get("courses"));
+		    Question q = new Question((Integer) element.get("questionId"), (String) element.get("details"),
+		    		(String) element.get("rightAnswer"), (Integer) element.get("questionBank"), 
+		    		(String) element.get("subject"), (String) element.get("answers"),(String) element.get("notes"), (String) element.get("courses"));
 		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
 		    qArr.add(questionForExam);
 		}
@@ -464,13 +464,10 @@ public class CreateNewExamController extends AbstractController implements Initi
 		        }
 		    }
 		    String joinedNames = String.join(", ", courseNames);
-
 		    return new SimpleStringProperty(joinedNames);
 		});
-
 		QuestionTable.setItems(list);
 		QuestionTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
 	}
 
     /**
@@ -480,7 +477,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     @FXML
     void getSelected(ActionEvent event) {
     	qSelected = new ArrayList<>();
-    	sum=0;
+    	sum = 0;
     	lblErrorSelected.setText(" ");
     	lblScore.setText("0/100");
     	qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
@@ -492,7 +489,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     			return;
     		}
     		int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
-    		if(score==0) {
+    		if(score == 0) {
     			lblErrorSelected.setText("One of the selected questions score is set to '0', try again.");
     			qSelected = new ArrayList<>();
     			return;
