@@ -221,19 +221,18 @@ public class AddNewQuestionController extends AbstractController implements Init
     		
 
     		ArrayList<String> parameter = new ArrayList<>();
-    		HashMap<String,String> HmQuestions = new HashMap<>(); //create json of questions
     		LinkedHashMap<String,String> HmQuestions = new LinkedHashMap<>(); //create json of questions
     		HmQuestions.put("answer1", getAnswer1());
     		HmQuestions.put("answer2", getAnswer2());
     		HmQuestions.put("answer3", getAnswer3());
     		HmQuestions.put("answer4", getAnswer4());
     		
-    		arr2.add(getQuestionField());
-    		arr2.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
-    		arr2.add(getRightAnswer());
-    		arr2.add(getBankId() + "");
-    		arr2.add(getSubject());
-    		arr2.add(getNotesField());
+    		parameter.add(getQuestionField());
+    		parameter.add(JsonHandler.convertHashMapToJson(HmQuestions, String.class, String.class));
+    		parameter.add(getRightAnswer());
+    		parameter.add(getBankId() + "");
+    		parameter.add(getSubject());
+    		parameter.add(getNotesField());
     		
     		HashMap<String,ArrayList<Integer>> HmCourses = new HashMap<>(); //create json of courses
     		ArrayList<Integer> doubleList = new ArrayList<>();
