@@ -31,6 +31,7 @@ import javafx.event.EventHandler;
 
 public class ConnectedScreenController {
 	ClientHandler clientHandler= ClientHandler.getInstance();
+	
 	private double xOffset = 0; 
 	private double yOffset = 0;
     @FXML
@@ -46,6 +47,7 @@ public class ConnectedScreenController {
 
     @FXML
     private TableView<Client> tblClientConnections;
+    
     @FXML
     private Button btnDisconnect;
 
@@ -53,7 +55,17 @@ public class ConnectedScreenController {
     private Button btnMinimize;
     
     @FXML
+    private Button btnImportData;
+    
+    @FXML
     private Text lblServer;
+    
+    @FXML
+    private Label lblError;
+    
+    public void setErrorLbl(String error) {
+		lblError.setText(error);
+	}
 
 	/**
 	 * this method stop listening to the port 
@@ -143,4 +155,21 @@ public class ConnectedScreenController {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
+    /**
+	* Performs server back end Utility import.
+	* @param event ActionEvent that triggers the action
+	*/
+	@FXML
+	public void ImportData(ActionEvent event) {
+		String sqlFilePath = "C:/DataImportCems.sql";
+		if(clientHandler != null) {
+			if(clientHandler.importData(sqlFilePath)) 
+				setErrorLbl("Users has been imported successfuly.");
+			else
+				setErrorLbl("Import has failed.");
+		}
+		else
+			setErrorLbl("Import has failed. Before importing users, connect to Database");
+	}
 }
