@@ -29,6 +29,7 @@ public class FileUploader {
 	    byte[] blobData = null;
 		try {
 			FileOutputStream fos = new FileOutputStream(newFile);
+			@SuppressWarnings("resource")
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			resultList = DBController.getInstance().executeQueries(SqlQueries.getFile(table, examId, studentId));
 			blobData = (byte[]) resultList.get(0).get("pdfBytes");

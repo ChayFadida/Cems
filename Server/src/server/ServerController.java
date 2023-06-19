@@ -1,6 +1,5 @@
 package server;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import DataBase.DBController;
 
  
@@ -117,7 +113,7 @@ public class ServerController  {
 //		startServer(db_info);
 		startServer(db_info_temp);
     	if(lblError.getText().length() == 0) {
-//    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+    		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
     		Stage primaryStage = new Stage();
     		ConnectedScreenController connectedScreenController = new ConnectedScreenController();
     		try {
@@ -185,4 +181,5 @@ public class ServerController  {
             }
         });
 	}
+
 }

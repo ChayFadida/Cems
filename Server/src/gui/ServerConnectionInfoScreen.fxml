@@ -125,11 +125,6 @@
                         <Image url="@/Images/Cems.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnImportData" alignment="CENTER" contentDisplay="CENTER" layoutX="99.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#ImportData" prefHeight="31.0" prefWidth="120.0" text="Import Data" textAlignment="CENTER">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Button>
                </children>
             </AnchorPane>
          </children>
