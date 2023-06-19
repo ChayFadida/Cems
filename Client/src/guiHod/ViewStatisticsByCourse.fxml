@@ -19,7 +19,7 @@
             <Font name="Arial Rounded MT Bold" size="30.0" />
          </font>
       </Text>
-      <BarChart fx:id="CourseBarChart" layoutX="94.0" layoutY="258.0" prefHeight="488.0" prefWidth="613.0">
+      <BarChart fx:id="CourseBarChart" animated="false" layoutX="94.0" layoutY="258.0" prefHeight="488.0" prefWidth="613.0">
          <xAxis>
             <CategoryAxis fx:id="ExamNameRow" side="BOTTOM" />
          </xAxis>

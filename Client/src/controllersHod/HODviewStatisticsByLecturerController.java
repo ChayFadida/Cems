@@ -38,8 +38,6 @@ import javafx.stage.StageStyle;
  * Implements Initializable.
  */
 public class HODviewStatisticsByLecturerController extends AbstractController implements Initializable {
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
 	private HashMap<Integer, String> examId_ExamName = new HashMap<>();
 	private HashMap<Double, String> examAvg_ExamName = new HashMap<>();
