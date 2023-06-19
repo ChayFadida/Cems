@@ -80,12 +80,12 @@ public class SqlQueries {
 		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade   FROM exam as e ,examresults as er WHERE er.studentId = " + id + " AND er.examId = e.examId;";
 		return query;
 	}
-	public static String getExamResultChosenAnswersByExamId(String id) {
-		String query = "SELECT DISTINCT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + id + ";";
+	public static String getExamResultChosenAnswersByExamId(ArrayList<Object> param) {
+		String query = "SELECT er.answersChosen   FROM exam as e ,examresults as er WHERE er.examId = " + param.get(0) + " AND er.studentId = " + param.get(1) + ";";
 		return query;
 	}
 	public static String getExamsByComposerId(String id) {
-		String query = "SELECT DISTINCT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status != 'Done';";
+		String query = "SELECT er.examId,e.examName ,er.status,e.courseId,e.subject,er.grade,er.studentId   FROM exam as e ,examresults as er WHERE e.composerId = " + id + " AND er.examId = e.examId AND er.status = 'waiting for approve';";
 		return query;
 	}
 	
