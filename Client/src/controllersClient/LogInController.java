@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -188,7 +189,7 @@ public class LogInController extends AbstractController{
 	 * */
     public void start(Stage primaryStage) {
 		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/guiClient/LogIn.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/guiClient/Login.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.getIcons().add(new Image("/Images/CemsIcon32-Color.png"));
