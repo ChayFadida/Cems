@@ -38,16 +38,16 @@ public class HODviewAllStudentsController extends AbstractController implements 
 
     /**
      * Loads the ArrayList of students that belongs to the HOD department.
-     * @param rs the data about the Students
+     * @param AllStudents the data about the Students
      * @throws Exception in case of error while loading
      */
-    public void loadStudents(ArrayList<HashMap<String, Object>> rs) throws Exception {
+    public void loadStudents(ArrayList<HashMap<String, Object>> AllStudents) throws Exception {
     	stdArr = new ArrayList<Student>();
-    	if(rs == null) {
-			System.out.println("rs is null");
+    	if(AllStudents == null) {
+			System.out.println("No students found.");
 		}
-		for (int i = 0; i < rs.size(); i++) {
-		    stdArr.add(new Student(rs.get(i),null));
+		for (int i = 0; i < AllStudents.size(); i++) {
+		    stdArr.add(new Student(AllStudents.get(i),null));
 		}
 	}
     
@@ -57,18 +57,18 @@ public class HODviewAllStudentsController extends AbstractController implements 
     @FXML
 	public void showTable() {
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("HOD");
-		msg.put("client", arr);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add("Student");
-		msg.put("position",arr2);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getAllbyPosition");
-		msg.put("task",arr1);
-		ArrayList<String> arr3 = new ArrayList<>();
-		arr3.add(""+((Hod) ConnectionServer.user).getDepartment());
-		msg.put("department",arr3);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("HOD");
+		msg.put("client", user);
+		ArrayList<String> position = new ArrayList<>();
+		position.add("Student");
+		msg.put("position",position);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getAllbyPosition");
+		msg.put("task",query);
+		ArrayList<String> department = new ArrayList<>();
+		department.add(""+((Hod) ConnectionServer.user).getDepartment());
+		msg.put("department",department);
 		sendMsgToServer(msg);
 		try {
 			this.loadStudents(ConnectionServer.rs);
@@ -81,8 +81,8 @@ public class HODviewAllStudentsController extends AbstractController implements 
      * Initialize the table with the wanted data.
      * @param arr of students from the result set
      */
-	private void initTableView(ArrayList<Student> arr) {
-		ObservableList<Student> list = FXCollections.observableArrayList(arr);
+	private void initTableView(ArrayList<Student> StudentsArr) {
+		ObservableList<Student> Studentlist = FXCollections.observableArrayList(StudentsArr);
 		PropertyValueFactory<Student, Integer> pvfId = new PropertyValueFactory<Student, Integer>("id");
 		PropertyValueFactory<Student, String> pvfFirstName = new PropertyValueFactory<Student, String>("firstName");
 		PropertyValueFactory<Student, String> pvfLastName = new PropertyValueFactory<Student, String>("lastName");
@@ -91,7 +91,7 @@ public class HODviewAllStudentsController extends AbstractController implements 
 		firstName.setCellValueFactory(pvfFirstName);
 		lastName.setCellValueFactory(pvfLastName);
 		email.setCellValueFactory(pvfEmail);
-		AllStudentsTable.setItems(list);
+		AllStudentsTable.setItems(Studentlist);
 	}
   
 	/**

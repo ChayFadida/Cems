@@ -33,7 +33,10 @@ import javafx.stage.StageStyle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableRow;
 
-
+/**
+ * Controller class for the lecturer.
+ * Throw this controller the lecturer can preform actions on his exams.
+ */
 public class ManageExamsController extends AbstractController  {
 	private ArrayList<Exam> eArr ;
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
@@ -73,30 +76,39 @@ public class ManageExamsController extends AbstractController  {
 
     @FXML
     private Button minimizeButton;
-    
+    /**
+     * Minimize current window.
+     * @param event Action event
+     */
     @FXML
     void Minimize(ActionEvent event) {
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
-    
+    /**
+     * By activate, the current window is closed.
+     * @param event Action event
+     */
     @FXML
     void Close(ActionEvent event) {
     	System.exit(0);
     }
     
+    /**
+     * sends message to the server.
+     */
     void showTable() {
     	String LecturerId = ConnectionServer.user.getId() + "";
 		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> arr = new ArrayList<>();
-		arr.add("Lecturer");
-		msg.put("client", arr);
-		ArrayList<String> arr1 = new ArrayList<>();
-		arr1.add("getLecturerExams");
-		msg.put("task",arr1);
-		ArrayList<String> arr2 = new ArrayList<>();
-		arr2.add(LecturerId);
-		msg.put("param", arr2);
+		ArrayList<String> user = new ArrayList<>();
+		user.add("Lecturer");
+		msg.put("client", user);
+		ArrayList<String> query = new ArrayList<>();
+		query.add("getLecturerExams");
+		msg.put("task",query);
+		ArrayList<String> paramter = new ArrayList<>();
+		paramter.add(LecturerId);
+		msg.put("param", paramter);
 		super.sendMsgToServer(msg);
 		try {
 			this.loadExams(ConnectionServer.rs);
@@ -107,9 +119,12 @@ public class ManageExamsController extends AbstractController  {
     	
     }
     
-    
-    private void initTableView(ArrayList<Exam> arr) {
-        ObservableList<Exam> list = FXCollections.observableArrayList(arr);
+    /**
+     * Initialize the table with relevant exams.
+     * @param ExamArr ArrayList of exams.
+     */
+    private void initTableView(ArrayList<Exam> ExamArr) {
+        ObservableList<Exam> list = FXCollections.observableArrayList(ExamArr);
      
         PropertyValueFactory<Exam, String> pvfExamName = new PropertyValueFactory<>("examName");
         PropertyValueFactory<Exam, String> pvfSubject = new PropertyValueFactory<>("subject");
@@ -118,19 +133,12 @@ public class ManageExamsController extends AbstractController  {
         clmExamName.setCellValueFactory(pvfExamName);
         clmSubject.setCellValueFactory(pvfSubject);
         clmDuration.setCellValueFactory(pvfDuration);
-
-        // Set the cell value factory for the course column
         clmCourse.setCellValueFactory(cellData -> {
             Exam exam = cellData.getValue();
             Integer courseId = exam.getCourseId();
-
-            // Retrieve the course name based on the course ID
             String courseName = HmCourseIdName.get(courseId);
-
             return new SimpleStringProperty(courseName);
         });
-        
-        // Set the cell value factory for the Is Locked column
         clmIsLocked.setCellValueFactory(cellData -> {
             Integer isLocked = cellData.getValue().isLocked();
             String lockedStatus = isLocked != 0 ? "Yes" : "No";
@@ -140,7 +148,11 @@ public class ManageExamsController extends AbstractController  {
 
 	}
 
-
+    /**
+     * Loading the exams from the server.
+     * @param rs result set from the server.
+     * @throws Exception if cant load.
+     */
 	public void loadExams(ArrayList<HashMap<String, Object>> rs) throws Exception {
 		eArr= new ArrayList<>();
 		for (int i = 0; i < rs.size(); i++) {
@@ -153,7 +165,11 @@ public class ManageExamsController extends AbstractController  {
 		}
 	}
     
-    
+    /**
+     * Activate the AnalyzeExam FXML page.
+     * @param event Action event
+     * @throws IOException
+     */
     @FXML
     void AnalyzeExam(ActionEvent event) throws IOException {
     	Stage primaryStage = new Stage();
@@ -185,6 +201,11 @@ public class ManageExamsController extends AbstractController  {
     	}
     }
     
+    /**
+     * Activate ChangeDuration FXML page.
+     * @param event Action event.
+     * @throws IOException 
+     */
     @FXML
     void ChangeDuration(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
@@ -215,7 +236,12 @@ public class ManageExamsController extends AbstractController  {
     	    }
     	}
     }
-
+    
+    /**
+     * Activate the LockExam FXML page.
+     * @param event action event.
+     * @throws IOException
+     */
     @FXML
     void LockExam(ActionEvent event) throws IOException {
 		Stage primaryStage = new Stage();
@@ -249,13 +275,14 @@ public class ManageExamsController extends AbstractController  {
     	    }
     	}
     }
-
+    /**
+     * Activate ViewAllExams FXML page.
+     * @param event Action event.
+     */
     @FXML
     void ViewAllExams(ActionEvent event) {
-    	//((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		Stage primaryStage = new Stage();
 		ViewAllExamsController viewAllExamController = new ViewAllExamsController();
-		//need to implement start method in AddNewQuestionController and then -->
 		viewAllExamController.start(primaryStage);
 
     }
