@@ -7,11 +7,8 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
 import abstractControllers.AbstractController;
-import abstractControllers.AbstractController.DragHandler;
-import abstractControllers.AbstractController.PressHandler;
 import client.ConnectionServer;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,9 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -38,8 +33,6 @@ import javafx.stage.StageStyle;
  * Implements Initializable.
  */
 public class HODviewStatisticsByLecturerController extends AbstractController implements Initializable {
-	private double xOffset = 0; 
-	private double yOffset = 0;
 	private ArrayList<Integer> gradesArr = new ArrayList<>();
 	private HashMap<Integer, String> examId_ExamName = new HashMap<>();
 	private HashMap<Double, String> examAvg_ExamName = new HashMap<>();
