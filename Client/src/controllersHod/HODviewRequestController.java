@@ -326,26 +326,29 @@ public class HODviewRequestController extends AbstractController implements Init
 	 */
     @FXML
 	private void getDenyButton(ActionEvent event) {
-		ArrayList<Request> selectedId = new ArrayList<>();
-		selectedId.addAll(RequestsTable.getSelectionModel().getSelectedItems());
-		if(selectedId.isEmpty()) {
+		Request selectedId = RequestsTable.getSelectionModel().getSelectedItem();
+		if(selectedId==null) {
 			lblNonSelected.setText("No entry was selected!");
 		}
 		else {
 			lblNonSelected.setText("");
-			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> user = new ArrayList<>();
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> user = new ArrayList<>();
 			user.add("HOD");
 			msg.put("client", user);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(""+selectedId.get(0).getRequestId());
-			msg.put("requestId",parameter);
-			ArrayList<String> status = new ArrayList<>();
-			status.add("denied");
-			msg.put("status",status);
-			ArrayList<String> query = new ArrayList<>();
-			query.add("updateRequest");
-			msg.put("task",query);
+			ArrayList<Object> param = new ArrayList<>();
+			param.add(selectedId.getRequestId());
+			param.add(selectedId.getExamId());
+			param.add(selectedId.getLecturerId());
+			param.add(selectedId.getCourseId());
+			param.add(selectedId.getSubject());
+			param.add(selectedId.getOldDuration());
+			param.add(selectedId.getNewDuration());
+			param.add("denied");
+			msg.put("param", param);
+			ArrayList<Object> task = new ArrayList<>();
+			task.add("updateRequestDenied");
+			msg.put("task",task);
 			sendMsgToServer(msg);
 			if(ConnectionServer.rs != null) {
 				System.out.println("request denied successfuly!");
