@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import common.ILoginManager;
 import controllersHod.HODmenuController;
 import controllersLecturer.LecturerMenuController;
 import controllersStudent.StudentMenuController;
@@ -28,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class LogInController extends AbstractController{
+	ILoginManager iLoginManager;
 	
     @FXML
     private Button LoginButton;
@@ -52,12 +54,79 @@ public class LogInController extends AbstractController{
 
     @FXML
     private Button btnMinimize;
+		
+	private class LoginManager implements ILoginManager{
+
+		@Override
+		public String isValidPermission(String userName, String password) throws Exception {
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> userInfo = new ArrayList<>();
+			userInfo.add("User");
+			msg.put("client", userInfo);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("loginAttempt");
+			msg.put("task", query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(password);
+			parameter.add(userName);
+			msg.put("details", parameter);
+			sendMsgToServer(msg);
+			if(!ConnectionServer.rs.isEmpty()) {
+				HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
+				switch ((String) rsHM.get("access")){
+				
+					case "approve":
+						User user = (User) rsHM.get("response");
+						initializeCourses();
+						if(user instanceof Lecturer) {
+							ConnectionServer.getInstance().setUser((Lecturer) user);
+							return "Lecturer";
+						}
+						else if (user instanceof Hod) {
+							ConnectionServer.getInstance().setUser((Hod) user);
+							return "HOD";
+						}
+						else if (user instanceof Student) {
+							ConnectionServer.getInstance().setUser((Student) user);
+							return "Student";
+						}
+						else {
+							ConnectionServer.getInstance().setUser((Super) user);
+							return "Super";
+						}
+						
+					case "deny":
+						return (String) rsHM.get("response");
+				}
+			}
+			return "No Such User";
+		}
+
+		@Override
+		public String getUserName() {
+			return getUserName();
+		}
+
+		@Override
+		public String getPassword() {
+			return getPassword();
+		}
+		
+	}
+	    
+	public LogInController(ILoginManager iLoginManager) {
+		this.iLoginManager = iLoginManager;
+	}
+	
+	public LogInController() {
+		this.iLoginManager = new LoginManager();
+	}
 
     /**
 	 *password getter
 	 *@return String of the password
 	 * */
-    private String getPassword() {
+    public String getPassword() {
 		return PasswordTxt.getText();
 	}
     
@@ -65,71 +134,83 @@ public class LogInController extends AbstractController{
 	 *userName getter
 	 *@return String of the userName
 	 * */
-    private String getUserName() {
+    public String getUserName() {
 		return UserNameTxt.getText();
+	}
+    
+    /**
+	 *lblError getter
+	 *@return String of the lblError
+	 * */
+	public Text getLblError() {
+		return lblError;
 	}
     
     /**
 	 *this method implements the login button and logs in to the relevant user premission menu.
 	 *@param event
 	 * */
-	public void getLoginBtn(ActionEvent event) throws Exception {
+	public Boolean getLoginBtn(ActionEvent event) throws Exception {
 		Stage primaryStage = new Stage();
 		try {
-			switch(isValidPermission(getUserName(), getPassword())) {
+			switch(iLoginManager.isValidPermission(getUserName(), getPassword())) {
 				case("Lecturer"):
 					System.out.println("Lecturer Login Successfuly.");
 					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					LecturerMenuController lecturerMenuController = new LecturerMenuController();	
 					lecturerMenuController.start(primaryStage);
-					break;
+					return true;
 					
 				case("Student"):
 					System.out.println("Student Login Successfuly.");
 					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					StudentMenuController studentMenuController = new StudentMenuController();	
 					studentMenuController.start(primaryStage);
-					break;
+					return true;
 					
 				case("HOD"):
 					System.out.println("HOD Login Successfuly.");
 					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					HODmenuController hodMenuController = new HODmenuController();	
 					hodMenuController.start(primaryStage);
-					break;
+					return true;
 					
 				case "Super":
 					System.out.println("Super Login Successfuly.");
 					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
 					ChooseProfileController chooseProfileController = new ChooseProfileController();	
 					chooseProfileController.start(primaryStage);
-					break;
+					return true;
 					
 				case "logged in":
 					System.out.println("User is already logged in");
 					lblError.setText("This user is already logged in to the system.");
-					break;
+					return false;
 					
 				case "not exist":
 					System.out.println("User does not exist");
 					lblError.setText("User does not exist in the system, try again.");
-					break;
+					return false;
 					
 				case "wrong credentials":
 					System.out.println("User does not exist");
 					lblError.setText("Wrong password, try again.");
+					return false;
+
 					
 				default: 
 		    		System.out.println("no such user");
-		    		break;
+					return false;
 			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Wrong input, try again");
+			return false;
 		}	
 	}
 	
+
 	/**
 	 *this method implements the back button and moves back to the client connection screen.
 	 *@param event
@@ -141,55 +222,6 @@ public class LogInController extends AbstractController{
 		Stage primaryStage = new Stage();
 		ConnectClientScreenController connectClientScreenController = new ConnectClientScreenController();
 		connectClientScreenController.start(primaryStage);
-	}
-	
-	
-	/**
-	 *this method checks if the client has a valid permission listed in the DB.
-	 *@param event
-	 * */
-	public String isValidPermission(String userName, String password) throws Exception {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> userInfo = new ArrayList<>();
-		userInfo.add("User");
-		msg.put("client", userInfo);
-		ArrayList<String> query = new ArrayList<>();
-		query.add("loginAttempt");
-		msg.put("task", query);
-		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(password);
-		parameter.add(userName);
-		msg.put("details", parameter);
-		super.sendMsgToServer(msg);
-		if(!ConnectionServer.rs.isEmpty()) {
-			HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
-			switch ((String) rsHM.get("access")){
-			
-				case "approve":
-					User user = (User) rsHM.get("response");
-					initializeCourses();
-					if(user instanceof Lecturer) {
-						ConnectionServer.getInstance().setUser((Lecturer) user);
-						return "Lecturer";
-					}
-					else if (user instanceof Hod) {
-						ConnectionServer.getInstance().setUser((Hod) user);
-						return "HOD";
-					}
-					else if (user instanceof Student) {
-						ConnectionServer.getInstance().setUser((Student) user);
-						return "Student";
-					}
-					else {
-						ConnectionServer.getInstance().setUser((Super) user);
-						return "Super";
-					}
-					
-				case "deny":
-					return (String) rsHM.get("response");
-			}
-		}
-		return "No Such User";
 	}
     
 	/**
