@@ -1,4 +1,5 @@
 package controllersClient;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -56,60 +57,83 @@ public class LogInController extends AbstractController{
     private Button btnMinimize;
 		
 	private class LoginManager implements ILoginManager{
-
-		@Override
-		public String isValidPermission(String userName, String password) throws Exception {
-			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> userInfo = new ArrayList<>();
-			userInfo.add("User");
-			msg.put("client", userInfo);
-			ArrayList<String> query = new ArrayList<>();
-			query.add("loginAttempt");
-			msg.put("task", query);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(password);
-			parameter.add(userName);
-			msg.put("details", parameter);
-			sendMsgToServer(msg);
-			if(!ConnectionServer.rs.isEmpty()) {
-				HashMap<String,Object> rsHM = ConnectionServer.rs.get(0);
-				switch ((String) rsHM.get("access")){
-				
-					case "approve":
-						User user = (User) rsHM.get("response");
-						initializeCourses();
-						if(user instanceof Lecturer) {
-							ConnectionServer.getInstance().setUser((Lecturer) user);
-							return "Lecturer";
-						}
-						else if (user instanceof Hod) {
-							ConnectionServer.getInstance().setUser((Hod) user);
-							return "HOD";
-						}
-						else if (user instanceof Student) {
-							ConnectionServer.getInstance().setUser((Student) user);
-							return "Student";
-						}
-						else {
-							ConnectionServer.getInstance().setUser((Super) user);
-							return "Super";
-						}
-						
-					case "deny":
-						return (String) rsHM.get("response");
+		
+		 public ArrayList<HashMap<String,Object>> getUserFromDB(String userName, String password){
+		    	HashMap<String,ArrayList<String>> msg = new HashMap<>();
+				ArrayList<String> userInfo = new ArrayList<>();
+				userInfo.add("User");
+				msg.put("client", userInfo);
+				ArrayList<String> query = new ArrayList<>();
+				query.add("loginAttempt");
+				msg.put("task", query);
+				ArrayList<String> parameter = new ArrayList<>();
+				parameter.add(password);
+				parameter.add(userName);
+				msg.put("details", parameter);
+				sendMsgToServer(msg);
+				if(ConnectionServer.rs==null) {
+					return new ArrayList<>();
 				}
-			}
-			return "No Such User";
-		}
+				return ConnectionServer.rs;
+		    }
 
 		@Override
 		public String getUserName() {
-			return getUserName();
+			return UserNameTxt.getText();
 		}
 
 		@Override
 		public String getPassword() {
-			return getPassword();
+			return PasswordTxt.getText();
+		}
+
+		@Override
+		public Stage getStage() {
+			return new Stage();
+		}
+
+		@Override
+		public void initializeCoursesLogin() {
+			initializeCourses();
+		}
+
+		@Override
+		public void setUser(User user) {
+			ConnectionServer.getInstance().setUser(user);
+		}
+
+		@Override
+		public void hideWindow(ActionEvent event) {
+			((Node) event.getSource()).getScene().getWindow().hide();
+		}
+
+		@Override
+		public LecturerMenuController LecturerMenuController() {
+			return new LecturerMenuController();
+		}
+
+		@Override
+		public StudentMenuController StudentMenuController() {
+			// TODO Auto-generated method stub
+			return new StudentMenuController();
+		}
+
+		@Override
+		public HODmenuController HODmenuController() {
+			// TODO Auto-generated method stub
+			return new HODmenuController();
+		}
+
+		@Override
+		public ChooseProfileController ChooseProfileController() {
+			// TODO Auto-generated method stub
+			try {
+				return new ChooseProfileController();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 	}
@@ -122,21 +146,21 @@ public class LogInController extends AbstractController{
 		this.iLoginManager = new LoginManager();
 	}
 
-    /**
-	 *password getter
-	 *@return String of the password
-	 * */
-    public String getPassword() {
-		return PasswordTxt.getText();
-	}
-    
-    /**
-	 *userName getter
-	 *@return String of the userName
-	 * */
-    public String getUserName() {
-		return UserNameTxt.getText();
-	}
+//    /**
+//	 *password getter
+//	 *@return String of the password
+//	 * */
+//    public String getPassword() {
+//		return PasswordTxt.getText();
+//	}
+//    
+//    /**
+//	 *userName getter
+//	 *@return String of the userName
+//	 * */
+//    public String getUserName() {
+//		return UserNameTxt.getText();
+//	}
     
     /**
 	 *lblError getter
@@ -151,53 +175,63 @@ public class LogInController extends AbstractController{
 	 *@param event
 	 * */
 	public Boolean getLoginBtn(ActionEvent event) throws Exception {
-		Stage primaryStage = new Stage();
+		Stage primaryStage = iLoginManager.getStage();
 		try {
-			switch(iLoginManager.isValidPermission(getUserName(), getPassword())) {
+			switch(isValidPermission(iLoginManager.getUserName(), iLoginManager.getPassword())) {
 				case("Lecturer"):
 					System.out.println("Lecturer Login Successfuly.");
-					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
-					LecturerMenuController lecturerMenuController = new LecturerMenuController();	
+					iLoginManager.hideWindow(event);
+					LecturerMenuController lecturerMenuController = iLoginManager.LecturerMenuController();	
 					lecturerMenuController.start(primaryStage);
 					return true;
 					
 				case("Student"):
 					System.out.println("Student Login Successfuly.");
-					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
-					StudentMenuController studentMenuController = new StudentMenuController();	
+					iLoginManager.hideWindow(event);					
+					StudentMenuController studentMenuController = iLoginManager.StudentMenuController();	
 					studentMenuController.start(primaryStage);
 					return true;
 					
 				case("HOD"):
 					System.out.println("HOD Login Successfuly.");
-					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
-					HODmenuController hodMenuController = new HODmenuController();	
+					iLoginManager.hideWindow(event);					
+					HODmenuController hodMenuController = iLoginManager.HODmenuController();	
 					hodMenuController.start(primaryStage);
 					return true;
 					
 				case "Super":
 					System.out.println("Super Login Successfuly.");
-					((Node) event.getSource()).getScene().getWindow().hide(); //hiding primary window
-					ChooseProfileController chooseProfileController = new ChooseProfileController();	
+					iLoginManager.hideWindow(event);	 //hiding primary window
+					ChooseProfileController chooseProfileController = iLoginManager.ChooseProfileController();	
 					chooseProfileController.start(primaryStage);
 					return true;
 					
 				case "logged in":
 					System.out.println("User is already logged in");
+					if(lblError==null)
+						lblError=new Text();
 					lblError.setText("This user is already logged in to the system.");
 					return false;
 					
 				case "not exist":
 					System.out.println("User does not exist");
+					if(lblError==null)
+						lblError=new Text();
 					lblError.setText("User does not exist in the system, try again.");
 					return false;
 					
 				case "wrong credentials":
-					System.out.println("User does not exist");
+					System.out.println("Wrong password, try again.");
+					if(lblError==null)
+						lblError=new Text();
 					lblError.setText("Wrong password, try again.");
 					return false;
-
-					
+				case "empty field": //fixed bug for null and empty string
+					System.out.println("One of the fields is empty");
+					if(lblError==null)
+						lblError=new Text();
+					lblError.setText("One of the fields is empty, try again.");
+					return false;
 				default: 
 		    		System.out.println("no such user");
 					return false;
@@ -246,6 +280,43 @@ public class LogInController extends AbstractController{
 		}
 	}
     
+    public String isValidPermission(String userName, String password) throws Exception {
+    	//fixed bug for null and empty string
+    	if(userName==null || password==null ||userName=="" ||password=="") {
+    		return "empty field";
+    	}
+    	ArrayList<HashMap<String,Object>> rs = iLoginManager.getUserFromDB(userName, password);
+		if(!rs.isEmpty()) {
+			HashMap<String,Object> rsHM = rs.get(0);
+			switch ((String) rsHM.get("access")){
+				case "approve":
+					User user = (User) rsHM.get("response");
+					iLoginManager.initializeCoursesLogin();
+					if(user instanceof Lecturer) {
+						iLoginManager.setUser((Lecturer) user);
+						return "Lecturer";
+					}
+					else if (user instanceof Hod) {
+						iLoginManager.setUser((Hod) user);
+						return "HOD";
+					}
+					else if (user instanceof Student) {
+						iLoginManager.setUser((Student) user);
+						return "Student";
+					}
+					else {
+						iLoginManager.setUser((Super) user);
+						return "Super";
+					}
+					
+				case "deny":
+					return (String) rsHM.get("response");
+			}
+		}
+		return "No Such User";
+	}
+    
+   
     /**
 	 *this method exits the buttons the screen
 	 *@param ActionEvent event
@@ -266,4 +337,6 @@ public class LogInController extends AbstractController{
     	Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }
+    
+    
 }
