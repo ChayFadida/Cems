@@ -23,7 +23,12 @@ public class ConnectionServer extends AbstractClient{
 	public static ArrayList<HashMap<String,Object>> rs;
 	public static User user;
 	public static boolean awaitResponse = false;
-
+	
+	public ConnectionServer(ConnectionServer connectionServer) {
+		super("",0);
+		instance=connectionServer;
+	}
+	
 	public ConnectionServer(String host, int port) 
       throws IOException {
 		super(host, port); //Call the superclass constructor
@@ -157,4 +162,5 @@ public class ConnectionServer extends AbstractClient{
 	    	}
 	    }
 	}
+
 }

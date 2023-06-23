@@ -2,7 +2,6 @@ package abstractControllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import client.ConnectionServer;
 import entities.User;
 import javafx.event.Event;
@@ -25,6 +24,7 @@ public abstract class AbstractController {
 	 *this method sends message tot he server
 	 *@param Object msg
 	 * */	
+	
 	public static void sendMsgToServer(Object msg) {
 		try {
 			ConnectionServer.getInstance().handleMessageFromClientUI(msg);
@@ -32,7 +32,6 @@ public abstract class AbstractController {
 			e.printStackTrace();
 		}
 	}
-  
 	/**
 	 * This method send message to server in order to logout from the server.
 	 * @param user the user that is logged in.
