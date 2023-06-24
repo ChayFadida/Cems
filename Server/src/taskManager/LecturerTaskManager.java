@@ -106,7 +106,7 @@ public class LecturerTaskManager implements TaskHandler {
 		    		System.out.println("no such method for lecturer");
 				}
 				
-		} catch( Exception ex) { ex.printStackTrace(); }
+		} catch( Exception ex) { System.out.println("exception was thrown in lecturer task handler"); }
 		return null;
 	}
 	/**
@@ -257,8 +257,9 @@ public class LecturerTaskManager implements TaskHandler {
 	 *
 	 * @param param an ArrayList containing the necessary parameters
 	 * @return an ArrayList of HashMaps containing the inserted question information
+	 * @throws Exception 
 	 */
-	private ArrayList<HashMap<String, Object>> insertQuestionToExam(ArrayList<Object> param) {
+	private ArrayList<HashMap<String, Object>> insertQuestionToExam(ArrayList<Object> param) throws Exception {
 		DBController dbController = DBController.getInstance();
 		ArrayList<HashMap<String, Object>> rs = dbController.insertQueries(SqlQueries.InsertQuestionToExamInDB(param));
 		return rs;
