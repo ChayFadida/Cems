@@ -42,16 +42,7 @@ class CreateExamTest {
 	 private static Question question10 = new Question(10, "Who painted the Sistine Chapel ceiling?", "Michelangelo", 3, "Art", "{'A': 'Leonardo da Vinci', 'B': 'Pablo Picasso', 'C': 'Vincent van Gogh', 'D': 'Michelangelo'}", "Some notes for question 10", "Course K");
 	 private static ArrayList<Integer> questionsId = new ArrayList<>();
 	 private static ArrayList<Integer> questionsScore = new ArrayList<>();
-	 private String courseId = "5";
-	 private String subject = "test subject";
-	 private String duration = "180";
-	 private String lecNotes = "test lec note";
-	 private String studNotes = "test stud note";
-	 private String userId = "1";
-	 private String code = "tst1";
-	 private String examCount = "5";
-	 private String bankId = "1";
-	 private String name = "exam Test Name";
+	 
 	@BeforeAll
 	static void setUp() throws Exception {
 		// connect to DB
@@ -456,7 +447,7 @@ class CreateExamTest {
 		taskHandler.executeUserCommand(hm);
 	}
 	
-	// checking add questions with one null param to the server side hte null param is questionId.
+	// checking add questions with one null param to the server side the null param is questionId.
     // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
     // expected: return null from server.
 	@Test
@@ -514,7 +505,7 @@ class CreateExamTest {
 		taskHandler.executeUserCommand(hm);
 	}
 	
-	// checking add questions with one null param to the server side hte null param is question scores.
+	// checking add questions with one null param to the server side the null param is question scores.
     // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
     // expected: return null from server.
 	@Test
@@ -573,12 +564,5 @@ class CreateExamTest {
 		parameter.add(newExamId);
 		taskHandler.executeUserCommand(hm);
 	}
-	
-	
-	
-	
 }
-	
-	
-	
 
