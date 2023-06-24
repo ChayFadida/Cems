@@ -16,6 +16,8 @@ import entities.Lecturer;
 import entities.Question;
 import entities.QuestionForExam;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import thirdPart.JsonHandler;
 
 /**
@@ -43,7 +46,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	private ArrayList<QuestionForExam> qArr;
 	private ArrayList<Object> qSelected=new ArrayList<>();
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
-	private boolean created_success;
+	private boolean created_success = true;
 	
 	public CreateNewExamController() {
 		super();
@@ -55,130 +58,11 @@ public class CreateNewExamController extends AbstractController implements Initi
 		this.createNewExamManager = createNewExamManager;
 	}
 
-	private class CreateNewExamManager implements CreateNewExamManagerIF{
-		
-		public String getSubject() {
-			return txtSubject.getText();
-		}
-		public String getCode() {
-			return codetXT.getText();
-		}
-		public String getDuration() {
-			return DurauinTxt.getText();
-		}
-		public String getLecNotes() {
-			return lecNotesTxt.getText();
-		}
-		public String getStudNotes() {
-			return studNotesText.getText();
-		}
-		public String getName() {
-			return txtName.getText();
-		}
-		public void addAllSelectedToArray(ObservableList<QuestionForExam> selectedItems) {
-			qSelected.addAll(selectedItems);
-		}
-		public ArrayList<Object> getSelected(){
-			return qSelected;
-		}
-		public void initializeSelected() {
-			qSelected = new ArrayList<>();
-		}
-		
-		public ArrayList<HashMap<String, Object>> insertExamToDB(String code, String duration, String lecNotes, String studNotes, String name, String subject){
-			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-			ArrayList<Object> user = new ArrayList<>();
-			HashMap<String, Object> bank=getExamBank();
-			user.add("Lecturer");
-			msg.put("client", user);
-			ArrayList<Object> query = new ArrayList<>();
-			query.add("insertExam");
-			msg.put("task", query);
-			ArrayList<Object> parameter = new ArrayList<>();
-			parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
-			parameter.add(subject);
-			parameter.add(duration);
-			parameter.add(lecNotes);
-			parameter.add(studNotes);
-			parameter.add(ConnectionServer.user.getId()+"");
-			parameter.add(code);
-			parameter.add((getLecturerExamCount() + 1) + "");
-			parameter.add((Integer) bank.get("bankId")+"");
-			parameter.add(name);
-			msg.put("questions", qSelected);
-			msg.put("param", parameter);
-			sendMsgToServer(msg);
-			return ConnectionServer.rs;
-		}
-		
-		public ArrayList<HashMap<String, Object>> insertQuestionsToDB(Integer examId){
-			HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
-			HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
-			ArrayList<Integer> qIds= new ArrayList<>();
-			ArrayList<Integer> qScores= new ArrayList<>();
-			for(Object q: qSelected) {
-				qIds.add(((QuestionForExam) q).getQuestionID());
-				qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
-			}
-			qIdsHm.put("questions", qIds);
-			qScoresHm.put("scores", qScores);
-			String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
-			String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
-			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-			ArrayList<Object> user = new ArrayList<>();
-			user.add("Lecturer");
-			msg.put("client", user);
-			ArrayList<Object> query = new ArrayList<>();
-			query.add("insertQuestionsForExam");
-			msg.put("task", query);
-			ArrayList<Object> parameter = new ArrayList<>();
-			parameter.add(examId + "");
-			parameter.add(qIdsStr);
-			parameter.add(qScoresStr);
-			msg.put("param", parameter);
-			sendMsgToServer(msg);
-			return ConnectionServer.rs;
-		}
-		
-		public ArrayList<HashMap<String, Object>> updateExamBank(HashMap<String, Object> bank, Integer examId){
-			String exams = (String) bank.get("exams");
-			HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class, Integer.class);
-			ArrayList<Integer> examsInBank = jsonHM.get("exams");
-			examsInBank.add(examId);
-			jsonHM.put("exams", examsInBank);
-			String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
-			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> user = new ArrayList<>();
-			user.add("Lecturer");
-			msg.put("client", user);
-			ArrayList<String> query = new ArrayList<>();
-			query.add("updateExamBankById");
-			msg.put("task", query);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(bank.get("bankId") + "");
-			parameter.add(jsonString);
-			msg.put("param", parameter);
-			sendMsgToServer(msg);
-			return ConnectionServer.rs;
-		}
-		
-		public ArrayList<HashMap<String, Object>> getExamBankQuery() {
-			HashMap<String,ArrayList<String>> msg = new HashMap<>();
-			ArrayList<String> user = new ArrayList<>();
-			user.add("Lecturer");
-			msg.put("client", user);
-			ArrayList<String> query = new ArrayList<>();
-			query.add("getExamBankByLecId");
-			msg.put("task", query);
-			ArrayList<String> parameter = new ArrayList<>();
-			parameter.add(ConnectionServer.user.getId()+"");
-			msg.put("param", parameter);
-			sendMsgToServer(msg);
-			return ConnectionServer.rs;
-		}
-	}
-
 	
+	
+	
+	
+
 	private int sum;
     @FXML
     private ComboBox<Course> CourseComboBox;
@@ -229,25 +113,25 @@ public class CreateNewExamController extends AbstractController implements Initi
     private Button btnSelected;
 
     @FXML
-    private Label lblError;
+    private Text lblError;
 
     @FXML
-    private Label lblErrorCode;
+    private Text lblErrorCode;
 
     @FXML
-    private Label lblErrorDuration;
+    private Text lblErrorDuration;
     
     @FXML
-    private Label lblScore;
+    private Text lblScore;
     
     @FXML
-    private Label lblErrorSelected;
+    private Text lblErrorSelected;
     
     @FXML
-    private Label lblErrorName;
+    private Text lblErrorName;
     
     @FXML
-    private Label lblErrorSubject;
+    private Text lblErrorSubject;
     
 	 /**
      * Activate necessary methodes and send relevant message to the DB.
@@ -264,7 +148,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 		if(rs == null) {
 			System.out.println("Could not load data from DB.");
 			return;
-		}
+		}	
 		BigInteger lastId = (BigInteger) rs.get(0).get("id");
 		Integer examId = lastId.intValue();
 		addToExamBank(bank,examId);
@@ -279,46 +163,49 @@ public class CreateNewExamController extends AbstractController implements Initi
     @FXML
     public void getFinish(ActionEvent event) {
     	if(lblError==null)
-    		lblError= new Label();
+    		lblError= new Text();
     	lblError.setText(" ");
     	if(lblErrorCode==null)
-    		lblErrorCode= new Label();
+    		lblErrorCode= new Text();
     	lblErrorCode.setText(" ");
     	if(lblErrorDuration==null)
-    		lblErrorDuration= new Label();
+    		lblErrorDuration= new Text();
     	lblErrorDuration.setText(" ");
     	if(lblErrorSelected==null)
-    		lblErrorSelected= new Label();
+    		lblErrorSelected= new Text();
     	lblErrorSelected.setText(" ");
     	if(lblErrorSubject==null)
-    		lblErrorSubject= new Label();
+    		lblErrorSubject= new Text();
     	lblErrorSubject.setText(" ");
-    	String subject = createNewExamManager.getSubject();
-    	String code = createNewExamManager.getCode();
-    	String duration = createNewExamManager.getDuration();
-    	String lecNotes = createNewExamManager.getLecNotes();
-    	String studNotes = createNewExamManager.getStudNotes();
-    	String name = createNewExamManager.getName();
+    	if(lblErrorName==null)
+    		lblErrorName= new Text();
+    	lblErrorName.setText(" ");
+    	String subject = createNewExamManager.getTxtSubject();
+    	String code = createNewExamManager.getCodeTxt();
+    	String duration = createNewExamManager.getDurationTxt();
+    	String lecNotes = createNewExamManager.getLecNotesTxt();
+    	String studNotes = createNewExamManager.getStudNotesText();
+    	String name = createNewExamManager.getTxtName();
     	boolean flag= false;
     	
-    	if(name.equals("")) {
+    	if(name ==null || name.equals("")) {
 			lblErrorName.setText("You must enter an exam name");
     		flag=true;
     	}
-    	if(qArr == null || qArr.isEmpty()) {
+    	if(createNewExamManager.getSelected() == null || createNewExamManager.getSelected().isEmpty()) {
     		lblError.setText("You must select atleast one question");
     		flag=true;
     	}
-    	if(subject.equals("")) {
+    	if(subject ==null || subject.equals("")) {
     		lblErrorSubject.setText("You must enter a subject");
     		flag=true;
     	}
-    	if(code.length() != 4 || !code.matches("^[a-zA-Z0-9]+$")) {
+    	if(code ==null || code.length() != 4 || !code.matches("^[a-zA-Z0-9]+$")) {
     		lblErrorCode.setText("Code must be 4 digits and contains only letters and numbers.");
     		flag=true;
     	}
     	//code refactor
-    	if(!duration.matches("\\d+") || duration != "0") {
+    	if(duration ==null || !duration.matches("\\d+") || duration == "0") {
     		lblErrorDuration.setText("Duration must contain only numbers above 0 (represents minutes).");
     		flag=true;
     	}
@@ -335,10 +222,10 @@ public class CreateNewExamController extends AbstractController implements Initi
     		return;
     	}
     	if(lecNotes == null)
-    		lecNotes = " ";
+    		lecNotes = " ";	 
     	if(studNotes == null)
     		studNotes = " ";
-    	createExam(code,duration,lecNotes,studNotes,name,subject);
+    	createExam(code,duration,lecNotes,studNotes,name,subject); 
     	if(created_success) {
 			lblError.setText("Exam uploaded successfully");
 		}
@@ -350,61 +237,7 @@ public class CreateNewExamController extends AbstractController implements Initi
    
 
 	
-	public Label getLblError() {
-		return lblError;
-	}
-
-	public void setLblError(Label lblError) {
-		this.lblError = lblError;
-	}
-
-	public Label getLblErrorCode() {
-		return lblErrorCode;
-	}
-
-	public void setLblErrorCode(Label lblErrorCode) {
-		this.lblErrorCode = lblErrorCode;
-	}
-
-	public Label getLblErrorDuration() {
-		return lblErrorDuration;
-	}
-
-	public void setLblErrorDuration(Label lblErrorDuration) {
-		this.lblErrorDuration = lblErrorDuration;
-	}
-
-	public Label getLblScore() {
-		return lblScore;
-	}
-
-	public void setLblScore(Label lblScore) {
-		this.lblScore = lblScore;
-	}
-
-	public Label getLblErrorSelected() {
-		return lblErrorSelected;
-	}
-
-	public void setLblErrorSelected(Label lblErrorSelected) {
-		this.lblErrorSelected = lblErrorSelected;
-	}
-
-	public Label getLblErrorName() {
-		return lblErrorName;
-	}
-
-	public void setLblErrorName(Label lblErrorName) {
-		this.lblErrorName = lblErrorName;
-	}
-
-	public Label getLblErrorSubject() {
-		return lblErrorSubject;
-	}
-
-	public void setLblErrorSubject(Label lblErrorSubject) {
-		this.lblErrorSubject = lblErrorSubject;
-	}
+	
 
 	/**
 	 * Add question and score to the lecturer exam.
@@ -451,14 +284,14 @@ public class CreateNewExamController extends AbstractController implements Initi
 		lblErrorCode.setText(" ");
 		lblErrorDuration.setText(" ");
 		lblErrorSelected.setText(" ");
-		txtSubject.setText("");
-		txtName.setText("");
-		codetXT.setText("");
-		DurauinTxt.setText("");
-		lecNotesTxt.setText("");
-		studNotesText.setText("");
+		createNewExamManager.setTxtSubject("");
+		createNewExamManager.setTxtName("");
+		createNewExamManager.setCodeTxt("");
+		createNewExamManager.setDurationTxt("");
+		createNewExamManager.setLecNotesTxt("");
+		createNewExamManager.setStudNotesText("");
 		lblScore.setText("0/100");
-		loadQuestions(CourseComboBox.getSelectionModel().getSelectedItem());
+		createNewExamManager.loadQuestionsTable();
 	}
 	
 	/**
@@ -573,6 +406,9 @@ public class CreateNewExamController extends AbstractController implements Initi
 		    		(String) element.get("rightAnswer"), (Integer) element.get("questionBank"), 
 		    		(String) element.get("subject"), (String) element.get("answers"),(String) element.get("notes"), (String) element.get("courses"));
 		    QuestionForExam questionForExam = new QuestionForExam(q,"0");
+		    TextField txtField = new TextField("0");
+		    questionForExam.setScore(txtField);
+		    questionForExam.getScore().textProperty().addListener((observable,oldValue,newValue)->questionForExam.setStrScore(newValue));
 		    qArr.add(questionForExam);
 		}
 		loadTable();
@@ -618,24 +454,33 @@ public class CreateNewExamController extends AbstractController implements Initi
     	createNewExamManager.initializeSelected();
     	sum = 0;
     	if(lblErrorSelected==null)
-    		lblErrorSelected= new Label();
+    		lblErrorSelected= new Text();
     	lblErrorSelected.setText(" ");
     	if(lblScore==null)
-    		lblScore= new Label();
+    		lblScore= new Text();
     	lblScore.setText("0/100");
-    	createNewExamManager.addAllSelectedToArray(QuestionTable.getSelectionModel().getSelectedItems());
+    	
+    	createNewExamManager.addAllSelectedToArray(createNewExamManager.getSelectedItemsFromTable());
+    	if(createNewExamManager.getSelected().isEmpty()) {
+			lblErrorSelected.setText("No questions were selected.");
+			return;
+    	}
     	//qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
     	for(Object q: createNewExamManager.getSelected()) {
-    		String scoreStr = ((QuestionForExam) q).getScore().getText();
-    		if(!scoreStr.matches("\\d+")) {
-    			lblErrorSelected.setText("One of the selected questions score is not number, try again.");
+    		String scoreStr = ((QuestionForExam) q).getStrScore();
+    		//String scoreStr = ((QuestionForExam) q).getScore().getText();
+    		if(scoreStr==null || !scoreStr.matches("\\d+")) {
+    			lblErrorSelected.setText("One of the selected questions score is not a positive number, try again.");
     			createNewExamManager.initializeSelected();
+    			lblScore.setText("0/100");
     			return;
     		}
-    		int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
+    		int score = Integer.parseInt(scoreStr);
+    		//int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
     		if(score == 0) {
     			lblErrorSelected.setText("One of the selected questions score is set to '0', try again.");
     			createNewExamManager.initializeSelected();
+    			lblScore.setText("0/100");
     			return;
     		}
     		sum = sum + score;
@@ -646,4 +491,196 @@ public class CreateNewExamController extends AbstractController implements Initi
     		createNewExamManager.initializeSelected();
     	}
     }
+    
+    public Text getLblError() {
+		return lblError;
+	}
+
+
+	public Text getLblErrorCode() {
+		return lblErrorCode;
+	}
+
+
+	public Text getLblErrorDuration() {
+		return lblErrorDuration;
+	}
+
+	public Text getLblScore() {
+		return lblScore;
+	}
+
+
+	public Text getLblErrorSelected() {
+		return lblErrorSelected;
+	}
+
+	public Text getLblErrorName() {
+		return lblErrorName;
+	}
+
+	public Text getLblErrorSubject() {
+		return lblErrorSubject;
+	}
+	
+private class CreateNewExamManager implements CreateNewExamManagerIF{
+		
+		public void addAllSelectedToArray(ObservableList<QuestionForExam> selectedItems) {
+			qSelected.addAll(selectedItems);
+		}
+		public ArrayList<Object> getSelected(){
+			return qSelected;
+		}
+		public void initializeSelected() {
+			qSelected = new ArrayList<>();
+		}
+		
+		public ArrayList<HashMap<String, Object>> insertExamToDB(String code, String duration, String lecNotes, String studNotes, String name, String subject){
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> user = new ArrayList<>();
+			HashMap<String, Object> bank=getExamBank();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<Object> query = new ArrayList<>();
+			query.add("insertExam");
+			msg.put("task", query);
+			ArrayList<Object> parameter = new ArrayList<>();
+			parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
+			parameter.add(subject);
+			parameter.add(duration);
+			parameter.add(lecNotes);
+			parameter.add(studNotes);
+			parameter.add(ConnectionServer.user.getId()+"");
+			parameter.add(code);
+			parameter.add((getLecturerExamCount() + 1) + "");
+			parameter.add((Integer) bank.get("bankId")+"");
+			parameter.add(name);
+			msg.put("questions", qSelected);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ArrayList<HashMap<String, Object>> insertQuestionsToDB(Integer examId){
+			HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
+			HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
+			ArrayList<Integer> qIds= new ArrayList<>();
+			ArrayList<Integer> qScores= new ArrayList<>();
+			for(Object q: qSelected) {
+				qIds.add(((QuestionForExam) q).getQuestionID());
+				qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
+			}
+			qIdsHm.put("questions", qIds);
+			qScoresHm.put("scores", qScores);
+			String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
+			String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<Object> query = new ArrayList<>();
+			query.add("insertQuestionsForExam");
+			msg.put("task", query);
+			ArrayList<Object> parameter = new ArrayList<>();
+			parameter.add(examId + "");
+			parameter.add(qIdsStr);
+			parameter.add(qScoresStr);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ArrayList<HashMap<String, Object>> updateExamBank(HashMap<String, Object> bank, Integer examId){
+			String exams = (String) bank.get("exams");
+			HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class, Integer.class);
+			ArrayList<Integer> examsInBank = jsonHM.get("exams");
+			examsInBank.add(examId);
+			jsonHM.put("exams", examsInBank);
+			String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("updateExamBankById");
+			msg.put("task", query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(bank.get("bankId") + "");
+			parameter.add(jsonString);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ArrayList<HashMap<String, Object>> getExamBankQuery() {
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getExamBankByLecId");
+			msg.put("task", query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(ConnectionServer.user.getId()+"");
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ObservableList<QuestionForExam> getSelectedItemsFromTable() {
+			return QuestionTable.getSelectionModel().getSelectedItems();
+		}
+		public String getDurationTxt() {
+			return DurauinTxt.getText();
+		}
+
+		public void setDurationTxt(String duration) {
+			DurauinTxt.setText(duration);
+		}
+
+		public String getCodeTxt() {
+			return codetXT.getText();
+		}
+
+		public void setCodeTxt(String code) {
+			codetXT.setText(code);
+		}
+
+		public String getLecNotesTxt() {
+			return lecNotesTxt.getText();
+		}
+
+		public void setLecNotesTxt(String lecNotes) {
+			lecNotesTxt.setText(lecNotes);
+		}
+
+		public String getStudNotesText() {
+			return studNotesText.getText();
+		}
+
+		public void setStudNotesText(String studNotes) {
+			studNotesText.setText(studNotes);
+		}
+
+		public String getTxtName() {
+			return txtName.getText();
+		}
+
+		public void setTxtName(String name) {
+			txtName.setText(name);
+		}
+
+		public String getTxtSubject() {
+			return txtSubject.getText();
+		}
+
+		public void setTxtSubject(String subject) {
+			txtSubject.setText(subject);
+		}
+		@Override
+		public void loadQuestionsTable() {
+			loadQuestions(CourseComboBox.getSelectionModel().getSelectedItem());
+		}
+		
+	}
 }
