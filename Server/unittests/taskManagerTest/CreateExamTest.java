@@ -1,34 +1,30 @@
 package taskManagerTest;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import DataBase.DBController;
-import entities.User;
 import taskManager.TaskHandler;
 import taskManager.TaskHandlerFactory;
 import thirdPart.ExamGenerator;
 import entities.Question;
+import java.math.BigInteger;
 
 class CreateExamTest {
 
 	 private TaskHandler taskHandler;
-	 ArrayList<Object> task;
+	 private ArrayList<Object> task;
 	 private ArrayList<Object> param;
 	 private static HashMap<String,String> dbinfo;
 	 private HashMap<String,ArrayList<Object>> hm;
 	 private static DBController dBController;
-	 private User expectedUser;
-	 private HashMap<String,Object> userhm;
 	 private ArrayList<Object> parameter;
 	 private static ArrayList<Object> questions = new ArrayList<>();
 	 private static Question question1 = new Question(1, "What is the capital of France?", "Paris", 1, "Geography", "{'A': 'Paris', 'B': 'London', 'C': 'Berlin', 'D': 'Rome'}", "Some notes for question 1", "Course A, Course B");
@@ -41,10 +37,7 @@ class CreateExamTest {
 	 private static Question question8 = new Question(8, "Who discovered the theory of relativity?", "Albert Einstein", 2, "Physics", "{'A': 'Isaac Newton', 'B': 'Marie Curie', 'C': 'Albert Einstein', 'D': 'Nikola Tesla'}", "Some notes for question 8", "Course I");
 	 private static Question question9 = new Question(9, "What is the largest ocean in the world?", "Pacific Ocean", 1, "Geography", "{'A': 'Atlantic Ocean', 'B': 'Indian Ocean', 'C': 'Arctic Ocean', 'D': 'Pacific Ocean'}", "Some notes for question 9", "Course A, Course J");
 	 private static Question question10 = new Question(10, "Who painted the Sistine Chapel ceiling?", "Michelangelo", 3, "Art", "{'A': 'Leonardo da Vinci', 'B': 'Pablo Picasso', 'C': 'Vincent van Gogh', 'D': 'Michelangelo'}", "Some notes for question 10", "Course K");
-	 private byte[] fileBytes;
 	 private Path tempDir;
-	 // You can access the instances like question1, question2, etc.
-
 	
 	@BeforeAll
 	static void setUp() throws Exception {
@@ -73,7 +66,7 @@ class CreateExamTest {
 	@BeforeEach
 	void setUpEach() throws Exception {
 	    TaskHandlerFactory.getInstance();
-		taskHandler = TaskHandlerFactory.getTaskHandler().get("User");
+		taskHandler = TaskHandlerFactory.getTaskHandler().get("Lecturer");
 		hm = new HashMap<String,ArrayList<Object>>();
 		task = new ArrayList<Object>();
 		parameter = new ArrayList<>();
@@ -87,6 +80,10 @@ class CreateExamTest {
 		} catch (Exception e) {	e.printStackTrace();}
 	}
 	
+	// checking creation of new valid exam is working.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: creation of new exam and upload new row that representing exam to db.
+	@Test
 	void insertExam_insertManualExamToDbSuccess() {
 		ArrayList<HashMap<String,Object>> expected = new ArrayList<HashMap<String,Object>>();
 		HashMap<String,Object> expectedhm = new HashMap<String,Object>();
@@ -106,48 +103,179 @@ class CreateExamTest {
         String studNotes = "test stud note";
         String userId = "1";
         String code = "tst1";
-        String examCount = "3";
-        Integer bankId = 1;
+        String examCount = "5";
+        String bankId = "1";
         String name = "exam Test Name";
-        byte[] expectedFileBytes; 
-        
-        examGenerator.generateExamDoc(questions, filePath, courseId, name, duration);
-        try {
-			fileBytes = Files.readAllBytes(Path.of(filePath));
-		} catch (IOException e) {
 
-		}
-		
 		expectedhm.put("examName", name);
-		expectedhm.put("courseId", courseId);
+		expectedhm.put("courseId", Integer.valueOf(courseId));
 		expectedhm.put("subject", subject);
-		expectedhm.put("duration", duration);
+		expectedhm.put("duration", Integer.valueOf(duration));
 		expectedhm.put("lecturerNote", lecNotes);
 		expectedhm.put("studentNote", studNotes);
-		expectedhm.put("composerId", userId);
+		expectedhm.put("composerId", Integer.valueOf(userId));
 		expectedhm.put("code", code);
 		expectedhm.put("examNum", examCount);
-		expectedhm.put("bankId", bankId);
-		expectedhm.put("examFile", fileBytes);
-		
-
-		
+		expectedhm.put("bankId", Integer.valueOf(bankId));
+		expectedhm.put("isLocked", 0);
+	
 		//set-up - client message.
 	    task.add("insertExam");	    
-		parameter.add("5");
+		parameter.add(courseId);
 		parameter.add(subject);
-		parameter.add("180");
-		parameter.add("test lec note");
-		parameter.add("test stud note");
-		parameter.add("1");
-		parameter.add("tst1");
-		parameter.add("5");
-		parameter.add(1);
-		parameter.add("exam Test Name");
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
 		hm.put("questions", questions);
+		expected.add(expectedhm);
+		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+		task.clear();
+		ArrayList<Object> newExamIdArr = new ArrayList<>();
+		newExamIdArr.add(newExamId.toString());
+		hm.put("param", newExamIdArr);
+		task.add("getExamsById");
 		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
-		
+		serverResult.get(0).remove("examId");
+		serverResult.get(0).remove("examFile");
 		assertEquals(serverResult, expected);
-
+	}
+	
+	
+	// checking creation of exam with null string parameter for all parameter interativly.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: exception thrown for each iteration.
+	@Test
+	void insertExam_nullExamParameter_fail() {
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+        
+		//set-up - client message.
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		
+		for (int i = 0 ; i < 10 ; i++) {
+			Object Obj = parameter.get(i);
+			parameter.remove(i);
+			parameter.add(i, null);
+			try {
+				BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+				fail("did not throw exception");
+			} catch(Exception e){
+				assertTrue(true);
+				parameter.add(i, Obj);
+			}
+		}
+	}
+	
+	// checking creation of exam with null array of questions.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code, null question array.
+    // expected: exception thrown.
+	@Test
+	void insertExam_nullQuestionArray_fail() {
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+        
+		//set-up - client message.
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", null);
+		try {
+			BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+			fail("did not throw exception");
+		} catch(Exception e){
+			assertTrue(true);
+		}
+	}
+	
+	// checking creation of exam with empty string parameter for all parameter interativly.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: exception thrown for each iteration.
+	@Test
+	void insertExam_emptyStringParamToCommandEachTime_fail() {
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+        
+		//set-up - client message.
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		
+		for (int i = 0 ; i < 10 ; i++) {
+			Object Obj = parameter.get(i);
+			parameter.remove(i);
+			parameter.add(i, "");
+			try {
+				BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+				fail("did not throw exception");
+			} catch(Exception e){
+				assertTrue(true);
+				parameter.add(i, Obj);
+			}
+		}
 	}
 }
+	
+	
+	
+

@@ -21,11 +21,15 @@ public class ExamGenerator {
 	 * @param filePath the file path to save the exam document
 	 * @param courseId the ID of the course for the exam
 	 * @param duration the duration of the exam in minutes
+	 * @throws Exception 
 	
 	 */
     @SuppressWarnings("resource")
-	public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) {
+	public void generateExamDoc(ArrayList<Object> questions, String filePath, String courseId, String testName, String duration) throws Exception {
         try {
+        	if (questions.equals(null)){
+        		throw new Exception();
+        	}
             XWPFDocument document = new XWPFDocument();
 
             XWPFParagraph testNameParagraph = document.createParagraph();
@@ -108,7 +112,7 @@ public class ExamGenerator {
 
             System.out.println("Word document generated successfully at: " + filePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Could not generate new doc file");
         }
     }
 }

@@ -257,7 +257,7 @@ public class DBController {
 
 	        statement.close();
 	    } catch (SQLException ex) {
-	        ex.printStackTrace();
+	    	System.out.println("could not execute method insertQueries");
 	    }
 	    return result;
 	}

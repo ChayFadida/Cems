@@ -305,8 +305,9 @@ public class LecturerTaskManager implements TaskHandler {
 	 * @param arrayList an ArrayList containing the necessary parameters
 	 * @param arrayList2 an ArrayList containing additional parameters
 	 * @return an ArrayList of HashMaps containing the inserted exam information
+	 * @throws Exception 
 	 */
-	private ArrayList<HashMap<String, Object>> insertExam(ArrayList<Object> arrayList,ArrayList<Object> arrayList2) {
+	private ArrayList<HashMap<String, Object>> insertExam(ArrayList<Object> arrayList,ArrayList<Object> arrayList2) throws Exception {
 		DBController dbController = DBController.getInstance();
 		try {
             Path tempDir = Files.createTempDirectory("my-temp-dir");
@@ -359,7 +360,7 @@ public class LecturerTaskManager implements TaskHandler {
 	        Files.deleteIfExists(tempDir);
 
 	        return rs;
-	    } catch (IOException e) {
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 	    return null;
