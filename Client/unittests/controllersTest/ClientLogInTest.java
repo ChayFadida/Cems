@@ -6,15 +6,11 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import com.sun.jdi.connect.spi.Connection;
 import client.ConnectionServer;
 import common.ILoginManager;
 import controllersClient.ChooseProfileController;
@@ -28,12 +24,8 @@ import entities.Student;
 import entities.Super;
 import entities.User;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 
 class ClientLogInTest {
@@ -172,9 +164,16 @@ class ClientLogInTest {
 		hodMenuMock = mock(HODmenuController.class);
 		superMenuMock = mock(ChooseProfileController.class);
 	}
-
+	
+	//check if the Login of a user is successfully created when all fields are valid  
+	//input: ArrayList<User> users 
+	// 		 HashMap row = <key>		<value>
+	//						access		approve
+	//						rsponse		users[i]
+	//
+	//expected: ErrorLabel = null, LoggedIn = true
 	@Test
-	void logInUserSuccess() {
+	void LogIn_AllFieldsValid_Success() {
 		doNothing().when(lecturerMenuMock).start(stageMock);
 		doNothing().when(studentMenuMock).start(stageMock);
 		doNothing().when(hodMenuMock).start(stageMock);
@@ -206,8 +205,15 @@ class ClientLogInTest {
 		
 	}
 	
+	//check if the Login of a user is blocked when response from server is "logged in"  
+	//input: User users.get(0), username="username1", password="password1"
+	// 		 HashMap row = <key>		<value>
+	//						access		approve
+	//						rsponse		logged in
+	//
+	//expected: ErrorLabel = new Text("This user is already logged in to the system.") , LoggedIn = false
 	@Test
-	void logInUserAlreadyLogedIn() {
+	void LogIn_AllFieldsValid_AlreadyLoggedIn() {
 		users.get(0).setIsLogged(true);
 		HashMap<String,Object> row = new HashMap<>();
 		row.put("access", "deny");
@@ -229,8 +235,11 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when username is null  
+	//input:	userName=null, password="password1"
+	//expected: ErrorLabel = new Text("One of the fields is empty, try again.") , LoggedIn = false
 	@Test
-	void logInUserName_NULL() {
+	void Login_UserNameIsNULL() {
 		userName = null;
 		password = "password1";
 		try {
@@ -247,6 +256,9 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when password is null  
+	//input:	userName="username", password=null
+	//expected: ErrorLabel = new Text("One of the fields is empty, try again.") , LoggedIn = false
 	@Test
 	void logInPassword_NULL() {
 		userName = "username";
@@ -265,6 +277,9 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when username is empty string
+	//input:	userName="", password="password1"
+	//expected: ErrorLabel = new Text("One of the fields is empty, try again.") , LoggedIn = false
 	@Test
 	void logInUserName_Empty() {
 		userName = "";
@@ -283,6 +298,9 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when password is empty string
+	//input:	userName="username", password=""
+	//expected: ErrorLabel = new Text("One of the fields is empty, try again.") , LoggedIn = false
 	@Test
 	void logInPassword_Empty() {
 		userName = "username";
@@ -301,6 +319,13 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when access is 'deny' and response 'not exist'
+	//input: username="username1", password="password1"
+	// 		 HashMap row = <key>		<value>
+	//						access		deny
+	//						rsponse		not exist
+	//
+	//expected: ErrorLabel = new Text("User does not exist in the system, try again.") , LoggedIn = false
 	@Test
 	void logInUserNotFound() {
 		HashMap<String,Object> row = new HashMap<>();
@@ -323,6 +348,13 @@ class ClientLogInTest {
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
 	
+	//check if the Login of a user is blocked when access is 'deny' and response 'wrong credentials'
+	//input: username="username1", password="password1"
+	// 		 HashMap row = <key>		<value>
+	//						access		deny
+	//						rsponse		wrong credentials
+	//
+	//expected: ErrorLabel = new Text("Wrong password, try again.") , LoggedIn = false
 	@Test
 	void logInWrongPassword() {
 		HashMap<String,Object> row = new HashMap<>();
@@ -344,7 +376,10 @@ class ClientLogInTest {
 		assertEquals(expectedLoggedIn, actualLoggedIn);
 		assertEquals(expectedErrorLabel.getText(), actualErrorLabel.getText());
 	}
-	
+
+	//check if the Login of a user is blocked when password and username fields both empty strings
+	//input:	userName="", password=""
+	//expected: ErrorLabel = new Text("One of the fields is empty, try again.") , LoggedIn = false
 	@Test
 	void logInUserEmptyFields() {
 		userName = "";

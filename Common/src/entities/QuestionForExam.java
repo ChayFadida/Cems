@@ -9,7 +9,8 @@ import javafx.scene.control.TextField;
  */
 @SuppressWarnings("serial")
 public class QuestionForExam extends Question implements Serializable{
-    private transient TextField score;
+	private String strScore;
+    private transient TextField score ;
     @SuppressWarnings("unused")
 	private transient TextField textField;
 
@@ -23,7 +24,7 @@ public class QuestionForExam extends Question implements Serializable{
 		super(question.getQuestionID(), question.getDetails(), question.getRightAnswer(),
 				question.getQuestionBank(), question.getSubject(), 
 				question.getAnswers(), question.getNotes(),question.getCourses());
-		this.score = new TextField(score);
+		this.strScore = score;
 	}
     /**
      * Returns the score for the question.
@@ -41,6 +42,13 @@ public class QuestionForExam extends Question implements Serializable{
 	public void setScore(TextField score) {
 		this.score = score;
 	}
-
+	
+	public String getStrScore() {
+		return strScore;
+	}
+	public void setStrScore(String strScore) {
+		this.strScore = strScore;
+	}
+	
 }
 
