@@ -87,15 +87,13 @@ class CreateExamTest {
 	void insertExam_insertManualExamToDbSuccess() {
 		ArrayList<HashMap<String,Object>> expected = new ArrayList<HashMap<String,Object>>();
 		HashMap<String,Object> expectedhm = new HashMap<String,Object>();
-        ExamGenerator examGenerator = new ExamGenerator();
+        new ExamGenerator();
 		try {
 			tempDir = Files.createTempDirectory("my-temp-dir");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        String dirPath = tempDir.toString();
-        String filePath = dirPath + "/wordFile.doc";
         String courseId = "5";
         String subject = "test subject";
         String duration = "180";
@@ -183,7 +181,7 @@ class CreateExamTest {
 			parameter.remove(i);
 			parameter.add(i, null);
 			try {
-				BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+				taskHandler.executeUserCommand(hm).get(0).get("id");
 				fail("did not throw exception");
 			} catch(Exception e){
 				assertTrue(true);
@@ -223,7 +221,7 @@ class CreateExamTest {
 		hm.put("param", parameter);
 		hm.put("questions", null);
 		try {
-			BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+			taskHandler.executeUserCommand(hm).get(0).get("id");
 			fail("did not throw exception");
 		} catch(Exception e){
 			assertTrue(true);
@@ -266,7 +264,7 @@ class CreateExamTest {
 			parameter.remove(i);
 			parameter.add(i, "");
 			try {
-				BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+				taskHandler.executeUserCommand(hm).get(0).get("id");
 				fail("did not throw exception");
 			} catch(Exception e){
 				assertTrue(true);
