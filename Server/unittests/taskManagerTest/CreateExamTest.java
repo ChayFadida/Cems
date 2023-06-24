@@ -14,7 +14,10 @@ import DataBase.DBController;
 import taskManager.TaskHandler;
 import taskManager.TaskHandlerFactory;
 import thirdPart.ExamGenerator;
+import thirdPart.JsonHandler;
 import entities.Question;
+import entities.QuestionForExam;
+
 import java.math.BigInteger;
 
 class CreateExamTest {
@@ -37,20 +40,25 @@ class CreateExamTest {
 	 private static Question question8 = new Question(8, "Who discovered the theory of relativity?", "Albert Einstein", 2, "Physics", "{'A': 'Isaac Newton', 'B': 'Marie Curie', 'C': 'Albert Einstein', 'D': 'Nikola Tesla'}", "Some notes for question 8", "Course I");
 	 private static Question question9 = new Question(9, "What is the largest ocean in the world?", "Pacific Ocean", 1, "Geography", "{'A': 'Atlantic Ocean', 'B': 'Indian Ocean', 'C': 'Arctic Ocean', 'D': 'Pacific Ocean'}", "Some notes for question 9", "Course A, Course J");
 	 private static Question question10 = new Question(10, "Who painted the Sistine Chapel ceiling?", "Michelangelo", 3, "Art", "{'A': 'Leonardo da Vinci', 'B': 'Pablo Picasso', 'C': 'Vincent van Gogh', 'D': 'Michelangelo'}", "Some notes for question 10", "Course K");
-	 private Path tempDir;
-	
+	 private static ArrayList<Integer> questionsId = new ArrayList<>();
+	 private static ArrayList<Integer> questionsScore = new ArrayList<>();
+	 
 	@BeforeAll
 	static void setUp() throws Exception {
 		// connect to DB
 		dBController = DBController.getInstance();
 		dBController.setDbDriver();
 		dbinfo = new HashMap<String,String>();
+		
+		// set db info
 		dbinfo.put("ip", "localhost");
 		dbinfo.put("password", "FF8515150f");
 		dbinfo.put("username", "root");
 		dbinfo.put("scheme", "sys");
 		dBController.setDbInfo(dbinfo);
 		dBController.connectToDb();
+		
+		// create question array
 		questions.add(question1);
 		questions.add(question2);
 		questions.add(question3);
@@ -61,10 +69,34 @@ class CreateExamTest {
 		questions.add(question8);
 		questions.add(question9);
 		questions.add(question10);
+		
+		// create question id array
+		questionsId.add(1);
+		questionsId.add(2);
+		questionsId.add(3);
+		questionsId.add(4);
+		questionsId.add(5);
+		questionsId.add(6);
+		questionsId.add(7);
+		questionsId.add(8);
+		
+		// create question score array
+		questionsScore.add(30);
+		questionsScore.add(25);
+		questionsScore.add(5);
+		questionsScore.add(10);
+		questionsScore.add(10);
+		questionsScore.add(10);
+		questionsScore.add(5);
+		questionsScore.add(5);
+
+
 	}
 	
 	@BeforeEach
 	void setUpEach() throws Exception {
+		
+		// set correct task handler and objects for call to server side
 	    TaskHandlerFactory.getInstance();
 		taskHandler = TaskHandlerFactory.getTaskHandler().get("Lecturer");
 		hm = new HashMap<String,ArrayList<Object>>();
@@ -85,15 +117,9 @@ class CreateExamTest {
     // expected: creation of new exam and upload new row that representing exam to db.
 	@Test
 	void insertExam_insertExamToDbSuccess() {
+		// set param to new exam
 		ArrayList<HashMap<String,Object>> expected = new ArrayList<HashMap<String,Object>>();
 		HashMap<String,Object> expectedhm = new HashMap<String,Object>();
-        new ExamGenerator();
-		try {
-			tempDir = Files.createTempDirectory("my-temp-dir");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         String courseId = "5";
         String subject = "test subject";
         String duration = "180";
@@ -105,6 +131,7 @@ class CreateExamTest {
         String bankId = "1";
         String name = "exam Test Name";
 
+        // set expected exam values
 		expectedhm.put("examName", name);
 		expectedhm.put("courseId", Integer.valueOf(courseId));
 		expectedhm.put("subject", subject);
@@ -132,16 +159,23 @@ class CreateExamTest {
 		hm.put("param", parameter);
 		hm.put("questions", questions);
 		expected.add(expectedhm);
+		
+		// get new id of the new exam
 		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
 		task.clear();
 		ArrayList<Object> newExamIdArr = new ArrayList<>();
 		newExamIdArr.add(newExamId.toString());
 		hm.put("param", newExamIdArr);
 		task.add("getExamsById");
+		
+		// get the new row that we just insert
 		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
 		serverResult.get(0).remove("examId");
 		serverResult.get(0).remove("examFile");
+		// assetion
 		assertEquals(serverResult, expected);
+		
+		//deleting exam from db
 		task.clear();
 		task.add("deleteExam");
 		parameter.clear();
@@ -181,14 +215,17 @@ class CreateExamTest {
 		hm.put("param", parameter);
 		hm.put("questions", questions);
 		
+		// iterate over all parameters and in each iteration initialize one param to null
 		for (int i = 0 ; i < 10 ; i++) {
 			Object Obj = parameter.get(i);
 			parameter.remove(i);
 			parameter.add(i, null);
 			try {
+				// act
 				taskHandler.executeUserCommand(hm).get(0).get("id");
 				fail("did not throw exception");
 			} catch(Exception e){
+				//assertion
 				assertTrue(true);
 				parameter.add(i, Obj);
 			}
@@ -225,10 +262,12 @@ class CreateExamTest {
 		parameter.add(name);
 		hm.put("param", parameter);
 		hm.put("questions", null);
+		// act
 		try {
 			taskHandler.executeUserCommand(hm).get(0).get("id");
 			fail("did not throw exception");
 		} catch(Exception e){
+			//assertion
 			assertTrue(true);
 		}
 	}
@@ -264,6 +303,7 @@ class CreateExamTest {
 		hm.put("param", parameter);
 		hm.put("questions", questions);
 		
+		// act iterate over all parameters and in each iteration initialize one param to empty string
 		for (int i = 0 ; i < 10 ; i++) {
 			Object Obj = parameter.get(i);
 			parameter.remove(i);
@@ -272,15 +312,257 @@ class CreateExamTest {
 				taskHandler.executeUserCommand(hm).get(0).get("id");
 				fail("did not throw exception");
 			} catch(Exception e){
+				// assertion
 				assertTrue(true);
 				parameter.add(i, Obj);
 			}
 		}
 	}
 	
+	// checking add questions and score successfully to questions in exam table.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: affected rows = 1.
+	@Test
+	void addQuestionsAndScore_validInputForUser_success() {
+		// set up new exam
+		ArrayList<HashMap<String, Object>> expected = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> expectedhm = new HashMap<String, Object>();
+		expectedhm.put("affectedRows", 1);
+		expected.add(expectedhm);
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		
+		// create new exam in db
+		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+		task.clear();
+		parameter.clear();
+		questions.clear();
+		
+		// initiallize new server call to add question and score that related to this exam
+		HashMap<String,ArrayList<Integer>> questionsIdHm = new HashMap<>();
+		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
+		questionsIdHm.put("questions", questionsId);
+		qScoresHm.put("scores", questionsScore);
+		String qIdsStr = JsonHandler.convertHashMapToJson(questionsIdHm, String.class, ArrayList.class);
+		String qScoresStr = JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+
+		parameter.add(newExamId);
+		parameter.add(qIdsStr);
+		parameter.add(qScoresStr);
+	    task.add("insertQuestionsForExam");	    
+		hm.put("param", parameter);
+		hm.put("task", task);
+		//act
+		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
+		// assertion
+		assertEquals(serverResult, expected);
+		
+		//deleting exam from db
+		task.clear();
+		task.add("deleteExam");
+		parameter.clear();
+		parameter.add(newExamId);
+		taskHandler.executeUserCommand(hm);
+	}
 	
+	// checking add questions with both null as params to the server side.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: affected rows = 0.
+	@Test
+	void addQuestionsAndScore_nullQuestionIdArrayAndQuesionScoreArray_success() {
+		// set up new exam
+		ArrayList<HashMap<String, Object>> expected = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> expectedhm = new HashMap<String, Object>();
+		expectedhm.put("affectedRows", 1);
+		expected.add(expectedhm);
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		
+		// create new exam in db
+		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+		task.clear();
+		parameter.clear();
+		questions.clear();
+		
+		// initiallize new server call to add question and score that related to this exam with two null params
+		parameter.add(newExamId);
+		parameter.add(null);
+		parameter.add(null);
+	    task.add("insertQuestionsForExam");	    
+		hm.put("param", parameter);
+		hm.put("task", task);
+		//act
+		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
+		
+		//assertion
+		assertEquals(null, serverResult);
+			
+		//deleting exam from db
+		task.clear();
+		task.add("deleteExam");
+		parameter.clear();
+		parameter.add(newExamId);
+		taskHandler.executeUserCommand(hm);
+	}
+	
+	// checking add questions with one null param to the server side the null param is questionId.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: return null from server.
+	@Test
+	void addQuestionsAndScore_nullQuestionOnlyIdArray_fail() {
+		// set up new exam
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		// create new exam in db
+		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+		task.clear();
+		parameter.clear();
+		questions.clear();
+		
+		// initiallize new server call to add question and score that related to this exam with one null params
+		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
+		qScoresHm.put("scores", questionsScore);
+		String qScoresStr = JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+		parameter.add(newExamId);
+		parameter.add(null);
+		parameter.add(qScoresStr);
+	    task.add("insertQuestionsForExam");	    
+		hm.put("param", parameter);
+		hm.put("task", task);
+		// act
+		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
+		// assertion
+		assertEquals(null, serverResult);
+			
+		//deleting exam from db
+		task.clear();
+		task.add("deleteExam");
+		parameter.clear();
+		parameter.add(newExamId);
+		taskHandler.executeUserCommand(hm);
+	}
+	
+	// checking add questions with one null param to the server side the null param is question scores.
+    // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
+    // expected: return null from server.
+	@Test
+	void addQuestionsAndScore_nullQuesionScoreArray_fail() {
+		
+		// set up new exam
+        String courseId = "5";
+        String subject = "test subject";
+        String duration = "180";
+        String lecNotes = "test lec note";
+        String studNotes = "test stud note";
+        String userId = "1";
+        String code = "tst1";
+        String examCount = "5";
+        String bankId = "1";
+        String name = "exam Test Name";
+	    task.add("insertExam");	    
+		parameter.add(courseId);
+		parameter.add(subject);
+		parameter.add(duration);
+		parameter.add(lecNotes);
+		parameter.add(studNotes);
+		parameter.add(bankId);
+		parameter.add(code);
+		parameter.add(examCount);
+		parameter.add(userId);
+		parameter.add(name);
+		hm.put("param", parameter);
+		hm.put("questions", questions);
+		
+		// create new exam in db
+		BigInteger newExamId = (BigInteger) taskHandler.executeUserCommand(hm).get(0).get("id");
+		task.clear();
+		parameter.clear();
+		questions.clear();
+		
+		// initiallize new server call to add question and score that related to this exam with one null params
+		HashMap<String,ArrayList<Integer>> questionsIdHm = new HashMap<>();
+		questionsIdHm.put("questions", questionsId);
+		String qIdsStr = JsonHandler.convertHashMapToJson(questionsIdHm, String.class, ArrayList.class);
+		parameter.add(newExamId);
+		parameter.add(qIdsStr);
+		parameter.add(null);
+	    task.add("insertQuestionsForExam");	    
+		hm.put("param", parameter);
+		hm.put("task", task);
+		// act
+		ArrayList<HashMap<String, Object>> serverResult = taskHandler.executeUserCommand(hm);
+		// assertion
+		assertEquals(null, serverResult);
+			
+		//deleting exam from db
+		task.clear();
+		task.add("deleteExam");
+		parameter.clear();
+		parameter.add(newExamId);
+		taskHandler.executeUserCommand(hm);
+	}
 }
-	
-	
-	
 

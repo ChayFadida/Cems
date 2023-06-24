@@ -311,7 +311,10 @@ public class SqlQueries {
 		return query;
 	}
 
-	public static String InsertQuestionToExamInDB(ArrayList<Object> param) {
+	public static String InsertQuestionToExamInDB(ArrayList<Object> param) throws Exception {
+		if (param.stream().anyMatch(obj -> obj == null)) {
+		    throw new Exception("Null in params");
+		}
 		String query = "INSERT INTO questionsinexam (examId, questions, scores)"
 				+ " VALUES ('"+param.get(0) +"', '"+ param.get(1)+"', '"+ param.get(2)+"');";
 		return query;
