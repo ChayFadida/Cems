@@ -6,11 +6,15 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import com.sun.jdi.connect.spi.Connection;
 import client.ConnectionServer;
 import common.ILoginManager;
 import controllersClient.ChooseProfileController;
@@ -24,8 +28,12 @@ import entities.Student;
 import entities.Super;
 import entities.User;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
 class ClientLogInTest {
