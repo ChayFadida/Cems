@@ -57,11 +57,7 @@ public class SqlQueries {
 	}
 	
 	public static String getExamsById(String string) {
-		String quert = "SELECT e.*\r\n"
-				+ "FROM exam AS e\r\n"
-				+ "JOIN examsbank AS eb ON e.bankId = eb.bankId\r\n"
-				+ "WHERE e.composerId = " + string + " AND eb.lecturerId = " + string + ";";
-		return quert;
+		return "SELECT * FROM exam WHERE examId = " + string + ";";
   }
   
 	public static String getQuestionsById(Object object) {
