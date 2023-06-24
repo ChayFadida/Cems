@@ -18,16 +18,12 @@ import taskManager.TaskHandlerFactory;
 
 class UserTaskManagerTest {
 	 private TaskHandler taskHandler;
-//	 private HashMap<String, Object> sampleResult;
-//	 private UserTaskManager userTaskManager;
 	 private ArrayList<String> task , details;
 	 private static HashMap<String,String> dbinfo;
 	 private HashMap<String,ArrayList<String>> hm;
 	 private static DBController dBController;
 	 private User expectedUser;
 	 private HashMap<String,Object> userhm;
-	 
-	
 	
 	@BeforeAll
 	static void setUp() throws Exception {
@@ -59,7 +55,7 @@ class UserTaskManagerTest {
 		} catch (Exception e) {	e.printStackTrace();}
 	}
 
-	// checking if getting a non existing user arraylist from the server..
+	// checking if getting a non existing user arraylist from the server.
     // input: task-login attempt , details - wrong username, random password.
     // expected: arraylist of hashmap of string and object of denied access to non existing user.
 	@Test
@@ -79,9 +75,9 @@ class UserTaskManagerTest {
 		//assertion
 	    assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting  access deny wrong credentials response for wrong password input.
+    // input: task-login attempt , details - currect username, wrong password.
+    // expected: arraylist of hashmap of string and object of denied access for wrong credentials.
 	@Test
 	void executeUserCommand_loginAttempt_WrongPassword_FailLogin() {
 	    //set-up - expected.
@@ -99,10 +95,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}	
-	
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting denied access for already logged in user.
+    // input: task-login attempt , details - currect username, currect password.
+    // expected: arraylist of hashmap of string and object of denied access for already logged in user.
 	@Test
 	void executeUserCommand_loginAttempt_alreadyLoggedin_FailLogin() {
 	    //set-up - expected.
@@ -123,10 +118,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting denied access for empty username input.
+    // input: task-login attempt , details - empty username, currect password.
+    // expected: arraylist of hashmap of string and object of denied access for empty username input.
 	@Test
 	void executeUserCommand_loginAttempt_emptyUsername_FailLogin() {
 	    //set-up - expected.
@@ -144,9 +138,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting denied access for empty password input.
+    // input: task-login attempt , details - currect username, empty password.
+    // expected: arraylist of hashmap of string and object of denied access for empty password input.
 	@Test
 	void executeUserCommand_loginAttempt_emptyPassword_FailLogin() {
 	    //set-up - expected.
@@ -164,9 +158,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting denied access for empty username&password input.
+    // input: task-login attempt , details - empty username, empty password.
+    // expected: arraylist of hashmap of string and object of denied access for empty username&password input.
 	@Test
 	void executeUserCommand_loginAttempt_emptyPasswordAndUsername_FailLogin() {
 	    //set-up - expected.
@@ -184,9 +178,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting denied access for null inputs:null username, null password, null both user and pass input.
+    // input: task-login attempt , details - null username, currect password|details - currect username, null password|details - null username, null password.
+    // expected: arraylist of hashmap of string and object of denied access for null username&password inputs.
 	@Test
 	void executeUserCommand_loginAttempt_allKindsOfnullInputs_FailLogin() {
 	    //set-up - expected.
@@ -234,9 +228,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting access for Student username&password input.
+    // input: task-login attempt , details - student username, student password.
+    // expected: arraylist of hashmap of string and object of approved access for Student entity of username&password input.
 	@Test
 	void executeUserCommand_loginAttempt_StudentLogin_Success() {
 	    //set-up - expected.
@@ -264,9 +258,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting access for Lecturer username&password input.
+    // input: task-login attempt , details - lecturer username, lecturer password.
+    // expected: arraylist of hashmap of string and object of approved access for Lecturer entity of username&password input.
 	@Test
 	void executeUserCommand_loginAttempt_LecturerLogin_Success() {
 	    //set-up - expected.
@@ -299,9 +293,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting access for Hod username&password input.
+    // input: task-login attempt , details - hod username, hod password.
+    // expected: arraylist of hashmap of string and object of approved access for Hod entity of username&password input.
 	@Test
 	void executeUserCommand_loginAttempt_HodLogin_Success() {
 	    //set-up - expected.
@@ -329,9 +323,9 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting access for Super(Lecturer&Hod) username&password input.
+    // input: task-login attempt , details - Super(Lecturer&Hod) username, Super(Lecturer&Hod) password.
+    // expected: arraylist of hashmap of string and object of approved access for Super(Lecturer&Hod) entity of username&password input.
 	@Test
 	void executeUserCommand_loginAttempt_SuperLogin_Success() {
 	    //set-up - expected.
@@ -363,11 +357,11 @@ class UserTaskManagerTest {
 		//assertion
 		assertEquals(expected,serverResult);
 	}
-	// checking if able to make graph with empty nodes array.
-    // input: result set with 0 nodes.
-    // expected: success building a graph
+	// checking if getting access for user with not real position username&password input.
+    // input: task-login attempt , details - user username, user password , position of user is not real tho.
+    // expected: arraylist of hashmap of string and object of denied access for user entity of username&password input.
 	@Test
-	void executeUserCommand_loginAttempt_nullUser_Success() {
+	void executeUserCommand_loginAttempt_nonExistingPosition_FailUserNull() {
 	    //set-up - expected.
 		ArrayList<HashMap<String,Object>> expected = new ArrayList<HashMap<String,Object>>();
 		HashMap<String,Object> expectedhm = new HashMap<String,Object>();
