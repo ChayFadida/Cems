@@ -56,6 +56,13 @@ public class Super extends User{
 	public void setHod(Hod hod) {
 		this.hod = hod;
 	}
-	
+	@Override
+	public boolean equals(Object obj) {
+		Super super1 = (Super)obj;
+		if(super.equals(super1) && super1.lecturer.equals(this.lecturer) && super1.hod.equals(this.hod) ) {
+			return true;
+		}
+	return false;
+	}
 	
 }

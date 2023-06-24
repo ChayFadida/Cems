@@ -144,6 +144,16 @@ public class User implements Serializable{
 		this.username = (String) userHM.get("username");
 		this.isLogged = (boolean) userHM.get("isLogged");
 	}
+	@Override
+	public boolean equals(Object obj) {
+		User user = (User)obj;
+		if(user.getId() == this.id && user.getFirstName().equals(this.firstName) && 
+				user.getLastName().equals(this.lastName) && user.getEmail().equals(this.email) 
+				&& user.getPosition().equals(this.position) && user.getUsername().equals(this.username)) {
+			return true;
+		}
+		return false;
+	}
 
 	
 	
