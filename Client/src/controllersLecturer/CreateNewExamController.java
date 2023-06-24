@@ -3,6 +3,7 @@ import java.math.BigInteger;
 
 
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	private ArrayList<QuestionForExam> qArr;
 	private ArrayList<Object> qSelected=new ArrayList<>();
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
+	private boolean created_success;
 	
 	public CreateNewExamController() {
 		super();
@@ -82,16 +84,8 @@ public class CreateNewExamController extends AbstractController implements Initi
 		public void initializeSelected() {
 			qSelected = new ArrayList<>();
 		}
-		 /**
-	     * Activate necessary methodes and send relevant message to the DB.
-	     * @param code exam code
-	     * @param duration exam duration 
-	     * @param lecNotes exam lecturer notes
-	     * @param studNotes exam student notes
-	     * @param name exam name 
-	     * @param subject exam subject
-	     */
-		public void createExam(String code, String duration, String lecNotes, String studNotes, String name, String subject) {
+		
+		public ArrayList<HashMap<String, Object>> insertExamToDB(String code, String duration, String lecNotes, String studNotes, String name, String subject){
 			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
 			ArrayList<Object> user = new ArrayList<>();
 			HashMap<String, Object> bank=getExamBank();
@@ -114,17 +108,76 @@ public class CreateNewExamController extends AbstractController implements Initi
 			msg.put("questions", qSelected);
 			msg.put("param", parameter);
 			sendMsgToServer(msg);
-			ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-			if(rs == null) {
-				System.out.println("Could not load data from DB.");
-			}
-			BigInteger lastId = (BigInteger) rs.get(0).get("id");
-			Integer examId = lastId.intValue();
-			addToExamBank(bank,examId);
-			addQuestionsAndScore(examId);
+			return ConnectionServer.rs;
 		}
 		
+		public ArrayList<HashMap<String, Object>> insertQuestionsToDB(Integer examId){
+			HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
+			HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
+			ArrayList<Integer> qIds= new ArrayList<>();
+			ArrayList<Integer> qScores= new ArrayList<>();
+			for(Object q: qSelected) {
+				qIds.add(((QuestionForExam) q).getQuestionID());
+				qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
+			}
+			qIdsHm.put("questions", qIds);
+			qScoresHm.put("scores", qScores);
+			String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
+			String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<Object> query = new ArrayList<>();
+			query.add("insertQuestionsForExam");
+			msg.put("task", query);
+			ArrayList<Object> parameter = new ArrayList<>();
+			parameter.add(examId + "");
+			parameter.add(qIdsStr);
+			parameter.add(qScoresStr);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ArrayList<HashMap<String, Object>> updateExamBank(HashMap<String, Object> bank, Integer examId){
+			String exams = (String) bank.get("exams");
+			HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class, Integer.class);
+			ArrayList<Integer> examsInBank = jsonHM.get("exams");
+			examsInBank.add(examId);
+			jsonHM.put("exams", examsInBank);
+			String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("updateExamBankById");
+			msg.put("task", query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(bank.get("bankId") + "");
+			parameter.add(jsonString);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
+		
+		public ArrayList<HashMap<String, Object>> getExamBankQuery() {
+			HashMap<String,ArrayList<String>> msg = new HashMap<>();
+			ArrayList<String> user = new ArrayList<>();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<String> query = new ArrayList<>();
+			query.add("getExamBankByLecId");
+			msg.put("task", query);
+			ArrayList<String> parameter = new ArrayList<>();
+			parameter.add(ConnectionServer.user.getId()+"");
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			return ConnectionServer.rs;
+		}
 	}
+
 	
 	private int sum;
     @FXML
@@ -196,13 +249,35 @@ public class CreateNewExamController extends AbstractController implements Initi
     @FXML
     private Label lblErrorSubject;
     
+	 /**
+     * Activate necessary methodes and send relevant message to the DB.
+     * @param code exam code
+     * @param duration exam duration 
+     * @param lecNotes exam lecturer notes
+     * @param studNotes exam student notes
+     * @param name exam name 
+     * @param subject exam subject
+     */
+	public void createExam(String code, String duration, String lecNotes, String studNotes, String name, String subject) {
+		HashMap<String, Object> bank=getExamBank();
+		ArrayList<HashMap<String,Object>> rs = createNewExamManager.insertExamToDB(code, duration, lecNotes, studNotes, name, subject);
+		if(rs == null) {
+			System.out.println("Could not load data from DB.");
+			return;
+		}
+		BigInteger lastId = (BigInteger) rs.get(0).get("id");
+		Integer examId = lastId.intValue();
+		addToExamBank(bank,examId);
+		addQuestionsAndScore(examId);
+	}
+	
     /**
      * By activate, the lecturer finish to create the exam.
      * Checking that the lecturer insert all the neccery data.
      * @param event Action event
      */
     @FXML
-    void getFinish(ActionEvent event) {
+    public void getFinish(ActionEvent event) {
     	if(lblError==null)
     		lblError= new Label();
     	lblError.setText(" ");
@@ -242,10 +317,12 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblErrorCode.setText("Code must be 4 digits and contains only letters and numbers.");
     		flag=true;
     	}
-    	if(!duration.matches("\\d+")) {
-    		lblErrorDuration.setText("Duration must contain only numbers (represents minutes).");
+    	//code refactor
+    	if(!duration.matches("\\d+") || duration != "0") {
+    		lblErrorDuration.setText("Duration must contain only numbers above 0 (represents minutes).");
     		flag=true;
     	}
+
     	if(createNewExamManager.getSelected().isEmpty()) {
     		if(sum==0)
     			lblErrorSelected.setText("Please select questions first.");
@@ -261,52 +338,89 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lecNotes = " ";
     	if(studNotes == null)
     		studNotes = " ";
-    	createNewExamManager.createExam(code,duration,lecNotes,studNotes,name,subject);
+    	createExam(code,duration,lecNotes,studNotes,name,subject);
+    	if(created_success) {
+			lblError.setText("Exam uploaded successfully");
+		}
+		else {
+			lblError.setText("Problem at exam upload");
+		}
     }
     
    
 
 	
+	public Label getLblError() {
+		return lblError;
+	}
+
+	public void setLblError(Label lblError) {
+		this.lblError = lblError;
+	}
+
+	public Label getLblErrorCode() {
+		return lblErrorCode;
+	}
+
+	public void setLblErrorCode(Label lblErrorCode) {
+		this.lblErrorCode = lblErrorCode;
+	}
+
+	public Label getLblErrorDuration() {
+		return lblErrorDuration;
+	}
+
+	public void setLblErrorDuration(Label lblErrorDuration) {
+		this.lblErrorDuration = lblErrorDuration;
+	}
+
+	public Label getLblScore() {
+		return lblScore;
+	}
+
+	public void setLblScore(Label lblScore) {
+		this.lblScore = lblScore;
+	}
+
+	public Label getLblErrorSelected() {
+		return lblErrorSelected;
+	}
+
+	public void setLblErrorSelected(Label lblErrorSelected) {
+		this.lblErrorSelected = lblErrorSelected;
+	}
+
+	public Label getLblErrorName() {
+		return lblErrorName;
+	}
+
+	public void setLblErrorName(Label lblErrorName) {
+		this.lblErrorName = lblErrorName;
+	}
+
+	public Label getLblErrorSubject() {
+		return lblErrorSubject;
+	}
+
+	public void setLblErrorSubject(Label lblErrorSubject) {
+		this.lblErrorSubject = lblErrorSubject;
+	}
+
 	/**
 	 * Add question and score to the lecturer exam.
 	 * @param examId exam id
 	 */
 	private void addQuestionsAndScore(Integer examId) {
-		HashMap<String,ArrayList<Integer>> qIdsHm = new HashMap<>();
-		HashMap<String,ArrayList<Integer>> qScoresHm = new HashMap<>();
-		ArrayList<Integer> qIds= new ArrayList<>();
-		ArrayList<Integer> qScores= new ArrayList<>();
-		for(Object q: qSelected) {
-			qIds.add(((QuestionForExam) q).getQuestionID());
-			qScores.add(Integer.parseInt(((QuestionForExam) q).getScore().getText()));
-		}
-		qIdsHm.put("questions", qIds);
-		qScoresHm.put("scores", qScores);
-		String qIdsStr= JsonHandler.convertHashMapToJson(qIdsHm, String.class, ArrayList.class);
-		String qScoresStr= JsonHandler.convertHashMapToJson(qScoresHm, String.class, ArrayList.class);
-		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-		ArrayList<Object> user = new ArrayList<>();
-		user.add("Lecturer");
-		msg.put("client", user);
-		ArrayList<Object> query = new ArrayList<>();
-		query.add("insertQuestionsForExam");
-		msg.put("task", query);
-		ArrayList<Object> parameter = new ArrayList<>();
-		parameter.add(examId + "");
-		parameter.add(qIdsStr);
-		parameter.add(qScoresStr);
-		msg.put("param", parameter);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		ArrayList<HashMap<String,Object>> rs = createNewExamManager.insertQuestionsToDB(examId);
 		if(rs == null){
 			System.out.println("Could not get data from server.");
+			created_success = false;
 		}
 		if((int)rs.get(0).get("affectedRows")==1) {
 			resetAll();
-			lblError.setText("Exam uploaded successfully");
 		}
 		else {
-			lblError.setText("Problam at exam upload");
+			created_success = false;
 		}
 	}
 	
@@ -316,34 +430,15 @@ public class CreateNewExamController extends AbstractController implements Initi
 	 * @param examId lecturer exam id.
 	 */
 	private void addToExamBank(HashMap<String, Object> bank, Integer examId) {
-		String exams = (String) bank.get("exams");
-		HashMap<String,ArrayList<Integer>> jsonHM= JsonHandler.convertJsonToHashMap(exams, String.class, ArrayList.class, Integer.class);
-		ArrayList<Integer> examsInBank = jsonHM.get("exams");
-		examsInBank.add(examId);
-		jsonHM.put("exams", examsInBank);
-		String jsonString = JsonHandler.convertHashMapToJson(jsonHM, String.class, ArrayList.class);
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> user = new ArrayList<>();
-		user.add("Lecturer");
-		msg.put("client", user);
-		ArrayList<String> query = new ArrayList<>();
-		query.add("updateExamBankById");
-		msg.put("task", query);
-		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(bank.get("bankId") + "");
-		parameter.add(jsonString);
-		msg.put("param", parameter);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		ArrayList<HashMap<String,Object>> rs = createNewExamManager.updateExamBank(bank, examId);
 		if(rs == null){
 			System.out.println("Could not load data from server.");
 		}
 		if((int) rs.get(0).get("affectedRows")==1) {
 			resetAll();
-			lblError.setText("Exam uploaded successfully");
 		}
 		else {
-			lblError.setText("Problam at exam upload");
+			created_success = false;
 		}
 	}
 	
@@ -371,18 +466,7 @@ public class CreateNewExamController extends AbstractController implements Initi
 	 * @return the exam bank in an hash map form 
 	 */
 	private HashMap<String, Object> getExamBank() {
-		HashMap<String,ArrayList<String>> msg = new HashMap<>();
-		ArrayList<String> user = new ArrayList<>();
-		user.add("Lecturer");
-		msg.put("client", user);
-		ArrayList<String> query = new ArrayList<>();
-		query.add("getExamBankByLecId");
-		msg.put("task", query);
-		ArrayList<String> parameter = new ArrayList<>();
-		parameter.add(ConnectionServer.user.getId()+"");
-		msg.put("param", parameter);
-		super.sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+		ArrayList<HashMap<String,Object>> rs = createNewExamManager.getExamBankQuery();
 		if(rs == null) {
 			System.out.println("Could not get data from DB.");
 		}
@@ -530,7 +614,7 @@ public class CreateNewExamController extends AbstractController implements Initi
      * @param event
      */
     @FXML
-    void getSelected(ActionEvent event) {
+    public void getSelected(ActionEvent event) {
     	createNewExamManager.initializeSelected();
     	sum = 0;
     	if(lblErrorSelected==null)
@@ -562,6 +646,4 @@ public class CreateNewExamController extends AbstractController implements Initi
     		createNewExamManager.initializeSelected();
     	}
     }
-    
 }
-

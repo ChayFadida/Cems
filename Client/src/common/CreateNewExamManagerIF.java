@@ -16,6 +16,10 @@ public interface CreateNewExamManagerIF {
 	public void addAllSelectedToArray(ObservableList<QuestionForExam> selectedItems);
 	public ArrayList<Object> getSelected();
 	public void initializeSelected();
-	public void createExam(String code, String duration, String lecNotes,
-			String studNotes, String name, String subject);
+	public ArrayList<HashMap<String, Object>> insertExamToDB(String code, String duration, String lecNotes, String studNotes, String name, String subject);
+	public ArrayList<HashMap<String, Object>> insertQuestionsToDB(Integer examId);
+	public ArrayList<HashMap<String, Object>> updateExamBank(HashMap<String, Object> bank, Integer examId);
+	public ArrayList<HashMap<String, Object>> getExamBankQuery();
+
+
 }
