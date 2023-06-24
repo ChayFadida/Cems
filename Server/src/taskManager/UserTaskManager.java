@@ -151,9 +151,11 @@ public class UserTaskManager implements TaskHandler{
 					user.setIsLogged(true);
 					break;
 				default:
-					System.out.println("Problam at switch in login attempt");
+					System.out.println("Problem at switch in login attempt");
 					user=null;
-					break;
+					res.put("access", "deny");
+					res.put("response", user);
+					return res;
 					
 			}
 			res.put("access", "approve");

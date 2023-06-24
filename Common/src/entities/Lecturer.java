@@ -71,5 +71,13 @@ public class Lecturer extends User{
 	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
-	
+	@Override
+	public boolean equals(Object obj) {
+		Lecturer lecturer1 = (Lecturer)obj;
+		if(super.equals(lecturer1) && lecturer1.getDepartmentId() == this.departmentId && 
+				lecturer1.getCoursesId().equals(this.coursesId)) {
+			return true;
+		}
+	return false;
+	}
 }

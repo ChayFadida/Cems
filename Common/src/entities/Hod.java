@@ -35,6 +35,13 @@ public class Hod extends User{
 		this.departmentId = department;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		Hod hod1 = (Hod)obj;
+		if(super.equals(hod1) && hod1.getDepartment().equals(this.departmentId) ) {
+			return true;
+		}
+	return false;
+	}
 }
 

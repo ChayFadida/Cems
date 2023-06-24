@@ -114,6 +114,30 @@ public class DBController {
 		sc.setErrorLbl("");
 		System.out.println("connected to db");
 	}
+	/**
+	 * connect to database with db_info parameters
+	 * */
+	public void connectToDb() {
+		StringBuilder mysql = new StringBuilder();
+		mysql.append(mysql_cmd);
+		mysql.append(db_info.get("scheme"));
+		mysql.append(mysql_timezone_flag);
+		try {
+			conn = DriverManager.getConnection(mysql.toString(),db_info.get("username"), 
+					db_info.get("password"));
+	        System.out.println("");
+		} catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+		}
+		if(conn == null) {
+			System.out.println("Wrong Parameters!");
+			System.out.println("NOT connected to db");
+			return;
+		}
+		System.out.println("connected to db");
+	}
 	
 	
 	/**

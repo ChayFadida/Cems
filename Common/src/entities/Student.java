@@ -54,4 +54,12 @@ public class Student extends User{
 	public void setExamSession(ExamSessionIF examSession) {
 		this.examSession = examSession;
 	}	
+	@Override
+	public boolean equals(Object obj) {
+		Student student1 = (Student)obj;
+		if(super.equals(student1) && student1.getDepartment().equals(this.department)) {
+			return true;
+		}
+	return false;
+	}
 }
