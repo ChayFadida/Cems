@@ -394,16 +394,16 @@ public class CreateNewExamTest {
 	    subject = "";
 	    duration = "";
 	    
-	    selectedItems.add(new QuestionForExam(question1, "50"));
-	    selectedItems.add(new QuestionForExam(question2, "50"));
+	    selectedItems.add(new QuestionForExam(question1, ""));
+	    selectedItems.add(new QuestionForExam(question2, ""));
 	    obsSelectedItems =FXCollections.observableArrayList(selectedItems);
 	    
 	    resultSet = resultSet2;
 	    ExpectedlblError = new Text("Please fix all error and try again later.");
 	    ExpectedlblErrorCode = new Text("Code must be 4 digits and contains only letters and numbers.");
 	    ExpectedlblErrorDuration = new Text("Duration must contain only numbers above 0 (represents minutes).");
-	    ExpectedlblScore = new Text("100/100");
-	    ExpectedlblErrorSelected = new Text(" ");
+	    ExpectedlblScore = new Text("0/100");
+	    ExpectedlblErrorSelected = new Text("One of the selected questions score is not a positive number, try again.");
 	    ExpectedlblErrorName = new Text("You must enter an exam name");
 	    ExpectedlblErrorSubject = new Text("You must enter a subject");
 	    
@@ -416,6 +416,7 @@ public class CreateNewExamTest {
 	    assertEquals(ExpectedlblErrorSelected.getText(), ActuallblErrorSelected.getText());
 	    
 	    createNewExamController.getFinish(MockActionEvent);
+	    ExpectedlblErrorSelected = new Text("Please select questions first.");
 
 	    ActuallblError = createNewExamController.getLblError();
 	    ActuallblErrorCode = createNewExamController.getLblErrorCode();
@@ -1180,6 +1181,74 @@ public class CreateNewExamTest {
 	    assertEquals(ExpectedlblErrorCode.getText(), ActuallblErrorCode.getText());
 	    assertEquals(ExpectedlblErrorDuration.getText(), ActuallblErrorDuration.getText());
 	    assertEquals(ExpectedlblScore, ActuallblScore);
+	    assertEquals(ExpectedlblErrorSelected.getText(), ActuallblErrorSelected.getText());
+	    assertEquals(ExpectedlblErrorName.getText(), ActuallblErrorName.getText());
+	    assertEquals(ExpectedlblErrorSubject.getText(), ActuallblErrorSubject.getText());
+	}
+	
+	// checking if the creation of an exam is successfully created when all the field are empty
+    // input: code = "
+    //		lecNotes = ""
+    //		studNotes = ""
+    //		name = ""
+    //		subject = ""
+    //		duration = ""
+	//		QuestionForExam(question1, "50")
+	//		QuestionForExam(question2, "50")
+    // expected: all labels are empty (= " ") besides:
+	//			ExpectedlblError = "Please fix all error and try again later."
+	//			ExpectedlblScore = "100/100"
+	//			ExpectedlblErrorCode = "Code must be 4 digits and contains only letters and numbers."
+	//			ExpectedlblErrorDuration = "Duration must contain only numbers above 0 (represents minutes)."
+	//			ExpectedlblErrorName = "You must enter an exam name"
+	//			ExpectedlblErrorSubject = "You must enter a subject"
+	
+	@Test
+	public void createExam_SelectQuestionANDallFieldesNULL() {
+		//setup
+	    code = null;
+	    lecNotes = null;
+	    studNotes = null;
+	    name = null;
+	    subject = null;
+	    duration = null;
+	    
+	    selectedItems.add(new QuestionForExam(question1, null));
+	    selectedItems.add(new QuestionForExam(question2, null));
+	    obsSelectedItems =FXCollections.observableArrayList(selectedItems);
+	    
+	    resultSet = resultSet2;
+	    ExpectedlblError = new Text("Please fix all error and try again later.");
+	    ExpectedlblErrorCode = new Text("Code must be 4 digits and contains only letters and numbers.");
+	    ExpectedlblErrorDuration = new Text("Duration must contain only numbers above 0 (represents minutes).");
+	    ExpectedlblScore = new Text("0/100");
+	    ExpectedlblErrorSelected = new Text("One of the selected questions score is not a positive number, try again.");
+	    ExpectedlblErrorName = new Text("You must enter an exam name");
+	    ExpectedlblErrorSubject = new Text("You must enter a subject");
+	    
+	    
+	    createNewExamController.getSelected(MockActionEvent);
+	    ActuallblScore = createNewExamController.getLblScore();
+	    ActuallblErrorSelected = createNewExamController.getLblErrorSelected();
+	    //check if score label is 100/100
+	    assertEquals(ExpectedlblScore.getText(), ActuallblScore.getText());
+	    assertEquals(ExpectedlblErrorSelected.getText(), ActuallblErrorSelected.getText());
+	    
+	    createNewExamController.getFinish(MockActionEvent);
+	    ExpectedlblErrorSelected = new Text("Please select questions first.");
+
+	    ActuallblError = createNewExamController.getLblError();
+	    ActuallblErrorCode = createNewExamController.getLblErrorCode();
+	    ActuallblErrorDuration = createNewExamController.getLblErrorDuration();
+	    ActuallblScore = createNewExamController.getLblScore();
+	    ActuallblErrorSelected = createNewExamController.getLblErrorSelected();
+	    ActuallblErrorName = createNewExamController.getLblErrorName();
+	    ActuallblErrorSubject = createNewExamController.getLblErrorSubject();
+	    
+	    assertEquals(ExpectedlblError.getText(), ActuallblError.getText());
+	    assertEquals(ExpectedlblErrorCode.getText(), ActuallblErrorCode.getText());
+	    assertEquals(ExpectedlblErrorDuration.getText(), ActuallblErrorDuration.getText());
+	    assertEquals(ExpectedlblScore.getText(), ActuallblScore.getText());
 	    assertEquals(ExpectedlblErrorSelected.getText(), ActuallblErrorSelected.getText());
 	    assertEquals(ExpectedlblErrorName.getText(), ActuallblErrorName.getText());
 	    assertEquals(ExpectedlblErrorSubject.getText(), ActuallblErrorSubject.getText());

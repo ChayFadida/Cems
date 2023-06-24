@@ -188,7 +188,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     	String name = createNewExamManager.getTxtName();
     	boolean flag= false;
     	
-    	if(name.equals("")) {
+    	if(name ==null || name.equals("")) {
 			lblErrorName.setText("You must enter an exam name");
     		flag=true;
     	}
@@ -196,16 +196,16 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblError.setText("You must select atleast one question");
     		flag=true;
     	}
-    	if(subject.equals("")) {
+    	if(subject ==null || subject.equals("")) {
     		lblErrorSubject.setText("You must enter a subject");
     		flag=true;
     	}
-    	if(code.length() != 4 || !code.matches("^[a-zA-Z0-9]+$")) {
+    	if(code ==null || code.length() != 4 || !code.matches("^[a-zA-Z0-9]+$")) {
     		lblErrorCode.setText("Code must be 4 digits and contains only letters and numbers.");
     		flag=true;
     	}
     	//code refactor
-    	if(!duration.matches("\\d+") || duration == "0") {
+    	if(duration ==null || !duration.matches("\\d+") || duration == "0") {
     		lblErrorDuration.setText("Duration must contain only numbers above 0 (represents minutes).");
     		flag=true;
     	}
@@ -469,7 +469,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     	for(Object q: createNewExamManager.getSelected()) {
     		String scoreStr = ((QuestionForExam) q).getStrScore();
     		//String scoreStr = ((QuestionForExam) q).getScore().getText();
-    		if(!scoreStr.matches("\\d+")) {
+    		if(scoreStr==null || !scoreStr.matches("\\d+")) {
     			lblErrorSelected.setText("One of the selected questions score is not a positive number, try again.");
     			createNewExamManager.initializeSelected();
     			lblScore.setText("0/100");
