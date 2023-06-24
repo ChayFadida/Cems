@@ -84,7 +84,7 @@ class CreateExamTest {
     // input: courseId, subject, duration, lecNotes, studNotes, userId, code.
     // expected: creation of new exam and upload new row that representing exam to db.
 	@Test
-	void insertExam_insertManualExamToDbSuccess() {
+	void insertExam_insertExamToDbSuccess() {
 		ArrayList<HashMap<String,Object>> expected = new ArrayList<HashMap<String,Object>>();
 		HashMap<String,Object> expectedhm = new HashMap<String,Object>();
         new ExamGenerator();
@@ -277,6 +277,8 @@ class CreateExamTest {
 			}
 		}
 	}
+	
+	
 }
 	
 	
