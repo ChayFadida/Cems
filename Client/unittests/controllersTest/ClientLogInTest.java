@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.sun.jdi.connect.spi.Connection;
-
 import client.ConnectionServer;
 import common.ILoginManager;
 import controllersClient.ChooseProfileController;
