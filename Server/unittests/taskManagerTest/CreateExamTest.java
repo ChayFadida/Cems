@@ -142,6 +142,11 @@ class CreateExamTest {
 		serverResult.get(0).remove("examId");
 		serverResult.get(0).remove("examFile");
 		assertEquals(serverResult, expected);
+		task.clear();
+		task.add("deleteExam");
+		parameter.clear();
+		parameter.add(newExamId);
+		taskHandler.executeUserCommand(hm);
 	}
 	
 	

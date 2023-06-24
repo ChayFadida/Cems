@@ -327,7 +327,7 @@ public class LecturerTaskManager implements TaskHandler {
             Files.delete(fileToDelete);
             return rs;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("could not execute insertExam");
 		}
 		return null;
 	}
