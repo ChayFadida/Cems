@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import abstractControllers.AbstractController;
 import client.ConnectionServer;
+import common.CreateNewExamManagerIF;
 import entities.Course;
 import entities.Lecturer;
 import entities.Question;
@@ -36,12 +37,95 @@ import thirdPart.JsonHandler;
  * In this controller the lecturer can create new exam and add it to the exam bank.
  */
 public class CreateNewExamController extends AbstractController implements Initializable{
-	
+	CreateNewExamManagerIF createNewExamManager;
 	private ArrayList<Course> courses;
 	private ArrayList<QuestionForExam> qArr;
 	private ArrayList<Object> qSelected=new ArrayList<>();
 	private HashMap<Integer, String> HmCourseIdName = new HashMap<>();
+	
+	public CreateNewExamController() {
+		super();
+		createNewExamManager = new CreateNewExamManager();
+	}
 
+	public CreateNewExamController(CreateNewExamManagerIF createNewExamManager) {
+		super();
+		this.createNewExamManager = createNewExamManager;
+	}
+
+	private class CreateNewExamManager implements CreateNewExamManagerIF{
+		
+		public String getSubject() {
+			return txtSubject.getText();
+		}
+		public String getCode() {
+			return codetXT.getText();
+		}
+		public String getDuration() {
+			return DurauinTxt.getText();
+		}
+		public String getLecNotes() {
+			return lecNotesTxt.getText();
+		}
+		public String getStudNotes() {
+			return studNotesText.getText();
+		}
+		public String getName() {
+			return txtName.getText();
+		}
+		public void addAllSelectedToArray(ObservableList<QuestionForExam> selectedItems) {
+			qSelected.addAll(selectedItems);
+		}
+		public ArrayList<Object> getSelected(){
+			return qSelected;
+		}
+		public void initializeSelected() {
+			qSelected = new ArrayList<>();
+		}
+		 /**
+	     * Activate necessary methodes and send relevant message to the DB.
+	     * @param code exam code
+	     * @param duration exam duration 
+	     * @param lecNotes exam lecturer notes
+	     * @param studNotes exam student notes
+	     * @param name exam name 
+	     * @param subject exam subject
+	     */
+		public void createExam(String code, String duration, String lecNotes, String studNotes, String name, String subject) {
+			HashMap<String,ArrayList<Object>> msg = new HashMap<>();
+			ArrayList<Object> user = new ArrayList<>();
+			HashMap<String, Object> bank=getExamBank();
+			user.add("Lecturer");
+			msg.put("client", user);
+			ArrayList<Object> query = new ArrayList<>();
+			query.add("insertExam");
+			msg.put("task", query);
+			ArrayList<Object> parameter = new ArrayList<>();
+			parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
+			parameter.add(subject);
+			parameter.add(duration);
+			parameter.add(lecNotes);
+			parameter.add(studNotes);
+			parameter.add(ConnectionServer.user.getId()+"");
+			parameter.add(code);
+			parameter.add((getLecturerExamCount() + 1) + "");
+			parameter.add((Integer) bank.get("bankId")+"");
+			parameter.add(name);
+			msg.put("questions", qSelected);
+			msg.put("param", parameter);
+			sendMsgToServer(msg);
+			ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
+			if(rs == null) {
+				System.out.println("Could not load data from DB.");
+			}
+			BigInteger lastId = (BigInteger) rs.get(0).get("id");
+			Integer examId = lastId.intValue();
+			addToExamBank(bank,examId);
+			addQuestionsAndScore(examId);
+		}
+		
+	}
+	
 	private int sum;
     @FXML
     private ComboBox<Course> CourseComboBox;
@@ -119,17 +203,27 @@ public class CreateNewExamController extends AbstractController implements Initi
      */
     @FXML
     void getFinish(ActionEvent event) {
+    	if(lblError==null)
+    		lblError= new Label();
     	lblError.setText(" ");
+    	if(lblErrorCode==null)
+    		lblErrorCode= new Label();
     	lblErrorCode.setText(" ");
+    	if(lblErrorDuration==null)
+    		lblErrorDuration= new Label();
     	lblErrorDuration.setText(" ");
+    	if(lblErrorSelected==null)
+    		lblErrorSelected= new Label();
     	lblErrorSelected.setText(" ");
+    	if(lblErrorSubject==null)
+    		lblErrorSubject= new Label();
     	lblErrorSubject.setText(" ");
-    	String subject = txtSubject.getText();
-    	String code = codetXT.getText();
-    	String duration = DurauinTxt.getText();
-    	String lecNotes = lecNotesTxt.getText();
-    	String studNotes = studNotesText.getText();
-    	String name = txtName.getText();
+    	String subject = createNewExamManager.getSubject();
+    	String code = createNewExamManager.getCode();
+    	String duration = createNewExamManager.getDuration();
+    	String lecNotes = createNewExamManager.getLecNotes();
+    	String studNotes = createNewExamManager.getStudNotes();
+    	String name = createNewExamManager.getName();
     	boolean flag= false;
     	
     	if(name.equals("")) {
@@ -152,7 +246,7 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lblErrorDuration.setText("Duration must contain only numbers (represents minutes).");
     		flag=true;
     	}
-    	if(qSelected.isEmpty()) {
+    	if(createNewExamManager.getSelected().isEmpty()) {
     		if(sum==0)
     			lblErrorSelected.setText("Please select questions first.");
     		else
@@ -167,50 +261,11 @@ public class CreateNewExamController extends AbstractController implements Initi
     		lecNotes = " ";
     	if(studNotes == null)
     		studNotes = " ";
-    	createExam(code,duration,lecNotes,studNotes,name,subject);
+    	createNewExamManager.createExam(code,duration,lecNotes,studNotes,name,subject);
     }
     
-    /**
-     * Activate necessary methodes and send relevant message to the DB.
-     * @param code exam code
-     * @param duration exam duration 
-     * @param lecNotes exam lecturer notes
-     * @param studNotes exam student notes
-     * @param name exam name 
-     * @param subject exam subject
-     */
-	private void createExam(String code, String duration, String lecNotes, String studNotes, String name, String subject) {
-		HashMap<String,ArrayList<Object>> msg = new HashMap<>();
-		ArrayList<Object> user = new ArrayList<>();
-		HashMap<String, Object> bank=getExamBank();
-		user.add("Lecturer");
-		msg.put("client", user);
-		ArrayList<Object> query = new ArrayList<>();
-		query.add("insertExam");
-		msg.put("task", query);
-		ArrayList<Object> parameter = new ArrayList<>();
-		parameter.add(CourseComboBox.getSelectionModel().getSelectedItem().getCourseId()+"");
-		parameter.add(subject);
-		parameter.add(duration);
-		parameter.add(lecNotes);
-		parameter.add(studNotes);
-		parameter.add(ConnectionServer.user.getId()+"");
-		parameter.add(code);
-		parameter.add((getLecturerExamCount() + 1) + "");
-		parameter.add((Integer) bank.get("bankId")+"");
-		parameter.add(name);
-		msg.put("questions", qSelected);
-		msg.put("param", parameter);
-		sendMsgToServer(msg);
-		ArrayList<HashMap<String,Object>> rs = ConnectionServer.rs;
-		if(rs == null) {
-			System.out.println("Could not load data from DB.");
-		}
-		BigInteger lastId = (BigInteger) rs.get(0).get("id");
-		Integer examId = lastId.intValue();
-		addToExamBank(bank,examId);
-		addQuestionsAndScore(examId);
-	}
+   
+
 	
 	/**
 	 * Add question and score to the lecturer exam.
@@ -476,22 +531,27 @@ public class CreateNewExamController extends AbstractController implements Initi
      */
     @FXML
     void getSelected(ActionEvent event) {
-    	qSelected = new ArrayList<>();
+    	createNewExamManager.initializeSelected();
     	sum = 0;
+    	if(lblErrorSelected==null)
+    		lblErrorSelected= new Label();
     	lblErrorSelected.setText(" ");
+    	if(lblScore==null)
+    		lblScore= new Label();
     	lblScore.setText("0/100");
-    	qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
-    	for(Object q: qSelected) {
+    	createNewExamManager.addAllSelectedToArray(QuestionTable.getSelectionModel().getSelectedItems());
+    	//qSelected.addAll(QuestionTable.getSelectionModel().getSelectedItems());
+    	for(Object q: createNewExamManager.getSelected()) {
     		String scoreStr = ((QuestionForExam) q).getScore().getText();
     		if(!scoreStr.matches("\\d+")) {
     			lblErrorSelected.setText("One of the selected questions score is not number, try again.");
-    			qSelected = new ArrayList<>();
+    			createNewExamManager.initializeSelected();
     			return;
     		}
     		int score = Integer.parseInt(((QuestionForExam) q).getScore().getText());
     		if(score == 0) {
     			lblErrorSelected.setText("One of the selected questions score is set to '0', try again.");
-    			qSelected = new ArrayList<>();
+    			createNewExamManager.initializeSelected();
     			return;
     		}
     		sum = sum + score;
@@ -499,8 +559,9 @@ public class CreateNewExamController extends AbstractController implements Initi
     	lblScore.setText(sum+"/100");
     	if(sum!=100) {
     		lblErrorSelected.setText("Total score is not '100', change scores and try again.");
-    		qSelected = new ArrayList<>();
+    		createNewExamManager.initializeSelected();
     	}
     }
+    
 }
 
