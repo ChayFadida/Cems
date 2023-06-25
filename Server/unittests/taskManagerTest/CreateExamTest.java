@@ -2,9 +2,6 @@ package taskManagerTest;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,11 +10,8 @@ import org.junit.jupiter.api.Test;
 import DataBase.DBController;
 import taskManager.TaskHandler;
 import taskManager.TaskHandlerFactory;
-import thirdPart.ExamGenerator;
 import thirdPart.JsonHandler;
 import entities.Question;
-import entities.QuestionForExam;
-
 import java.math.BigInteger;
 
 class CreateExamTest {
@@ -52,8 +46,8 @@ class CreateExamTest {
 		
 		// set db info
 		dbinfo.put("ip", "localhost");
-		dbinfo.put("password", "FF8515150f");
-		dbinfo.put("username", "root");
+		dbinfo.put("password", "EyalMySql"); // insert your own my sql password
+		dbinfo.put("username", "root");// insert your own my sql username
 		dbinfo.put("scheme", "sys");
 		dBController.setDbInfo(dbinfo);
 		dBController.connectToDb();
